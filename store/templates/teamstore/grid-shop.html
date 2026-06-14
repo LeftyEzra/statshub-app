@@ -1,0 +1,507 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block extra_head %}
+    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+{% endblock %}
+{% block content %}
+      <!-- Section Breadcrumbs-->
+      <section class="section parallax-container breadcrumbs-wrap" data-parallax-img="images/bg-breadcrumbs-1-1920x726.jpg"><div class="material-parallax parallax"><img src="images/bg-breadcrumbs-1-1920x726.jpg" alt="" style="display: block; transform: translate3d(-50%, 61px, 0px);"></div>
+        <div class="parallax-content breadcrumbs-custom context-dark">
+          <div class="container">
+            <h3 class="breadcrumbs-custom-title">Grid Shop</h3>
+            <ul class="breadcrumbs-custom-path">
+              <li><a href="index.html">Home</a></li>
+              <li><a href="#">Shop</a></li>
+              <li class="active">Grid Shop</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+      <!-- Grid Shop-->
+      <section class="section section-md bg-gray-100">
+        <div class="container">
+          <div class="row row-50">
+            <div class="col-xl-9">
+              <!-- Heading Component-->
+              <article class="heading-component">
+                <div class="heading-component-inner">
+                  <h5 class="heading-component-title">Product catalog
+                  </h5>
+                  <div class="heading-component-aside">
+                    <ul class="list-inline list-inline-xs list-inline-middle">
+                      <li>
+                        <select class="select select2-hidden-accessible" data-placeholder="Select an option" data-container-class="select-minimal-md" data-select2-id="4" tabindex="-1" aria-hidden="true">
+                          <option label="placeholder"></option>
+                          <option value="newest first" selected="" data-select2-id="6">newest first</option>
+                          <option value="oldest first">oldest first</option>
+                        </select><span class="select2 select2-container select2-container--default" dir="ltr" data-select2-id="5" style="width: 96px;"><span class="selection"><span class="select2-selection select2-selection--single select-minimal-md" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-disabled="false" aria-labelledby="select2-qerm-container"><span class="select2-selection__rendered" id="select2-qerm-container" role="textbox" aria-readonly="true" title="newest first">newest first</span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
+                      </li>
+                      <li>
+                        <select class="select select2-hidden-accessible" data-placeholder="Select an option" data-container-class="select-minimal-md" data-select2-id="7" tabindex="-1" aria-hidden="true">
+                          <option label="placeholder"></option>
+                          <option value="product price" selected="" data-select2-id="9">product price</option>
+                          <option value="low to high">low to high</option>
+                          <option value="high to low">high to low</option>
+                        </select><span class="select2 select2-container select2-container--default" dir="ltr" data-select2-id="8" style="width: 105.333px;"><span class="selection"><span class="select2-selection select2-selection--single select-minimal-md" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-disabled="false" aria-labelledby="select2-bbty-container"><span class="select2-selection__rendered" id="select2-bbty-container" role="textbox" aria-readonly="true" title="product price">product price</span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
+                      </li>
+                      <li>
+                        <select class="select select2-hidden-accessible" data-placeholder="Select an option" data-container-class="select-minimal-lg" data-select2-id="10" tabindex="-1" aria-hidden="true">
+                          <option label="placeholder"></option>
+                          <option value="show 6 per page" selected="" data-select2-id="12">show 6 per page</option>
+                          <option value="show 12 per page">show 12 per page</option>
+                          <option value="show 24 per page">show 24 per page</option>
+                        </select><span class="select2 select2-container select2-container--default" dir="ltr" data-select2-id="11" style="width: 130px;"><span class="selection"><span class="select2-selection select2-selection--single select-minimal-lg" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-disabled="false" aria-labelledby="select2-het7-container"><span class="select2-selection__rendered" id="select2-het7-container" role="textbox" aria-readonly="true" title="show 6 per page">show 6 per page</span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
+                      </li>
+                      <li><a class="icon icon-xs-big icon-gray-500 fa-th active" href="grid-shop.html"></a></li>
+                      <li><a class="icon icon-xs-big icon-gray-500 fa-list-ul" href="list-shop.html"></a></li>
+                    </ul>
+                  </div>
+                </div>
+              </article>
+              <div class="row row-30">
+                <div class="col-md-6 col-lg-4">
+                  <article class="product product-sm">
+                    <header class="product-header">
+                      <!-- Badge-->
+                      <div class="badge badge-red">hot<span class="icon material-icons-whatshot"></span>
+                      </div>
+                      <div class="product-figure"><img src="images/shop/product-small-1.png" alt=""></div>
+                      <div class="product-buttons">
+                        <div class="product-button product-button-share fl-bigmug-line-share27" style="font-size: 22px">
+                          <ul class="product-share">
+                            <li class="product-share-item"><span>Share</span></li>
+                            <li class="product-share-item"><a class="icon fa fa-facebook" href="#"></a></li>
+                            <li class="product-share-item"><a class="icon fa fa-instagram" href="#"></a></li>
+                            <li class="product-share-item"><a class="icon fa fa-twitter" href="#"></a></li>
+                            <li class="product-share-item"><a class="icon fa fa-google-plus" href="#"></a></li>
+                          </ul>
+                        </div><a class="product-button fl-bigmug-line-shopping202" href="shopping-cart.html" style="font-size: 26px"></a><a class="product-button fl-bigmug-line-zoom60" href="images/shop/product-1-original.jpg" data-lightgallery="item" style="font-size: 25px"></a>
+                      </div>
+                    </header>
+                    <footer class="product-content">
+                      <h6 class="product-title"><a href="product-page.html">Nike hoops elite backpack</a></h6>
+                      <div class="product-price"><span class="product-price-old">$400</span><span class="heading-6 product-price-new">$290</span>
+                      </div>
+                      <ul class="product-rating">
+                        <li><span class="material-icons-star"></span></li>
+                        <li><span class="material-icons-star"></span></li>
+                        <li><span class="material-icons-star"></span></li>
+                        <li><span class="material-icons-star"></span></li>
+                        <li><span class="material-icons-star_half"></span></li>
+                      </ul>
+                    </footer>
+                  </article>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                  <article class="product product-sm">
+                    <header class="product-header">
+                      <!-- Badge-->
+                      <div class="badge badge-shop">new
+                      </div>
+                      <div class="product-figure"><img src="images/shop/product-small-2.png" alt=""></div>
+                      <div class="product-buttons">
+                        <div class="product-button product-button-share fl-bigmug-line-share27" style="font-size: 22px">
+                          <ul class="product-share">
+                            <li class="product-share-item"><span>Share</span></li>
+                            <li class="product-share-item"><a class="icon fa fa-facebook" href="#"></a></li>
+                            <li class="product-share-item"><a class="icon fa fa-instagram" href="#"></a></li>
+                            <li class="product-share-item"><a class="icon fa fa-twitter" href="#"></a></li>
+                            <li class="product-share-item"><a class="icon fa fa-google-plus" href="#"></a></li>
+                          </ul>
+                        </div><a class="product-button fl-bigmug-line-shopping202" href="shopping-cart.html" style="font-size: 26px"></a><a class="product-button fl-bigmug-line-zoom60" href="images/shop/product-2-original.jpg" data-lightgallery="item" style="font-size: 25px"></a>
+                      </div>
+                    </header>
+                    <footer class="product-content">
+                      <h6 class="product-title"><a href="product-page.html">Nike Air Zoom Pegasus</a></h6>
+                      <div class="product-price"><span class="heading-6 product-price-new">$290</span>
+                      </div>
+                      <ul class="product-rating">
+                        <li><span class="material-icons-star"></span></li>
+                        <li><span class="material-icons-star"></span></li>
+                        <li><span class="material-icons-star"></span></li>
+                        <li><span class="material-icons-star"></span></li>
+                        <li><span class="material-icons-star_half"></span></li>
+                      </ul>
+                    </footer>
+                  </article>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                  <article class="product product-sm">
+                    <header class="product-header">
+                      <div class="product-figure"><img src="images/shop/product-small-3.png" alt=""></div>
+                      <div class="product-buttons">
+                        <div class="product-button product-button-share fl-bigmug-line-share27" style="font-size: 22px">
+                          <ul class="product-share">
+                            <li class="product-share-item"><span>Share</span></li>
+                            <li class="product-share-item"><a class="icon fa fa-facebook" href="#"></a></li>
+                            <li class="product-share-item"><a class="icon fa fa-instagram" href="#"></a></li>
+                            <li class="product-share-item"><a class="icon fa fa-twitter" href="#"></a></li>
+                            <li class="product-share-item"><a class="icon fa fa-google-plus" href="#"></a></li>
+                          </ul>
+                        </div><a class="product-button fl-bigmug-line-shopping202" href="shopping-cart.html" style="font-size: 26px"></a><a class="product-button fl-bigmug-line-zoom60" href="images/shop/product-3-original.jpg" data-lightgallery="item" style="font-size: 25px"></a>
+                      </div>
+                    </header>
+                    <footer class="product-content">
+                      <h6 class="product-title"><a href="product-page.html">Nike distressed baseball hat</a></h6>
+                      <div class="product-price"><span class="heading-6 product-price-new">$290</span>
+                      </div>
+                      <ul class="product-rating">
+                        <li><span class="material-icons-star"></span></li>
+                        <li><span class="material-icons-star"></span></li>
+                        <li><span class="material-icons-star"></span></li>
+                        <li><span class="material-icons-star"></span></li>
+                        <li><span class="material-icons-star_half"></span></li>
+                      </ul>
+                    </footer>
+                  </article>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                  <article class="product product-sm">
+                    <header class="product-header">
+                      <div class="product-figure"><img src="images/shop/product-small-4.png" alt=""></div>
+                      <div class="product-buttons">
+                        <div class="product-button product-button-share fl-bigmug-line-share27" style="font-size: 22px">
+                          <ul class="product-share">
+                            <li class="product-share-item"><span>Share</span></li>
+                            <li class="product-share-item"><a class="icon fa fa-facebook" href="#"></a></li>
+                            <li class="product-share-item"><a class="icon fa fa-instagram" href="#"></a></li>
+                            <li class="product-share-item"><a class="icon fa fa-twitter" href="#"></a></li>
+                            <li class="product-share-item"><a class="icon fa fa-google-plus" href="#"></a></li>
+                          </ul>
+                        </div><a class="product-button fl-bigmug-line-shopping202" href="shopping-cart.html" style="font-size: 26px"></a><a class="product-button fl-bigmug-line-zoom60" href="images/shop/product-4-original.jpg" data-lightgallery="item" style="font-size: 25px"></a>
+                      </div>
+                    </header>
+                    <footer class="product-content">
+                      <h6 class="product-title"><a href="product-page.html">Apple watch nike+</a></h6>
+                      <div class="product-price"><span class="heading-6 product-price-new">$290</span>
+                      </div>
+                      <ul class="product-rating">
+                        <li><span class="material-icons-star"></span></li>
+                        <li><span class="material-icons-star"></span></li>
+                        <li><span class="material-icons-star"></span></li>
+                        <li><span class="material-icons-star"></span></li>
+                        <li><span class="material-icons-star_half"></span></li>
+                      </ul>
+                    </footer>
+                  </article>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                  <article class="product product-sm">
+                    <header class="product-header">
+                      <!-- Badge-->
+                      <div class="badge badge-shop">new
+                      </div>
+                      <div class="product-figure"><img src="images/shop/product-small-5.png" alt=""></div>
+                      <div class="product-buttons">
+                        <div class="product-button product-button-share fl-bigmug-line-share27" style="font-size: 22px">
+                          <ul class="product-share">
+                            <li class="product-share-item"><span>Share</span></li>
+                            <li class="product-share-item"><a class="icon fa fa-facebook" href="#"></a></li>
+                            <li class="product-share-item"><a class="icon fa fa-instagram" href="#"></a></li>
+                            <li class="product-share-item"><a class="icon fa fa-twitter" href="#"></a></li>
+                            <li class="product-share-item"><a class="icon fa fa-google-plus" href="#"></a></li>
+                          </ul>
+                        </div><a class="product-button fl-bigmug-line-shopping202" href="shopping-cart.html" style="font-size: 26px"></a><a class="product-button fl-bigmug-line-zoom60" href="images/shop/product-5-original.jpg" data-lightgallery="item" style="font-size: 25px"></a>
+                      </div>
+                    </header>
+                    <footer class="product-content">
+                      <h6 class="product-title"><a href="product-page.html">nike free rn</a></h6>
+                      <div class="product-price"><span class="heading-6 product-price-new">$290</span>
+                      </div>
+                      <ul class="product-rating">
+                        <li><span class="material-icons-star"></span></li>
+                        <li><span class="material-icons-star"></span></li>
+                        <li><span class="material-icons-star"></span></li>
+                        <li><span class="material-icons-star"></span></li>
+                        <li><span class="material-icons-star_half"></span></li>
+                      </ul>
+                    </footer>
+                  </article>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                  <article class="product product-sm">
+                    <header class="product-header">
+                      <div class="product-figure"><img src="images/shop/product-small-6.png" alt=""></div>
+                      <div class="product-buttons">
+                        <div class="product-button product-button-share fl-bigmug-line-share27" style="font-size: 22px">
+                          <ul class="product-share">
+                            <li class="product-share-item"><span>Share</span></li>
+                            <li class="product-share-item"><a class="icon fa fa-facebook" href="#"></a></li>
+                            <li class="product-share-item"><a class="icon fa fa-instagram" href="#"></a></li>
+                            <li class="product-share-item"><a class="icon fa fa-twitter" href="#"></a></li>
+                            <li class="product-share-item"><a class="icon fa fa-google-plus" href="#"></a></li>
+                          </ul>
+                        </div><a class="product-button fl-bigmug-line-shopping202" href="shopping-cart.html" style="font-size: 26px"></a><a class="product-button fl-bigmug-line-zoom60" href="images/shop/product-6-original.jpg" data-lightgallery="item" style="font-size: 25px"></a>
+                      </div>
+                    </header>
+                    <footer class="product-content">
+                      <h6 class="product-title"><a href="product-page.html">atletico black t-shirt</a></h6>
+                      <div class="product-price"><span class="heading-6 product-price-new">$290</span>
+                      </div>
+                      <ul class="product-rating">
+                        <li><span class="material-icons-star"></span></li>
+                        <li><span class="material-icons-star"></span></li>
+                        <li><span class="material-icons-star"></span></li>
+                        <li><span class="material-icons-star"></span></li>
+                        <li><span class="material-icons-star_half"></span></li>
+                      </ul>
+                    </footer>
+                  </article>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                  <article class="product product-sm">
+                    <header class="product-header">
+                      <!-- Badge-->
+                      <div class="badge badge-red">hot<span class="icon material-icons-whatshot"></span>
+                      </div>
+                      <div class="product-figure"><img src="images/shop/product-small-7.png" alt=""></div>
+                      <div class="product-buttons">
+                        <div class="product-button product-button-share fl-bigmug-line-share27" style="font-size: 22px">
+                          <ul class="product-share">
+                            <li class="product-share-item"><span>Share</span></li>
+                            <li class="product-share-item"><a class="icon fa fa-facebook" href="#"></a></li>
+                            <li class="product-share-item"><a class="icon fa fa-instagram" href="#"></a></li>
+                            <li class="product-share-item"><a class="icon fa fa-twitter" href="#"></a></li>
+                            <li class="product-share-item"><a class="icon fa fa-google-plus" href="#"></a></li>
+                          </ul>
+                        </div><a class="product-button fl-bigmug-line-shopping202" href="shopping-cart.html" style="font-size: 26px"></a><a class="product-button fl-bigmug-line-zoom60" href="images/shop/product-7-original.jpg" data-lightgallery="item" style="font-size: 25px"></a>
+                      </div>
+                    </header>
+                    <footer class="product-content">
+                      <h6 class="product-title"><a href="product-page.html">garmin vivofit</a></h6>
+                      <div class="product-price"><span class="heading-6 product-price-new">$290</span>
+                      </div>
+                      <ul class="product-rating">
+                        <li><span class="material-icons-star"></span></li>
+                        <li><span class="material-icons-star"></span></li>
+                        <li><span class="material-icons-star"></span></li>
+                        <li><span class="material-icons-star"></span></li>
+                        <li><span class="material-icons-star_half"></span></li>
+                      </ul>
+                    </footer>
+                  </article>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                  <article class="product product-sm">
+                    <header class="product-header">
+                      <!-- Badge-->
+                      <div class="badge badge-shop">new
+                      </div>
+                      <div class="product-figure"><img src="images/shop/product-small-8.png" alt=""></div>
+                      <div class="product-buttons">
+                        <div class="product-button product-button-share fl-bigmug-line-share27" style="font-size: 22px">
+                          <ul class="product-share">
+                            <li class="product-share-item"><span>Share</span></li>
+                            <li class="product-share-item"><a class="icon fa fa-facebook" href="#"></a></li>
+                            <li class="product-share-item"><a class="icon fa fa-instagram" href="#"></a></li>
+                            <li class="product-share-item"><a class="icon fa fa-twitter" href="#"></a></li>
+                            <li class="product-share-item"><a class="icon fa fa-google-plus" href="#"></a></li>
+                          </ul>
+                        </div><a class="product-button fl-bigmug-line-shopping202" href="shopping-cart.html" style="font-size: 26px"></a><a class="product-button fl-bigmug-line-zoom60" href="images/shop/product-8-original.jpg" data-lightgallery="item" style="font-size: 25px"></a>
+                      </div>
+                    </header>
+                    <footer class="product-content">
+                      <h6 class="product-title"><a href="product-page.html">k-swiss bigshot II</a></h6>
+                      <div class="product-price"><span class="heading-6 product-price-new">$290</span>
+                      </div>
+                      <ul class="product-rating">
+                        <li><span class="material-icons-star"></span></li>
+                        <li><span class="material-icons-star"></span></li>
+                        <li><span class="material-icons-star"></span></li>
+                        <li><span class="material-icons-star"></span></li>
+                        <li><span class="material-icons-star_half"></span></li>
+                      </ul>
+                    </footer>
+                  </article>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                  <article class="product product-sm">
+                    <header class="product-header">
+                      <div class="product-figure"><img src="images/shop/product-small-9.png" alt=""></div>
+                      <div class="product-buttons">
+                        <div class="product-button product-button-share fl-bigmug-line-share27" style="font-size: 22px">
+                          <ul class="product-share">
+                            <li class="product-share-item"><span>Share</span></li>
+                            <li class="product-share-item"><a class="icon fa fa-facebook" href="#"></a></li>
+                            <li class="product-share-item"><a class="icon fa fa-instagram" href="#"></a></li>
+                            <li class="product-share-item"><a class="icon fa fa-twitter" href="#"></a></li>
+                            <li class="product-share-item"><a class="icon fa fa-google-plus" href="#"></a></li>
+                          </ul>
+                        </div><a class="product-button fl-bigmug-line-shopping202" href="shopping-cart.html" style="font-size: 26px"></a><a class="product-button fl-bigmug-line-zoom60" href="images/shop/product-9-original.jpg" data-lightgallery="item" style="font-size: 25px"></a>
+                      </div>
+                    </header>
+                    <footer class="product-content">
+                      <h6 class="product-title"><a href="product-page.html">Nike dark grey snapback</a></h6>
+                      <div class="product-price"><span class="heading-6 product-price-new">$290</span>
+                      </div>
+                      <ul class="product-rating">
+                        <li><span class="material-icons-star"></span></li>
+                        <li><span class="material-icons-star"></span></li>
+                        <li><span class="material-icons-star"></span></li>
+                        <li><span class="material-icons-star"></span></li>
+                        <li><span class="material-icons-star_half"></span></li>
+                      </ul>
+                    </footer>
+                  </article>
+                </div>
+              </div>
+              <nav class="pagination-wrap" aria-label="Page navigation">
+                <ul class="pagination"> 
+                  <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                  <li class="page-item"><a class="page-link" href="#">2</a></li>
+                  <li class="page-item"><a class="page-link" href="#">3</a></li>
+                  <li class="page-item"><span class="page-link">...</span></li>
+                  <li class="page-item"><a class="page-link" href="#">14</a></li>
+                </ul>
+              </nav>
+            </div>
+            <div class="col-xl-3">
+              <div class="row row-50">
+                <div class="col-md-6 col-xl-12">
+                  <!-- Categories-->
+                  <!-- Heading Component-->
+                  <article class="heading-component">
+                    <div class="heading-component-inner">
+                      <h5 class="heading-component-title">Categories
+                      </h5>
+                    </div>
+                  </article>
+                  <div class="card-shop">
+                    <ul class="list-md form-wrap">
+                      <li>
+                        <label class="checkbox-inline checkbox-inline-lg">
+                          <input name="input-checkbox-1" value="checkbox-1" type="checkbox" class="checkbox-custom"><span class="checkbox-custom-dummy"></span>Shoes
+                        </label><span class="checkbox-inline-count">2</span>
+                      </li>
+                      <li>
+                        <label class="checkbox-inline checkbox-inline-lg">
+                          <input name="input-checkbox-2" value="checkbox-1" type="checkbox" class="checkbox-custom"><span class="checkbox-custom-dummy"></span>t-shirts
+                        </label><span class="checkbox-inline-count">1</span>
+                      </li>
+                      <li>
+                        <label class="checkbox-inline checkbox-inline-lg">
+                          <input name="input-checkbox-3" value="checkbox-1" type="checkbox" class="checkbox-custom"><span class="checkbox-custom-dummy"></span>BackPacks
+                        </label><span class="checkbox-inline-count">1</span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="col-md-6 col-xl-12">
+                  <!-- Price-->
+                  <!-- Heading Component-->
+                  <article class="heading-component">
+                    <div class="heading-component-inner">
+                      <h5 class="heading-component-title">Price
+                      </h5>
+                    </div>
+                  </article>
+                  <div class="card-shop">
+                    <!-- RD Range-->
+                    <div class="rd-range-wrap">
+                      <div class="rd-range-form-wrap">
+                        <input class="rd-range-input rd-range-input-value-1" id="test" type="text" name="value-1"><span>$</span>
+                      </div>
+                      <div class="rd-range-divider"></div>
+                      <div class="rd-range-form-wrap">
+                        <input class="rd-range-input rd-range-input-value-2" type="text" name="value-2"><span>$</span>
+                      </div>
+                    </div>
+                    <div class="rd-range hasTooltip" data-min="0" data-max="300" data-start="[50, 250]" data-step="1" data-tooltip="false" data-min-diff="50" data-input=".rd-range-input-value-1" data-input-2=".rd-range-input-value-2"><div class="rd-range__wrap"><div class="rd-range__pointer rd-range__pointer-1" style="left: 17%;"><div class="rd-range__pointer-tooltip">50</div></div><div class="rd-range__pointer rd-range__pointer-2" style="left: 83%;"><div class="rd-range__pointer-tooltip">250</div></div><div class="rd-range__line" style="left: 17%; width: 66%;"></div> </div></div>
+                  </div>
+                </div>
+                <div class="col-md-6 col-xl-12">
+                  <!-- Colors-->
+                  <!-- Heading Component-->
+                  <article class="heading-component">
+                    <div class="heading-component-inner">
+                      <h5 class="heading-component-title">Color
+                      </h5>
+                    </div>
+                  </article>
+                  <div class="card-shop" style="min-height: 0; font-size: 0">
+                    <ul class="list-inline list-inline-xs">
+                      <li>
+                        <label class="checkbox-inline input-filter">
+                          <input name="input-checkbox-4" value="checkbox-1" type="checkbox" checked="checked" class="checkbox-custom"><span class="checkbox-custom-dummy"></span>
+                        </label>
+                      </li>
+                      <li>
+                        <label class="checkbox-inline input-filter input-filter-dark">
+                          <input name="input-checkbox-5" value="checkbox-1" type="checkbox" class="checkbox-custom"><span class="checkbox-custom-dummy"></span>
+                        </label>
+                      </li>
+                      <li>
+                        <label class="checkbox-inline input-filter input-filter-danube">
+                          <input name="input-checkbox-6" value="checkbox-1" type="checkbox" class="checkbox-custom"><span class="checkbox-custom-dummy"></span>
+                        </label>
+                      </li>
+                      <li>
+                        <label class="checkbox-inline input-filter input-filter-froly">
+                          <input name="input-checkbox-7" value="checkbox-1" type="checkbox" class="checkbox-custom"><span class="checkbox-custom-dummy"></span>
+                        </label>
+                      </li>
+                      <li>
+                        <label class="checkbox-inline input-filter input-filter-deco">
+                          <input name="input-checkbox-8" value="checkbox-1" type="checkbox" class="checkbox-custom"><span class="checkbox-custom-dummy"></span>
+                        </label>
+                      </li>
+                      <li>
+                        <label class="checkbox-inline input-filter input-filter-blue">
+                          <input name="input-checkbox-9" value="checkbox-1" type="checkbox" class="checkbox-custom"><span class="checkbox-custom-dummy"></span>
+                        </label>
+                      </li>
+                      <li>
+                        <label class="checkbox-inline input-filter input-filter-geraldine">
+                          <input name="input-checkbox-9" value="checkbox-1" type="checkbox" class="checkbox-custom"><span class="checkbox-custom-dummy"></span>
+                        </label>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="col-md-6 col-xl-12">
+                  <!-- Select size-->
+                  <!-- Heading Component-->
+                  <article class="heading-component">
+                    <div class="heading-component-inner">
+                      <h5 class="heading-component-title">Select size
+                      </h5>
+                    </div>
+                  </article>
+                  <div class="card-shop" style="font-size: 0">
+                    <ul class="list-inline list-inline-xs">
+                      <li>
+                        <label class="checkbox-inline input-refilter">
+                          <input name="input-checkbox-10" value="checkbox-1" type="checkbox" checked="checked" class="checkbox-custom"><span class="checkbox-custom-dummy"></span><span>s</span>
+                        </label>
+                      </li>
+                      <li>
+                        <label class="checkbox-inline input-refilter">
+                          <input name="input-checkbox-11" value="checkbox-1" type="checkbox" class="checkbox-custom"><span class="checkbox-custom-dummy"></span><span>m</span>
+                        </label>
+                      </li>
+                      <li>
+                        <label class="checkbox-inline input-refilter">
+                          <input name="input-checkbox-12" value="checkbox-1" type="checkbox" class="checkbox-custom"><span class="checkbox-custom-dummy"></span><span>l</span>
+                        </label>
+                      </li>
+                      <li>
+                        <label class="checkbox-inline input-refilter">
+                          <input name="input-checkbox-13" value="checkbox-1" type="checkbox" class="checkbox-custom"><span class="checkbox-custom-dummy"></span><span>xl</span>
+                        </label>
+                      </li>
+                      <li>
+                        <label class="checkbox-inline input-refilter">
+                          <input name="input-checkbox-14" value="checkbox-1" type="checkbox" class="checkbox-custom"><span class="checkbox-custom-dummy"></span><span>xxl</span>
+                        </label>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+ {% endblock %}

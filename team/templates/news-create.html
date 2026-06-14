@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+{% block extra_head %}
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+{% endblock %}
+{% block content %}
+<style>
+    select.form-select{
+        background-color: #1e293b !important;
+        color: rgb(104, 175, 237);
+        border-color: #94a3b8;
+    }
+
+    /* Force text visibility for all form controls in the registration form */
+    .form-control, .form-control:focus {
+        color: #ffffff !important; /* Pure white text */
+        background-color: #0f172a !important; /* Very dark slate background */
+    }
+
+    /* Fix the placeholder color so it doesn't look like typed text */
+    .form-control::placeholder {
+        color: #64748b !important;
+        opacity: 1;
+    }
+
+</style>
+
+<section class="section parallax-container breadcrumbs-wrap" data-parallax-img="{% static 'img/bg-breadcrumbs-1-1920x726.jpg' %}">
+    <div class="material-parallax parallax">
+        <img src="{% static 'img/bg-breadcrumbs-1-1920x726.jpg' %}" alt="" style="transform: translate3d(-50%, 82px, 0px); display: block;">
+    </div>
+    <div class="parallax-content breadcrumbs-custom context-dark">
+        <div class="container">
+            <h2 class="breadcrumbs-custom-title">Team News</h2>
+            <ul class="breadcrumbs-custom-path">
+                <li><a href="{% url 'home' %}">Home</a></li>
+                <li><a href="{% url 'news-list' competition.id %}">All News</a></li>
+                <li class="active">News Registration</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+
+<div class="container my-5" style="max-width: 900px;">
+  <div class="p-4 p-md-5 rounded-3 shadow-lg" style="background-color: #1e293b;">
+    <h2 class="text-3xl font-bold text-center mb-5" style="color: #a5b4fc;">
+       Register News
+    </h2>
+
+    <form method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+
+      <!-- Category -->
+      <div class="mb-3">
+        <label for="{{ form.category.id_for_label }}" class="form-label">Category</label>
+        {% render_field form.category class="form-select form-select-lg bg-dark text-white border-light" %}
+      </div>
+
+     
+
+      <!-- Image -->
+      <div class="mb-3">
+        <label for="{{ form.image.id_for_label }}" class="form-label"> News Image</label>
+        {% render_field form.image class="form-control bg-dark text-white border-light" %}
+      </div>
+
+      <!-- Heading -->
+      <div class="mb-3">
+        <label for="{{ form.heading.id_for_label }}" class="form-label">News Heading</label>
+        {% render_field form.heading class="form-control bg-dark text-white border-light" placeholder="News Header" %}
+      </div>
+
+      
+      <!-- Intro -->
+      <div class=" mb-3">
+        <label class="custom-label">Intro</label>
+        {% render_field form.intro class="form-control bg-slate-900 text-white border-slate-700 py-2" rows="2" placeholder="Intro" %}
+      </div>
+      <!-- Content -->
+      <div class=" mb-3">
+        <label class="custom-label">Content</label>
+        {% render_field form.content class="form-control bg-slate-900 text-white border-slate-700 py-2" rows="2" placeholder="Full Content" %}
+      </div>
+
+      <!-- Competition -->
+      <div class="mb-5">
+        <label class="custom-label">Competition</label>
+        {% render_field form.competition class="form-select bg-slate-900 text-white border-slate-700 py-2" %}
+      </div>
+
+      <!-- Submit Button -->
+      <div class="text-center mt-4">
+        <button type="submit" class="btn btn-lg w-100 font-weight-bold" 
+                style="background-color: #4f46e5; color: white; border: none;">
+          Add News
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+<br><br>
+{% endblock %}

@@ -1,0 +1,1 @@
+web: python manage.py migrate && gunicorn TEAM_WEBSITE.wsgi --log-file -

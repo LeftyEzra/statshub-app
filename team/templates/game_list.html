@@ -1,0 +1,337 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block extra_head %}
+    <link rel="stylesheet" href="{% static 'css/game_list.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+
+
+
+
+
+
+<section class="section parallax-container breadcrumbs-wrap" data-parallax-img="{% static 'img/bg-breadcrumbs-1-1920x726.jpg' %}">
+    <div class="material-parallax parallax">
+        <img src="{% static 'img/bg-breadcrumbs-1-1920x726.jpg' %}" alt="" style="transform: translate3d(-50%, 82px, 0px); display: block;">
+    </div>
+    <div class="parallax-content breadcrumbs-custom context-dark">
+        <div class="container">
+            <h2 class="breadcrumbs-custom-title">Games</h2>
+            <ul class="breadcrumbs-custom-path">
+                <li><a href="{% url 'home' %}">Home</a></li>
+                {% if user.is_superuser %}
+                <li><a href="{% url 'create-game' competition.id %}">New Game</a></li>
+                {% endif %}
+                <li class="active">Games</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+
+
+
+
+
+<div class="game-list-container">
+    <h1 class="text-center mb-4" style="color:#a5b4fc; font-weight:800;">Recent Game Results</h1>
+    
+    
+    <p class="game-count-info">
+        Displaying <strong>{{ games|length }}</strong> total games found.
+    </p>
+
+    {% for game in games %}
+    <div class="game-card">
+
+        <div class="game-header">
+            <div class="game-title">{{ game.team }} <span style="color:#94a3b8; font-weight:500;">vs</span> {{ game.opponent }}</div>
+            <div class="competition-badge">{{ game.competition }}</div>
+            <div class="competition-badge">{{ game.game_type }}</div>
+        </div>
+
+        <div class="game-details-grid">
+            
+            <div class="detail-item">
+                <i class="fas fa-calendar-alt detail-icon"></i>
+                <div><strong>Date:</strong> {{ game.date }}</div>
+            </div>
+            
+            <div class="detail-item">
+                <i class="fas fa-clock detail-icon"></i>
+                <div><strong>Time:</strong> {{ game.time }}</div>
+            </div>
+            
+            <div class="detail-item">
+                <i class="fas fa-map-marker-alt detail-icon"></i>
+                <div><strong>Location:</strong> {{ game.indicator }}</div> 
+            </div>
+
+        </div>
+
+        <div class="score-box">
+            <div>
+                <span class="score-label">{{ game.team }} Score</span>
+                <span class="score-value">{{ game.team_scores }}</span>
+            </div>
+            <div style="font-size: 2em; color: #4f46e5; font-weight: 900;">:</div>
+            <div>
+                <span class="score-label">{{ game.opponent }} Score</span>
+                <span class="score-value">{{ game.opponent_scores }}</span>
+            </div>
+        </div>
+
+        <div class="result-indicator">
+            {% if game.team_scores != 0 %}
+                {% if game.team_win_loss == "Win" %}
+                    <span class="win"><i class="fas fa-trophy"></i> FINAL RESULT: WIN</span>
+                {% else %}
+                    <span class="loss"><i class="fas fa-times-circle"></i> FINAL RESULT: LOSS</span>
+                {% endif %}
+            {% else %}  
+                <span class="win"><i class="fas fa-hourglass"></i> TO BE PLAYED</span>  
+            {% endif %}
+        </div>
+
+
+        <div class="mt-3">
+            <h6 class="text-uppercase text-muted fw-bold" style="font-size: 10px; letter-spacing: 1px;">Quarterly Breakdown</h6>
+            
+            {% for scores in game.quarterly_scores.all %}
+            <div class="table-responsive">
+                <table class="table table-sm table-borderless text-white mb-0" style="background: rgba(0,0,0,0.2); border-radius: 8px;">
+                    <thead>
+                        <tr class="text-muted" style="font-size: 11px;">
+                            <th>Team</th>
+                            <th>Q1</th>
+                            <th>Q2</th>
+                            <th>Q3</th>
+                            <th>Q4</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="fw-bold">{{ game.team }}</td>
+                            <td>{{ scores.team_quarter_1 }}</td>
+                            <td>{{ scores.team_quarter_2 }}</td>
+                            <td>{{ scores.team_quarter_3 }}</td>
+                            <td>{{ scores.team_quarter_4 }}</td>
+                        </tr>
+                        <tr>
+                            <td class="fw-bold text-white-50">{{ game.opponent }}</td>
+                            <td>{{ scores.opponent_quarter_1 }}</td>
+                            <td>{{ scores.opponent_quarter_2 }}</td>
+                            <td>{{ scores.opponent_quarter_3 }}</td>
+                            <td>{{ scores.opponent_quarter_4 }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            {% empty %}
+            <div class="text-muted small italic">No quarterly details recorded.</div>
+            {% endfor %}
+        </div>
+
+
+
+
+
+
+        {% if user.is_authenticated %}
+        {% if user.is_superuser %}
+
+        <div class="game-actions">
+            <a href="{% url 'update-game' competition.id game.pk %}" class="btn-modern btn-edit">
+                <i class="fas fa-pencil-alt"></i> Edit Game
+            </a>
+            <a  href="javascript:void(0)" 
+               class="btn-modern btn-delete"
+               onclick="openDeleteModal('{% url 'delete-game' competition.id game.pk  %}')">
+                <i class="fas fa-trash-alt"></i> Delete
+            </a>
+        </div>
+        {% endif %}
+        {% endif %}
+
+    </div>
+    {% endfor %}
+</div>
+
+
+
+<hr>
+
+<div class="game-list-container">
+    <h1 class="text-center mb-4" style="color:#a5b4fc; font-weight:800;">
+        Other Competitions
+    </h1>
+    
+    <p class="game-count-info">
+        Displaying <strong>{{ other_games|length }}</strong> games from other competitions.
+    </p>
+
+    {% for game in other_games %}
+        <!-- reuse the same game-card block -->
+        <div class="game-card">
+            <div class="game-header">
+                <div class="game-title">{{ game.team }} <span style="color:#94a3b8; font-weight:500;">vs</span> {{ game.opponent }}</div>
+                <div class="competition-badge"  >{{ game.competition }}</div>
+                <div class="competition-badge">{{ game.game_type }}</div>
+            </div>
+            <div class="game-details-grid">
+            
+            <div class="detail-item">
+                <i class="fas fa-calendar-alt detail-icon"></i>
+                <div><strong>Date:</strong> {{ game.date }}</div>
+            </div>
+            
+            <div class="detail-item">
+                <i class="fas fa-clock detail-icon"></i>
+                <div><strong>Time:</strong> {{ game.time }}</div>
+            </div>
+            
+            <div class="detail-item">
+                <i class="fas fa-map-marker-alt detail-icon"></i>
+                <div><strong>Location:</strong> {{ game.indicator }}</div> 
+            </div>
+
+        </div>
+
+        <div class="score-box">
+            <div>
+                <span class="score-label">{{ game.team }} Score</span>
+                <span class="score-value">{{ game.team_scores }}</span>
+            </div>
+            <div style="font-size: 2em; color: #4f46e5; font-weight: 900;">:</div>
+            <div>
+                <span class="score-label">{{ game.opponent }} Score</span>
+                <span class="score-value">{{ game.opponent_scores }}</span>
+            </div>
+        </div>
+
+        <div class="result-indicator">
+            {% if game.team_scores != 0 %}
+                {% if game.team_win_loss == "Win" %}
+                    <span class="win"><i class="fas fa-trophy"></i> FINAL RESULT: WIN</span>
+                {% else %}
+                    <span class="loss"><i class="fas fa-times-circle"></i> FINAL RESULT: LOSS</span>
+                {% endif %}
+            {% else %}  
+                <span class="win"><i class="fas fa-hourglass"></i> TO BE PLAYED</span>  
+            {% endif %}
+        </div>
+
+
+        <div class="mt-3">
+            <h6 class="text-uppercase text-muted fw-bold" style="font-size: 10px; letter-spacing: 1px;">Quarterly Breakdown</h6>
+            
+            {% for scores in game.quarterly_scores.all %}
+            <div class="table-responsive">
+                <table class="table table-sm table-borderless text-white mb-0" style="background: rgba(0,0,0,0.2); border-radius: 8px;">
+                    <thead>
+                        <tr class="text-muted" style="font-size: 11px;">
+                            <th>Team</th>
+                            <th>Q1</th>
+                            <th>Q2</th>
+                            <th>Q3</th>
+                            <th>Q4</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="fw-bold">{{ game.team }}</td>
+                            <td>{{ scores.team_quarter_1 }}</td>
+                            <td>{{ scores.team_quarter_2 }}</td>
+                            <td>{{ scores.team_quarter_3 }}</td>
+                            <td>{{ scores.team_quarter_4 }}</td>
+                        </tr>
+                        <tr>
+                            <td class="fw-bold text-white-50">{{ game.opponent }}</td>
+                            <td>{{ scores.opponent_quarter_1 }}</td>
+                            <td>{{ scores.opponent_quarter_2 }}</td>
+                            <td>{{ scores.opponent_quarter_3 }}</td>
+                            <td>{{ scores.opponent_quarter_4 }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            {% empty %}
+            <div class="text-muted small italic">No quarterly details recorded.</div>
+            {% endfor %}
+        </div>
+
+
+
+
+
+
+        {% if user.is_authenticated %}
+        {% if user.is_superuser %}
+
+        <div class="game-actions">
+            <a href="{% url 'update-game' game.competition.id game.pk %}" class="btn-modern btn-edit">
+                <i class="fas fa-pencil-alt"></i> Edit Game
+            </a>
+            <a  href="javascript:void(0)" 
+               class="btn-modern btn-delete"
+               onclick="openDeleteModal('{% url 'delete-game' competition.id game.pk  %}')">
+                <i class="fas fa-trash-alt"></i> Delete
+            </a>
+        </div>
+        {% endif %}
+        {% endif %}
+
+        </div>
+    {% endfor %}
+</div>
+
+
+
+
+
+
+
+<div id="deleteGameModal" class="modal-overlay">
+    <div class="modal-content">
+        <h3 class="modal-title">Confirm Deletion</h3>
+        
+        <p class="modal-message">
+            Are you sure you want to delete this game record? This action cannot be undone.
+        </p>
+
+        <form id="deleteGameForm" method="POST" action="">
+            {% csrf_token %} 
+            
+            <div class="modal-actions">
+                <button type="button" class="btn-modern btn-cancel" onclick="closeModal()">Cancel</button>
+                <button type="submit" class="btn-modern btn-delete-confirm">Delete Game</button>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    // Function to open the modal
+    function openDeleteModal(deleteUrl) {
+        // Set the form action dynamically to the specific game's delete URL
+        document.getElementById('deleteGameForm').action = deleteUrl;
+        document.getElementById('deleteGameModal').style.display = 'block';
+    }
+
+    // Function to close the modal
+    function closeModal() {
+        document.getElementById('deleteGameModal').style.display = 'none';
+    }
+
+    // Close the modal if the user clicks anywhere outside of it
+    window.onclick = function(event) {
+        const modal = document.getElementById('deleteGameModal');
+        if (event.target === modal) {
+            closeModal();
+        }
+    }
+</script>
+
+
+{% endblock %}

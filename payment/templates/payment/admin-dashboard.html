@@ -1,0 +1,887 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block extra_head %}
+ <link rel="stylesheet" href="{% static 'css/admin.css' %}">
+{% endblock %}
+
+{% block content %}
+
+
+
+<!-- Section Breadcrumbs-->
+<section class="section parallax-container breadcrumbs-wrap"  data-parallax-img="{% static 'img/breadcrumbs/newdashboard-1956x727.png' %}">
+<div class="material-parallax parallax">
+<img src="{% static 'img/breadcrumbs/newdashboard-1956x727.png' %}" alt="" style="transform: translate3d(-50%, 61px, 0px); display: block;">
+</div>
+<div class="parallax-content breadcrumbs-custom context-dark">
+<div class="container">
+<h3 class="breadcrumbs-custom-title" style="color: transparent;">Elite Store Dashboard</h3>
+<ul class="breadcrumbs-custom-path">
+    <li><a style="color: aqua;" href="{% url 'home' %}">Home</a></li>
+    <li><a  style="color: #ff0f0f;" href="{% url 'grid-shop' %}">Product</a></li>
+    
+    <li></li>
+    
+</ul>
+</div>
+</div>
+</section>
+
+
+
+
+
+
+
+<!--Elite Store Dashboard-->
+<section class="section section-md bg-gray-100">
+    <div class="container">
+        
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="fw-bold">Elite Store Dashboard</h2>
+            <button class="btn btn-primary btn-sm">Download Report</button>
+        </div>
+
+
+        <div class="row row-20 mb-4">
+            <div class="col-6 col-sm-6 col-lg-3 mb-3">
+                <div class="card border-0 shadow bg-success text-white h-100">
+                    <div class="card-body">
+                        <h6 class="text-white-50 small">Total Revenue</h6>
+                        <h3 class="fw-bold " style="font-size:x-large;">#{{total_revenue|floatformat:2}}</h3>
+                        <h3 class="fw-bold"  style="font-size:x-large;">${{total_revenue_in_dollars|floatformat:2}}</h3>
+                        <small>+12%</small>
+                    </div>
+                </div>
+            </div>
+    
+            <div class="col-6 col-sm-6 col-lg-3 mb-3">
+                <div class="card border-0 shadow h-100">
+                    <div class="card-body">
+                        <h6 class="text-muted small">Total Orders</h6>
+                        <h3 class="fw-bold">{{orders}}</h3>
+                        <span class="badge bg-success text-white">Active</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-6 col-sm-6 col-lg-3 mb-3">
+                <div class="card border-0 shadow bg-warning border-start border-warning border-4 h-100">
+                    <div class="card-body">
+                        <h6 class="text-muted small" style="text-wrap: nowrap;">Pending Bank</h6>
+                        <h3 class="fw-bold">{{ pending_orders_count }}</h3>
+                        <small class="text-dark">Awaiting</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-6 col-sm-6 col-lg-3 mb-3">
+                <div class="card border-0 shadow bg-info border-start border-warning border-4 h-100">
+                    <div class="card-body">
+                        <h6 class="text-muted small" style="text-wrap: nowrap;">Total Shipped</h6>
+                        <h3 class="fw-bold">{{ total_shipped }}</h3>
+                        <small class="text-dark">Shipped Items</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Order Management Command Center -->
+        <div class="card border-0 shadow mb-4">
+            <div class="card-header bg-success d-flex justify-content-between align-items-center py-3">
+                <h5 class="mb-0 fw-bold ">Order Management Command Center</h5>
+                <a href="#" class="btn btn-sm btn-outline-warning" style="color: black;">View All</a>
+            </div>
+            {% if not recent_orders %}
+                <div class="alert alert-info" role="alert">
+                    No order has been made.
+                </div>
+            {% else %}
+            <div class="card-body p-0" style="overflow-y: auto;">
+                <div class="table-responsive"  style="max-height: 350px; overflow-y: auto;" >
+                    <table class="table table-hover border-info align-middle mb-0">
+                        <thead class="bg-light">
+                            <tr class="text-nowrap" >
+                                <th>Date Ordered</th>
+                                <th>Order ID</th>
+                                <th>Customer Name</th>
+                                <th>Items</th> 
+                                <th>Total Amount</th>
+                                <th>Payment Status</th>
+                                <th>Shipping Status</th> 
+                                <th>Date Shipped</th>
+                                <th>Date Delivered</th>
+                                <th>Workflow Actions</th>
+                                <th>Shipping</th>
+                                <th>Delivery</th>
+                                <th>Receipt</th> 
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for order in recent_orders %}
+                            <tr>
+                                <td class="text-nowrap">{{ order.date_ordered }}</td>
+                                <td class="text-nowrap"><code class="text-primary fw-bold">#{{ order.order_id|stringformat:".8s" }}</code></td>
+                                <td class="text-nowrap">{{order.user.first_name}} {{order.user.last_name}}</td>
+                                <td class="text-nowrap">{{ order.total_quantity }} Products</td>
+                                <td class="text-nowrap fw-bold">${{ order.amount_paid }}</td>
+                                
+                                <td>
+                                    {% if order.payment_status or order.shipped or order.delivered %}
+                                        <span class="badge bg-success">Paid</span>
+                                       <i class="fas fa-check-circle text-success"></i>
+                                    {% elif not order.payment_status %}
+                                        <span class="badge bg-warning text-dark">Pending</span>
+                                    
+                                    {% else %}
+                                        <span class="badge bg-danger">Canceled</span>
+                                    {% endif %}
+                                </td>     
+                                <td class="text-nowrap">
+                                    {% if order.shipped or order.delivered  %}
+                                        <span class="badge bg-info text-white">Shipped</span>
+                                        <i class="fas fa-check-circle text-info"></i>
+                                    {% elif order.payment_status %}
+                                        <span class="badge bg-warning text-dark">Processing</span>
+                                    {% else %}
+                                        <span class="badge bg-secondary">Not Shipped</span>
+                                    {% endif %}
+                                </td>
+                                
+                                   <td class="text-nowrap">
+                                    {% if order.shipped or order.delivered  %}
+                                        {{ order.date_shipped }}
+                                        
+                                    {% else %}
+                                        
+                                    {% endif %}    
+                                    </td>
+                                    <td class="text-nowrap">
+                                    {% if order.delivered %}
+                                        {{ order.date_delivered }}
+                                    {% else %}
+                                        
+                                    {% endif %}    
+                                    </td>
+                                
+
+                                <td class="text-nowrap" style="display: flex;">
+                                    {# data-bs-toggle="modal" data-bs-target="#orderModal{{  }} #}
+                                    <a href="{% url 'order-details' order.order_id %}"class="btn btn-sm btn-light border">Details</a>
+                                    {% if not order.payment_status %}
+                                    <form method="POST">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="payment-status" value="true">
+                                        <input type="hidden" name="payment-uuid" value="{{ order.order_id }}">
+                                        <button class="btn btn-sm btn-success">Verify Payment</button>
+                                    </form>
+                                    {% else %}
+                                     <form method="POST">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="payment-status" value="false">
+                                        <input type="hidden" name="payment-uuid" value="{{ order.order_id }}">
+                                        <button type="submit"  class="btn btn-sm bg-success text-white ">Payment Verified</button>
+                                    </form>
+                                    {% endif %}
+                                </td>
+                                    
+                                </td>
+                                <td class="text-nowrap">
+                                    {% if not order.shipped %}
+                                    <form method="POST">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="shipping-status" value="true">
+                                        <input type="hidden" name="shipping_uuid" value="{{ order.order_id }}">
+                                        <button type="submit" class="btn btn-sm btn-warning">Mark as Shipped</button>
+                                    </form>
+                                    {% else %}
+                                     <form method="POST">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="shipping-status" value="false">
+                                        <input type="hidden" name="shipping_uuid" value="{{ order.order_id }}">
+                                        <button type="submit"  class="btn btn-sm btn-success  bg-success text-white ">Mark as Unshipped</button>
+                                    </form>
+                                    {% endif %}
+                                </td>
+
+                                <td class="text-center text-nowrap">
+                                    {% if not order.date_delivered %}
+                                        <form method="POST">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="delivery-status" value="true">
+                                            <input type="hidden" name="delivery_uuid" value="{{ order.order_id }}">
+                                            <button type="submit" class="btn btn-sm btn-success">Mark as Delivered</button>
+                                        </form>
+                                    {% else %}
+                                        <form method="POST">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="delivery-status" value="false">
+                                            <input type="hidden" name="delivery_uuid" value="{{ order.order_id }}">
+                                            <button type="submit" class="btn btn-sm btn-info bg-success text-white">Mark as Not Delivered</button>
+                                        </form>
+                                    {% endif %}
+                                </td>
+
+                                
+                                <td class="text-center">
+                                    <button class="btn btn-sm btn-dark">
+                                        <i class="fas fa-print"></i>
+                                        <i class="fas fa-mark"></i>
+                                        
+                                    </button>
+                                </td>
+                            </tr>
+                            {% endfor %}
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="row g-4"> 
+
+            <!-- Revenue Trend -->
+            <div class="col-lg-12">
+                <div class="card border-0 shadow-sm h-100 gradient-teal" style="background: #1e1e2f;">
+                    <div class="card-body text-white" >
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h6 class="card-title fw-bold text-uppercase small mb-0">Daily Operational Revenue</h6>
+                            <span class="badge rounded-pill bg-warning text-dark">Revenue Trend</span>
+                        </div>
+                        <div id="topProductsChart" 
+                            data-series='{{ revenue_data|safe }}'
+                            data-labels='{{ revenue_labels|safe }}'>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sport Category -->
+           <div class="col-lg-6">
+                <div class="card border-0 shadow-sm h-100 " style="background: #030319; color: #a96103;">
+                    <div class="card-body text-white" style="max-height: 700px; overflow-y: auto;" >
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h6 class="card-title fw-bold text-uppercase small mb-0">Market Share by Sport</h6>
+                            <i class="bi bi-trophy"></i>
+                        </div>
+                        <div id="sportCategoryChart" 
+                            data-labels='{{ sport_labels|safe }}' 
+                            data-values='{{ sport_data|safe }}'>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product Category -->
+            <div class="col-lg-6">
+                <div class="card border-0 shadow-sm h-100 " style="background: #1e1e2f;">
+                    <div class="card-body text-dark">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h6 class="card-title fw-bold text-uppercase text-white  mb-0">Product Velocity Matrix</h6>
+                            <i class="bi bi-cart-check"></i>
+                        </div>
+                        <div id="productCategoryChart" 
+                            data-labels='{{ product_labels|safe }}' 
+                            data-values='{{ product_data|safe }}'>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Payment Status -->
+            <div class="col-lg-6">
+                <div class="card border-0 shadow-sm h-100" style="background: #1e1e2f;">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h6 class="card-title fw-bold text-uppercase text-white small mb-0">Payment Verification Health</h6>
+                            <span class="badge rounded-pill bg-success text-white">Daily Growth</span>
+                        </div>
+                        <div id="paymentStatusChart" 
+                            data-labels='{{ payment_status_labels|safe }}'
+                            data-series='{{ payment_status_series|safe }}'>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stock alerts -->
+            <div class="col-lg-6">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-header bg-success border-0 pt-3">
+                        <h6 class="card-title  text-uppercase text-dark larger mb-0">Stock Alerts</h6>
+                    </div>
+                    <div class="card-body p-0">
+                        <div style="max-height: 320px; overflow-y: auto;" class="px-3">
+                            <ul class="list-group list-group-flush">
+                                {% for product in products %}
+                                <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 py-3">
+                                    <span class="fw-medium">{{ product.name }}</span>
+                                    <span class="badge {% if product.pieces > 10 %}bg-success{% elif product.pieces < 5 %}bg-danger{% else %}bg-warning text-dark{% endif %} rounded-pill">
+                                        {{ product.pieces }} left
+                                    </span>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+
+
+
+<!--StatsHub Dashboard-->
+<section class="section section-md bg-gray-100">
+    <div class="container-fluid py-4">
+        
+        <div class="mb-5">
+            <h1 class="text-warning fw-bold mb-2">StatsHub Dashboard</h1>
+            <p class="lead text-muted">Quick overview of recent activity and core data metrics.</p>
+        </div>
+
+        <div class="row mb-2 align-items-center">
+            <!-- Contact Count-->
+            <div class="col-6 col-sm-6 col-lg-2 mb-3">
+                <div class="card shadow border-0 border-start bg-warning text-dark border-primary border-4 h-100 py-2">
+                    <div class="card-body">
+                        <div class="row align-items-center no-gutters">
+                            <div class="col me-2">
+                                <div class="text-xs font-weight-bold text-dark text-uppercase mb-1 small">Contact Inquiries</div>
+                                <div class="h5 mb-0 fw-bold text-gray-800">{{ contact_count }}</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-envelope fa-2x text-gray-0"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Subscribers Count-->
+            <div class="col-6 col-sm-6 col-lg-2 mb-3">
+                <div class="card shadow border-0 border-start bg-success border-success border-4 h-100 py-2">
+                    <div class="card-body">
+                        <div class="row align-items-center no-gutters">
+                            <div class="col me-2">
+                                <div class="text-xs font-weight-bold text-gray-800 text-uppercase mb-1 small">Newsletter Subscribers</div>
+                                <div class="h5 mb-0 fw-bold text-gray-800">{{ subscribers_count }}</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-users fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Coaching Request Count-->
+            <div class="col-6 col-sm-6 col-lg-2 mb-3">
+                <div class="card shadow border-0 border-start bg-secondary border-info border-4 h-100 py-2">
+                    <div class="card-body">
+                        <div class="row align-items-center no-gutters">
+                            <div class="col me-2">
+                                <div class="text-xs font-weight-bold text-info text-uppercase mb-1 small">Atheletic Coaching</div>
+                                <div class="h5 mb-0 fw-bold text-gray-100">{{ coaching_request_count }}</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-tools fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Fitness Requests Count-->
+            <div class="col-6 col-sm-6 col-lg-2 mb-3">
+                <div class="card shadow border-0 border-start bg-info border-warning border-4 h-100 py-2">
+                    <div class="card-body">
+                        <div class="row align-items-center no-gutters">
+                            <div class="col me-2">
+                                <div class="text-xs font-weight-bold text-dark text-uppercase mb-1 small">Fitness & Training</div>
+                                <div class="h5 mb-0 fw-bold text-gray-800">{{ fitness_count }}</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-cogs fa-2x text-gray-800"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Kitchen Bookings Count-->
+            <div class="col-6 col-sm-6 col-lg-2 mb-3">
+                <div class="card shadow border-0 border-start bg-danger border-warning border-4 h-100 py-2">
+                    <div class="card-body">
+                        <div class="row align-items-center no-gutters">
+                            <div class="col me-2">
+                                <div class="text-xs font-weight-bold text-light text-uppercase mb-1 small">Performance Kitchen</div>
+                                <div class="h5 mb-0 fw-bold text-light">{{ kitchen_booking_count }}</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-cogs fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row ">
+            <!-- Recent Contacts-->
+            <div class="col-xl-7 col-lg-7 mb-4 gap-0">
+                <div class="card shadow border-0 h-100">
+                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between bg-warning text-dark rounded-top">
+                        <h6 class="m-0 fw-bold">Recent Contact Inquiries</h6>
+                        
+                    </div>
+                    <div class="card-body p-0"  style="overflow-y: auto;"> 
+                        <div class="table-responsive"  style="max-height: 350px; overflow-y: auto;">
+                            <table class="table table-hover align-middle mb-0">
+                                <thead class="table-light">
+                                    <tr class="text-nowrap">
+                                        <th>Date</th>
+                                        <th>Name</th>
+                                        <th>Email Address</th>
+                                        <th>Message</th>
+                                        <th  style="text-align: center;">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for contact in recent_contacts %}
+                                    <tr>
+                                        <td class="text-nowrap">{{ contact.date_submitted|date:"d M Y" }}</td>
+                                        <td class="text-nowrap">{{ contact.full_name }}</td>
+                                        <td class="text-nowrap">{{ contact.email }}</td>
+                                        <td class="text-nowrap">{{ contact.message|truncatechars:50 }}</td>
+                                        <td style="text-align: center;">
+                                            <button type="button" 
+                                                    class="btn btn-sm btn-warning text-dark text-nowrap" 
+                                                    data-toggle="modal" 
+                                                    data-target="#contactModal{{ contact.pk }}">
+                                                View Message
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    {% empty %}
+                                    <tr>
+                                        <td colspan="4" class="text-center text-muted">No messages found.</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Subscribers -->
+            <div class="col-xl-5 col-lg-5 mb-4 ">
+                <div class="card shadow border-0 h-100">
+                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between bg-success text-white rounded-top">
+                        <h6 class="m-0 fw-bold">Newsletter Subscribers</h6>
+                        
+                    </div>
+                 
+               
+                        <div class="card-body p-0"  style="overflow-y: auto;"> 
+                            <div class="table-responsive"  style="max-height: 350px; overflow-y: auto;">
+                                <table class="table table-hover align-middle mb-0">
+                                    <thead class="table-light">
+                                        <tr class="text-nowrap">
+                                            <th>Date Subscribed</th>
+                                            <th>Email Address</th>
+                                            <th>WhatsApp Number</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for subscriber in new_subscribers %}
+                                        <tr>
+                                            <td class="text-nowrap">{{ subscriber.date_subscribed|date:"d M Y" }}</td>
+                                            <td class="text-nowrap">{{ subscriber.email }}</td>
+                                            <td class="text-nowrap">{{ subscriber.phone }}</td>
+                                        </tr>
+                                        {% empty %}
+                                        <tr>
+                                            <td colspan="4" class="text-center text-muted">No Subscribers.</td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+       
+              
+              
+                </div>
+            </div>
+
+            <!-- Athletic Coaching -->
+            <div class="col-xl-6 col-lg-6 mb-4">
+                <div class="card shadow border-0 h-100">
+                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between bg-secondary text-dark rounded-top">
+                        <h6 class="m-0 fw-bold">Coaching Requests</h6>
+                      
+                    </div>
+                    <div class="card-body p-0"  style="overflow-y: auto;"> 
+                        <div class="table-responsive"  style="max-height: 350px; overflow-y: auto;">
+                            <table class="table table-hover align-middle mb-0">
+                                <thead class="table-light">
+                                    <tr class="text-nowrap">
+                                        <th>Date</th>
+                                        <th>Name</th>
+                                        <th>Email Address</th>
+                                        <th>Phone</th>
+                                        <th>Registration Type</th>
+                                        <th>School Name</th>
+                                        <th>Age Group</th>
+                                        <th>Number Of Athletes</th>
+                                        <th>Additional Information</th>
+                                        <th  style="text-align: center;">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for request in coaching_requests %}
+                                  
+                                    <tr>
+                                        <td class="text-nowrap">{{ request.registration_date|date:"d M Y" }}</td>
+                                        <td class="text-nowrap">{{ request.full_name }}</td>
+                                        <td class="text-nowrap">{{ request.email }}</td>
+                                        <td class="text-nowrap">{{ request.phone }}</td>
+                                        <td class="text-nowrap">{{ request.get_registration_type_display }}</td>
+                                        <td class="text-nowrap">{{ request.school_name }}</td>
+                                        <td class="text-nowrap">{{ request.age_or_grade_level }}</td>
+                                        <td class="text-nowrap">{{ request.num_of_players }}</td>
+                                        <td class="text-nowrap">{{ request.additional_info|truncatechars:50 }}</td>
+                                        <td style="text-align: center;">
+                                            <button type="button" 
+                                                    class="btn btn-sm btn-secondary text-dark text-nowrap" 
+                                                    data-toggle="modal" 
+                                                    data-target="#requestModal{{ request.pk }}">
+                                                View Message
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    {% empty %}
+                                    <tr>
+                                        <td colspan="4" class="text-center text-muted">No messages found.</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Fitness Coaching -->
+            <div class="col-xl-6 col-lg-6 mb-4">
+                <div class="card shadow border-0 h-100">
+                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between bg-info text-dark rounded-top">
+                        <h6 class="m-0 fw-bold">Fitness Registrations</h6>
+                        <a href="#" class="btn btn-sm btn-outline-light">View All</a>
+                    </div>
+                    <div class="card-body p-0"  style="overflow-y: auto;"> 
+                        <div class="table-responsive"  style="max-height: 350px; overflow-y: auto;">
+                            <table class="table table-hover align-middle mb-0">
+                                <thead class="table-light">
+                                    <tr class="text-nowrap">
+                                        <th>Date</th>
+                                        <th>Name</th>
+                                        <th>Email Address</th>
+                                        <th>Phone</th>
+                                        <th>Age</th>
+                                        <th>Gender</th>
+                                        <th>Weight</th>
+                                        <th>Height</th>
+                                        <th>Fitness Goals</th>
+                                        <th>Medical Conditions</th>
+                                        <th>Availability</th>
+                                        <th style="text-align: center;">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for trainee in fitness_requests %}
+                                    <tr>
+                                        <td class="text-nowrap">{{ trainee.created_at|date:"d M Y" }}</td>
+                                        <td class="text-nowrap">{{ trainee.full_name }}</td>
+                                        <td class="text-nowrap">{{ trainee.email }}</td>
+                                        <td class="text-nowrap">{{ trainee.phone}}</td>
+                                        <td class="text-nowrap">{{ trainee.age}}</td>
+                                        <td class="text-nowrap">{{ trainee.get_gender_type_display }}</td>
+                                        <td class="text-nowrap">{{ trainee.weight_kg|floatformat:0}}kg</td>
+                                        <td class="text-nowrap">{{ trainee.height_cm|floatformat:0 }}cm</td>
+                                        <td class="text-nowrap">{{ trainee.get_fitness_goals_display }}</td>
+                                        <td class="text-nowrap">{{ trainee.medical_conditions}}</td>
+                                        <td class="text-nowrap">{{ trainee.current_activity_level }}</td>
+                                        <td style="text-align: center;">
+                                            <button type="button" 
+                                                    class="btn btn-sm btn-info text-dark text-nowrap" 
+                                                    data-toggle="modal" 
+                                                    data-target="#fitnessModal{{ trainee.pk }}">
+                                                View Message
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    {% empty %}
+                                    <tr>
+                                        <td colspan="4" class="text-center text-muted">No Registration Yet.</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Kitchen Bookings -->
+            <div class="col-xl-12 col-lg-12 mb-4">
+                <div class="card shadow border-0 h-100">
+                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between bg-danger text-dark rounded-top">
+                        <h6 class="m-0 fw-bold">Kitchen Bookings </h6>
+                    </div>
+                    <div class="card-body p-0"  style="overflow-y: auto;"> 
+                        <div class="table-responsive"  style="max-height: 350px; overflow-y: auto;">
+                            <table class="table table-hover align-middle mb-0">
+                                <thead class="table-light">
+                                       <tr class="text-nowrap">
+                                        <th>Date</th>
+                                        <th>Name</th>
+                                        <th>Email Address</th>
+                                        <th>Phone</th>
+                                        <th>Event</th>
+                                        <th>Date Of Event</th>
+                                        <th>Estimated Guests</th>
+                                        <th>Menu Requirements</th>
+                                        <th>Allergies</th>
+                                        <th style="text-align: center;">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for kitchen in kitchen_bookings %}
+                                    <tr>
+                                        <td class="text-nowrap">{{ kitchen.created_at|date:"d M Y" }}</td>
+                                        <td class="text-nowrap">{{ kitchen.full_name }}</td>
+                                        <td class="text-nowrap">{{ kitchen.email }}</td>
+                                        <td class="text-nowrap">{{ kitchen.phone }}</td>
+                                        <td class="text-nowrap">{{ kitchen.get_event_type_display }}</td>
+                                        <td class="text-nowrap">{{ kitchen.event_date }}</td>
+                                        <td class="text-nowrap " style="text-align:center;">{{ kitchen.estimated_guests }}</td>
+                                        <td class="text-nowrap">{{ kitchen.menu_requirements|truncatechars:50 }}</td>
+                                        <td class="text-nowrap">{{ kitchen.allergies_restrictions|truncatechars:50 }}</td>
+                                        <td style="text-align: center;">
+                                            <button type="button" 
+                                                    class="btn btn-sm btn-danger text-gray-800 text-nowrap" 
+                                                    data-toggle="modal" 
+                                                    data-target="#kitchenModal{{ kitchen.pk }}">
+                                                View Message
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    {% empty %}
+                                    <tr>
+                                        <td colspan="4" class="text-center text-muted">No messages found.</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Care Giver Service-->
+           
+        </div>
+
+    </div>
+</section>
+
+
+
+
+
+
+<!-- Modals for Viewing Contact Messages -->
+{% for contact in recent_contacts %}
+<div class="modal fade " id="contactModal{{ contact.pk }}" tabindex="-1" role="dialog" aria-labelledby="contactModalLabel{{ contact.pk }}" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered  modal-lg" role="document">
+        <div class="modal-content" style="background: rgba(3, 3, 25, 0.35);backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 15px; overflow: hidden;">
+    
+    <div class="modal-header bg-warning text-dark border-0">
+        <h5 class="modal-title" id="contactModalLabel{{ contact.pk }}">Message from {{ contact.full_name }}</h5>
+        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+    <div class="modal-body text-white">
+        <p><strong class="text-warning">Email:</strong> {{ contact.email }}</p>
+        <p><strong class="text-warning">Phone:</strong> {{ contact.mobile }}</p>
+     
+        <hr style="border-top: 1px solid rgba(255,255,255,0.1);">
+        
+        <p class="text-primary"><strong>Message:</strong></p>
+        <div style="color: rgba(255,255,255,0.9); line-height: 1.6;">
+            {{ contact.message }}
+        </div>
+    </div>
+
+    <div class="modal-footer border-0">
+        <small class="text-gray-300 mr-auto">Submitted on: {{ contact.date_submitted|date:"DATETIME_FORMAT" }}</small>
+        <button type="button" class="btn btn-outline-success" data-dismiss="modal" style="border-radius: 8px;">Acknowledged</button>
+    </div>
+</div>
+    </div>
+</div>
+{% endfor %}
+
+
+<!-- Modals for Viewing Fitness Messages -->
+{%  for trainee in fitness_requests  %}
+<div class="modal fade " id="fitnessModal{{ trainee.pk }}" tabindex="-1" role="dialog" aria-labelledby="fitnessModalLabel{{ contact.pk }}" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered  modal-lg" role="document">
+        <div class="modal-content" style="background: rgba(3, 3, 25, 0.35);backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 15px; overflow: hidden;">
+    
+    <div class="modal-header bg-info text-dark border-0">
+        <h5 class="modal-title" id="fitnessModalLabel{{ trainee.pk }}"> Registerer: {{ trainee.full_name }}</h5>
+        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+    <div class="modal-body text-white">
+        <p><strong class="text-warning">Email:</strong> {{ trainee.email }}</p>
+        <p><strong class="text-warning">Phone:</strong> {{ trainee.phone }}</p>
+     
+        <hr style="border-top: 1px solid rgba(255,255,255,0.1);">
+        
+        <p class="text-info"><strong>Fitness Purposes & Medical Conditions:</strong></p>
+        <div style="color: rgba(255,255,255,0.9); line-height: 1.6;">
+            <p>{{ trainee.medical_conditions}}</p>
+           <p>{{ trainee.get_fitness_goals_display}}</p>
+        </div>
+    </div>
+
+    <div class="modal-footer border-0">
+        <small class="text-gray-300 mr-auto">Submitted on: {{ trainee.created_at|date:"DATETIME_FORMAT" }}</small>
+        <button type="button" class="btn btn-outline-success" data-dismiss="modal" style="border-radius: 8px;">Acknowledged</button>
+    </div>
+</div>
+    </div>
+</div>
+{% endfor %}
+
+
+<!-- Modals for Viewing Kitchen -->
+{%  for kitchen in kitchen_bookings  %}
+<div class="modal fade " id="kitchenModal{{ kitchen.pk }}" tabindex="-1" role="dialog" aria-labelledby="kitchenModalLabel{{ kitchen.pk }}" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered  modal-lg" role="document">
+        <div class="modal-content" style="background: rgba(3, 3, 25, 0.35);backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 15px; overflow: hidden;">
+    
+    <div class="modal-header bg-danger text-dark border-0">
+        <h5 class="modal-title" id="kitchenModalLabel{{ kitchen.pk }}"> Registerer: {{ kitchen.full_name }}</h5>
+        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+    <div class="modal-body text-white">
+        <p><strong class="text-warning">Email:</strong> {{ kitchen.email }}</p>
+        <p><strong class="text-warning">Phone:</strong> {{ kitchen.phone }}</p>
+     
+        <hr style="border-top: 1px solid rgba(255,255,255,0.1);">
+        <p class="text-info">{{ kitchen.get_event_type_display}}</p>
+
+        <p class="text-primary"><strong>Kitchen Menu:</strong></p>
+        <div style="color: rgba(255,255,255,0.9); line-height: 1.6;">
+           <p>{{ kitchen.menu_requirements }}</p>
+        </div>
+        <p class="text-primary"><strong>Allergies:</strong></p>
+        <div style="color: rgba(255,255,255,0.9); line-height: 1.6;">
+           <p>{{ kitchen.allergies_restrictions }}</p>
+        </div>
+    </div>
+
+    <div class="modal-footer border-0">
+        <small class="text-success mr-auto">Submitted on: {{ kitchen.created_at|date:"DATETIME_FORMAT" }}</small>
+        <button type="button" class="btn btn-outline-success" data-dismiss="modal" style="border-radius: 8px;">Acknowledged</button>
+    </div>
+</div>
+    </div>
+</div>
+{% endfor %}
+
+<!-- Modals for Viewing request Enquires -->
+{%  for request in coaching_requests  %}
+<div class="modal fade " id="requestModal{{ request.pk }}" tabindex="-1" role="dialog" aria-labelledby="requestModalLabel{{ request.pk }}" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered  modal-lg" role="document">
+        <div class="modal-content" style="background: rgba(3, 3, 25, 0.35);backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 15px; overflow: hidden;">
+    
+    <div class="modal-header bg-gray-100 text-dark border-0">
+        <h5 class="modal-title" id="requestModalLabel{{ trainee.pk }}"> Client Name: {{ request.full_name }}</h5>
+        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+    <div class="modal-body text-white">
+        <p><strong class="text-info">Email:</strong> {{ request.email }}</p>
+        <p><strong class="text-info">Phone:</strong> {{ request.phone }}</p>
+     
+        <hr style="border-top: 1px solid rgba(255,255,255,0.1);">
+        
+        <p class="text-info"><strong>Request Type:</strong></p>
+        <div style="color: rgba(255,255,255,0.9); line-height: 1.6;">
+            <p>{{ request.get_registration_type_display }}</p>
+            
+          
+        </div>
+        <p class="text-warning"><strong>Additional Info</strong></p>
+        <div style="color: rgba(255,255,255,0.9); line-height: 1.6;">
+           
+            <p>{{ request.additional_info}}</p>
+          
+        </div>
+    </div>
+
+    <div class="modal-footer border-0">
+        <small class="text-success mr-auto">Submitted on: {{ request.registration_date|date:"DATETIME_FORMAT" }}</small>
+        <button type="button" class="btn btn-outline-success" data-dismiss="modal" style="border-radius: 8px;">Acknowledged</button>
+    </div>
+</div>
+    </div>
+</div>
+{% endfor %}
+
+
+
+
+
+
+<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+  <div id="successToast" class="toast align-items-center text-white bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="d-flex">
+      <div class="toast-body">
+        <i class="fas fa-check-circle me-2"></i> Order Updated Successfully!
+      </div>
+      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+<script src="{% static 'js/admin-dashboard.js' %}"></script>
+
+
+{% endblock %}
+
+
+

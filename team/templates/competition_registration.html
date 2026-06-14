@@ -1,0 +1,96 @@
+
+{% extends 'base.html' %}
+{% load static %}
+{% block extra_head %}
+    <link rel="stylesheet" href="{% static 'css/competition_registration.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+
+
+
+<body style="font-family: 'Rubik', sans-serif; background-color: grey; /* Darker background color */ margin: 0; padding: 0;">
+ 
+    <section class="section parallax-container breadcrumbs-wrap" data-parallax-img="{% static 'img/bg-breadcrumbs-1-1920x726.jpg' %}">
+    <div class="material-parallax parallax">
+        
+        <img src="{% static 'img/bg-breadcrumbs-1-1920x726.jpg' %}" alt="" style="transform: translate3d(-50%, 82px, 0px); display: block;">
+    </div>
+    <div class="parallax-content breadcrumbs-custom context-dark">
+        <div class="container">
+            <h3 class="breadcrumbs-custom-title">Competition Registration</h3>
+            <ul class="breadcrumbs-custom-path">
+                <li><a href="{% url 'home' %}">Home</a></li>
+                <li class="active">Competition Registration</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+
+
+       <div class="container mt-5">
+        <div id="competition-form-wrap">
+            <h2 class="text-center">Competition Form</h2>
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                
+                <div class="form-group-custom">
+                    <label for="{{ form.field_year.id_for_label }}">Season Year:</label>
+                    {{ form.year }}
+                </div>
+
+                <div class="form-group-custom">
+                    <label for="{{ form.name.id_for_label }}">Competition Name:</label>
+                    {{ form.name }}
+                </div>
+                
+                <div class="form-group-custom">
+                    <label for="{{ form.type.id_for_label }}">Competition Type:</label>
+                    {{ form.type }}
+                </div>
+                
+                <div class="form-group-custom">
+                    <label for="{{ form.team.id_for_label }}">Team:</label>
+                    {{ form.team }}
+                </div>
+
+                <div class="form-group-custom">
+                    <label for="{{ form.opponents.id_for_label }}">Opponents:</label>
+                    {{ form.opponents }}
+                </div>
+
+                <div class="form-group-custom">
+                    <label for="{{ form.start_date.id_for_label }}">Starting Date:</label>
+                    {{ form.start_date }}
+                </div>
+
+                <div class="form-group-custom">
+                    <label for="{{ form.end_date.id_for_label }}">Ending Date:</label>
+                    {{ form.end_date }}
+                </div>
+
+                <div class="form-group-custom">
+                    <label for="{{ form.description.id_for_label }}">Description:</label>
+                    {{ form.description }}
+                </div>
+
+                <div class="form-group-custom boolean-field">
+                    <label for="{{ form.is_current_competition.id_for_label }}">Current Competition:</label>
+                    {{ form.is_current_competition }}
+                  
+                </div>
+
+                <div class="text-center mt-5">
+                    <button class="button button-lg button-primary button-block btn btn-success w-full" type="submit">Submit Competition Details</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+</body>
+<br><br>
+
+{% endblock %}

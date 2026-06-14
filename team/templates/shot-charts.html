@@ -1,0 +1,368 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block extra_head %}
+
+{% endblock %}
+{% block content %}
+<style>
+
+.game-actions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    margin-top: 5px;
+    
+}
+
+.btn-modern {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+/* Edit button */
+.btn-edit {
+    background: #3498db;
+    color: #fff;
+    border: none;
+}
+.btn-edit:hover {
+    background: #2980b9;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+/* Delete button */
+.btn-delete {
+    background: #e74c3c;
+    color: #fff;
+    border: none;
+}
+.btn-delete:hover {
+    background: #c0392b;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+/* Icon styling */
+.btn-modern i {
+    font-size: 14px;
+}
+
+
+
+  /* Modal overlay */
+.modal-overlay {
+    display: none; /* hidden by default */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.6);
+    z-index: 9999; /* ensure it's above everything */
+    animation: fadeIn 0.3s ease forwards;
+}
+
+/* Modal content box */
+.modal-content {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    max-width: 400px;
+    margin: 10% auto;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    animation: slideDown 0.3s ease forwards;
+}
+
+/* Title and message */
+.modal-title {
+    margin-top: 0;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.modal-message {
+    margin: 15px 0;
+    font-size: 14px;
+    color: #333;
+}
+
+/* Buttons */
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.btn-modern {
+    padding: 8px 14px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn-cancel {
+    background: #ccc;
+    color: #000;
+}
+
+.btn-delete-confirm {
+    background: #e74c3c;
+    color: #fff;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideDown {
+    from { transform: translateY(-20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+
+.row.no-gap {
+  --bs-gutter-x: 0; /* removes horizontal gutter */
+}
+
+</style>
+
+      <!-- Section Breadcrumbs-->
+      <section class="section parallax-container breadcrumbs-wrap" data-parallax-img="{% static 'img/ball_court.png' %}">
+        <div class="material-parallax parallax">
+        <img src="{% static 'img/ball_court.png' %}" alt="" style="transform: translate3d(-50%, 68px, 0px); display: block;"></div>
+        <div class="parallax-content breadcrumbs-custom context-dark">
+          <div class="container">
+            <h3 class="breadcrumbs-custom-title">{{player_details.player_name}} Last 5 Games Charts</h3>
+            <ul class="breadcrumbs-custom-path">
+              <li><a href="{% url 'home' %}">Home</a></li>
+              <li><a href="">Player</a></li>
+              <li class="active">Charts</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+   
+
+
+
+
+<!-- Main Shooting Performance Section -->
+<!-- Main Shooting Performance Section -->
+<section class="section section-md shooting-stats-wrapper bg-gray-100 py-3">
+    <div class="container-fluid px-2 "> <!-- Reduced side padding -->
+         {% if charts %}
+        <div class="row g-0 justify-content-center">
+
+            <!-- Left Side: FG, 3P, FT (col-lg-7) -->
+            <div class="col-lg-7">
+                <div class="row g-2">
+
+                <!-- Field Goals -->
+                <div class="col-12">
+                    <div class="card shadow-lg h-100 bg-gray-50" style="border-radius: 10px;">
+                    <div class="card-body p-2">
+                        <h6 class="fw-bold text-center mb-2">Last 5: Field Goals</h6>
+                        <div id="fgBarChart" class="mb-3" data-chart-data='{{ last_5_games_json|safe }}'></div>
+                        <div class="d-flex justify-content-around flex-wrap mt-2">
+                        {% for game in last_5_games %}
+                        <div class="text-center" style="width: 18%;">
+                            <div class="shooting-donut" id="donut-fg-{{ forloop.index }}"
+                                data-made="{{ game.fgm }}" data-attempts="{{ game.fga }}">
+                            </div>
+                            <small class="fw-bold d-block text-truncate" style="font-size: 0.7rem;">{{ game.date_date }} {{ game.opponent_abbr }}</small>
+                        </div>
+                        {% endfor %}
+                        </div>
+                    </div>
+                    </div>
+                </div>
+
+                <!-- 3-Pointers -->
+                <div class="col-12">
+                    <div class="card shadow-lg bg-gray-50 h-100" style="border-radius: 10px;">
+                    <div class="card-body p-2">
+                        <h6 class="fw-bold text-center mb-2">Last 5: 3-Pointers</h6>
+                        <div id="threeBarChart" class="mb-3" data-chart-data='{{ last_5_games_json|safe }}'></div>
+                        <div class="d-flex justify-content-around flex-wrap mt-2">
+                        {% for game in last_5_games %}
+                        <div class="text-center" style="width: 18%;">
+                            <div class="shooting-donut" id="donut-3p-{{ forloop.index }}"
+                                data-made="{{ game.p3m }}" data-attempts="{{ game.p3a }}">
+                            </div>
+                            <small class="fw-bold d-block text-truncate" style="font-size: 0.7rem;">{{ game.opponent_abbr }}</small>
+                        </div>
+                        {% endfor %}
+                        </div>
+                    </div>
+                    </div>
+                </div>
+
+                <!-- Free Throws -->
+                <div class="col-12">
+                    <div class="card shadow-lg bg-gray-50 h-100" style="border-radius: 10px;">
+                    <div class="card-body p-2">
+                        <h6 class="fw-bold text-center mb-2">Last 5: Free Throws</h6>
+                        <div id="ftBarChart" class="mb-3" data-chart-data='{{ last_5_games_json|safe }}'></div>
+                        <div class="d-flex justify-content-center flex-wrap mt-2">
+                        {% for game in last_5_games %}
+                        <div class="text-center" style="width: 18%;">
+                            <div class="shooting-donut" id="donut-ft-{{ forloop.index }}"
+                                data-made="{{ game.ftm }}" data-attempts="{{ game.fta }}">
+                            </div>
+                            <small class="fw-bold d-block text-truncate" style="font-size: 0.7rem;">{{ game.opponent_abbr }}</small>
+                        </div>
+                        {% endfor %}
+                        </div>
+                    </div>
+                    </div>
+                </div>
+
+                </div>
+            </div>
+
+            <!-- Right Side: Shot Charts (col-lg-5) -->
+            <div class="col-lg-5">
+                <div class="card shadow-lg bg-gray-50 h-100" style="border-radius: 10px;">
+                <div class="card-body p-2">
+                    <h6 class="fw-bold text-center mb-2">Last 5: Shot Charts</h6>
+                    <div class="d-flex justify-content-center gap-3 flex-wrap mt-2">
+                    {% for chart in charts %}
+                    <article class="thumbnail-classic">
+                        {% if chart.chart_images %}
+                        <a class="thumbnail-classic-figure" href="{{ chart.chart_images.url }}" data-lightgallery="item">
+                            <img src="{{ chart.chart_images.url }}" alt="">
+                        </a>
+                        {% else %}
+                        <img src="" alt="" width="30">
+                        {% endif %}
+                        <div class="thumbnail-classic-caption">
+                        <div class="thumbnail-classic-panel-left">
+                            <h6 class="thumbnail-classic-title">{{ chart.chart_title }}</h6>
+                            <span class="thumbnail-classic-subtitle">Share Photo</span>
+                        </div>
+                        </div>
+                    </article>
+
+                    {% if user.is_authenticated and user.is_superuser %}
+                    <div class="game-actions mt-2">
+                        <a href="" class="btn-modern btn-edit">
+                        <i class="fas fa-pencil-alt"></i> Change Chart
+                        </a>
+                        <a href="javascript:void(0)" class="btn-modern btn-delete"
+                        onclick="openDeleteModal('')">
+                        <i class="badge-red fas fa-trash-alt"></i> Delete Chart
+                        </a>
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                    </div>
+                </div>
+                </div>
+            </div>
+
+        </div>
+
+        {% else %}
+            <div class="row no-gap justify-content-center  ">
+            
+            <!-- Field Goals (Left Column) -->
+            <div class="col-lg-6 ">
+                <div class="card shadow-lg h-100 bg-gray-50" style="border-radius: 10px;">
+                    <div class="card-body p-2">
+                        <h6 class="fw-bold text-center mb-2">Last 5: Field Goals </h6>
+                        <div id="fgBarChart" class="mb-3" data-chart-data='{{ last_5_games_json|safe }}'></div>
+                        
+                        <div class="d-flex justify-content-around flex-wrap mt-2">
+                            {% for game in last_5_games %}
+                            <div class="text-center" style="width: 18%;">
+                                <div class="shooting-donut" id="donut-fg-{{ forloop.index }}"
+                                     data-made="{{ game.fgm }}" data-attempts="{{ game.fga }}">
+                                </div>
+                                <small class="fw-bold d-block text-truncate" style="font-size: 0.7rem;">{{ game.date_date }} {{ game.opponent_abbr }}</small>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3-Pointers (Right Column) -->
+            <div class="col-lg-6">
+                <div class="card shadow-lg bg-gray-50 h-100" style="border-radius: 10px;">
+                    <div class="card-body p-2">
+                        <h6 class="fw-bold text-center mb-2">Last 5: 3-Pointers</h6>
+                        <div id="threeBarChart" class="mb-3" data-chart-data='{{ last_5_games_json|safe }}'></div>
+                        
+                        <div class="d-flex justify-content-around flex-wrap mt-2">
+                            {% for game in last_5_games %}
+                            <div class="text-center" style="width: 18%;">
+                                <div class="shooting-donut" id="donut-3p-{{ forloop.index }}"
+                                     data-made="{{ game.p3m }}" data-attempts="{{ game.p3a }}">
+                                </div>
+                                <small class="fw-bold d-block text-truncate" style="font-size: 0.7rem;">{{ game.opponent_abbr }}</small>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Free Throws (Full Width Below) -->
+            <div class="col-lg-12 ">
+                <div class="card shadow-lg bg-gray-50 h-100" style="border-radius: 10px;">
+                    <div class="card-body p-2">
+                        <h6 class="fw-bold text-center mb-2">Last 5: Free Throws</h6>
+                        <div id="ftBarChart" class="mb-3" data-chart-data='{{ last_5_games_json|safe }}'></div>
+                        
+                        <div class="d-flex justify-content-center flex-wrap mt-2">
+                            {% for game in last_5_games %}
+                            <div class="text-center" style="width: 18%;">
+                                <div class="shooting-donut" id="donut-ft-{{ forloop.index }}"
+                                     data-made="{{ game.ftm }}" data-attempts="{{ game.fta }}">
+                                </div>
+                                <small class="fw-bold d-block text-truncate" style="font-size: 0.7rem;">{{ game.opponent_abbr }}</small>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+           
+        </div>
+        {% endif %}
+
+    </div>
+    
+</section>
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+<script src="{% static 'js/shot-chart.js' %}"></script>
+
+    
+{% endblock%}
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,1515 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block extra_head %}
+ <link rel="stylesheet" href="{% static 'css/player_page.css' %}">
+{% endblock %}
+{% block content %}
+<script src="{% static 'js/player-page.js' %}"></script>
+
+<style>
+
+</style>
+
+
+
+
+
+
+<!-- Player Details Header Section  Begin -->
+<section class="section parallax-container player-header-wrap" 
+    data-parallax-img="images/bg-breadcrumbs-1-1920x726.jpg" 
+    style="min-height: 300px; padding-bottom: 40px; padding-top: 80px; margin-top: -100px; font-family: 'Montserrat', sans-serif;"> 
+    
+    <div class="material-parallax parallax">
+        <img src="{% static 'img/players_backdrop.png' %}" alt="Player background" 
+             style="transform: translate3d(-50%, 82px, 0px); display: block; height: 100%; min-width: 100%; object-fit: cover;">
+    </div>
+    
+    <div class="parallax-content player-content context-dark py-5">
+        <div class="container">
+            
+            <div class="breadcrumbs-custom mb-3 text-start">
+                <ul class="breadcrumbs-custom-path list-inline" style="font-size: 12px;"> 
+                    <li><a href="{% url 'home' %}">Home</a></li>
+                    <li><a href="{% url 'team-roster' competition.id %}">Roster</a></li>
+                    <li class="active">{{ player_details.player_name }}</li>
+                </ul>
+            </div>
+            <div class="row align-items-center">
+
+                <div class="col-12 col-md-5 text-center order-1 order-md-1 mb-4 mb-md-0">
+                    <div class="player-image-display mx-auto" 
+                         style="max-width: 400px; width: 100%; height: auto; overflow: hidden; border-radius: 12px;">
+                        
+                        <div style="padding-top: 100%; position: relative;">
+                            {% if player_details.player_image %}
+                            <img src="{{ player_details.player_image.url }}" alt="{{ player_details.player_name }}" 
+                                 style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; box-shadow: 0 0 20px rgba(0,0,0,0.5);">
+                            {% else %}
+                            <img src="/media/uploads/Team_Logos/python.PNG" alt="Player Image"
+                                 style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;">
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-7 order-2 order-md-2 text-center text-md-start">
+                    <div class="player-details-info">
+                        
+       
+
+                        <div class="row player-stats-grid mt-4 pt-3 border-top justify-content-center justify-content-md-start">
+                            
+                            <div class="col-4 col-sm-3 text-center">
+                                <h3 class="d-none d-md-block display-5 font-weight-bold mb-0">{{mean_points}}</h3>
+                                <h4 class="d-block d-md-none h2 font-weight-bold mb-0">{{mean_points}}</h4>
+                                <p class="h3 text-uppercase text-warning" >PPG</p>
+                            </div>
+
+                            <div class="col-4 col-sm-3 text-center border-start border-end">
+                                <h3 class="d-none d-md-block display-5 font-weight-bold mb-0">{{mean_rebounds}}</h3>
+                                <h4 class="d-block d-md-none h2 font-weight-bold mb-0">{{mean_rebounds}}</h4>
+                                <p class="h3 text-uppercase text-warning">RPG</p>
+                            </div>
+
+                            <div class="col-4 col-sm-3 text-center">
+                                <h3 class="d-none d-md-block display-5 font-weight-bold mb-0">{{mean_assists}}</h3>
+                                <h4 class="d-block d-md-none h2 font-weight-bold mb-0">{{mean_assists}}</h4>
+                                <p class="h3 text-uppercase text-warning">APG</p>
+                            </div>
+                            
+                            <div class="col-12 mt-4 pt-3 border-top">
+                                <h2 class="font-weight-bold mb-1">Games Played: <span class="text-warning" style="font-size: 30px;">{{ regular_season_games_played }}</span></h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Player Details Header Section  End -->
+
+
+ <section class="section section-md  ">
+        <div class="container">
+          <div class="row">
+            <div class="col-12 " style="padding-left: 0px; padding-right: 0px;">
+            
+            
+              <div class="tabs-custom tabs-horizontal tabs-corporate tabs-corporate-boxed" id="tabs-1" data-nav="true">
+                <div class="nav-wrap  player-nav-wrapper">
+                  <button class="button button-nav button-prev" data-nav-prev=""><span class="icon mdi mdi-chevron-left" ></span></button>
+                  <!-- Nav tabs-->
+                  <ul class="nav nav-tabs flex-nowrap" role="tablist">
+                    <li class="nav-item" role="presentation"><a class="nav-link show active" href="#tabs-1-1" data-bs-toggle="tab" aria-selected="true" role="tab">Overview</a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link" href="#tabs-1-2" data-bs-toggle="tab" aria-selected="false" role="tab" tabindex="-1">Career Stats</a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link" href="#tabs-1-3" data-bs-toggle="tab" aria-selected="false" role="tab" tabindex="-1"> Gamelog</a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link" href="#tabs-1-4" data-bs-toggle="tab" aria-selected="false" role="tab" tabindex="-1">Splits</a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link" href="#tabs-1-5" data-bs-toggle="tab" aria-selected="false" role="tab" tabindex="-1">Biography</a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link" href="{% url 'player-dashboard'  player_slug=player_details.slug %}" data-bs-toggle="tab" aria-selected="false" role="tab" tabindex="-1">Analytics</a></li>
+                  </ul>
+                  <button class="button button-nav button-next" data-nav-next=""><span class="icon mdi mdi-chevron-right"></span></button>
+                </div>
+                <!-- Tab panes-->
+                <div class="tab-content">
+                  <!-- Tab 1-->
+                 
+                    <div class="container  tab-pane fade active show" id="tabs-1-1" role="tabpanel" >
+                        <div class="row row-30 p-0">
+                            
+                            <div class="col-lg-8 p-1">
+                                <article class="heading-component mb-3">
+                                    <div class="heading-component-inner">
+                                        <h5 class="heading-component-title">Recent Performances</h5>
+                                    </div>
+                                </article>
+
+                                
+                                <div class="game-stat-card mb-4 shadow-sm bg-white  border overflow-hidden" style="border-radius: 4px;">
+                                    
+                                    <div class="stat-header d-flex justify-content-between align-items-center px-3 py-2 border-bottom bg-success">
+                                        <span class="fw-bold text-dark text-uppercase small" style="letter-spacing: 1px;">Last Game</span>
+                                        <a href="#" class="small fw-bold text-warning text-decoration-none">Full Splits</a>
+                                    </div>
+
+                                <div class="matchup-row px-3 py-3 border-bottom bg-white">
+                                        <div class="d-flex align-items-center justify-content-center">
+                                            <div class="text-end pe-3">
+                                                <span class="h5 fw-bold mb-0 d-block">{{ last_game.team__name }}</span>
+                                                <small class="text-muted">{{regular_season_wins}}-{{regular_season_losses}}</small>
+                                            </div>
+                                            <img src="/media/{{ last_game.team__team_logo }}" alt="Blazers" style="height: 40px; width: auto;">
+                                            
+                                            <div class="px-4 text-center">
+                                                <div class="d-flex align-items-center">
+                                                    {% if last_game.game_schedule__team_scores > last_game.game_schedule__opponent_scores %}
+                                                    <span class="h5 fw-bold mb-0 mx-2"> <span style="color:#35ad79">▶ </span> {{ last_game.game_schedule__team_scores|floatformat:0}}</span>
+                                                    <span class="text-muted small text-uppercase mx-2">Final</span>
+                                                    <span class="h5 fw-bold mb-0 mx-2"> {{ last_game.game_schedule__opponent_scores|floatformat:0 }}</span>
+                                                    {% elif last_game.game_schedule__team_scores == last_game.game_schedule__opponent_scores %}
+                                                    <span class="h5 fw-bold mb-0 mx-2"> {{ last_game.game_schedule__team_scores|floatformat:0 }}</span>
+                                                    <span class="text-muted small text-uppercase mx-2">Final</span>
+                                                    <span class="h5 fw-bold mb-0 mx-2">  {{ last_game.game_schedule__opponent_scores|floatformat:0 }}</span>
+                                                    {% else %}
+                                                    <span class="h5 fw-bold mb-0 mx-2"> {{ last_game.game_schedule__team_scores|floatformat:0 }}</span>
+                                                    <span class="text-muted small text-uppercase mx-2">Final</span>
+                                                    <span class="h5 fw-bold mb-0 mx-2"> <span style="color:#35ad79">▶</span> {{ last_game.game_schedule__opponent_scores|floatformat:0 }}</span>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+
+                                            <img src="/media/{{ last_game.game_schedule__opponent__logo }}" alt="Spurs" style="height: 40px; width: auto;">
+                                            <div class="text-start ps-3">
+                                                <span class="h5 fw-bold mb-0 d-block">{{last_game.game_schedule__opponent__name}}</span>
+                                                <small class="text-muted">2-2</small>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="p-2 bg-white">
+                                    
+                                        <div class="row g-2 text-center flex-nowrap">
+                                            <div class="col-3">
+                                                <div class="stat-box-rectangular border overflow-hidden" style="border-radius: 10px;" >
+                                                    <div class="bg-success text-white py-1 small fw-bold" style="font-size: 10px;">PTS</div>
+                                                    <div class="py-2 h2 fw-bold mb-0 text-success">{{ last_game.points }}</div>
+                                                </div>
+                                            </div>
+                                            <div class="col-3" style="border-radius: 10px;">
+                                                <div class="stat-box-rectangular border overflow-hidden" style="border-radius: 10px;" >
+                                                    <div class="bg-success text-white py-1 small fw-bold" style="font-size: 10px;">REB</div>
+                                                    <div class="py-2 h2 fw-bold mb-0 text-success">{{last_game.total_rebounds}}</div>
+                                                </div>
+                                            </div>
+                                            <div class="col-3">
+                                                <div class="stat-box-rectangular border  overflow-hidden" style="border-radius: 10px;" >
+                                                    <div class="bg-success text-white py-1 small fw-bold" style="font-size: 10px;">AST</div>
+                                                    <div class="py-2 h2 fw-bold mb-0 text-success">{{last_game.assists}}</div>
+                                                </div>
+                                            </div>
+                                            <div class="col-3">
+                                                <div class="stat-box-rectangular border overflow-hidden" style="border-radius: 10px;" >
+                                                    <div class="bg-success text-white py-1 small fw-bold" style="font-size: 10px;">EFF</div>
+                                                    <div class="py-2 h2 fw-bold mb-0 text-success">{{last_game.efficiency}}</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    
+                                    </div>
+                                    <!-- Last Game Table-->
+                                    <div class="table-responsive border-top">
+                                        <table class="table table-sm mb-0 text-center w-100" style="table-layout: fixed; font-size: 11px;">
+                                            <thead>
+                                                <tr class="text-muted border-bottom" style="background: #fcfcfc;">
+                                                    <th class="py-2 text-start ps-3" style="width: 90px;">SPLITS</th>
+                                                    
+                                                    <th class="py-2">MIN</th>
+                                                    <th class="py-2">PTS</th>
+                                                    <th class="py-2">REB</th>
+                                                    <th class="py-2">AST</th>
+
+                                                    <th class="py-2">FG%</th>
+                                                    <th class="py-2">3P%</th>
+                                                    <th class="py-2">FT%</th>
+                                                    <th class="py-2">BLK</th>
+                                                    <th class="py-2">STL</th>
+                                                    <th class="py-2">TOV</th>
+                                                    <th class="py-2">DEF</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr class="border-bottom">
+                                                    <td class="text-start ps-3 fw-bold py-2">This Game</td>
+                                                    <td>{{last_game.minutes}}</td>
+                                                    <td>{{last_game.points }}</td>
+                                                    <td>{{last_game.total_rebounds}}</td>
+                                                    <td>{{last_game.assists}}</td>
+                                                    <td>{{last_game.fg_percent }}%</td>
+                                                    <td>{{last_game.point_3_percent}}%</td>
+                                                    <td>{{last_game.ft_percent}}%</td>
+                                                    <td>{{last_game.blocks}}</td>
+                                                    <td>{{last_game.steals}}</td>
+                                                    <td>{{last_game.turnovers}}</td>
+                                                    <td>{{last_game.def}}</td>
+                                                </tr>
+                                                {% for stat in last_5_games_mean %}
+                                                <tr class="text-muted" style="background: #f9f9f9;">
+                                                    <td class="text-start ps-3 py-2">L5 Average</td>
+                                                    <td>{{ stat.minutes }}</td>
+                                                    <td>{{ stat.points }}</td>
+                                                    <td>{{ stat.total_rebounds }}</td>
+                                                    <td>{{ stat.assists }}</td>
+                                                    <td>{{ stat.fg_percent }}%</td>
+                                                    <td>{{ stat.point_3_percent }}%</td>
+                                                    <td>{{ stat.ft_percent }}%</td>
+                                                    <td>{{ stat.blocks }}</td>
+                                                    <td>{{ stat.steals }}</td>
+                                                    <td>{{ stat.turnovers }}</td>
+                                                    <td>{{ stat.def }}</td>
+                                                {% endfor %}    
+                                                </tr>
+                                            </tbody>
+
+                                            
+                                        </table>
+                                    </div>
+                                </div>
+                                <!-- Last 5 Games Table-->
+                                <div class="game-stat-card mb-4 shadow-sm bg-white border overflow-hidden" style="border-radius: 7px;">
+                                    <div class="table-responsive-last_5 border-top" style="border-radius: 0px;" >
+                                        <table class="table table-hover table-sm mb-0 text-center w-100" style=" font-size: 11px;">
+                                        
+                                            <thead>
+                                            <tr class="text-light border-bottom bg-success flex-nowrap" >
+                                                
+                                                <th class="sticky-col-1 text-left bg-success"  style="width: 100px; ">Date</th>
+                                                <th class="py-2" style="width: 50px; ">Hm/Aw</th>
+                                                <th class="py-2 text-center" style="width: 30px; ">Opp</th>
+                                                <th class="py-2">W/L</th>
+                                                <th class="py-2 "style="width: 50px;">Score</th>
+                                                <th class="py-2 text-center">MIN</th>
+
+                                                <th class="py-2">PTS</th>
+                                                <th class="py-2">REB</th>
+                                                <th class="py-2">AST</th>
+                                                
+                                                <th class="py-2">FG%</th>
+                                                <th class="py-2">3P%</th>
+                                                <th class="py-2">FT%</th>
+                                            
+                                                <th class="py-2">STL</th>
+                                                <th class="py-2">TOV</th>
+                                                <th class="py-2">BLK</th>
+                                            
+                                            </tr>
+                                            
+                                            </thead>
+                                            <tbody>
+                                                
+                                            {% for game in last_5_games %}
+                                                {% if game.game_schedule__team_scores != 0 %}
+                                                <tr class="border-bottom">
+                                                <td class="text-left sticky-col-1 bg-white">{{ game.game_schedule__date|date:"M d, Y" }}</td>
+                                                <td>{{ game.game_schedule__indicator }}</td>
+                                                <td style="width: 30px; ">{{ game.game_schedule__opponent__abbreviation }}</td>
+                                                
+                                                {% if game.game_schedule__team_win_loss == 'W' %}
+                                                <td style="color:rgb(3, 164, 3);">{{ game.game_schedule__team_win_loss }}</td>
+                                                {% elif game.game_schedule__team_win_loss == 'L' %}
+                                                <td style="color:#f44d4d;">{{ game.game_schedule__team_win_loss }}</td>
+                                                {% else %}
+                                                <td> - </td>
+                                                {% endif %}
+                                                
+                                                <td style="width: 100px; ">{{ game.game_schedule__team_scores }}-{{ game.game_schedule__opponent_scores }}</td>
+                                                <td style="width: 80px; ">{{ game.minutes }}</td>
+
+
+                                                <td style="width: 50px; ">{{ game.points }}</td> 
+                                                <td>{{ game.total_rebounds }}</td>
+                                                <td>{{ game.assists }}</td>
+
+                                                <td style="width: 50px; ">{{ game.fg_percent }}</td> 
+                                                <td>{{ game.point_3_percent }}</td>
+                                                <td>{{ game.ft_percent }}</td>
+                                                
+                                                <td style="width: 50px; " >{{ game.steals }}</td>
+                                                <td style="width: 50px; " >{{ game.turnovers }}</td>
+                                                <td >{{ game.blocks }}</td>
+                                                
+                                                </tr>
+                                                
+                                                {% else %}
+                                                <tr></tr>
+                                                {% endif %}
+                                            {% endfor %}
+                                            
+                                          
+                                            </tbody>
+                                            <tfoot>
+                                                <tr class="border-bottom" > 
+                                                    
+                                                    <td colspan="15" class="bg-success p-0" style="height: 10px;">
+                                                        <a class="text-light d-flex align-items-center justify-content-center py-2 w-100" 
+                                                        style="text-decoration: none; font-weight: bold; transition: background 0.3s;" 
+                                                        href="{% url 'shot-charts' player_slug=player_details.slug %}">
+                                                        View Chart
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <!-- Line Charts Points-->
+                                <div class="game-stat-card mb-4 shadow-sm bg-white border " style="border-radius: 10px; overflow-x: auto;">
+                                    <!-- Points Trend -->
+                                            <div class="card-body text-white" style="overflow-x: auto;">
+                                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                                    <h6 class="card-title fw-bold text-dark text-uppercase small mb-0">Regular Season</h6>
+                                                    <span class="badge rounded-pill bg-success text-dark">Point Trend Overtime</span>
+                                                </div>
+                                                <div id="pointsChart" 
+                                                    data-series='{{ point_trend_data|safe }}'
+                                                    data-labels='{{ point_trend_labels|safe }}'>
+                                                </div>
+                                            </div>
+                                </div>
+
+
+                                   <div class="game-stat-card mb-4 shadow-sm bg-white border overflow-hidden" style="border-radius: 10px;">
+                                    <!-- Points Trend -->
+                                           <div class="basketball-stats-container" style="background: #fff; padding: 10px; border: 1px solid #eee; border-radius: 4px;">
+                                                <svg viewBox="0 0 500 350" xmlns="http://www.w3.org/2000/svg" style="width: 100%; height: auto;">
+                                                    <!-- Court Floor -->
+                                                    <rect width="500" height="450" fill="#ffffff" />
+                                                    
+                                                    <g stroke="#333" stroke-width="2.5" fill="none">
+                                                        <!-- Baseline (The "Out of Bounds" line it kisses) -->
+                                                        <line x1="30" y1="20" x2="470" y2="20" />
+                                                        
+                                                        <!-- Sidelines -->
+                                                        <line x1="30" y1="20" x2="30" y2="430" />
+                                                        <line x1="470" y1="20" x2="470" y2="430" />
+
+                                                        <!-- FIBA 3-Point Line (With straight corners) -->
+                                                        <!-- Straight sections from baseline to 2.99m out -->
+                                                        <line x1="60" y1="20" x2="60" y2="120" />
+                                                        <line x1="440" y1="20" x2="440" y2="120" />
+                                                        <!-- The actual Arc connecting the straight lines -->
+                                                        <path d="M 60 120 A 190 190 0 0 0 440 120" stroke-linecap="round"/>
+
+                                                        <!-- The Paint / Restricted Area -->
+                                                        <rect x="175" y="20" width="150" height="190" />
+                                                        
+                                                        <!-- Free Throw Top Circle -->
+                                                        <path d="M 175 210 A 75 75 0 0 0 325 210" />
+
+                                                        <!-- Backboard and Rim -->
+                                                        <line x1="210" y1="50" x2="290" y2="50" stroke-width="3" />
+                                                        <circle cx="250" cy="65" r="15" />
+                                                    </g>
+
+                                                    <!-- --- DATA OVERLAYS (Positioned to NOT hide lines) --- -->
+
+                                                    <!-- FG% Card (Inside the Paint) -->
+                                                    <g transform="translate(195, 90)">
+                                                        <rect width="110" height="40" rx="4" fill="#333" />
+                                                        <text x="55" y="15" text-anchor="middle" fill="#ccc" font-size="9" font-weight="bold">OVERALL FG%</text>
+                                                        <text x="55" y="34" text-anchor="middle" fill="#35ad79" font-size="16" font-weight="900">{{ player_fg_pct }}%</text>
+                                                    </g>
+
+                                                    <!-- FT% Card (Free Throw Line) -->
+                                                    <g transform="translate(200, 220)">
+                                                        <rect width="100" height="40" rx="4" fill="#f8f9fa" stroke="#ddd" />
+                                                        <text x="50" y="15" text-anchor="middle" fill="#666" font-size="8" font-weight="bold">FREE THROWS %</text>
+                                                        <text x="50" y="34" text-anchor="middle" fill="#333" font-size="16" font-weight="900">{{ player_ft_pct }}%</text>
+                                                    </g>
+
+                                                    <!-- 3PT Card (Moved further back so the ARC is visible) -->
+                                                    <g transform="translate(360, 280)">
+                                                        <rect width="100" height="40" rx="4" fill="#f5b003" />
+                                                        <text x="50" y="15" text-anchor="middle" fill="black" font-size="8" font-weight="bold"><tspan font-size="10"  fill="black">3PT FG%</tspan></text>
+                                                        <text x="50" y="35" text-anchor="middle" fill="black" font-size="20" font-weight="900">{{ player_3p_pct }}%<tspan font-size="10" fill="black"></tspan></text>
+                                                    </g>
+                                                </svg>
+                                            </div>
+                                </div>
+                                
+                            </div>
+
+                            <div class="col-lg-4">
+                                <article class="heading-component mb-3" style="color:#f5b003">
+                                    <div class="heading-component-inner">
+                                        <h5 class="heading-component-title">Latest Highlights</h5>
+                                    </div>
+                                </article>
+
+                                <div class="video-sidebar-sticky" style="position: sticky; top: 120px;">
+                                    <div class="card mb-3 border-0 shadow-sm overflow-hidden">
+                                        <div class="ratio ratio-16x9">
+                                            <iframe src="https://www.youtube.com/embed/VIDEO_ID_1" title="Highlights" allowfullscreen></iframe>
+                                        </div>
+                                        <div class="card-body p-2 bg-white">
+                                            <p class="small fw-bold mb-0">Career High Highlights</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="card mb-3 border-0 shadow-sm overflow-hidden">
+                                        <div class="ratio ratio-16x9">
+                                            <iframe src="https://www.youtube.com/embed/VIDEO_ID_2" title="Highlights" allowfullscreen></iframe>
+                                        </div>
+                                        <div class="card-body p-2 bg-white">
+                                            <p class="small fw-bold mb-0">Defensive Masterclass</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            
+
+                  <!-- Tab 2 Career Stats-->
+                    
+                    
+                    <div class="container tab-pane fade" id="tabs-1-2" role="tabpanel" >
+                        <!-- Regular Season Games Begins -->
+                        <div class="stats-wrapper">
+                             <article class="heading-component">
+                                <div class="heading-component-inner">
+                                    <h5 class="heading-component-title">{{ player_details.player_name|default:"Name of Player" }} - Regular Season Games</h5>
+                                </div>
+                            </article>
+                            <div class="player-stats-container table-responsive">
+                                <table class="player-stats-table table-hover ">
+                                    <thead >
+                                    <tr>
+                                        <th style="background: #35ad79;">SEASON</th>
+                                        <th>TEAM</th>
+                                        <th>League</th>
+
+                                        <th>GP</th>
+                                        <th>MIN</th>
+
+                                        <th>PTS</th>
+                                        <th>REB</th>
+                                        <th>AST</th>
+
+                                        <th>FGM</th>
+                                        <th>FGA</th>
+                                        <th>FG%</th>
+
+                                        <th>3PM</th>
+                                        <th>3PA</th>
+                                        <th>3P%</th>
+
+                                        <th>FTM</th>
+                                        <th>FTA</th>
+                                        <th>FT%</th>
+
+                                        <th>OREB</th>
+                                        <th>DREB</th>
+                                        <th>REB</th>
+
+                                        <th>STL</th>
+                                        <th>TOV</th>
+                                        <th>BLK</th>
+                                        <th>PF</th>
+                                        <th>+/-</th>
+                                        <th>EFF</th>
+                                        <td style="background: #35ad79;">DEF</td>
+                                    
+                                    
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for game in regular_season_mean_total %}
+                                    
+                                    <tr >
+                                        <td >{{game.game_schedule__competition__year__year}}</td>
+                                        <td>{{ game.team__name }}</td>
+                                        <td>{{ game.game_schedule__competition__name }}</td>
+                                    
+                                        
+                                        <td>{{ regular_season_games_played }}</td>
+                                        <td>{{ game.minutes }}</td>
+
+                                        <td>{{ game.points }}</td>
+                                        <td>{{ game.total_rebounds }}</td>
+                                        <td>{{ game.assists }}</td>
+
+                                        <td>{{ game.field_goal_made }}</td>
+                                        <td>{{ game.field_goal_attempts }}</td>
+                                        <td>{{ game.fg_percent }}%</td>
+
+                                        <td>{{ game.point_3_made }}</td>
+                                        <td>{{ game.point_3_attempts }}</td>
+                                        <td>{{ game.point_3_percent }}%</td>
+
+                                        <td>{{ game.ft_made }}</td>
+                                        <td>{{ game.ft_attempts }}</td>
+                                        <td>{{ game.ft_percent }}%</td>
+
+                                        <td>{{ game.offensive_rebs  }}</td>
+                                        <td>{{ game.defensive_rebs  }}</td>
+                                        <td>{{ game.total_rebounds }}</td>
+
+                                        <td>{{ game.steals }}</td>
+                                        <td>{{ game.turnovers }}</td>
+                                        <td>{{ game.blocks }}</td>
+                                        <td>{{ game.personal_fouls }}</td>
+                                        <td>{{ game.plus_minus }}</td>
+                                        <td>{{ game.efficiency }}</td>
+                                        <td>{{ game.def }}</td>
+                                        
+                                        
+                                    </tr>
+                                    {% endfor %}
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <!-- Regular Season Games Ends -->
+                        <br>
+
+                        <!-- Playoff Games Begin-->
+                    
+                        <div class="stats-wrapper">
+                             <article class="heading-component">
+                                <div class="heading-component-inner">
+                                    <h5 class="heading-component-title">{{ player_details.player_name|default:"Name of Player" }} - Playoff Stats</h5>
+                                </div>
+                            </article>
+                            <div class="player-stats-container table-responsive">
+                            <table class="player-stats-table table-hover ">
+                                <thead >
+                                <tr>
+                                    <th style="background: #35ad79;">SEASON</th>
+                                    <th>TEAM</th>
+                                    <th>League</th>
+
+                                    <th>GP</th>
+                                    <th>MIN</th>
+                                    
+
+                                    <th>PTS</th>
+                                    <th>REB</th>
+                                    <th>AST</th>
+
+                                    <th>FGM</th>
+                                    <th>FGA</th>
+                                    <th>FG%</th>
+
+                                    <th>3PM</th>
+                                    <th>3PA</th>
+                                    <th>3P%</th>
+
+                                    <th>FTM</th>
+                                    <th>FTA</th>
+                                    <th>FT%</th>
+
+                                    <th>OREB</th>
+                                    <th>DREB</th>
+                                    <th>REB</th>
+
+                                    <th>STL</th>
+                                    <th>TOV</th>
+                                    <th>BLK</th>
+                                    <th>PF</th>
+                                    <th>+/-</th>
+                                    <th>EFF</th>
+                                    <td style="background: #35ad79;">DEF</td>
+                                    
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for game in playoffs_mean_total %}
+                                <tr>
+                                    <td>{{game.game_schedule__competition__year__year}}</td>
+                                    <td>{{ game.team__name }}</td>
+                                    <td>{{ game.game_schedule__competition__name }}</td>
+                                
+                                    
+                                    <td>{{ playoffs_games_played }}</td>
+                                    <td>{{ game.minutes }}</td>
+
+                                    <td>{{ game.points }}</td>
+                                    <td>{{ game.total_rebounds }}</td>
+                                    <td>{{ game.assists }}</td>
+
+                                    <td>{{ game.field_goal_made }}</td>
+                                    <td>{{ game.field_goal_attempts }}</td>
+                                    <td>{{ game.fg_percent }}%</td>
+
+                                    <td>{{ game.point_3_made }}</td>
+                                    <td>{{ game.point_3_attempts }}</td>
+                                    <td>{{ game.point_3_percent }}%</td>
+
+                                    <td>{{ game.ft_made }}</td>
+                                    <td>{{ game.ft_attempts }}</td>
+                                    <td>{{ game.ft_percent }}%</td>
+
+                                    <td>{{ game.offensive_rebs  }}</td>
+                                    <td>{{ game.defensive_rebs  }}</td>
+                                    <td>{{ game.total_rebounds }}</td>
+
+                                    <td>{{ game.steals }}</td>
+                                    <td>{{ game.turnovers }}</td>
+                                    <td>{{ game.blocks }}</td>
+                                    <td>{{ game.personal_fouls }}</td>
+                                    <td>{{ game.plus_minus }}</td>
+                                    <td>{{ game.efficiency }}</td>
+                                    <td>{{ game.def }}</td>
+                                    
+                                    
+                                </tr>
+                                {% endfor %}
+
+                                </tbody>
+                            </table>
+                            </div>
+                        </div>
+                        <!-- Playoff Games End-->
+                        <br>
+
+                        <!-- International Games  Begin-->
+                            <div class="stats-wrapper">
+                                <article class="heading-component">
+                                    <div class="heading-component-inner">
+                                        <h5 class="heading-component-title">{{ player_details.player_name|default:"Name of Player" }} - International Games  Stats</h5>
+                                    </div>
+                                </article>
+                                <div class="player-stats-container table-responsive">
+                                <table class="player-stats-table table-hover">
+                                    <thead >
+                                    <tr>
+                                        <th style="background: #35ad79;">SEASON</th>
+                                        <th>TEAM</th>
+                                        <th>League</th>
+
+                                        <th>GP</th>
+                                        <th>MIN</th>
+                                        
+
+                                        <th>PTS</th>
+                                        <th>REB</th>
+                                        <th>AST</th>
+
+                                        <th>FGM</th>
+                                        <th>FGA</th>
+                                        <th>FG%</th>
+
+                                        <th>3PM</th>
+                                        <th>3PA</th>
+                                        <th>3P%</th>
+
+                                        <th>FTM</th>
+                                        <th>FTA</th>
+                                        <th>FT%</th>
+
+                                        <th>OREB</th>
+                                        <th>DREB</th>
+                                        <th>REB</th>
+
+                                        <th>STL</th>
+                                        <th>TOV</th>
+                                        <th>BLK</th>
+                                        <th>PF</th>
+                                        <th>+/-</th>
+                                        <th>EFF</th>
+                                        <td style="background: #35ad79;">DEF</td>
+                                        
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for game in international_games_mean_total %}
+                                    <tr>
+                                        <td>{{game.game_schedule__competition__year__year}}</td>
+                                        <td>{{ game.team__name }}</td>
+                                        <td>{{ game.game_schedule__competition__name }}</td>
+                                    
+                                        
+                                        <td>{{ game.international_games_played }}</td>
+                                        <td>{{ game.minutes }}</td>
+
+                                        <td>{{ game.points }}</td>
+                                        <td>{{ game.total_rebounds }}</td>
+                                        <td>{{ game.assists }}</td>
+
+                                        <td>{{ game.field_goal_made }}</td>
+                                        <td>{{ game.field_goal_attempts }}</td>
+                                        <td>{{ game.fg_percent }}%</td>
+
+                                        <td>{{ game.point_3_made }}</td>
+                                        <td>{{ game.point_3_attempts }}</td>
+                                        <td>{{ game.point_3_percent }}%</td>
+
+                                        <td>{{ game.ft_made }}</td>
+                                        <td>{{ game.ft_attempts }}</td>
+                                        <td>{{ game.ft_percent }}%</td>
+
+                                        <td>{{ game.offensive_rebs  }}</td>
+                                        <td>{{ game.defensive_rebs  }}</td>
+                                        <td>{{ game.total_rebounds }}</td>
+
+                                        <td>{{ game.steals }}</td>
+                                        <td>{{ game.turnovers }}</td>
+                                        <td>{{ game.blocks }}</td>
+                                        <td>{{ game.personal_fouls }}</td>
+                                        <td>{{ game.plus_minus }}</td>
+                                        <td>{{ game.efficiency }}</td>
+                                        <td>{{ game.def }}</td>
+                                        
+                                        
+                                    </tr>
+                                    {% endfor %}
+
+                                    </tbody>
+                                </table>
+                                </div>
+                            </div>
+                            <!-- International Games Ends-->
+
+
+                    </div>
+                    
+                    
+                  
+
+                  <!-- Tab 3 Game Log-->
+                  
+                    <div class="container-fluid p-0 tab-pane fade" id="tabs-1-3" role="tabpanel"  > 
+                       
+                         <!-- Last 5 Games Table-->
+                                <div class="game-stat-card mb-4 shadow-sm bg-white border overflow-hidden" style="border-radius: 10px;">
+                                    <div class="table-responsive-last_5 border-top" >
+                                        <table class="table table-hover table-striped table-sm mb-0 text-center w-100" style=" font-size: 12px;">
+                                        
+                                            <thead>
+                                            <tr class="text-light border-bottom bg-success flex-nowrap" data-year="{{ game.date|date:'Y' }}" data-month="{{ game.date|date:'F' }}">
+                                                
+                                                <th class="sticky-col-1 text-left bg-success"  style="width: 100px; ">DATE</th>
+                                                <th style="text-align: left; width: 100px; ">TIME</th>
+                                                <th style="text-align: left; width: 100px; ">GAME</th>
+                                                <th style="text-align: left; width: 100px; ">RESULTS</th>
+                                                <th class="py-2">MIN</th>
+
+                                                <th class="py-2">+PTS</th>
+                                                <th class="py-2">+REB</th>
+                                                <th class="py-2">+AST</th>
+
+                                                <th class="py-2">FGM</th>
+                                                <th class="py-2">FGA</th>
+                                                <th class="py-2">FG%</th>
+                                                
+                                                <th class="py-2">3PM</th>
+                                                <th class="py-2">3PA</th>
+                                                <th class="py-2">3P%</th>
+
+                                                <th>FTM</th>
+                                                <th>FTA</th>
+                                                <th>FT%</th>
+
+                                                <th>OREB</th>
+                                                <th>DREB</th>
+                                                <th>REB</th>
+
+                                                <th>STL</th>
+                                                <th>TOV</th>
+                                                <th>BLK</th>
+                                                <th>PF</th>
+                                                <th>+/-</th>
+                                                <th>EFF</th>
+                                                <th>DEF</th>
+
+                                                
+                                               
+                                            </tr>
+                                            
+                                            </thead>
+                                            <tbody>
+                                                
+                                            {% for game in game_schedules %}
+                                               
+                                                <tr class="border-bottom">
+                                                    
+                                                    <td class="text-left sticky-col-1 bg-white">
+                                                        <a href="{% url 'game-overview' competition.slug game.game_slug %}" class="btn-link">{{ game.game_schedule__date|date:"M d, Y" }}</a>
+                                                    </td>
+                                                    <td class="text-left " style="text-align: left; min-width: 60px; ">{{ game.game_schedule__time|time:"H:i" }}</td>
+                                                    <td  style="text-align: left; width: 100px;">
+                                                        <div style="display: flex; align-items: center; gap: 10px; min-width: 120px;">
+                                                            <span class="font-weight" style="color: #666; font-size: 1.2em; width: 5px;">
+                                                                {{ game.game_schedule__indicator }}
+                                                            </span>
+
+                                                            <div class="team-figure" style="min-width: 20px;">
+                                                                {% if game.game_schedule__opponent__logo %}
+                                                                    <img src="/media/{{ game.game_schedule__opponent__logo }}" alt="{{ game.game_schedule__opponent__abbreviation }}" style="border-radius: 50px;" width="20" height="20">
+                                                                {% else %}
+                                                                    <div style="width: 30px; height: 30px; background: #eee; border-radius: 50%;"></div>
+                                                                {% endif %}
+                                                            </div>
+
+                                                            <div class="team-title" style=" gap: 0px; ">
+                                                                <div class="font-weight" style="white-space: nowrap; gap: 0px;">
+                                                                    <h6 style="margin-left: -13; font-size: smaller;">{{ game.game_schedule__opponent__name }}</h6>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+
+                                                    
+                                                    {% if game.game_schedule__team_scores %}
+                                                            {% if game.game_schedule__team_scores > game.game_schedule__opponent_scores %}
+                                                            <td style="text-align: left; min-width: 80px; ">
+                                                                <span style="color:#35ad79;">{{ game.game_schedule__team_win_loss|slice:":1" }}</span> {{ game.game_schedule__team_scores|floatformat:0 }}-{{ game.game_schedule__opponent_scores|floatformat:0 }}
+                                                            </td>
+                                                            {% else %}
+                                                            <td style="text-align: left;  min-width: 80px;">
+                                                                <span style="color: red;">{{ game.game_schedule__team_win_loss|slice:":1" }}</span> {{ game.game_schedule__team_scores|floatformat:0 }}-{{ game.game_schedule__opponent_scores|floatformat:0 }}
+                                                            </td>
+                                                            {% endif %}
+                                                    {% else %}
+                                                        <td style="text-align: left;  min-width: 80px;">
+                                                        
+                                                        </td>
+                                                    {% endif %}
+                                                    
+                                               
+                                                {% if game.game_schedule__team_scores > 0 %}
+                                                <td >{{ game.minutes|default:"00:00" }}</td>
+
+                                                <td style="background-color: #b5f2d6;">{{ game.points|default:"0" }}</td> 
+                                                <td style=" background-color: #b5f2d6;">{{ game.total_rebounds|default:"0" }}</td>
+                                                <td style="background-color: #b5f2d6;">{{ game.assists|default:"0" }}</td>
+
+                                                <td>{{ game.field_goal_made|default:"0" }}</td> 
+                                                <td>{{ game.field_goal_attempts|default:"0" }}</td>
+                                                <td>{{ game.fg_percent|default:"0.0" }}%</td>
+
+                                                <td>{{ game.point_3_made|default:"0" }}</td> 
+                                                <td>{{ game.point_3_attempts|default:"0" }}</td>
+                                                <td>{{ game.point_3_percent|default:"0.0" }}%</td>
+
+
+                                                <td>{{ game.ft_made|default:"0" }}</td> 
+                                                <td>{{ game.ft_attempts|default:"0" }}</td>
+                                                <td>{{ game.ft_percent|default:"0.0" }}%</td>
+
+                                                <td>{{ game.offensive_rebs|default:"0" }}</td> 
+                                                <td>{{ game.defensive_rebs|default:"0" }}</td>
+                                                <td>{{ game.total_rebounds|default:"0" }}</td>
+
+                                                <td>{{ game.steals|default:"0" }}</td> 
+                                                <td>{{ game.turnovers|default:"0" }}</td>
+                                                <td>{{ game.blocks|default:"0" }}</td>
+                                                <td>{{ game.personal_fouls|default:"0" }}</td>
+                                                <td>{{ game.plus_minus|default:"0"}}</td> 
+                                                <td>{{ game.efficiency|default:"0" }}</td>
+                                                <td>{{ game.def|default:"0" }}</td>
+                                                {% else %}
+                                                <td></td><td style="background-color: #b5f2d6;"></td>
+                                                <td style="background-color: #b5f2d6;"></td>
+                                                <td style="background-color: #b5f2d6;"></td>
+                                                <td></td><td></td>
+                                                <td></td><td></td><td></td><td></td><td></td><td></td>
+                                                <td></td><td></td><td></td><td></td><td></td>
+                                                <td></td><td></td><td></td><td></td><td></td><td></td>
+                                                {% endif %}
+
+                                   
+                                                
+                                                </tr>
+                                                
+                                             
+                                            {% endfor %}
+                                            
+                                          
+                                            </tbody>
+                                          
+                                        </table>
+                                    </div>
+                                </div>
+                    </div>
+                  
+
+                  <!-- Tab 4 Splits-->
+                  <div class="tab-pane fade" id="tabs-1-4" role="tabpanel">
+                    <div class="tab-content-main">
+                      <div class="row row-30">
+                        <div class="col-lg-6">
+                          <h2>1994-1997</h2>
+                          <h4>A new coach and training professional players for future tournaments</h4>
+                          <p>Atletico had some success in friendlies in 2012 and 2013. The  team won 1–0 in Italy on February 29, 2012, the team's first ever win over Italy. On June 2, 2013, the U.S. played a friendly against Germany at a sold out RFK Stadium.</p>
+                          <p>For the 2014 World Cup, the team was drawn into Group G, along with Ghana, Germany, and Portugal. We took revenge on the Ghanaians, winning 2–1. Then we tied our second group game against Portugal 2–2. In the final game of the group stage, Atletico fell to Germany 1–0, but moved on to the knockout stage on goal difference. We still continue improving our soccer techniques today.</p>
+                        </div>
+                        <div class="col-lg-6">
+                          <!-- Owl Carousel-->
+                          <div class="owl-carousel owl-carousel-dots-modern owl-loaded" data-items="1" data-dots="true" data-nav="false" data-stage-padding="0" data-loop="false" data-margin="0" data-mouse-drag="false">
+                          <div class="owl-stage-outer"><div class="owl-stage" style="transform: translate3d(0px, 0px, 0px); transition: all; width: 1917px;"><div class="owl-item active" style="width: 638.667px;"><img src="Images_me/about-us-1-529x350.jpg" alt="" width="529" height="350"></div><div class="owl-item" style="width: 638.667px;"><img src="Images_me/about-us-2-529x350.jpg" alt="" width="529" height="350"></div><div class="owl-item" style="width: 638.667px;"><img src="Images_me/about-us-3-529x350.jpg" alt="" width="529" height="350"></div></div></div><div class="owl-nav disabled"><button type="button" role="presentation" class="owl-prev"></button><button type="button" role="presentation" class="owl-next"></button></div><div class="owl-dots"><button role="button" class="owl-dot active"><span></span></button><button role="button" class="owl-dot"><span></span></button><button role="button" class="owl-dot"><span></span></button></div></div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="block-thumbnail-minimal">
+                      <div class="row row-30">
+                        <div class="col-6 col-md-3">
+                          <div class="thumbnail-minimal">
+                            <div class="thumbnail-minimal-figure">
+                              <img src="Images_me/thumbnail-minimal-1-67x147.png" alt="" width="67" height="147">
+                            </div>
+                            <div class="thumbnail-minimal-title">
+                              <p>European Cups</p>
+                            </div>
+                            <div class="thumbnail-minimal-counter">
+                              <h2>2</h2>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-6 col-md-3">
+                          <div class="thumbnail-minimal">
+                            <div class="thumbnail-minimal-figure">
+                              <img src="Images_me/thumbnail-minimal-2-68x126.png" alt="" width="68" height="126">
+                            </div>
+                            <div class="thumbnail-minimal-title">
+                              <p>FIFA World Cups</p>
+                            </div>
+                            <div class="thumbnail-minimal-counter">
+                              <h2>1</h2>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-6 col-md-3">
+                          <div class="thumbnail-minimal">
+                            <div class="thumbnail-minimal-figure">
+                              <img src="Images_me/thumbnail-minimal-3-73x135.png" alt="" width="73" height="135">
+                            </div>
+                            <div class="thumbnail-minimal-title">
+                              <p>American Cups</p>
+                            </div>
+                            <div class="thumbnail-minimal-counter">
+                              <h2>3</h2>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-6 col-md-3">
+                          <div class="thumbnail-minimal">
+                            <div class="thumbnail-minimal-figure">
+                              <img src="Images_me/thumbnail-minimal-4-68x126.png" alt="" width="68" height="126">
+                            </div>
+                            <div class="thumbnail-minimal-title">
+                              <p>International Cups</p>
+                            </div>
+                            <div class="thumbnail-minimal-counter">
+                              <h2>1</h2>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Tab 5 Bio -->
+                  <div class="container tab-pane fade" id="tabs-1-5" role="tabpanel" >
+                        <div class="row row-30">
+                            
+                            <div class="col-lg-8">
+                                
+                                <div class="p-4 p-md-5 rounded-5 shadow-lg mb-4" id="playerBio" style="background-color: #ffffff; color: #080808; border-top: 5px solid #35ad79; ">
+                                    <div class="row"  >
+                                        <div class="col-md-4 border-end-md mb-4 mb-md-0">
+                                            <h5 class="text-uppercase font-weight-bold mb-3" style="color: #35ad79; letter-spacing: 1px;">Player Profile</h5>
+                                            <ul class="list-unstyled" style="font-size: 14px; line-height: 2.2;">
+                                                <li class="d-flex justify-content-between border-bottom pb-1"><span class="text-muted">Position</span><span class="font-weight-bold">{{ player_details.get_position_display }}</span></li>
+                                                <li class="d-flex justify-content-between border-bottom pb-1"><span class="text-muted">Height</span><span class="font-weight-bold">{{ player_details.height_cm|default:"--" }} cm</span></li>
+                                                <li class="d-flex justify-content-between border-bottom pb-1"><span class="text-muted">Weight</span><span class="font-weight-bold">{{ player_details.weight_kg|default:"--" }} kg</span></li>
+                                                <li class="d-flex justify-content-between border-bottom pb-1"><span class="text-muted">Country</span><span class="font-weight-bold">{{ player_details.country|default:"--" }}</span></li>
+                                                <li class="d-flex justify-content-between border-bottom pb-1"><span class="text-muted">Draft Info</span><span class="font-weight-bold">{{ player_details.draft_info|default:"Rookie" }}</span></li>
+                                                <li class="d-flex justify-content-between border-bottom pb-1">
+                                                    <span class="text-muted">Status</span>
+                                                    {% if player_details.active_status %}<span class="font-weight-bold"><i class="fas fa-check-circle text-success"></i> Active</span>
+                                                    {% else %}<span class="font-weight-bold">Not Active</span>{% endif %}
+                                                </li>
+                                                <li class="d-flex justify-content-between border-bottom pb-1"><span class="text-muted">Experience</span><span class="font-weight-bold">{{ player_details.experience|default:"Rookie" }}</span></li>
+                                            </ul>
+                                        </div>
+
+                                        <div class="col-md-8 ps-md-5">
+                                            <article class="heading-component mb-3">
+                                                <div class="heading-component-inner"><h5 class="heading-component-title">Biography</h5></div>
+                                            </article>
+                                            <div class="player-bio-text" style="line-height: 1.8; font-size: 15px; text-align: justify;">
+                                                {% if player_details.biography %}{{ player_details.biography|linebreaks }}
+                                                {% else %}<p class="text-muted">Professional profile for {{ player_details.player_name }} is currently being updated.</p>{% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="player-bio-card  shadow-lg mt-4">
+                                    <div class="bio-header"><h5 class="bio-section-title">Career Highlights</h5></div>
+                                    <div class="bio-body">
+                                        <div class="row row-20">
+                                            <div class="col-sm-6">
+                                                <div class="highlight-item">
+                                                    <span class="icon mdi mdi-trophy-variant highlight-icon"></span>
+                                                    <div><span class="highlight-title">Defensive Player of the Year</span><span class="highlight-year">2026</span></div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="highlight-item">
+                                                    <span class="icon mdi mdi-medal highlight-icon"></span>
+                                                    <div><span class="highlight-title">Rookie of the Year</span><span class="highlight-year">2024</span></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-4">
+                                <div class="player-bio-card h-100">
+                                    <div class="bio-header"><h5 class="bio-section-title">Latest Highlights</h5></div>
+                                    <div class="bio-body">
+                                        <div class="video-item mb-4">
+                                            <div class="video-thumbnail mb-2" style="position: relative;">
+                                                <img src="/static/images/video-thumb-1.jpg" class="img-fluid rounded" alt="Highlight 1">
+                                                <span class="mdi mdi-play-circle" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 40px; color: rgba(255,255,255,0.8);"></span>
+                                            </div>
+                                            <h6 class="video-title" style="font-size: 14px; margin-bottom: 5px;">Season Top 10 Dunks</h6>
+                                            <span class="text-muted small">02:45 | 2 days ago</span>
+                                        </div>
+                                        
+                                        <div class="video-item mb-4">
+                                            <div class="video-thumbnail mb-2" style="position: relative;">
+                                                <img src="/static/images/video-thumb-2.jpg" class="img-fluid rounded" alt="Highlight 2">
+                                                <span class="mdi mdi-play-circle" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 40px; color: rgba(255,255,255,0.8);"></span>
+                                            </div>
+                                            <h6 class="video-title" style="font-size: 14px; margin-bottom: 5px;">Clutch Performance vs C++ Team</h6>
+                                            <span class="text-muted small">05:12 | 1 week ago</span>
+                                        </div>
+
+                                        <div class="video-item mb-4">
+                                            <div class="video-thumbnail mb-2" style="position: relative;">
+                                                <img src="/static/images/video-thumb-2.jpg" class="img-fluid rounded" alt="Highlight 2">
+                                                <span class="mdi mdi-play-circle" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 40px; color: rgba(255,255,255,0.8);"></span>
+                                            </div>
+                                            <h6 class="video-title" style="font-size: 14px; margin-bottom: 5px;">Clutch Performance vs C++ Team</h6>
+                                            <span class="text-muted small">05:12 | 1 week ago</span>
+                                        </div>
+                                        
+                                        <a href="#" class="btn btn-block btn-info btn-xs mt-3">See All Videos</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                  <!-- Tab Analytics-->
+                  
+                  <!-- Boxscore Glossary Begins-->
+                      <div class="container" id="glossary-section" >
+                            <article class="heading-component">
+                            <div class="heading-component-inner">
+                                <h5 class="heading-component-title">Glossary Terms</h5>
+                            </div>
+                            </article>
+
+                            <div class="glossary-card">
+                            <div class="row row-10">
+                                
+                                <div class="col-6 col-md-4">
+                                <table class="table glossary-table">
+                                    <tbody>
+                                    <tr><td class="stat-abbr">W/L:</td><td>Win/Loss</td></tr>
+                                    <tr><td class="stat-abbr">MIN:</td><td>Minutes Played</td></tr>
+                                    <tr><td class="stat-abbr">PTS:</td><td>Points</td></tr>
+                                    <tr><td class="stat-abbr">AST:</td><td>Assists</td></tr>
+                                    <tr><td class="stat-abbr">REB:</td><td>Total Rebounds</td></tr>
+                                    <tr><td class="stat-abbr">OREB:</td><td>Offensive Rebounds</td></tr>
+                                    <tr><td class="stat-abbr">DREB:</td><td>Defensive Rebounds</td></tr>
+                                    </tbody>
+                                </table>
+                                </div>
+
+                                <div class="col-6 col-md-4">
+                                <table class="table glossary-table">
+                                    <tbody>
+                                    <tr><td class="stat-abbr">FGM/A:</td><td>FG Made/Attempts</td></tr>
+                                    <tr><td class="stat-abbr">FG%:</td><td>Field Goal %</td></tr>
+                                    <tr><td class="stat-abbr">3PM/A:</td><td>3PT Made/Attempts</td></tr>
+                                    <tr><td class="stat-abbr">3P%:</td><td>3 Point %</td></tr>
+                                    <tr><td class="stat-abbr">FTM/A:</td><td>FT Made/Attempts</td></tr>
+                                    <tr><td class="stat-abbr">FT%:</td><td>Free Throw %</td></tr>
+                                    <tr><td class="stat-abbr">EFF:</td><td>Efficiency</td></tr>
+                                    </tbody>
+                                </table>
+                                </div>
+
+                                <div class="col-12 col-md-4">
+                                <table class="table glossary-table">
+                                    <tbody>
+                                    <tr><td class="stat-abbr">STL:</td><td>Steals</td></tr>
+                                    <tr><td class="stat-abbr">BLK:</td><td>Blocks</td></tr>
+                                    <tr><td class="stat-abbr">TOV:</td><td>Turnovers</td></tr>
+                                    <tr><td class="stat-abbr">PF:</td><td>Personal Fouls</td></tr>
+                                    <tr><td class="stat-abbr">+/-:</td><td>Plus/Minus</td></tr>
+                                    <tr><td class="stat-abbr">DEF:</td><td>Defense</td></tr>
+                                    </tbody>
+                                </table>
+                                </div>
+
+                            </div>
+                            </div>
+                        </div>
+                  <!-- Boxscore Glossary End-->     
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+ </section>
+
+
+
+
+
+
+<!-- Player Products Begins-->
+<section id="player-merch-section" class="section section-xs bg-gray-100">
+    <div class="container">
+        <article class="heading-component">
+            <div class="heading-component-inner">
+                <h5 class="heading-component-title">Player Merchandise</h5>
+                <div class="game-nav-controls">
+                    <button class="nav-btn prev" onclick="scrollG(-320)">&#10094;</button>
+                    <button class="nav-btn next" onclick="scrollG(320)">&#10095;</button>
+                </div>
+            </div>
+        </article>
+        
+        <div class="game-slider-wrapper">
+            <div class="row game-scroll-row" id="gameRow">
+                {% if player_merchandise %}
+                    {% for product in player_merchandise %} 
+                    <div class="merch-card-col">
+                        <div class="merch-card-inner">
+                            <a class="thumbnail-alice" href="{{product.image.url}}" data-lightgallery="item">
+                                <figure class="merch-figure">
+                                    <img src="{{product.image.url}}" alt="{{ product.name }}" class="merch-img-fixed">
+                                </figure>
+                            </a>
+                            <div class="product-info p-3 text-center">
+                              <a href="{% url 'product-id' product.slug %}">
+                                <h6 class="product-title text-uppercase font-weight-bold mb-1">{{ product.name }}</h6>
+                              </a>  
+                                <div class="product-price">
+                                    {% if product.sale_price %}
+                                        <span class="text-muted small" style="text-decoration: line-through;">${{ product.price }}</span>
+                                        <span class="text-danger font-weight-bold ml-2">${{ product.sale_price }}</span>
+                                    {% else %}
+                                        <span class="text-dark font-weight-bold">${{ product.price }}</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="text-center py-5 w-100">
+                        <h6 class="text-muted">Products Unavailable @ the moment...</h6>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Player Products End-->
+
+<!--Other Players Begin-->
+<section id="other-players-section" class="section section-md bg-gray-100">
+  <div class="container">
+    <article class="heading-component">
+      <div class="heading-component-inner">
+        <h5 class="heading-component-title">Other Players</h5>
+        <div class="game-nav-controls">
+            <button class="nav-btn prev" onclick="scrollPlayers(-320)">&#10094;</button>
+            <button class="nav-btn next" onclick="scrollPlayers(320)">&#10095;</button>
+        </div>
+      </div>
+    </article>
+
+    <div class="game-slider-wrapper player-slider-wrapper">
+      <div class="player-scroll-grid" id="playerRow">
+        {% for player in others_players_mean_stats %}
+        <div class="player-card-col">
+          <div class="thumbnail-minimal player-card-content">
+            
+            <div class="jersey-badge">
+              #{{ player.player_name__jersey_number }}
+            </div>
+
+            <div class="thumbnail-minimal-figure">
+              <a href="{% url 'players-id' competition.slug player.player_slug %}">
+                <img src="/media/{{ player.player_name__player_image }}" alt="{{ player.player_name__player_name }}" class="player-img-fixed">
+              </a>
+            </div>
+
+            <div class="player-info">
+              <h6 class="player-name-link">
+                  <a href="{% url 'players-id' competition.slug player.player_slug %}">{{ player.player_name__player_name }}</a>
+              </h6>
+              
+              <div class="stat-badges">
+                  <span class="badge-ppg">PPG: {{player.points|floatformat:1}}</span>
+                  <span class="badge-rpg">RPG: {{player.total_rebounds|floatformat:1}}</span>
+                  <span class="badge-apg">APG: {{player.assists|floatformat:1}}</span>
+              </div>
+
+              <span class="player-position">
+                  {% if player.player_name__position == 'PG' %} Point Guard
+                  {% elif player.player_name__position == 'SG' %} Shooting Guard
+                  {% elif player.player_name__position == 'SF' %} Small Forward
+                  {% elif player.player_name__position == 'PF' %} Power Forward
+                  {% elif player.player_name__position == 'C' %} Center
+                  {% else %} {{ player.player_name__position }}
+                  {% endif %}
+              </span>
+            </div>
+          </div>
+        </div>
+        {% empty %}
+        <div class="text-center py-5 w-100">
+          <p>No other players found.</p>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+
+<!--Other Players End-->
+
+<!-- Player Pictures Begins-->
+<section class="section section-xs bg-gray-100">
+  {% if player_images %}
+        <div class="owl-carousel owl-carousel-mystic owl-loaded" data-items="2" data-sm-items="2" data-lg-items="3" data-xl-items="4" data-autoplay="true" data-autoplay-speed="6750" data-dots="false" data-nav="true" data-stage-padding="0" data-loop="true" data-margin="10" data-mouse-drag="false" data-lightgallery="group-owl">
+            <div class="owl-stage-outer">
+                <div class="owl-stage" style="transform: translate3d(-1286px, 0px, 0px); transition: 0.25s; width: 3430px;">
+                  {% for img in player_images %} 
+                  <div class="owl-item " style="width: 498.667px; margin-right: 10px;">
+                    {% if img.images %}
+                        <a class="thumbnail-alice" href="{{img.images.url}}" data-lightgallery="item">
+                            <figure class="thumbnail-alice-figure">
+                                <img class="thumbnail-alice-image" src="{{img.images.url}}" alt="" width="429" height="298">
+                            </figure>
+                        </a>
+                    {% else %} 
+                        <img src="" alt="Please add image" width="30">
+                    {% endif %}    
+                    </div>
+                  {% endfor %}
+                </div>
+            </div>
+            <div class="owl-nav">
+                <button type="button" role="presentation" class="owl-prev"></button>
+                <button type="button" role="presentation" class="owl-next"></button>
+            </div>
+            <div class="owl-dots disabled"></div>
+        </div>
+         {% else %}
+        <div class="text-center py-5">
+                <h6 class="text-muted">
+                    <span class="icon mdi mdi-camera-off"></span> 
+                    Pictures Unavailable @ the moment... Check back soon!
+                </h6>
+            </div>
+        {% endif %}
+</section>
+<!-- Player Pictures End-->
+
+<!--Career Records Begin-->
+<section id="careerRecordSection" style="background-color: #374151;">
+  <h3 class="text-2xl font-bold mb-4" style=" text-align: center;color: #a5b4fc; border-bottom: 2px solid #334155; padding-bottom: 10px;">
+        <i class="fas fa-trophy mr-2"></i> Career Highlights & Records
+  </h3>
+  {% if career_records %}
+  <div class="career-records" style="background-color: #374151;">
+    <!-- Always visible cards -->
+     <!-- Points Record -->
+     {% if career_records.points_rec %}
+    <div class="record-card">
+        <div>
+          <div class="record-title">{{ player_details.player_name }} scores a career high 61 points (2025)</div>
+          <div class="record-details">
+            {{ career_records.points_rec }}
+          </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Rebounds Record -->
+    {% if career_records.rebounds_rec %}
+    <div class="record-card">
+        <div>
+          <div class="record-title">{{ player_details.player_name }} grabs a career high 27 rebounds (2022)</div>
+         
+          <div class="record-details">
+            {{ career_records.rebounds_rec }} 
+          </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Assist Record -->
+    {% if career_records.assists_rec %}
+    <div class="record-card">
+        <div>
+          <div class="record-title">{{ player_details.player_name }} gives a career high 22 assists (2025)</div>
+          
+          <div class="record-details">
+            {{ career_records.assists_rec }}  
+          </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Hidden cards (still inside the same grid) -->
+     <!-- Steals Record -->
+    {% if career_records.steals_rec %}
+    <div class="record-card hidden" id="card4">
+        <div>
+            <div class="record-title">{{ player_details.player_name }} has a career high 7 steals (2021)</div>
+            
+            <div class="record-details">
+              {{ career_records.assists_rec }}
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Blocks Record -->
+    {% if career_records.blocks_rec %}
+    <div class="record-card hidden" id="card5">
+      <div>
+        <div class="record-title">{{ player_details.player_name }} blocks a career high 5 shots (2017)</div>
+        
+        <div class="record-details">
+          {{ career_records.blocks_rec }}
+        </div>
+      </div>
+    </div>
+    {% endif %}
+
+    <!-- Efficiency Record -->
+    {% if career_records.efficiency_rec %}
+    <div class="record-card hidden" id="card6">
+      <div>
+        <div class="record-title">{{ player_details.player_name }} records a career high 68 efficiency rating (2025)</div>
+        <div class="record-date">Jan 15, 2021 vs Warriors</div>
+        <div class="record-details">
+          {{ career_records.blocks_rec }}
+        </div>
+      </div>
+    </div>
+    {% endif %}
+
+  </div>
+  {% else %}
+    <p class="text-slate-500 italic">No career records found for this player.</p>
+  {% endif %}
+
+  <!-- Toggle buttons -->
+  <div class="career-record__btn">
+    <button id="viewMoreBtn">
+      View more
+      <svg width="20" height="20" fill="white" xmlns="http://www.w3.org/2000/svg">
+        <path d="M10 4v12M4 10h12" stroke="white" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    </button>
+    <button id="viewLessBtn" class="hidden">
+      View less
+      <svg width="20" height="20" fill="white" xmlns="http://www.w3.org/2000/svg">
+        <path d="M4 10h12" stroke="white" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    </button>
+  </div>
+</section>
+<!--Career Records Ends-->
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+<script src="{% static 'js/player-page.js' %}"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const hiddenCards = [
+      document.getElementById('card4'),
+      document.getElementById('card5'),
+      document.getElementById('card6')
+    ];
+    const viewMoreBtn = document.getElementById('viewMoreBtn');
+    const viewLessBtn = document.getElementById('viewLessBtn');
+    const careerRecordSection = document.getElementById('careerRecordSection');
+
+    viewLessBtn.classList.add('hidden');
+
+    viewMoreBtn.addEventListener('click', function () {
+      hiddenCards.forEach(card => card.classList.remove('hidden'));
+      viewMoreBtn.classList.add('hidden');
+      viewLessBtn.classList.remove('hidden');
+    });
+
+    viewLessBtn.addEventListener('click', function () {
+      hiddenCards.forEach(card => card.classList.add('hidden'));
+      viewLessBtn.classList.add('hidden');
+      viewMoreBtn.classList.remove('hidden');
+      careerRecordSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+
+
+
+    function scrollG(distance) {
+    // Target the WRAPPER, not the row
+    const container = document.querySelector('.game-slider-wrapper');
+    if (container) {
+        container.scrollBy({
+            left: distance,
+            behavior: 'smooth'
+        });
+    } else {
+        console.error("Slider wrapper not found!");
+    }
+}
+
+
+
+
+function scrollPlayers(distance) {
+    const container = document.querySelector('.player-slider-wrapper');
+    if (container) {
+        container.scrollBy({
+            left: distance,
+            behavior: 'smooth'
+        });
+    }
+}
+
+
+
+
+
+
+document.addEventListener("DOMContentLoaded", function() {
+    const navWrapper = document.querySelector('.player-nav-wrapper');
+    const navTabs = navWrapper.querySelector('.nav-tabs');
+    const btnNext = navWrapper.querySelector('[data-nav-next]');
+    const btnPrev = navWrapper.querySelector('[data-nav-prev]');
+
+    const scrollAmount = 150; // Adjust based on tab width
+
+    btnNext.addEventListener('click', () => {
+        navTabs.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+    });
+
+    btnPrev.addEventListener('click', () => {
+        navTabs.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+    });
+});
+
+
+</script>
+
+
+
+{% endblock %}
+
+
+
+
+  

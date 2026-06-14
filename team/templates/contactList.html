@@ -1,0 +1,120 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+
+
+
+ <!-- Section Breadcrumbs-->
+      <section class="section parallax-container breadcrumbs-wrap" data-parallax-img="{% static 'img/ball_court.png' %}">
+        <div class="material-parallax parallax">
+          <img src="{% static 'img/ball_court.png' %}" alt="" style="transform: translate3d(-50%, 68px, 0px); display: block;"></div>
+        <div class="parallax-content breadcrumbs-custom context-dark">
+          <div class="container">
+            <h3 class="breadcrumbs-custom-title">Contacts</h3>
+            <ul class="breadcrumbs-custom-path">
+              <li><a href="{% url 'home' %}">Home</a></li>
+              <li><a href="{% url 'about' %}">About Us</a></li>
+              <li class="active"> Registered Contact</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+
+<div class="container my-5">
+    <h2 class="mb-4 text-primary">📩 Registered Contact Inquiries</h2>
+    
+    {% if not contacts %}
+    <div class="alert alert-info" role="alert">
+        No contact inquiries have been registered yet.
+    </div>
+    {% else %}
+    
+    <div class="table-responsive">
+        <table class="table table-striped table-hover border">
+            <thead class="bg-primary text-white">
+                <tr>
+                   
+                    <th scope="col">#</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Mobile</th>
+                 
+                    <th scope="col" style="min-width: 250px;">Message</th>
+                    {% if user.is_authenticated and user.is_superuser %}
+                    <th scope="col" style="min-width: 150px;">Actions</th>
+                    {% endif %}
+                    <th scope="col">Date Submitted</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for contact in contacts %}
+                <tr>
+                    
+                    <th scope="row">{{ forloop.counter }}</th>
+                    <td>{{ contact.full_name }}</td>
+                    <td><a href="mailto:{{ contact.email }}">{{ contact.email }}</a></td>
+                    <td>{{ contact.mobile }}</td>
+                    
+                   <td>
+                      <a href="#" data-bs-toggle="modal" data-bs-target="#messageModal{{ contact.id }}" class="text-primary text-decoration-none">
+                          {{ contact.message|truncatechars:50 }}
+                          {% if contact.message|length > 50 %}
+                              <span class="text-muted small">(...more)</span>
+                          {% endif %}
+                      </a>
+                    </td>
+                    
+                    {% if user.is_authenticated and user.is_superuser %}
+                    <td>
+                        
+                        
+                        <a href="{% url 'delete-contact' contact.id %}" onclick="return confirmDelete();" class="btn btn-outline-danger btn-sm">Delete</a>
+                    </td>
+                    {% endif %}
+                    <td>{{ contact.date_submitted }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div> 
+    {% endif %}
+
+
+ 
+        {% for contact in contacts %}
+            <div class="modal fade" id="messageModal{{ contact.id }}" tabindex="-1" aria-labelledby="messageModalLabel{{ contact.id }}" aria-hidden="true">
+                <div class="modal-dialog modal-lg modal-dialog-centered" style="border-radius: 20px;">
+                    <div class="modal-content" style="background-color: #333; border-radius: 30px; color:goldenrod">
+                        <div class="modal-header bg-light" style="border-radius: 15px;">
+                            <h5 class="modal-title"  id="messageModalLabel{{ contact.id }}">Full Message from {{ contact.full_name }}</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <p style="white-space: pre-wrap;">{{ contact.message }}</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+</div>
+
+
+
+
+
+
+
+<script>
+function confirmDelete() {
+        return confirm("Are you certain you want to delete this contact?");
+}
+
+</script>
+    
+{% endblock %}

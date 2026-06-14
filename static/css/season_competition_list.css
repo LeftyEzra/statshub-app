@@ -1,0 +1,171 @@
+/* Global Styles for the table container */
+.table-container {
+        overflow-x: auto;
+        border: 1px solid #444; /* Slightly lighter border */
+        border-radius: 12px; /* Smoother corners */
+        width: 96%; 
+        margin: 0 auto;
+
+        /* ENHANCEMENT: Subtle box shadow for depth */
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+
+        /* FIX: Add controlled top/bottom margin instead of using <br><br> */
+        margin-top: 40px; 
+        margin-bottom: 40px; 
+    }
+
+table {
+        border-collapse: collapse;
+        width: 100%;
+        min-width: 600px;
+    }
+
+th, td {
+        padding: 14px 16px; /* Increased padding */
+        text-align: center;
+        border-bottom: 1px solid #3a3a3a; /* Darker, subtler line */
+        transition: background-color 0.2s ease; /* Smooth transitions */
+    }
+
+/* Header Row Styling (Accent Color) */
+th {
+        background-color: #2c2c44; /* Deep indigo color for headers */
+        color: #c0c0c0; /* Lighter text */
+        font-weight: 700; /* Bolder font */
+        position: sticky;
+        top: 0; 
+        z-index: 2;
+        /* Optional: Bottom border highlight */
+        border-bottom: 3px solid #6c7eeb;
+    }
+
+/* Body Row Styles */
+tr {
+        background-color: #1f1f2f; /* Dark default background (Odd rows) */
+    }
+
+tr:nth-child(even) {
+        background-color: #1a1a25; /* Slightly different stripe (Even rows) */
+    }
+
+tr:hover {
+        background-color: #3e3e60; /* More noticeable hover effect */
+    }
+
+/* ENHANCEMENT: Hover effect for sticky column must be explicit */
+tr:hover td:first-child {
+        background-color: #3e3e60 !important;
+    }
+
+
+/* ================================== */
+/* Sticky Column Fixes and Styling */
+/* ================================== */
+
+/* Sticky first column general properties */
+th:first-child, td:first-child {
+        position: sticky;
+        left: 0;
+
+        /* ENHANCEMENT: Distinct border for the sticky column */
+        border-right: 2px solid #6c7eeb; 
+        text-align: left;
+    }
+
+    /* 1. Corner Header Cell (Top-left intersection) */
+th:first-child {
+        z-index: 4; /* Ensures it sits above both header row (z-index 2) and body columns (z-index 3) */
+        background-color: #2c2c44 !important; /* Force header color */
+    }
+
+/* 2. Sticky Body Cells */
+td:first-child {
+        z-index: 3; /* Must be higher than normal cells */
+    }
+
+/* 3. FIX: Ensure sticky body cell background matches the Odd Row background */
+tr:nth-child(odd) td:first-child {
+        background-color: #1f1f2f;
+    }
+
+/* 4. FIX: Ensure sticky body cell background matches the Even Row background */
+tr:nth-child(even) td:first-child {
+        background-color: #1a1a25;
+    }
+
+
+
+/* ================================================= */
+/* MODAL STYLES (Custom Delete Confirmation) */
+/* ================================================= */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    display: none; /* Hidden by default */
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.custom-modal {
+    background-color: #303437;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+    max-width: 400px;
+    width: 90%;
+    text-align: center;
+}
+
+.custom-modal h5 {
+    color: #e0e0e0;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: space-around;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+
+/* ================================================= */
+    /* 🚀 BUTTON CONTAINER FIX FOR VERTICAL STACKING */
+    /* ================================================= */
+
+    .btn-container {
+        display: flex;
+        flex-direction: column; /* Stacks the buttons vertically */
+        gap: 6px; /* Space between buttons */
+        /* Note: Removing justify-content: center; here to allow 100% width on buttons */
+    }
+
+    /* Ensure buttons take full available width in the cell */
+    .btn-container .btn {
+        width: 100%; /* Button now fills the available space */
+        text-align: center;
+        padding: 8px 15px;
+        border-radius: 6px;
+        font-size: 0.85rem;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+    }
+    
+    /* Basic Button Styles (Ensure they are defined or pulled from Bootstrap) */
+    .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+    }
+    .btn-primary:hover {
+        background-color: #0056b3;
+        border-color: #0056b3;
+    }
+
+

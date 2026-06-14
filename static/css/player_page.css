@@ -1,0 +1,903 @@
+body{
+    background-color: #f5f5f5;
+  }
+
+/* This centers the whole component on the page */
+.stats-wrapper {
+    padding: 0 0px; /* This creates the space at the page edges */
+    margin: 0px 0;
+}
+
+.player-stats-container {
+    overflow-x: auto;
+    max-width: 1200px;
+    margin: 0 auto; /* Centers the container within the wrapper */
+    
+    box-shadow: 0 2px 10px rgba(232, 230, 230, 0.5);
+    border-radius: 2px; /* Optional: makes it look modern */
+    position: relative;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+.player-stats-table {
+    border-collapse: separate; /* Required for sticky borders to work well */
+    border-spacing: 0;
+    width: 100%;
+    min-width: 1000px; /* Increased to ensure enough room for 20+ columns */
+    table-layout: auto;
+    color: #f1f5f9;
+    font-family: Arial, sans-serif;
+    font-size: 11px;
+    text-align: center;
+    
+}
+
+  .player-stats-table th, .player-stats-table td {
+    padding: 8px 4px;
+    border: 0px solid #334155;
+    white-space: nowrap;
+    
+  }
+
+  .player-stats-table thead th {
+    
+    color: #ffffff; /* indigo accent */
+    background: #35ad79;
+    font-size: 0.7rem;
+    position: sticky;
+    top: 0; /* sticky header */
+    z-index: 7 !important;
+  }
+
+ .player-stats-table tbody tr {
+    
+    color: #080808;
+
+
+  }
+
+
+  /* Sticky Date column */
+  .player-stats-table th:first-child,
+  .player-stats-table td:first-child {
+    position: sticky !important;
+    left: 0;
+    background: #fff;
+    z-index: 8 !important;
+    
+  
+  }
+ 
+
+
+
+  #playerBio{
+    
+    margin: 0 auto;
+   
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+
+  }
+
+
+
+
+  
+/* --- Generic Section Styles --- */
+.generic-section-header {
+    margin-bottom: 20px;
+    text-align: center;
+}
+.generic-section-title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #a5b4fc; /* Indigo accent */
+    margin-bottom: 5px;
+}
+.generic-section-subtitle {
+    display: block;
+    font-size: 1.25rem;
+    color: #94a3b8; /* Grayish text */
+    font-weight: normal;
+}
+
+/* --- Card List Styles --- */
+.career-record {
+    padding: 30px 0;
+    background-color: #1e293b; /* Dark slate background for the section */
+    border-radius: 5px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+.career-record__container {
+    padding: 0 5px;
+}
+.career-record__list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 50px; /* Space between cards */
+    justify-content: center;
+}
+.career-record__entry {
+    background-color: #0f172a; /* Inner card dark navy background */
+    border: 1px solid #334155;
+    border-radius: 8px;
+    padding: 10px;
+    width: 100%;
+    max-width: 450px; /* Limit card width on large screens */
+    flex-grow: 1; 
+    color: #f1f5f9;
+}
+.career-record__entry .title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #a5b4fc;
+    margin-bottom: 10px;
+}
+.career-record__entry .description {
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: #cbd5e1;
+}
+.career-record__entry .description strong {
+    color: #a5b4fc;
+}
+.career-record__entry a {
+    color: #6366f1; /* Link color */
+    text-decoration: none;
+}
+
+/* --- View More/Less Button Container --- */
+.career-record__btn-container {
+    text-align: center;
+    margin-top: 25px;
+}
+
+
+.career-record__btn-container button {
+  background: rgba(255, 255, 255, 0.1); /* semi-transparent */
+  border: 1px solid rgba(255, 255, 255, 0.2); /* subtle glass border */
+  border-radius: 12px;
+  padding: 10px 20px;
+  color: #f1f5f9;
+  font-weight: bold;
+  cursor: pointer;
+  margin: 5px;
+  backdrop-filter: blur(10px); /* frosted glass effect */
+  -webkit-backdrop-filter: blur(10px); /* Safari support */
+  transition: all 0.3s ease;
+}
+
+/* Hover effect */
+.career-record__btn button:hover {
+  background: rgba(255, 255, 255, 0.2); /* slightly brighter glass */
+  box-shadow: 0 4px 15px rgba(79, 70, 229, 0.4); /* indigo glow */
+  transform: translateY(-2px);
+}
+
+
+
+
+.career-record__btn-container button.hidden {
+    display: none !important; /* Ensure it overrides default styles */
+}
+.career-record__btn-container svg {
+    vertical-align: middle;
+    margin-left: 5px;
+}
+/* New class for the container of hidden items */
+.career-record__hidden-content {
+    display: none; /* Initially hide the entire section of extra cards */
+}
+
+
+
+
+
+/********************* CAREER RECORDS *************************/
+/********************* CAREER RECORDS *************************/
+
+    .section-title {
+      color: #a5b4fc;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0px;
+      padding: 5px;
+      text-align: center;
+    }
+
+    .career-records {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      padding: 20px;
+    }
+
+    .record-card {
+      background-color: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 12px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 300px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+      transition: transform 0.2s ease;
+    }
+
+    .record-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .record-title {
+      font-size: 1.1rem;
+      font-weight: bold;
+      color: #a5b4fc;
+      margin-bottom: 10px;
+    }
+
+    .record-details {
+      font-size: 0.85rem;
+      color: #e2e8f0;
+      overflow-y: auto;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .career-record__btn {
+      text-align: center;
+      margin: 20px;
+    }
+
+    .career-record__btn button {
+      background-color: #4f46e5;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      margin: 5px;
+    }
+
+    @media (max-width: 992px) {
+      .career-records {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .career-records {
+        grid-template-columns: 1fr;
+      }
+    }
+
+
+
+
+
+
+
+/********************* Other Players *************************/
+/********************* Player Merchandise *************************/
+/* Container for the sliding row */
+.game-slider-wrapper {
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+    display: block;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    scroll-behavior: smooth; /* Essential for smooth JS scrolling */
+}
+
+.game-slider-wrapper::-webkit-scrollbar {
+    display: none;
+}
+
+.game-scroll-row {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    margin-bottom: 20px;
+    padding: 10px 0;
+}
+
+/* Individual Card Styling */
+.merch-card-col {
+    flex: 0 0 85%; /* Shows a peek of the next card on mobile */
+    max-width: 85%;
+    padding: 0 10px;
+}
+
+.merch-card-inner {
+    background: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    height: 100%;
+    border: 1px solid #eee;
+    display: flex;
+    flex-direction: column;
+}
+
+.merch-img-fixed {
+    width: 100%;
+    height: 280px; /* Forces equal height */
+    object-fit: cover;
+    object-position: top;
+}
+
+/* Desktop View Adjustments */
+@media (min-width: 992px) {
+    .merch-card-col {
+        flex: 0 0 25% !important; /* Shows exactly 4 cards on desktop */
+        max-width: 25% !important;
+    }
+    
+    .merch-img-fixed {
+        height: 300px; /* Slightly taller for desktop screens */
+    }
+}
+
+/* Nav Button Styling to match your theme */
+.game-nav-controls .nav-btn {
+    background: #35ad79;
+    color: white;
+    border: none;
+    padding: 5px 12px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: 0.3s;
+}
+
+.game-nav-controls .nav-btn:hover {
+    background: #fcf459;
+}
+
+
+
+
+
+
+
+
+/* Encapsulated styling for the Glossary section */
+#glossary-section .glossary-card {
+    background: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid #ebebeb;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+}
+
+#glossary-section .glossary-table {
+    font-size: 11px; /* Smaller base font for high density */
+    margin-bottom: 0;
+}
+
+#glossary-section .glossary-table td {
+    padding: 4px 2px; /* Tight padding to prevent overflow */
+    border-top: 1px solid #f9f9f9;
+    white-space: nowrap; /* Keeps "Win/Loss" on one line */
+}
+
+#glossary-section .stat-abbr {
+    font-weight: 800;
+    width: 45px;
+    color: #17a2b8; /* Matching your Statshub accent color */
+}
+
+/* Desktop scaling */
+@media (min-width: 992px) {
+    #glossary-section .glossary-table {
+        font-size: 13px; /* Larger text for desktop */
+    }
+    #glossary-section .glossary-table td {
+        padding: 8px 5px;
+    }
+}
+
+/* Tablet view adjustments */
+@media (max-width: 991px) and (min-width: 768px) {
+    #glossary-section .glossary-table {
+        font-size: 12px;
+    }
+}
+
+
+
+
+
+
+
+
+/********************* Other Players *************************/
+/**********************************************/
+/* 1. The Player Slider Wrapper */
+.player-slider-wrapper {
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: none;
+    scroll-behavior: smooth;
+    padding: 10px 0;
+}
+.player-slider-wrapper::-webkit-scrollbar { display: none; }
+
+/* 2. The Grid Logic (The Magic for 2x2) */
+.player-scroll-grid {
+    display: flex;
+    flex-wrap: wrap; /* Allows wrapping on mobile */
+    height: 620px;   /* Height enough for 2 rows (~310px per card) */
+    flex-direction: column; /* Forces items to fill vertically first */
+}
+
+/* Mobile: 2 Columns, 2 Rows */
+.player-card-col {
+    flex: 0 0 50%; /* 2 cards per row */
+    width: 250px;  /* Fixed width to allow horizontal overflow */
+    padding: 10px;
+}
+
+/* Desktop: Back to 1 Row Slider */
+@media (min-width: 992px) {
+    .player-scroll-grid {
+        flex-wrap: nowrap;
+        flex-direction: row;
+        height: auto;
+    }
+    .player-card-col {
+        flex: 0 0 25%; /* 4 cards visible */
+        width: auto;
+    }
+}
+
+/* 3. Card Styling */
+.player-card-content {
+    background: #fbf7f7;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    text-align: center;
+    position: relative;
+    height: 100%;
+}
+
+.player-img-fixed {
+    width: 100%;
+    height: 140px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+.jersey-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: #35ad79;
+    color: white;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: bold;
+    z-index: 2;
+}
+
+/* Stat Badges */
+.stat-badges {
+    display: flex;
+    justify-content: center;
+    gap: 4px;
+    margin: 8px 0;
+}
+.stat-badges span {
+    padding: 2px 5px;
+    border-radius: 4px;
+    font-size: 11px;
+    color: #444;
+}
+.badge-ppg { background: #35ad79; color: white !important; }
+.badge-rpg { background: #fcf459; }
+.badge-apg { background: #eee; }
+
+.player-position { font-size: 11px; color: #888; }
+
+
+
+
+
+
+/********************************************************/
+/********************************************************/
+/******************** Games Schedule Table **************/
+.table-custom-wrapper::-webkit-scrollbar {
+    height: 6px;
+}
+.table-custom-wrapper::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 10px;
+}
+
+/* Fix for Monstroid/RD-Navbar 'Sticky Killers' */
+.page, .main-wrapper, .player-page-root {
+    overflow: visible !important;
+}
+
+
+    .player-nav-wrapper  {
+        position: -webkit-sticky !important;
+        position: sticky !important;
+        /* This stops it exactly under your 56px main nav */
+        top: 65px !important; 
+        z-index: 1070 !important; 
+        background: #ffffff !important;
+        width: 100%;
+        display: block;
+        /* Ensures it doesn't get hidden by the header margin */
+        margin-top: 0 !important; 
+    }
+
+
+
+
+/* Mobile Adjustments (e.g., iPhone/Android) */
+@media (max-width: 992px) {
+  
+
+
+    .player-nav-wrapper  {
+        position: -webkit-sticky !important;
+        position: sticky !important;
+        /* This stops it exactly under your 56px main nav */
+        top: 50px !important; 
+        z-index: 1070 !important; 
+        background: #ffffff !important;
+        width: 100%;
+        display: block;
+        /* Ensures it doesn't get hidden by the header margin */
+        margin-top: 0 !important; 
+    }
+}
+
+/* Small Mobile (e.g., iPhone SE) */
+@media (max-width: 380px) {
+    .player-sub-nav .nav-link {
+        padding: 2px 2px;
+        font-size: 10px;
+    }
+
+    .player-nav-wrapper  {
+        position: -webkit-sticky !important;
+        position: sticky !important;
+        /* This stops it exactly under your 56px main nav */
+        top: 56px !important; 
+        z-index: 1070 !important; 
+        background: #ffffff !important;
+        width: 100%;
+        display: block;
+        /* Ensures it doesn't get hidden by the header margin */
+        margin-top: 0 !important; 
+    }
+}
+
+
+
+
+
+
+    /* Prevent the parent container from squishing the table */
+    .table-responsive-sticky {
+        overflow-x: auto;
+        display: block;
+        width: 100%;
+        position: relative;
+        border: 1px solid #dee2e6;
+    }
+
+    /* Sticky logic for Date and Opponent */
+    .sticky-col-1 {
+        position: sticky;
+        left: -2; /* Changed from -55 for better stability */
+        z-index: 60;
+        
+        min-width: 100px;
+    }
+
+    .sticky-col-2 {
+        position: sticky;
+        left: -5px; /* This must match the width of sticky-col-1 */
+        z-index: 10;
+        
+        border-right: .5px solid #dee2e6;
+        min-width: 200px;
+    }
+
+    /* Headers stay green and sticky */
+    .table-standings thead th.sticky-col-1
+     {
+        z-index: 11;
+        background-color: #35ad79 !important;
+        color: white;
+    }
+
+    /* Global cell alignment */
+    .table-standings td, .table-standings th {
+        white-space: nowrap; 
+        padding: 12px 15px;
+        vertical-align: middle;
+        text-align: center;
+        
+    }
+
+
+
+    /*****************************************************/
+    /*****************************************************/
+    /*****************************************************/
+    
+
+/* Mobile-specific fixes for Statshub player nav */
+@media (max-width: 767px) {
+    /* Container touches edges */
+    .player-nav-wrapper {
+        display: flex !important;
+        position: relative;
+        padding: 0 30px !important; /* Fixed room for smaller buttons */
+        background-color: #fff;
+        height: 48px; /* Slimmer height for mobile */
+        border-bottom: 1px solid #eee;
+    }
+
+    /* Scrollable Area */
+    .player-nav-wrapper .nav-tabs {
+        display: flex !important;
+        flex-wrap: nowrap !important;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scroll-behavior: smooth;
+        border: none !important;
+        height: 100%;
+        width: 100%;
+    }
+
+    /* Tab Link Centering */
+    .player-nav-wrapper .nav-link {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        height: 100%;
+        padding: 0 15px !important;
+        font-size: 12px; /* Slightly smaller text */
+        font-weight: 600;
+        white-space: nowrap;
+        border: none !important;
+        color: #666;
+    }
+
+    /* Active Tab Style */
+    .player-nav-wrapper .nav-link.active {
+        background-color: #35ad79 !important;
+        color: #fff !important;
+    }
+
+    /* Small, Floating Navigation Buttons */
+    .button-nav {
+        position: absolute !important;
+        top: 50% !important;
+        transform: translateY(-50%) !important;
+        width: 28px !important; /* Smaller button width */
+        height: 32px !important; /* Smaller button height */
+        background: rgba(255, 255, 255, 0.9) !important;
+        border: none !important;
+        z-index: 0;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        padding: 0 !important;
+        box-shadow: 0 0 0px rgba(0,0,0,0.1);
+    }
+
+    .button-prev { left: 0 !important; }
+    .button-next { right: 0 !important; }
+
+    /* Hide the ugly scrollbar */
+    .player-nav-wrapper .nav-tabs::-webkit-scrollbar {
+        display: none;
+    }
+}
+
+/* Target the hover state of the navigation links */
+/* Specifically target the navigation buttons in the player nav wrapper */
+.player-nav-wrapper .button-nav:hover {
+    background-color: #35ad79 !important; /* Change this to your desired hover color */
+    color: #ffffff !important;           /* Changes the icon color to white on hover */
+    border-color: #35ad79 !important;    /* Keeps the border consistent with the background */
+    transition: all 0.2s ease-in-out;    /* Smooth transition */
+    cursor: pointer;
+}
+
+/* Optional: If you want a different color specifically for the Prev button */
+.player-nav-wrapper .button-prev:hover {
+    background-color: #2d9468 !important; /* A slightly darker green for the 'Back' action */
+}
+
+/* Ensure the icon inside also changes color if it's a separate element */
+.player-nav-wrapper .button-nav:hover .icon {
+    color: #ffffff !important;
+}
+
+/*************************************************************************/
+/*************************************************************************/
+
+
+/* Spacing and Borders */
+.player-bio-card {
+    background: #fff;
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+    overflow: hidden;
+}
+
+.bio-header {
+    padding: 15px 20px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.bio-section-title {
+    font-size: 15px;
+    font-weight: 700;
+    margin: 0;
+    text-transform: uppercase;
+}
+
+.bio-body {
+    padding: 20px;
+}
+
+/* Highlights Styling */
+.highlight-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 15px;
+}
+
+.highlight-icon {
+    font-size: 28px;
+    color: #35ad79;
+}
+
+.highlight-title {
+    display: block;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.highlight-year {
+    font-size: 11px;
+    color: #888;
+}
+
+/* Video Section Adjustments */
+.video-thumbnail img {
+    width: 100%;
+    height: 120px;
+    object-fit: cover;
+    background: #000; /* Placeholder if image missing */
+}
+
+@media (min-width: 992px) {
+    .border-end-md {
+        border-right: 1px solid #eee !important;
+    }
+}
+
+
+
+
+
+
+
+
+
+/* Styling for the Big Number Stat Boxes */
+
+    /* Force the card to take the full width of col-lg-8 */
+    .game-stat-card {
+        width: 100% !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+    }
+
+    /* Make the table columns align properly like ESPN */
+    .game-stat-card table {
+        border-collapse: collapse !important;
+        width: 100% !important;
+    }
+
+    .game-stat-card table th, 
+    .game-stat-card table td {
+        padding: 8px 4px !important;
+        white-space: nowrap;
+    }
+
+    /* Remove the default Bootstrap padding from the col-lg-8 container if needed */
+    .col-lg-8 {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    /* Match the "Big Stats" font weight from your image */
+    .stat-big-number {
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 900 !important;
+        letter-spacing: -1.5px;
+    }
+
+
+
+
+
+
+    /* Rectangular Shrinking for Stat Boxes */
+    .stat-box-rectangular {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        min-width: 0; /* Allows shrinking */
+    }
+
+    .game-stat-card .h2 {
+        font-weight: 800 !important;
+        letter-spacing: -1px;
+    }
+
+    /* Force Table width and scrollability */
+    .table-responsive {
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    /* Tighter spacing for mobile to prevent text bleed */
+    @media (max-width: 768px) {
+        .game-stat-card .h2 { font-size: 1.5rem; }
+        .matchup-row .h5 { font-size: 0.9rem; }
+        .matchup-row img { height: 25px !important; }
+    }
+
+
+
+
+
+
+
+   .table-responsive-last_5 {
+        overflow-x: auto;
+        display: block;
+        width: 100%;
+        position: relative;
+        border: 1px solid #dee2e6;
+    }
+
+    /* Sticky logic for Date and Opponent */
+    .sticky-col-chart {
+        position: sticky;
+        left: 0; /* Changed from -55 for better stability */
+        z-index: 48;
+        color: #fff !important;
+        
+      
+    }
+
+
+/*************************************************************************/
+/*************************************************************************/
+
+
+

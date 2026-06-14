@@ -1,0 +1,1257 @@
+{% extends 'base.html' %}
+{% load static %}
+<link href="{% static 'css/team_detail.css' %}" rel="stylesheet" />
+{% block content %}
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<!-- Calling  timestamp to ensure that the browser loads the latest version of the .js file -->
+<script src="{% static 'js/team_details.js' %}?v={{ timestamp }}"></script>
+
+  <style>
+   /* Teal green = #006666 Orange= #FFA500 Deeper orange #FF8C00*/
+     body {
+    background-color: #D3D3D3;
+    color: white;
+    font-family: 'Poppins', sans-serif;
+}
+
+#navigationBAr {
+    position: sticky;
+    top: 0px;
+    z-index: 1;
+}
+
+.profile-header {
+    text-align: center;
+    margin-bottom: 20px;
+    padding-top: 20px;
+    position: relative;
+}
+
+.profile-header img {
+    border-radius: 50%;
+    width: 250px;
+    height: 250px;
+    border: 5px solid #ffffff;
+    margin-bottom: 20px;
+    animation: glow 2s infinite;
+}
+
+#image:hover {
+    animation-name: grow;
+    animation-duration: 3s;
+}
+
+@keyframes grow {
+    5% { transform: scale(1.5, 1.5); }
+}
+
+.profile-header::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 20px;
+    height: 200px;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    animation: ripple 2s infinite;
+}
+
+@keyframes glow {
+    0% { box-shadow: 0 0 5px #fff; }
+    50% { box-shadow: 0 0 20px #fff; }
+    100% { box-shadow: 0 0 10px #fff; }
+}
+
+@keyframes ripple {
+    0% { width: 200px; height: 200px; opacity: 0.7; }
+    100% { width: 300px; height: 300px; opacity: 0; }
+}
+
+.profile-header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+}
+
+.profile-header p {
+    font-size: 1.2rem;
+    color: #ffffff;
+    opacity: 0.8;
+}
+
+.stats {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.stat {
+    background-color: #0044ff;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    width: 100px;
+    height: 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.stat p {
+    margin: 0;
+}
+
+.stat .value {
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.nav {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.nav a {
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.nav a:hover {
+    text-decoration: underline;
+}
+
+.nav-link {
+    color: inherit; /* Inherit color from parent */
+    text-decoration: inherit; /* Inherit text decoration from parent */
+    font-weight: inherit; /* Inherit font weight from parent */
+    padding: 0; /* Remove any padding if added by default */
+}
+
+
+.profile-info {
+    display: flex;
+    justify-content: center; /* Center the entire profile-info container horizontally */
+    align-items: center; /* Center items vertically */
+    text-align: center;
+    gap: 10px;
+    margin: 20px auto;
+    max-width: 1200px;
+    height: 100px;
+    padding: 15px;
+    border-radius: 10px;
+    background-color: transparent;
+}
+
+.profile-info .info-item {
+    border-right: 1px solid white;
+    padding: 10px;
+    word-wrap: break-word;
+}
+
+.profile-info .info-item:last-child {
+    border-right: none;
+}
+
+.profile-info .label {
+    font-weight: bold;
+}
+
+@media (max-width: 900px) {
+    .profile-info {
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: repeat(2, auto);
+    }
+    .profile-info .info-item {
+        font-size: 0.9rem;
+    }
+    .profile-header h1 {
+        font-size: 2rem;
+    }
+
+    .profile-header h2 {
+        font-size: 1rem;
+        margin-right: -500px;
+    }
+
+    
+    .profile-header p {
+        font-size: 0.9rem;
+    }
+    .stat .value {
+        font-size: 1.3rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .profile-info {
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: repeat(2, auto);
+    }
+    .profile-header h1 {
+        font-size: 1.5rem;
+    }
+    .profile-header p,
+    .stats,
+    .profile-info .info-item {
+        font-size: 0.8rem;
+    }
+}
+
+
+
+
+
+/* Game Schedule Starts */
+#gameDates {
+            min-height: 30vh;
+            padding: 0; /* Remove padding */
+            top: -40px;
+            margin-top: -60px;
+            position: relative;
+        }
+
+.average-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+            padding: 0; /* Remove padding */
+            margin: 0; /* Remove margin */
+        }
+
+.scroll-container {
+            display: flex;
+            overflow-x: hidden;
+            gap: 0; /* Remove gap */
+            padding: 0; /* Remove padding */
+            width: 100%;
+            margin: 0; /* Remove margin */
+            background-color: #bdbec2;
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+            border-bottom-left-radius: 15px;
+            border-bottom-right-radius: 15px;
+            position: relative;
+        }
+
+.side-container {
+            position: sticky; /* Make the containers sticky */
+            top: 0; /* Stick to the top */
+            min-height: 100%; /* Full height of the parent container */
+            min-width: 25px; /* Fixed width */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: grey;
+            z-index: 1;
+            margin: 0; /* Remove margin */
+            padding: 0; /* Remove padding */
+            cursor: pointer; /* Add cursor pointer to indicate clickability */
+            box-shadow: 5px 10px 40px #353635;
+        }
+.side-container:hover {
+    background-color: #333; /* Darker grey on hover */
+    }
+.left-container {
+            left: 0;
+        }
+
+.right-container {
+            right: 0;
+        }
+
+.side-container h2 {
+            margin: 0;
+            font-size: 2rem;
+            color: white;
+        }
+
+.game-summary {
+            flex: 0 0 auto;
+            width: 450px;
+            height: 240px;
+            margin: 0px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 0px;
+            position: relative;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+.game-summary:hover {
+    box-shadow: 0 0 30px rgba(11, 25, 87, 0.8); /* Glowing effect */
+}
+
+
+.game-header h2 {
+            margin: 0;
+            font-size: 0.9rem;
+            font-weight: bold;
+            color: #333;
+        }
+
+
+.team-info {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.team {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100px; /* Adjust as needed */
+}
+
+.team img {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 5px;
+    border-radius: 50%; /* Make images circular */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add shadow to images */
+}
+.team-details {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.team-name {
+    font-size: 1 rem;
+    font-weight: bold;
+    color: #0B1957;
+
+}
+
+.team-record {
+    font-size: 0.7rem;
+    color: #00008B;
+}
+
+.team-score {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-top: -10px; /* Adjust position as needed */
+    text-align: center;
+    color: #0B1957;
+}
+
+.team-record {
+    font-size: 0.9rem;
+    color: black;
+    margin-top: 2px; /* Added margin for spacing */
+}
+
+.team-final {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #00008B;
+    margin-bottom: 5px;
+    text-align: center;
+    text-shadow: 3px 3px 5px black;
+
+}
+
+.final-logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+
+.buttons {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            margin: 2px;
+            padding: 2px;
+        }
+
+.btn-custom {
+            background-color: #00008B; /* Navbar background color */
+            color: white;
+            padding: 5px;
+            text-decoration: none;
+            border-radius: 0px;
+            width: 100%;
+            text-align: center;
+            transition: background-color 0.3s ease; /* Smooth transition */
+            border-bottom-left-radius: 5px;
+            border-bottom-right-radius: 5px;
+        }
+
+.btn-custom:hover {
+            background-color: #0044ff;
+            color: #FF8C2B;
+        }
+/* Game Schedule End */
+
+/* Team Leaders Card */
+
+
+
+
+/* Team Leaders */
+
+.team-leaders-container {
+    background-color: #007BFF;
+    padding: 20px;
+    border-radius: 0px;
+}
+
+.column-title {
+    color: #fff;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.team-leaders {
+    /*background-color: #444;*/
+    background: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    border: none;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
+    height: 100px; /* Further reduced height */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.team-leaders:hover {
+    transform: scale(1.05);
+}
+
+.team-leaders .card-body {
+    display: flex;
+    align-items: center;
+    padding: 5px; /* Adjust padding as needed */
+}
+
+.team-leaders img {
+    height: 60px; /* Image height */
+    width: 60px; /* Image width */
+    border-radius: 50%; /* Make images circular */
+    object-fit: cover; /* Ensure the image covers the area */
+    margin-right: 10px; /* Add space between the image and the name */
+}
+
+.team-leaders .player-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start; /* Align names to the left */
+}
+
+.team-leaders .card-text {
+    font-size: 1rem;
+    text-align: right; /* Align text to the right */
+    padding-right: 10px; /* Add padding to the right for better alignment */
+}
+
+/* Adjusting width of card body */
+
+.card-body.d-flex.align-items-center {
+    width: 90%; /* Adjust the value as needed */
+    margin: 0 auto; /* Center align the card body */
+}
+
+/*  Team Leaders End */
+
+/* Team Leaders table */
+.table-container {
+        width: 100%;
+        padding: 20px;
+
+        border: 1px solid #ddd;
+        border-radius: 0px;
+        margin: 20px auto;
+        overflow-x: auto;
+        position: relative;
+        height: 500px;
+    }
+
+
+
+.team-leader-table tbody tr:hover {
+    background-color: #a1cbf7; /* Blue hover color */
+    color: white; /* Optional: Change text color on hover */
+}
+
+.team-leader-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+.team-leader-table th, .team-leader-table td {
+    border: none;
+    padding: 8px;
+    text-align: left;
+    white-space: nowrap; /* Prevent text from wrapping */
+    font-size: 16px;
+
+
+
+}
+.team-leader-table th {
+    background-color: none;
+    font-size: 15px;
+}
+
+
+
+#scheduleDate th #scheduleDate td{
+        height: 90px;
+
+}
+
+
+/* Description Container */
+/* Description Container */
+
+.custom-container {
+    padding: 40px 20px; /* Consistent padding for all sides */
+    display: flex;
+    flex-direction: column; /* Stack items vertically */
+    align-items: flex-start; /* Align items to the left */
+    max-width: 1000px; /* Restrict the width of the container */
+    margin-left: 5px; /* Add some space from the left of the screen */
+    min-height: auto; /* Remove full-page height for more flexibility */
+    border-radius: 0px; /* Optional: Add rounded edges for a polished look */
+}
+
+
+/* Card Styling */
+.custom-card {
+
+    color: black; /* White text for readability */
+    border-radius: 10px; /* Smooth rounded corners */
+    border: none; /* Remove border */
+   /* box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);  Enhance shadow depth */
+    /*transition: transform 0.3s, box-shadow 0.3s; Smooth animation for hover effect */
+}
+
+
+
+/* Card Body */
+.card-body {
+    padding: 10px; /* Adjust padding inside the card */
+}
+
+/* Title Styling */
+.card-title-custom {
+    font-size: 20px; /* Slightly larger title text */
+    font-weight: bold; /* Add emphasis to the title */
+    margin-bottom: 10px; /* Add spacing below the title */
+}
+
+/* Text Styling */
+.card-text {
+    font-size: 20px; /* Make text easier to read */
+    line-height: 1.5; /* Add better text spacing */
+    margin-bottom: 15px; /* Add spacing below paragraphs */
+    font-family: 'Arial Narrow'
+}
+
+/* Background Image Styling */
+.background-image {
+    width: 100%; /* Full width of the card */
+    height: 500px; /* Fixed height for the background image */
+    background-image: url('/media/uploads/background-team-image.jpg'); /* Replace with dynamic URL */
+    background-size: cover; /* Ensure the image covers the area */
+    background-position: center; /* Center the image */
+    background-repeat: no-repeat; /* Prevent repeating */
+    margin-top: 15px; /* Add spacing above the image */
+    border-radius: 10px; /* Match the card's rounded corners */
+}
+
+/* Last Updated Text */
+.text-body-secondary {
+    color: black; /* Light grey for last updated text */
+    font-size: 12px; /* Smaller text size */
+}
+
+
+@media (max-width: 768px) {
+    .custom-container {
+        max-width: 100%; /* Take up 90% of the screen width on smaller devices */
+        margin-left: 10px; /* Reduce left margin for smaller screens */
+    }
+
+    .custom-card {
+    max-width: 100%;
+    color: black; /* White text for readability */
+    border-radius: 10px; /* Smooth rounded corners */
+    border: none; /* Remove border */
+    /*box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); Enhance shadow depth */
+    /* transition: transform 0.3s, box-shadow 0.3s; Smooth animation for hover effect */
+}
+}
+
+
+.team-content {
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    margin: 20px 0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.team-info img {
+    display: block;
+    margin: 0 auto;
+    border-radius: 8px;
+}
+
+
+
+/* Description Container End */
+
+
+/* Game Summary */
+
+#gameSummary {
+    padding: 5px;
+    background: #007BFF;; /* Subtle light background */
+    border-radius: 10px;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.15); /* Soft shadow */
+    text-align: center;
+    max-width: 1000px; /* Expanded width */
+    height: 550px; /* Fixed height */
+    margin: auto; /* Center the container horizontally */
+    overflow: hidden; /* Ensure scrollable content stays within the height */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Ensures buttons and title stay balanced */
+}
+
+
+/* Game List Container */
+#gameList {
+    max-height: 500px; /* Limit height to enable scrolling */
+    overflow-y: auto; /* Allow vertical scrolling */
+    overflow-x: hidden; /* Prevent horizontal scrolling */
+    scroll-behavior: smooth; /* Enable smooth scrolling */
+}
+
+
+
+/* Title Styling */
+.game-summary-title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #1d3557; /* Dark blue */
+    text-transform: uppercase;
+    margin-bottom: 20px;
+}
+
+/* Game List */
+.game-summary-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    max-height: 600px; /* Only show three games */
+    overflow: hidden; /* Hide extra games */
+    position: relative;
+
+}
+
+
+
+@media (max-width: 768px) {
+    .game-summary-list {
+        display: block; /* Avoid flexbox's shrinking behavior */
+        max-height: 600px; /* Limit the visible area */
+        overflow-y: hidden; /* Hide cards that exceed the max height */
+        position: relative;
+    }
+
+    .game-card {
+        height: auto; /* Ensure cards retain their natural height */
+        margin-bottom: 10px; /* Add consistent spacing between cards */
+    }
+}
+
+
+/* Game Card */
+
+/* Game Card Styling */
+
+.game-card {
+    position: relative; /* To position elements inside the card */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    height: 160px;
+    padding: 15px;
+    color: black;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background: linear-gradient(to bottom, #DCDCDC, #F0F0F0); /* Default gradient */
+
+}
+
+
+
+/* Darker Greyish Transparent for Odd Game Cards */
+.game-card:nth-child(odd) {
+    background: rgba(50, 50, 50, 0.7); /* Darker greyish transparent */
+    color: white; /* Adjust text color for better contrast */
+
+}
+
+/* Lighter Greyish Transparent for Even Game Cards */
+.game-card:nth-child(even) {
+    background: rgba(192, 192, 192, 0.5); /* Lighter greyish transparent */
+    color: black; /* Default text color */
+}
+
+/* Hover Effect for All Game Cards */
+.game-card:hover {
+    transform: scale(1.01); /* Slight zoom-in effect */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3); /* Darker shadow on hover */
+}
+
+
+/* New Left-Hand Div Styling */
+
+.game-left {
+    position: absolute;
+    top: 50%; /* Vertically center the entire left div */
+    left: 10px; /* Position it on the left side */
+    transform: translateY(-50%); /* Ensure perfect vertical centering */
+    display: flex; /* Align sub-divs side by side */
+    flex-direction: row; /* Horizontal layout for sub-divs */
+    align-items: center; /* Vertically align items */
+    background: rgba(173, 216, 230, 0.1);
+    padding: 10px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: bold;
+    gap: 10px; /* Space between the two sub-divs */
+    height: auto; /* Dynamic height */
+    width: auto; /* Dynamic width */
+}
+
+/* NBA Logo Styling (Sub-Div 1) */
+.game-left-logo .nba-logo {
+    width: 60px; /* Size of the logo */
+    height: 90;
+}
+
+/* Game Info Styling (Sub-Div 2) */
+.game-left-info {
+    display: flex;
+    flex-direction: column; /* Stack date and text vertically */
+    align-items: flex-start; /* Align text to the left */
+    gap: 5px; /* Space between date and text */
+}
+
+.game-left-info .game-date {
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: #000;
+}
+
+.game-left-info .game-time {
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: #000;
+}
+
+.game-left-info .game-league {
+    font-size: 0.85rem;
+    color: #555;
+}
+
+
+/* Game Details */
+.game-details {
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40%;
+    gap: 40px; /* Adjust gap between elements */
+
+}
+
+/* Teams Styling */
+.team {
+    display: flex;
+    flex-direction: column; /* Stack the logo and name vertically */
+    align-items: center; /* Center the content */
+    text-align: center; /* Align text to the center */
+    gap: 5px; /* Space between logo and name */
+}
+
+.team-name {
+    max-width: 120px; /* Restrict the width for all team names */
+    overflow: hidden; /* Ensure it doesn’t overflow its container */
+    word-wrap: break-word; /* Break long words onto the next line */
+    white-space: normal; /* Allow wrapping */
+    font-size: 0.9rem; /* Adjust font size to avoid large stacking */
+    line-height: 1.2; /* Add spacing between text lines */
+    text-align: center; /* Center-align the text */
+}
+
+
+
+.team-logo {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: white;
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
+}
+
+
+
+/* Game Scores */
+.game-score {
+    font-size: 1.7rem;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    color: white;
+}
+
+.vs {
+    color: #ffd700;
+    font-weight: bold;
+}
+
+/* Stats Button */
+.game-actions {
+    margin-bottom: -5px;
+    display: flex;
+    justify-content: center;
+
+}
+
+.game-stats-btn {
+    background: #007BFF;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 6px;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 0.8rem;
+    transition: background 0.3s ease, transform 0.3s ease;
+}
+.game-stats-btn:hover {
+    background: #f77f00;
+}
+
+
+/* For Medium Screens Below 768px */
+
+@media (max-width: 768px) {
+
+    .game-details {
+        position: absolute; /* Enable precise placement */
+        right: 20px; /* Move it closer to the right edge */
+        top: 45%; /* Position relative to card height */
+        transform: translateY(-50%); /* Perfect vertical alignment */
+        gap: 20px; /* Adjust spacing to fit smaller screens */
+        width: 60%; /* Shrink-to-fit content */
+        height: 70%;
+
+    }
+
+    .team-logo {
+        width: 50px; /* Shrink logo size */
+        height: 50px;
+    }
+
+    .team-name {
+        font-size: 0.8rem; /* Reduce font size for team names */
+    }
+
+    .game-score {
+        font-size: 1.5rem; /* Adjust score size */
+        gap: 10px; /* Reduce spacing between scores */
+        right: 15px;
+    }
+
+    /* Adjusting Game Actions */
+    .game-actions {
+        position: absolute; /* Enable precise placement */
+        bottom: 10px; /* Move the button down from the card */
+        right: 130px; /* Default alignment to the right */
+        display: flex; /* Flexbox for alignment */
+
+        width: auto; /* Allow the button to shrink-to-fit */
+    }
+
+
+
+    .game-stats-btn {
+        font-size: 0.75rem; /* Reduce button font size */
+        padding: 5px 10px; /* Compact button padding */
+        background: #007BFF; /* Blue button color */
+        color: white; /* White text color */
+        border-radius: 6px; /* Rounded corners */
+        text-transform: uppercase;
+        font-weight: bold;
+        transition: background 0.3s ease, transform 0.3s ease;
+    }
+
+    .game-stats-btn:hover {
+        background: #0056b3; /* Darker blue on hover */
+    }
+
+    .game-left {
+        position: absolute;
+        top: 50%; /* Vertically center the entire left div */
+        left: 5px; /* Position it on the left side */
+        transform: translateY(-50%); /* Ensure perfect vertical centering */
+        display: flex; /* Align sub-divs side by side */
+        flex-direction: row; /* Horizontal layout for sub-divs */
+        align-items: center; /* Vertically align items */
+        background: rgba(173, 216, 230, 0.2);
+        padding: 10px;
+        border-radius: 6px;
+
+        gap: 10px;
+        height: auto; /* Dynamic height */
+        width: auto; /* Dynamic width */
+}
+
+/* NBA Logo Styling (Sub-Div 1) */
+.game-left-logo .nba-logo {
+    width: 50px; /* Size of the logo */
+    height: 90;
+}
+
+
+/* Darker Greyish Transparent for Odd Game Cards */
+.game-card:nth-child(odd) {
+    background: rgba(50, 50, 50, 0.7); /* Darker greyish transparent */
+    color: white; /* Adjust text color for better contrast */
+}
+
+/* Lighter Greyish Transparent for Even Game Cards */
+.game-card:nth-child(even) {
+    background: rgba(192, 192, 192, 0.5); /* Lighter greyish transparent */
+    color: black; /* Default text color */
+}
+
+/* Hover Effect for All Game Cards */
+.game-card:hover {
+    transform: scale(1.03); /* Slight zoom-in effect */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3); /* Darker shadow on hover */
+}
+
+
+
+}
+
+/* For Small Screens Below 500px */
+@media (max-width: 500px) {
+    .game-details {
+        right: 5px; /* Align closer to the right edge */
+        gap: 10px; /* Further reduce spacing between elements */
+        width: 60%; /* Ensure it fits within the card */
+    }
+
+    .team-logo {
+        width: 30px; /* Shrink team logos */
+        height: 30px;
+    }
+
+    .team-name {
+        font-size: 0.7rem; /* Shrink team name size */
+    }
+
+    .game-score {
+        font-size: 1.3rem; /* Shrink score font size */
+        gap: 8px; /* Tighten spacing more */
+    }
+
+    .game-actions {
+        top: 50px;
+        display: flex;
+        justify-content: center;
+        background: #blue;
+    }
+
+}
+
+/* Arrow Buttons */
+.arrow-container {
+    text-align: center;
+    margin: 0px 0;
+    background: #007BFF;
+}
+
+.arrow-btn {
+    background: #1d3557; /* Dark blue */
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    font-size: 1.5rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.arrow-btn:hover {
+    background: #0056d6;
+    transform: scale(1.1);
+}
+
+/* Game Summary End */
+/* Game Summary End */
+
+
+</style>
+
+
+<body>
+
+
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+
+
+
+
+
+
+<div class="profile-header-container" style="background-color : #00008B;">
+    <div class="profile-header">
+        <h2 style="margin-left: -800px; color: rgb(241, 195, 76);">{{ competition.name }}</h2>
+        <img class="team-logo" src="{{ team_detail.team_logo }}" alt="{{ team_details.name }}" />
+        <h1>{{ team_detail.name }}</h1>
+        <p>{{ team_detail.home_jersey_color }} | {{ team_detail.away_jersey_color }} | {{ team_detail.for_this_competition_name }}</p>
+    </div>
+    <div class="stats">
+        <div class="stat">
+            <p>PPG</p>
+            <p class="value">PPG</p>
+            <p>3rd</p>
+        </div>
+        <div class="stat">
+            <p>RPG</p>
+            <p class="value">RPG</p>
+            <p>3rd</p>
+        </div>
+        <div class="stat">
+            <p>APG</p>
+            <p class="value">PPG</p>
+            <p>3rd</p>
+        </div>
+        <div class="stat">
+            <p>PIE</p>
+            <p class="value">FG%</p>
+            <p>3rd</p>
+        </div>
+    </div>
+
+    <div class="profile-info">
+        <div class="info-item">
+            <p class="label">Win-Loss</p>
+            <p class="label"></p>
+        </div>
+        <div class="info-item">
+            <p class="label">Position</p>
+            <p class="label"></p>
+        </div>
+
+        <div class="info-item">
+            <p class="label">Link</p>
+            <p class="label">
+                <a href="" style="text-decoration: white; color: white;; font-weight: bold;">
+                    Follow
+                </a>
+            </p>
+        </div>
+    </div>
+
+    <div id="navContainer" class="nav">
+        <a class="nav-link active" id="profile"  href="#">Profile</a>
+        <a class="nav-link" href="{% url 'team-roster' competition.id  %}">Roster</a>
+        <a class="nav-link" id="schedules" href="{% url 'game-list' competition.id  %}">Schedule</a>
+        <a class="nav-link" id="records" href="{% url 'scores-list' competition.id  %}">Scores </a>
+        <a class="nav-link" href="#">Team</a>
+    </div>
+</div>
+<center>
+<p style="color:red; font-weight:bold; font-size:45px;">Error in the Update Staff and  Team per competition</p>
+<p style="color:rgb(5, 5, 5); font-weight:bold; font-size:45px;"> Competition team: {{ team }}</p>
+</center>
+<br>
+
+
+
+<!-- Container for game summary -->
+<div class="container mt-5" id="gameSummary">
+    <!-- Top Arrow Button -->
+    <div class="arrow-container">
+        <button class="arrow-btn" id="scroll-up">
+            &#9650; <!-- Up arrow symbol -->
+        </button>
+    </div>
+
+    <!-- Scrollable Game List -->
+    <div class="game-summary-list" id="gameList">
+      
+                {% for game in games %}
+
+                <div class="game-card" data-competition-id="" data-date="{{ date_info.date }}">
+                    <div class="game-left">
+                        <div class="game-left-logo">
+                            <img src="" alt="NBA Logo" class="nba-logo">
+                        </div>
+                        <div class="game-left-info">
+                            <div class="game-date">
+                                <span>{{ game.date|date:"d M, Y" }}</span>
+                            </div>
+                            <div class="game-time">
+                                <span>{{ game.time }}</span>
+                            </div>
+                            <div class="game-league">
+                                <span style="color: orange;">BAL Season 5</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="game-details">
+                        <div class="team">
+
+                                <img src="{{ game.team.team_logo.url }}" alt="{{ game.team }}" class="team-logo">
+                                <span class="team-name">{{ game.team }}</span>
+
+                        </div>
+                        <div class="game-score">
+                            <span class="score">{{ game.team_scores }}</span>
+                            <span class="vs">-</span>
+                            <span class="score">{{ game.opponent_scores }}</span>
+                        </div>
+                        <div class="team">
+
+                                <img src="{{ game.opponent.logo.url }}" alt="{{ game.opponent }}" class="team-logo">
+                                <span class="team-name">{{ game.opponent }}</span>
+
+                        </div>
+                    </div>
+
+                    <div class="game-actions">
+ <!-- Here -->                       <a href="" class="btn game-stats-btn">GAME STATS</a>
+                    </div>
+                </div>
+
+        {% endfor %}
+    </div>
+
+    <!-- Bottom Arrow Button -->
+    <div class="arrow-container">
+        <button class="arrow-btn" id="scroll-down">
+            &#9660; <!-- Down arrow symbol -->
+        </button>
+    </div>
+</div>
+
+
+<!-- Container for game summary  end-->
+<script>
+const gameList = document.getElementById('gameList');
+const scrollUpButton = document.getElementById('scroll-up');
+const scrollDownButton = document.getElementById('scroll-down');
+
+// Adjust scroll amount dynamically based on card height
+const scrollAmount = 250;
+
+// Scroll up by the defined height
+scrollUpButton.addEventListener('click', () => {
+    gameList.scrollBy({
+        top: -scrollAmount,
+        behavior: 'smooth',
+    });
+});
+
+// Scroll down by the defined height
+scrollDownButton.addEventListener('click', () => {
+    gameList.scrollBy({
+        top: scrollAmount,
+        behavior: 'smooth',
+    });
+});
+
+</script>
+
+
+
+
+
+
+
+
+
+<h2>Opponents in {{ competition.name }}</h2>
+
+{% if opponents %}
+    <table>
+        <thead>
+            <tr>
+                <th>Logo</th>
+                <th>Name</th>
+                <th>Abbreviation</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for opponent in opponents %}
+            <tr>
+                <td>
+                    {% if opponent.logo %}
+                        <img src="{{ opponent.logo.url }}" alt="{{ opponent.name }} Logo" height="50">
+                    {% else %}
+                        No Logo
+                    {% endif %}
+                </td>
+                <td>{{ opponent.name }}</td>
+                <td>{{ opponent.abbreviation }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>No opponents are listed for {{ competition.name }} yet.</p>
+{% endif %}
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+</body>
+
+{% endblock %}
+
+

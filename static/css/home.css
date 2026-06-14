@@ -1,0 +1,240 @@
+/* Container for the sliding row */
+.game-slider-wrapper {
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+    display: block;
+    -webkit-overflow-scrolling: touch; /* Smooth scroll on iPhones */
+    scrollbar-width: none; /* Hide scrollbar for Firefox */
+}
+
+.game-slider-wrapper::-webkit-scrollbar {
+    display: none; /* Hide scrollbar for Chrome/Safari */
+}
+
+/* Force the row to stay horizontal */
+.game-scroll-row {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    margin-bottom: 20px;
+}
+
+/* Ensure cards don't shrink and look good on small screens */
+.game-scroll-row [class*="col-"] {
+    flex: 0 0 auto;
+    width: 100%; /* Shows a peek of the next card on mobile */
+}
+
+/* Tablet and Desktop View */
+/* Desktop Version - Showing exactly 3 cards */
+@media (min-width: 992px) {
+    .game-scroll-row {
+        gap: 0 !important; /* Removes the gap between cards */
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+    }
+
+    .game-scroll-row .col-md-4, 
+    .game-scroll-row [class*="col-"] {
+        flex: 0 0 33.333% !important; /* Exactly 1/3 of the width */
+        width: 33.333% !important;
+        padding-left: 5px !important;  /* Small, clean spacing */
+        padding-right: 5px !important;
+        white-space: normal;
+    }
+}
+
+
+/* Mobile View (keep it similar if you want 1 card there too) */
+@media (max-width: 767px) {
+    .game-scroll-row {
+        gap: 0 !important; /* Removes the gap between cards */
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+    }
+
+    .game-scroll-row .col-md-4, 
+    .game-scroll-row [class*="col-"] {
+      
+        flex: 0 0 85% !important; 
+        width: 100% !important;
+        margin-right: 10px;
+    }
+}
+
+/* Navigation Arrows Styling */
+.heading-component-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-btn {
+    background: #35ad79;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    cursor: pointer;
+    margin-left: 5px;
+    transition: 0.3s;
+}
+
+.nav-btn:hover {
+    background: #1a202c;
+}
+
+
+/* Container Spacing */
+.post-slider .post-classic {
+    display: flex;
+    align-items: center;
+    background: #ffffff;
+    /* This handles Top/Bottom (8px) and Right/Left (12px) */
+    padding: 8px 12px; 
+    margin-bottom: 12px;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    border: 1px solid #eee;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.02);
+}
+
+/* 1. Remove forced margins from the image side */
+.post-slider .post-classic-aside {
+    margin-right: 0 !important; 
+    padding-right: 0 !important;
+    flex-shrink: 0; /* Keeps image from squishing */
+}
+
+/* 2. Tighten the name distance */
+.post-slider .post-classic-main {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    justify-content: space-between;
+    /* This controls the gap between image and name */
+    padding-left: 10px; 
+    margin-left: 0;
+}
+
+/* 3. Name Stacking Logic */
+.post-slider .post-classic-title {
+    margin: 0;
+    max-width: 85px; /* Forces stack on long names */
+}
+
+.post-slider .post-classic-title a {
+    font-weight: 700;
+    color: #1a202c;
+    text-transform: uppercase;
+    font-size: 13px;
+    line-height: 1.1; /* Keeps John and Doe close together */
+    display: block;
+    text-decoration: none;
+}
+
+/* 4. Stat Positioning */
+.post-slider .post-classic-time {
+    display: flex;
+    align-items: baseline;
+    gap: 3px;
+    flex-shrink: 0; 
+    margin-left: auto; /* Extra insurance to push it right */
+}
+
+
+
+
+
+
+
+/* Make the profile image slightly smaller for a slim look */
+.post-slider .post-classic-aside img {
+    width: 70px !important;
+    height: 70px !important;
+    border-radius: 50%;
+    border:0px solid #35ad79;
+    object-fit: cover;
+}
+
+
+/* Swiper Button*/
+.swiper-button-prev,
+.swiper-button-next {
+  color: #35ad79;              /* accent green */
+  top: 50%;                    /* center vertically */
+  transform: translateY(-50%);
+  font-size: 28px;
+  z-index: 10;                 /* ensure arrows stay above content */
+}
+
+.swiper-button-prev {
+  left: 10px;                  /* keep inside but away from stats */
+}
+
+.swiper-button-next {
+  right: 10px;                 /* keep inside but away from stats */
+}
+
+
+
+/* Force gallery images to be uniform squares */
+.thumbnail-creative img {
+    width: 100% !important;   /* Fill the width of the column */
+    height: 212px !important; /* Lock the height */
+    object-fit: cover !important; /* Crop the edges so it doesn't stretch */
+    display: block;
+}
+
+/* Ensure the anchor tag doesn't add extra space */
+.thumbnail-creative {
+    display: block;
+    height: 212px;
+    overflow: hidden;
+    margin-bottom: 20px; /* Space between rows */
+}
+
+
+.thumbnail-alice-image {
+    width: 100%;              /* fill the container width */
+    height: 250px;            /* fixed height for all images */
+    object-fit: cover;        /* crop to fit without distortion */
+    border-radius: 6px;       /* optional: rounded corners */
+}
+
+
+
+/* Rotate the whole circle so the stroke starts at 12 o'clock */
+/* Background ring - This creates the "empty" white space track */
+
+/* Background ring - This creates the "empty" white space track */
+.progress-circle-bg {
+  fill: none;
+  stroke: #cecece; /* Very light gray/white track as seen in your photo */
+  stroke-width: 10;
+}
+
+/* Foreground progress ring - This fills the percentage */
+.progress-circle-fg-new {
+  fill: none;
+  stroke: #35ad79; /* The green color from your image */
+  stroke-width: 10;
+  stroke-linecap: round;
+
+  /* circumference for r=70 is ~439.8 */
+  stroke-dasharray: 439.8;
+  stroke-dashoffset: calc(439.8 - (439.8 * var(--percent)) / 100);
+
+  /* Rotation to start at 12 o'clock */
+  transform: rotate(-90deg);
+  transform-origin: center;
+
+  transition: stroke-dashoffset 0.6s ease;
+}
+
+/* Ensure the SVG itself doesn't cut off the stroke */
+.progress-circle-bar {
+  overflow: visible;
+}
+

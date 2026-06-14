@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block extra_head %}
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+{% endblock %}
+
+{% block content %}
+
+<!-- Section Breadcrumbs-->
+      <section class="section parallax-container breadcrumbs-wrap" data-parallax-img="{% static 'img/ball_court.png' %}">
+        <div class="material-parallax parallax">
+        <img src="{% static 'img/ball_court.png' %}" alt="" style="transform: translate3d(-50%, 68px, 0px); display: block;"></div>
+        <div class="parallax-content breadcrumbs-custom context-dark">
+          <div class="container">
+            <h3 class="breadcrumbs-custom-title">Search</h3>
+            <ul class="breadcrumbs-custom-path">
+              <li><a href="{% url 'home' %}">Home</a></li>
+              <li><a href="">Features</a></li>
+              <li class="active">Search Results</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+<section class="section-md bg-gray-100">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-9 col-xl-8">
+        <!-- Search Form -->
+        <div class="rd-search-modern">
+          <form id="searchForm" class="rd-form rd-search rd-form-inline" action="{% url 'search-result' %}" method="GET">
+            <div class="form-wrap">
+              <label class="form-label rd-input-label" for="rd-search-form-input">Enter your search request</label>
+              <input class="form-input" id="rd-search-form-input" type="text" name="s" value="{{ searched }}" autocomplete="on">
+            </div>
+            <button class="rd-search-form-submit fl-budicons-launch-search81" type="submit"></button>
+          </form>
+        </div>
+
+        <!-- Collapsible Results -->
+        <div class="collapse" id="searchResults">
+          <div class="card card-body">
+            <div id="resultsContent">
+              <!-- AJAX will inject search results here -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- This is the block your JS is looking for -->
+<div class="rd-search-results" style="display: none;">
+ 
+
+  {% if searched_players %}
+  
+    <ul>
+      {% for player in searched_players %}
+        <li>
+          <img src="{{ player.player_image.url }}" alt="{{ player.player_name }}" class="player-photo" width="40" height="40">
+          <a href="{% url 'players-id' competition.id player.pk %}">{{ player.player_name }}</a>
+          ({{ player.get_position_display }}) - Team: {{ player.team.name }}
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    {% if searched %}
+      <p>No results found for "{{ searched }}".</p>
+    {% endif %}
+  {% endif %}
+</div>
+
+<script>
+document.getElementById('searchForm').addEventListener('submit', function(e) {
+  e.preventDefault(); // stop page reload
+
+  const query = document.getElementById('rd-search-form-input').value;
+
+  fetch("{% url 'search-result' %}?s=" + encodeURIComponent(query))
+    .then(response => response.text())
+    .then(html => {
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(html, 'text/html');
+      const results = doc.querySelector('.rd-search-results');
+
+      document.getElementById('resultsContent').innerHTML = results ? results.innerHTML : "<p>No results found.</p>";
+
+      new bootstrap.Collapse(document.getElementById('searchResults'), { show: true });
+    })
+    .catch(err => {
+      document.getElementById('resultsContent').innerHTML = "<p>Error loading results.</p>";
+      console.error(err);
+    });
+});
+</script>
+{% endblock %}
+  
+
+
+
+
+
+
+

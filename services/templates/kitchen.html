@@ -1,0 +1,181 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block content %}
+
+
+<style>
+.input-group {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.input-group input {
+  flex: 1;
+  text-align: center;
+}
+
+
+</style>
+
+
+
+<section class="section section-md bg-gray-100">
+    <div class="container">
+        <div class="row row-50 justify-content-center">
+            
+        <div class="col-md-5">
+    <span class="text-primary font-weight-bold uppercase" style="letter-spacing: 1.5px; font-size: 14px;">StatsHub Culinary</span>
+    
+    <h2 class="mt-2" style="font-weight: 700; line-height: 1.2; color: #07074d;">Premium Owambe, Party & Bulk Event Catering</h2>
+    
+    <p class="mt-3" style="color: #536387; line-height: 1.6;">
+        From elite post-game club banquets and corporate board luncheons to massive, high-energy <strong>Owambe celebrations</strong>, StatsHub Performance Kitchen ensures world-class culinary execution. 
+    </p>
+    <p class="mt-2" style="color: #536387; line-height: 1.6;">
+        We specialize in scaling flavors without compromising quality—delivering authentic local delicacies, premium continental dishes, and precision high-performance athlete meal plans tailored to your exact contract parameters.
+    </p>
+    
+    <ul class="list-marked mt-4" style="padding-left: 20px; color: #536387; line-height: 1.8;">
+        <li style="margin-bottom: 10px;"><strong>Full-Scale Mobile Kitchens:</strong> State-of-the-art onsite culinary setups with strict international hygiene and quality control standards.</li>
+        <li style="margin-bottom: 10px;"><strong>Elite Owambe & Party Menus:</strong> Impeccable party classics, signature firewood-style party jollof, and refined local soups paired with premium presentation.</li>
+        <li style="margin-bottom: 10px;"><strong>Performance Nutrition:</strong> Tailored menus meticulously balancing fine dining taste profiles with precise caloric and macronutrient targets for athletes.</li>
+        <li style="margin-bottom: 10px;"><strong>Large-Capacity Management:</strong> Vast execution experience handling guest tiers from intimate private VIP tables to large-scale multi-thousand guest stadium banquets.</li>
+    </ul>
+
+    <p class="mt-4 text-small text-muted" style="font-style: italic; font-size: 13px;">
+        *All menu setups are highly customizable based on guest demographic, dietary restrictions, and venue parameters.
+    </p>
+</div>
+
+            <div class="col-md-7" style="background: #ffffff; padding: 40px; border: 1px solid #eee; border-radius: 8px;">
+                <h4>Catering Service Inquiry Form</h4>
+                <p class="text-muted text-small mb-4">Tell us about your upcoming party or meal contract parameters.</p>
+
+             {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}">
+                    {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+            
+            {% if form.errors %}
+              <div class="alert alert-danger" style="color: #721c24; background-color: #f8d7da; padding: 15px; margin-bottom: 25px; border-radius: 4px; border: 1px solid #f5c6cb;">
+                <strong>Form Validation Failed! Precise Errors:</strong>
+                <ul style="margin-top: 5px; margin-bottom: 0; padding-left: 20px;">
+                  {% for field, errors in form.errors.items %}
+                    <li><strong>{{ field|title }}:</strong> {{ errors|striptags }}</li>
+                  {% endfor %}
+                </ul>
+              </div>
+            {% endif %}
+                
+                <form enctype="multipart/form-data" method="POST" action="">
+                    {% csrf_token %}
+                    
+                    {% if form.errors %}
+                        <div class="alert alert-danger" style="color: #721c24; background-color: #f8d7da; padding: 15px; margin-bottom: 25px; border-radius: 4px;">
+                            <strong>Missing or invalid information. Please review your inputs below.</strong>
+                            {{ form.errors }}
+                        </div>
+                    {% endif %}
+
+                    <div class="row row-10 row-narrow">
+                        <div class="col-md-6">
+                            <div class="form-wrap">
+                                <label class="form-label rd-input-label" for="full_name">Your Name</label>
+                                <input class="form-input" id="full_name" type="text" name="full_name" value="{{ form.full_name.value|default:'' }}" required>
+                                <span class="form-validation"></span>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-wrap">
+                                <label class="form-label rd-input-label" for="email">E-mail</label>
+                                <input class="form-input" id="email" type="email" name="email" value="{{ form.email.value|default:'' }}" reqired>
+                                <span class="form-validation"></span>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-wrap">
+                                <label class="form-label rd-input-label" for="phone">Phone</label>
+                                <input class="form-input" id="phone" type="tel" name="phone" value="{{ form.phone.value|default:'' }}" reqired>
+                                <span class="form-validation"></span>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-wrap">
+                                <label class="form-label rd-input-label" for="event_type">Event Selection</label>
+                                <select class="form-input" name="event_type" id="event_type" required>
+                                <option value="party" {% if form.event_type.value == "party" %}selected{% endif %}>Social Party / Celebration</option>
+                                <option value="sports_event" {% if form.event_type.value == "sports_event" %}selected{% endif %}>Sports Tournament / Team Catering</option>
+                                <option value="corporate" {% if form.event_type.value == "corporate" %}selected{% endif %}>Corporate Event</option>
+                                <option value="meal_prep" {% if form.event_type.value == "meal_prep" %}selected{% endif %}>Bulk Athlete Meal Prep Contract</option>
+                                </select>
+                            </div>
+                        </div>
+
+
+
+                        <div class="col-md-6">
+                            <div class="form-wrap">
+                                
+                                <label class="font-weight-bold text-small" for="event_date">Event Date</label>
+                                <input class="form-input" id="event_date" type="date" name="event_date" value="{{ form.event_date.value|default:'' }}" required>
+                                <span class="form-validation"></span>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-wrap">
+                                <label class="font-weight-bold text-small" for="estimated_guests">Estimated Guests</label>
+                                
+                                <div class="input-group">
+                            
+                                <input class="form-input number-input " id="estimated_guests" 
+                                        type="number" name="estimated_guests"
+                                        value="{{ form.estimated_guests.value|default:'1' }}" 
+                                        min="1" max="1000" step="1" required style="min-width:380%; min-height: 60px; font-size: larger;">
+                                
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                        <div class="col-sm-12">
+                            <div class="form-wrap">
+                                <label class="form-label rd-input-label" for="menu_requirements">Menu Preferences & Details</label>
+                                <textarea class="form-input" id="menu_requirements" name="menu_requirements" >{{ form.menu_requirements.value|default:'' }}</textarea>
+                                <span class="form-validation"></span>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-12">
+                            <div class="form-wrap">
+                                <label class="form-label rd-input-label" for="allergies_restrictions">Allergies or Dietary Restrictions</label>
+                                <textarea class="form-input" id="allergies_restrictions" name="allergies_restrictions" >{{ form.allergies_restrictions.value|default:'' }}</textarea>
+                                <span class="form-validation"></span>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <button class="button button-lg button-primary button-block" type="submit">Send message</button>
+                        </div>
+                    </div>
+                </form>
+
+
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+

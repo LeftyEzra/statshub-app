@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+     <h1> Games </h1><br/>
+
+{% for qs in quarterly_scores %}
+
+
+<div class="card">
+  <div class="card-header">
+    {{ qs.quarterly_scores_for }}
+  </div>
+
+
+  <div class="card-body">
+    <h5 class="card-title">Game between  {{ qs.game.team }} {{ qs.game.indicator}} {{ qs.game.opponent }}</h5>
+    <p class="card-text">
+       <ul>
+          <li>Date: {{ qs.game }}</li>
+
+          <li>Quarter 1: {{ qs.team_quarter_1 }}</li>
+          <li>Quarter 2: {{ qs.team_quarter_2 }}</li>
+          <li>Quarter 3: {{ qs.team_quarter_3 }}</li>
+          <li>Quarter 4: {{ qs.team_quarter_4}}<br/>
+          <li>Opp Quarter 1: {{ qs.opponent_quarter_1}}</li>
+          <li>Opp Quarter 2: {{ qs.opponent_quarter_2}}</li>
+          <li>Opp Quarter 3: {{ qs.opponent_quarter_3}}</li>
+          <li>Opp Quarter 4: {{ qs.opponent_quarter_4}}</li>
+     </ul>
+    </p>
+  </div>
+    {% if user.is_authenticated %}
+     <div class="card-footer text-muted">
+
+         <a href="{% url 'update-scores' competition.id qs.pk %}" class="btn btn-outline-primary btn-sm" >Update Sores</a>
+         <a href="#" class="btn btn-outline-danger btn-sm" >Delete Scores</a> <br/>
+
+     </div>
+    {% endif %}
+
+
+
+</div>
+
+
+
+     <br/>
+     {% endfor %}
+
+
+{% endblock%}

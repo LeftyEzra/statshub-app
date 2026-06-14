@@ -1,0 +1,145 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+      <!-- Section Breadcrumbs-->
+      <section class="section parallax-container breadcrumbs-wrap" data-parallax-img="{% static 'img/ball_court.png' %}">
+        <div class="material-parallax parallax">
+          <img src="{% static 'img/ball_court.png' %}" alt="" style="transform: translate3d(-50%, 68px, 0px); display: block;"></div>
+        <div class="parallax-content breadcrumbs-custom context-dark">
+          <div class="container">
+            <h3 class="breadcrumbs-custom-title animated slideInDown">Contact us</h3>
+            <ul class="breadcrumbs-custom-path animated slideInDown">
+              <li><a href="{% url 'home' %}">Home</a></li>
+              <li><a href="{% url 'about' %}">About Us</a></li>
+              <li class="active">Contact us</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+   
+      <!-- Section Contact-->
+      <section class="section section-variant-1 bg-gray-100">
+        <div class="container">
+          <div class="row row-50">
+            <div class="col-lg-7 col-xl-8">
+              <!-- Heading Component-->
+              <article class="heading-component">
+                <div class="heading-component-inner">
+                  <h5 class="heading-component-title">Get in touch
+                  </h5>
+                </div>
+              </article>
+              <form class="rd-form rd-mailform" data-form-output="form-output-global" data-form-type="contact" method="post" action="{% url 'create-contact' %}" novalidate="novalidate">
+                {% csrf_token %}
+                <div class="row row-10 row-narrow">
+                  <div class="col-md-6">
+                    <div class="form-wrap">
+                      <label class="form-label rd-input-label" for="full_name">Your Name</label>
+                      <input class="form-input form-control-has-validation form-control-last-child" id="name" type="text" name="full_name" data-constraints="@Required">
+                      <span class="form-validation"></span>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-wrap">
+                      <label class="form-label rd-input-label" for="mobile">Phone</label>
+                      <input class="form-input form-control-has-validation form-control-last-child" id="mobile" type="text" name="mobile" data-constraints="@Numeric @Required">
+                      <span class="form-validation"></span>
+                    </div>
+                  </div>
+                  <div class="col-sm-12">
+                    <div class="form-wrap">
+                      <label class="form-label rd-input-label" for="message">Message</label>
+                      <textarea class="form-input form-control-has-validation form-control-last-child" id="message" name="message" data-constraints="@Required"></textarea>
+                      <span class="form-validation"></span>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-wrap">
+                      <label class="form-label rd-input-label" for="email">E-mail</label>
+                      <input class="form-input form-control-has-validation form-control-last-child" id="mail" type="email" name="email"   data-constraints="@Email @Required">
+                      <span class="form-validation"></span>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <button class="button button-lg button-primary button-block" type="submit">Send message</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div class="col-lg-5 col-xl-4">
+              <!-- Heading Component-->
+              <article class="heading-component">
+                <div class="heading-component-inner">
+                  <h5 class="heading-component-title">Contact Details
+                  </h5>
+                </div>
+              </article>
+              <div class="contact-list">
+                <dl>
+                  <dt>E-mail</dt>
+                  <dd><span class="icon icon-primary mdi mdi-email-outline"></span><a class="link" href="mailto:#">info@statshub.com</a></dd>
+                </dl>
+                <dl>
+                  <dt>Address</dt>
+                  <dd><span class="icon icon-primary mdi mdi-map-marker"></span><a class="link" href="#">123 Haven Avenue , Some Where On Earth</a></dd>
+                </dl>
+                <dl>
+                  <dt>Phone</dt>
+                  <dd><span class="icon icon-primary mdi mdi-phone"></span>
+                    <a class="link link-md" href="tel:#">+234 905 350 9607</a></dd>
+                </dl>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="modal fade" id="contactSuccessModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true" style="z-index: 9999f;">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content" style="border-radius: 8px; border: none; box-shadow: 0 5px 15px rgba(0,0,0,0.2);">
+      <div class="modal-header bg-success" style=" color: white; border-top-left-radius: 8px; border-top-right-radius: 8px;">
+        <h5 class="modal-title" id="modalLabel" style="color: white; margin-bottom: 0;">Submission Received!</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color: white; opacity: 0.8; background: none; border: none; font-size: 1.5rem; line-height: 1;">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" style="padding: 25px; text-align: center;">
+        <div style="font-size: 3rem; color: #28a745; margin-bottom: 15px;">✓</div>
+        <p style="font-size: 1.1rem; color: #333; line-height: 1.6;">
+          Thank you for reaching out to <strong>STATSHUB</strong>! 
+        </p>
+        <p style="color: #666;">
+          Your inquiry has been stored safely. Our administrative operations coordinator will review your parameters and contact you directly via phone or email details provided.
+        </p>
+      </div>
+      <div class="modal-footer" style="border-top: none; justify-content: center; padding-bottom: 20px;">
+        <button type="button" class="button button-md button-primary" data-dismiss="modal" style="min-width: 120px;">Great, Thanks!</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script type="text/javascript">
+    document.addEventListener("DOMContentLoaded", function() {
+        {% if messages %}
+            {% for message in messages %}
+                {% if 'open_contact_modal' in message.tags %}
+                    // Checks for Bootstrap 4/5 integration compatibility triggers
+                    if (typeof $ !== 'undefined' && $('#contactSuccessModal').modal) {
+                        $('#contactSuccessModal').modal('show');
+                    } else {
+                        var modalEl = document.getElementById('contactSuccessModal');
+                        if (modalEl && typeof bootstrap !== 'undefined') {
+                            var bsModal = new bootstrap.Modal(modalEl);
+                            bsModal.show();
+                        }
+                    }
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+    });
+</script>
+
+ {% endblock %}

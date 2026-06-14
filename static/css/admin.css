@@ -1,0 +1,65 @@
+/* Custom background for the dashboard area */
+body { background-color: #f4f7f6; }
+
+/* Modern Card Styling */
+.card {
+    border-radius: 12px !important;
+    transition: transform 0.2s ease-in-out;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+}
+
+/* Scrollbar styling for the inventory list */
+.card-body div::-webkit-scrollbar {
+    width: 4px;
+}
+.card-body div::-webkit-scrollbar-thumb {
+    background: #e0e0e0;
+    border-radius: 10px;
+}
+
+/* Soft primary badge */
+.bg-primary-soft {
+    background-color: #e7f0ff;
+}
+
+
+
+
+
+
+
+
+    #item_color{
+        color: #333;
+    }
+
+    .p-5{
+        border-top-left-radius: 15px;
+        border-top-right-radius: 15px;
+    }
+
+
+.table {
+  font-size: 0.85rem; /* reduces overall table text size */
+}
+
+.table th {
+  font-size: 0.8rem; /* smaller header text */
+  font-weight: 600;  /* keeps headers readable */
+}
+
+.table td {
+  font-size: 0.85rem; /* slightly smaller body text */
+}
+
+.btn-sm {
+  font-size: 0.75rem; /* smaller button text */
+}
+
+.badge {
+  font-size: 0.7rem; /* smaller badge text */
+}
+

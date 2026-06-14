@@ -1,0 +1,181 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block extra_head %}
+    <link rel="stylesheet" href="{% static 'css/season_competition_list.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+{% endblock %}
+{% block content %}
+
+
+ 
+<section class="section parallax-container breadcrumbs-wrap" data-parallax-img="{% static 'img/bg-breadcrumbs-1-1920x726.jpg' %}">
+    <div class="material-parallax parallax">
+        <img src="{% static 'img/bg-breadcrumbs-1-1920x726.jpg' %}" alt="" style="transform: translate3d(-50%, 82px, 0px); display: block;">
+    </div>
+    <div class="parallax-content breadcrumbs-custom context-dark">
+        <div class="container">
+            <h2 class="breadcrumbs-custom-title">Season And Competition Lists</h2>
+            <ul class="breadcrumbs-custom-path">
+                <li><a href="{% url 'home' %}">Home</a></li>
+                {% if user.is_authenticated and user.is_superuser %}
+                <li><a href="{% url 'season-create' %}">Register New Season</a></li>
+                {% endif %}
+                <li class="active">Lists</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+
+
+<!-- Seasons Table -->
+ <div class="table-container">
+    <table>
+        <thead>
+            <tr>
+                <th>YEAR</th>
+                <th>NAME</th>
+                <th>CURRENT SEASON</th>
+                {% if user.is_authenticated and user.is_superuser %}<th>Actions</th>{% endif %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for season in seasons %}
+                    <tr>
+                        <td ><a href="{% url 'season-id' season.pk %}">{{ season.year }}</a></td>
+                        <td><a href="{% url 'season-id' season.pk %}">{{ season.name }}</a></td>
+                        <td>{{ season.is_current_season }}</td>
+                        {% if user.is_authenticated and user.is_superuser %}
+                        <td>
+                            <div class="btn-container">
+                                <a class="btn btn-primary" href="{% url 'update-season' season.pk %}">Update</a>
+                                <button type="button" class="btn btn-danger" 
+                                        onclick="showDeleteModal('{% url 'delete-season' season.pk %}')">
+                                    Delete
+                                </button>
+                            </div>
+                        </td>
+                        {% endif %}
+                    </tr>
+                {% endfor %}
+        
+        </tbody>
+    </table>
+ </div>
+
+
+<br><br>
+
+
+<!-- Competition Table -->
+  <div class="table-container">
+   
+    
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Type</th>
+                <th>Current Competition</th>
+                <th>Teams</th>
+                <th>Opponents</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Year</th>
+                <th>Description</th>
+                {% if user.is_authenticated and user.is_superuser %}<th>Actions</th>{% endif %}
+            </tr>
+        </thead>
+        <tbody>
+           {% for competition in competitions %}
+                <tr>
+                    <td >
+                        {% if competition.year %}
+                            <a href="{% url 'team-id' competition.pk %}">
+                            {{ competition.name }}
+                            </a>
+                        {% else %}
+                            {{ competition.name }}
+                        {% endif %} 
+                    </td>
+                    <td>
+                        <a href="">
+                            {{ competition.type }}
+                        </a>
+                    </td>
+                    <td>{{ competition.is_current_competition }}</td>
+                    <td>{{ competition.team }}</td>
+                    <td>
+                        {% for team in competition.opponents.all %}
+                            {{ team.name }}{% if not forloop.last %}, {% endif %}
+                        {% endfor %}
+                    </td>
+                    <td>{{ competition.start_date }}</td>
+                    <td>{{ competition.end_date }}</td>
+                    <td>{{ competition.year }}</td>
+                    <td>{{ competition.description }}</td>
+                    {% if user.is_authenticated and user.is_superuser %}
+                    <td>
+                        <div class="btn-container">
+                            <a class="btn btn-primary" href="{% url 'competition-update' competition.pk %}">Update</a>
+                            <a class="btn btn-primary" href="{% url 'team-list' competition.id %}" >Team List</a>
+                        </div>
+                    </td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+        </tbody>
+    </table>
+ </div>
+
+
+
+
+
+
+ <!-- Custom Confirmation Modal HTML -->
+<div class="modal-overlay" id="deleteConfirmModal">
+    <div class="custom-modal">
+        <h5>Are you certain you want to delete this season?</h5>
+        <p style="color: #ccc;">This action cannot be undone.</p>
+        <div class="modal-actions">
+            <button class="btn btn-secondary" onclick="hideDeleteModal()">Cancel</button>
+            <a id="modalDeleteButton" class="btn btn-danger" href="#">Delete</a>
+        </div>
+    </div>
+</div>
+
+
+
+
+<script>
+    // Global variable to store the URL for the delete action
+    let deleteUrl = '';
+
+    /**
+     * Replaces the browser's confirm() dialog with a custom modal.
+     * @param {string} url - The URL to redirect to upon confirmation (the delete-season URL).
+     */
+    function showDeleteModal(url) {
+        deleteUrl = url;
+        const modal = document.getElementById('deleteConfirmModal');
+        const deleteButton = document.getElementById('modalDeleteButton');
+        
+        // Update the delete button's href and show the modal
+        deleteButton.href = deleteUrl;
+        modal.style.display = 'flex';
+    }
+
+    /**
+     * Hides the custom confirmation modal.
+     */
+    function hideDeleteModal() {
+        const modal = document.getElementById('deleteConfirmModal');
+        modal.style.display = 'none';
+        deleteUrl = ''; // Clear the URL
+    }
+
+</script>
+
+
+{% endblock %}

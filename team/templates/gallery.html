@@ -1,0 +1,247 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block extra_head %}
+
+{% endblock %}
+{% block content %}
+<style>
+
+.game-actions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    margin-top: 5px;
+    
+}
+
+.btn-modern {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+/* Edit button */
+.btn-edit {
+    background: #3498db;
+    color: #fff;
+    border: none;
+}
+.btn-edit:hover {
+    background: #2980b9;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+/* Delete button */
+.btn-delete {
+    background: #e74c3c;
+    color: #fff;
+    border: none;
+}
+.btn-delete:hover {
+    background: #c0392b;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+/* Icon styling */
+.btn-modern i {
+    font-size: 14px;
+}
+
+
+
+  /* Modal overlay */
+.modal-overlay {
+    display: none; /* hidden by default */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.6);
+    z-index: 9999; /* ensure it's above everything */
+    animation: fadeIn 0.3s ease forwards;
+}
+
+/* Modal content box */
+.modal-content {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    max-width: 400px;
+    margin: 10% auto;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    animation: slideDown 0.3s ease forwards;
+}
+
+/* Title and message */
+.modal-title {
+    margin-top: 0;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.modal-message {
+    margin: 15px 0;
+    font-size: 14px;
+    color: #333;
+}
+
+/* Buttons */
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.btn-modern {
+    padding: 8px 14px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn-cancel {
+    background: #ccc;
+    color: #000;
+}
+
+.btn-delete-confirm {
+    background: #e74c3c;
+    color: #fff;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideDown {
+    from { transform: translateY(-20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+</style>
+
+      <!-- Section Breadcrumbs-->
+      <section class="section parallax-container breadcrumbs-wrap" data-parallax-img="{% static 'img/ball_court.png' %}">
+        <div class="material-parallax parallax">
+        <img src="{% static 'img/ball_court.png' %}" alt="" style="transform: translate3d(-50%, 68px, 0px); display: block;"></div>
+        <div class="parallax-content breadcrumbs-custom context-dark">
+          <div class="container">
+            <h3 class="breadcrumbs-custom-title">Gallery</h3>
+            <ul class="breadcrumbs-custom-path">
+              <li><a href="{% url 'home' %}">Home</a></li>
+              <li><a href="{% url 'create-image'  %}">Add Image</a></li>
+              <li class="active">Gallery</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+      <!-- Section Gallery-->
+      <section class="section section-variant-1 bg-gray-100 text-center">
+        <div class="container">
+          <div class="row row-30" data-lightgallery="group">
+            {% for image in images %}
+            <div class="col-xs-8 col-sm-6 col-lg-4">
+              <!-- Thumbnail Classic-->
+              <article class="thumbnail-classic">
+                {% if image.images %}
+                <a class="thumbnail-classic-figure" href="{{ image.images.url }}" data-lightgallery="item">
+                <img src="{{ image.images.url }}" alt="" width="370" height="340"></a>
+                    {% else %} 
+                        <img src="" alt="" width="30">
+                    {% endif %} 
+                <div class="thumbnail-classic-caption">
+                  <div class="thumbnail-classic-panel-right">
+                    <span class="thumbnail-classic-panel-toggle mdi mdi-share-variant"></span>
+                    <ul class="thumbnail-classic-list list-inline list-inline-xs">
+                      <li><a class="fa fa-facebook" href="#"></a></li>
+                      <li><a class="fa fa-twitter" href="#"></a></li>
+                      <li><a class="fa fa-instagram" href="#"></a></li>
+                      <li><a class="fa fa-pinterest-p" href="#"></a></li>
+                    </ul>
+                  </div>
+                  <div class="thumbnail-classic-panel-left">
+                    <h6 class="thumbnail-classic-title">{{ image.title }}</h6>
+                    <span class="thumbnail-classic-subtitle">Share Photo</span>
+                  </div>
+                </div>
+              </article>
+
+              {% if user.is_authenticated %}
+              {% if user.is_superuser %}
+                <br>
+                <div class="game-actions">
+                    <a href="{% url 'update-image' image.pk %}" class=" btn-modern btn-edit">
+                        <i class="fas fa-pencil-alt"></i> Edit Image
+                    </a>
+                    <a  href="javascript:void(0)" 
+                      class="btn-modern btn-delete"
+                      onclick="openDeleteModal('{% url 'delete-image'  image.pk  %}')">
+                        <i class="badge-red fas fa-trash-alt"></i> Delete Image
+                    </a>
+                </div>
+              {% endif %}
+              {% endif %}
+            </div>
+            {% endfor %}
+  
+          </div>
+          <a class="button button-lg button-primary" href="#">load more photos</a>
+        </div>
+      </section>
+
+
+
+<div id="deleteImageModal" class="modal-overlay">
+    <div class="modal-content">
+        <h3 class="modal-title">Confirm Deletion</h3>
+        
+        <p class="modal-message">
+            Are you sure you want to delete this image? This action cannot be undone.
+        </p>
+
+        <form id="deleteImageForm" method="POST" action="">
+            {% csrf_token %} 
+            
+            <div class="modal-actions">
+                <button type="button" class="btn-modern btn-cancel" onclick="closeModal()">Cancel</button>
+                <button type="submit" class="btn-modern btn-delete-confirm">Delete Game</button>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    // Function to open the modal
+    function openDeleteModal(deleteUrl) {
+        // Set the form action dynamically to the specific game's delete URL
+        document.getElementById('deleteImageForm').action = deleteUrl;
+        document.getElementById('deleteImageModal').style.display = 'block';
+    }
+
+    // Function to close the modal
+    function closeModal() {
+        document.getElementById('deleteImageModal').style.display = 'none';
+    }
+
+    // Close the modal if the user clicks anywhere outside of it
+    window.onclick = function(event) {
+        const modal = document.getElementById('deleteImageModal');
+        if (event.target === modal) {
+            closeModal();
+        }
+    }
+</script>      
+{% endblock%}
+     

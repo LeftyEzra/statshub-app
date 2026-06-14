@@ -1,0 +1,8 @@
+{% extends 'error.html' %}
+
+{% block content %}
+    {# Render the content block of the base error template, passing the 404 code #}
+    {% with exception_code=404 %}
+        {{ block.super }}
+    {% endwith %}
+{% endblock content %}

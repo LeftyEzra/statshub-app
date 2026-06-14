@@ -1,0 +1,125 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'css/home.css' %}">
+
+<style>
+/* --- HERO SECTION --- */
+.hero {
+    background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
+                url("{% static 'images/basketball-bg.jpg' %}") center/cover no-repeat;
+    padding: 80px 20px;
+    text-align: center;
+    color: white;
+    border-radius: 10px;
+    margin-bottom: 40px;
+}
+
+.hero h1 {
+    font-size: 2.8rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+/* --- TEAM GRID --- */
+.team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 25px;
+}
+
+/* --- CARD --- */
+.team-card {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 20px 15px;
+    text-align: center;
+    transition: 0.3s ease-in-out;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.team-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+/* Logo */
+.team-card img {
+    width: 90px;
+    height: 90px;
+    object-fit: contain;
+    border-radius: 50%;
+    background: #f7f7f7;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+/* Team Name */
+.team-card h5 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #222;
+    margin-bottom: 15px;
+}
+
+/* Buttons */
+.team-card .btn {
+    font-size: 0.8rem;
+    padding: 6px 10px;
+}
+</style>
+
+
+<!-- ✅ HERO SECTION -->
+<div class="hero">
+    <h1>Python – Opponents</h1>
+    <p style="font-size: 1.1rem; margin-top: 10px;">
+        Explore all registered teams and manage opponents easily.
+    </p>
+</div>
+
+
+<!-- ✅ TEAM GRID SECTION -->
+<div class="container mb-5">
+    <div class="team-grid">
+
+        {% for team in opponents %}
+        <div class="team-card">
+
+            <!-- Logo -->
+            <a href="{% url 'opponent-id' team.pk %}">
+                <img src="{{ team.logo.url }}" alt="{{ team.name }}">
+            </a>
+
+            <!-- Name -->
+            <h5>{{ team.name }}</h5>
+
+            <!-- Actions -->
+            {% if user.is_authenticated %}
+            <div class="d-flex justify-content-center gap-2">
+
+                <a href="{% url 'update-opponent' team.pk %}"
+                   class="btn btn-primary btn-sm">
+                    Update
+                </a>
+
+                {% if user.is_superuser %}
+                <a href="{% url 'delete-opponent' team.pk %}"
+                   onclick="return confirm('Are you sure you want to delete this team?')"
+                   class="btn btn-danger btn-sm">
+                    Delete
+                </a>
+                {% endif %}
+
+            </div>
+            {% endif %}
+
+        </div>
+        {% endfor %}
+
+    </div>
+</div>
+
+{% endblock %}

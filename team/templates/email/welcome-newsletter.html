@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Welcome to StatsHub!</title>
+    <style>
+        /* Basic inline CSS for clean email layout across all devices */
+        body { font-family: Arial, sans-serif; line-height: 1.6; color: #333333; margin: 0; padding: 0; background-color: #f4f4f4; }
+        .container { max-width: 600px; margin: 20px auto; background: #ffffff; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        .header { text-align: center; padding-bottom: 20px; border-bottom: 1px solid #eeeeee; }
+        .header h1 { color: #07074d; margin-top: 10px; font-size: 26px; }
+        .content { padding: 20px 0; }
+        .button { display: inline-block; background-color: #6a64f1; color: #ffffff !important; padding: 12px 24px; text-decoration: none; border-radius: 5px; margin-top: 10px; font-weight: bold; }
+        .footer { text-align: center; padding-top: 20px; border-top: 1px solid #eeeeee; font-size: 13px; color: #777777; }
+        .footer a { color: #6a64f1; text-decoration: none; }
+        a { color: #6a64f1; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 style="color: #6a64f1; font-weight: 800; font-size: 32px; letter-spacing: 1px; margin: 0;">STATSHUB</h1>
+            <h1>Welcome to the Team!</h1>
+        </div>
+        
+        <div class="content">
+            <p>Hi {{ name }},</p>
+
+            <p>We are so excited to have you join our community! Thank you for subscribing to the StatsHub newsletter updates.</p>
+            
+            <p>At <strong>StatsHub</strong>, we are fully dedicated to elevating sports performance, technical growth, and athletic lifestyle. We bring you the absolute best in data-driven sports tools, professional web development insights, and premium athletic resources.</p>
+
+            <h2>What you will get from us:</h2>
+            <ul style="padding-left: 20px; color: #536387;">
+                <li style="margin-bottom: 8px;"><strong>Sports Analytics & Insights:</strong> Stay updated on how we track athlete stats, team data, and performance metrics to help players and clubs win more games.</li>
+                <li style="margin-bottom: 8px;"><strong>Product & New Arrivals Alerts:</strong> If you gave us your WhatsApp number ({{ whatsapp|default:"Not provided" }}), you will get first-choice access to our premium athletic apparel, sports gear, and new collections.</li>
+                <li style="margin-bottom: 8px;"><strong>Technical Development Tips:</strong> Clean, practical insights into how we build robust web software and applications using advanced Python and Django backends.</li>
+                <li style="margin-bottom: 8px;"><strong>Training & Academy News:</strong> Be the first to know about our upcoming fitness cycles, body transformation groups, and athletic basketball coaching slots for schools and kids.</li>
+            </ul>
+
+            <p>We want to help you stay ahead of the game, whether you are on the court, managing a team, or launching your next web project.</p>
+
+            <p><strong>In the meantime, feel free to connect with us:</strong></p>
+            <p style="text-align: center;">
+                <a href="mailto:info@statshub.com" class="button">Email Our Team Experts</a> 
+            </p>
+            
+            <p style="margin-top: 30px; font-size: 14px; color: #666;">We highly respect your privacy. We promise to send you only valuable information and updates. You can easily update your preferences or unsubscribe at any time using the links below.</p>
+            
+            <p>If you have any quick questions or specific requests for your team or school, simply reply directly to this email!</p>
+        </div>
+        
+        <div class="footer">
+            <p>Best regards,<br><strong>The StatsHub Team</strong></p>
+            <p>info@statshub.com</p>
+            <p>
+                <a href="#">Visit Our Dashboard</a> | <a href="#" onclick="return false;">Unsubscribe</a>
+            </p>
+        </div>
+    </div>
+</body>
+</html>

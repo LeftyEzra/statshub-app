@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block extra_head %}
+    <link rel="stylesheet" href="{% static 'css/season_create.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+{% endblock %}
+{% block content %}
+
+
+
+ 
+<section class="section parallax-container breadcrumbs-wrap" data-parallax-img="{% static 'img/bg-breadcrumbs-1-1920x726.jpg' %}">
+    <div class="material-parallax parallax">
+        
+        <img src="{% static 'img/bg-breadcrumbs-1-1920x726.jpg' %}" alt="" style="transform: translate3d(-50%, 82px, 0px); display: block;">
+    </div>
+    <div class="parallax-content breadcrumbs-custom context-dark">
+        <div class="container">
+            <h2 class="breadcrumbs-custom-title">Update Category</h2>
+            <ul class="breadcrumbs-custom-path">
+                <li><a href="{% url 'home' %}">Home</a></li>
+                <li><a href="">Seasons List</a></li>
+                <li class="active">Category Update</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+
+<div class="container mt-5">
+    <div class="form-container">
+        <h2 class="text-center">Category Form</h2>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            
+            <!-- START: MANUAL FIELD RENDERING FOR CATEGORY FORM -->
+
+            <!-- Field: Name -->
+            <div class="form-group-custom">
+                <label for="{{ form.name.id_for_label }}">Name:</label>
+                {{ form.name }}
+            </div>
+
+            <!-- END: MANUAL FIELD RENDERING -->
+
+            <div class="text-center mt-4"> 
+                <input type="submit" value="Submit" class="btn btn-success">
+            </div>
+        </form>
+    </div>
+</div>
+<br><br>
+
+{% endblock %}

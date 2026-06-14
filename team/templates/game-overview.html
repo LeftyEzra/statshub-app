@@ -1,0 +1,1621 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block extra_head %}
+    <link rel="stylesheet" href="{% static 'css/game-overview.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+{% endblock %}
+{% block content %}
+
+
+      <!-- Section Breadcrumbs-->
+      <section class="section parallax-container breadcrumbs-wrap" data-parallax-img="{% static 'img/bg-breadcrumbs-1-1920x726.jpg' %}">
+        <div class="material-parallax parallax">
+          <img src="{% static 'img/ball_court.png' %}" alt="" style="display: block; transform: translate3d(-50%, 68px, 0px);"></div>
+        <div class="parallax-content breadcrumbs-custom context-dark">
+          <div class="container">
+            <h3 class="breadcrumbs-custom-title">Game overview</h3>
+            <ul class="breadcrumbs-custom-path">
+              <li><a href="{% url 'home' %}">Home</a></li>
+              <li><a href="{% url 'game-schedule' competition.id %}">Games</a></li>
+              <li class="active">Game overview</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+
+
+      <section class="section section-sm bg-gray-100">
+        <div class="container">
+          <div class="row row-50">
+            <div class="col-lg-8">
+              <div class="row row-50">
+
+
+
+                <!-- Quarterly Scores Begin -->
+
+                <div class="col-sm-12 quarter-scores-section">
+                  <!-- Heading Component-->
+                  <article class="heading-component">
+                    <div class="heading-component-inner">
+                      <h5 class="heading-component-title">Quarter Scores</h5>
+                    </div>
+                  </article>
+
+                  <div class="row row-30">
+                    <div class="col-12">
+                      <div class="table-custom-responsive">
+                        <table class="table-custom table-quarter-scores table-borderless">
+                          <thead>
+                            <tr>
+                              <th  class="leader-category"style="text-align:left; "><h6 style="margin-left: 10px;">Team</h6></th>
+                              <th class="leader-category" ><h6>1st</h6></th>
+                              <th class="leader-category" ><h6>2nd</h6></th>
+                              <th class="leader-category" ><h6>3rd</h6></th>
+                              <th class="leader-category" ><h6>4th</h6></th>
+                              <th class="leader-category" ><h6>Total</h6></th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <!-- Team -->
+                            <tr>
+                              <td style="text-align:left;">
+                                <img src="{{ game_details.team.team_logo.url }}" alt="Team Logo" width="30" height="30">
+                                {% if game_details.team_scores > game_details.opponent_scores %}
+                                  {{ game_details.team }}
+                                {% else %}
+                                  {{ game_details.team }}
+                                {% endif %}
+                              </td>
+                              <td class="leader-category">
+                                {% if quarterly_scores.team_quarter_1 > quarterly_scores.opponent_quarter_1 %}
+                                  <h6 >{{ quarterly_scores.team_quarter_1 }}</h6>
+                                {% else %}
+                                  {{ quarterly_scores.team_quarter_1 }}
+                                {% endif %}
+                              </td>
+                              <td class="leader-category" >
+                                {% if quarterly_scores.team_quarter_2 > quarterly_scores.opponent_quarter_2 %}
+                                  <h6 >{{ quarterly_scores.team_quarter_2 }}</h6>
+                                {% else %}
+                                  {{ quarterly_scores.team_quarter_2 }}
+                                {% endif %}
+                              </td>
+                              <td class="leader-category">
+                                {% if quarterly_scores.team_quarter_3 > quarterly_scores.opponent_quarter_3 %}
+                                  <h6>{{ quarterly_scores.team_quarter_3 }}</h6>
+                                {% else %}
+                                  {{ quarterly_scores.team_quarter_3 }}
+                                {% endif %}
+                              </td>
+                              <td class="leader-category">
+                                {% if quarterly_scores.team_quarter_4 > quarterly_scores.opponent_quarter_4 %}
+                                  <h6>{{ quarterly_scores.team_quarter_4 }}</h6>
+                                {% else %}
+                                  {{ quarterly_scores.team_quarter_4 }}
+                                {% endif %}
+                              </td>
+                              <td class="leader-category">
+                                {% if game_details.team_scores > game_details.opponent_scores %}
+                                  <h6 >{{ game_details.team_scores }}</h6>
+                                {% else %}
+                                  {{ game_details.team_scores }}
+                                {% endif %}
+                              </td>
+                            </tr>
+
+                            <!-- Opponent -->
+                            <tr>
+                              <td style="text-align:left;">
+                                <img src="{{ game_details.opponent.logo.url }}" alt="Opponent Logo" width="30" height="30">
+                                {{ game_details.opponent }}
+                              </td>
+                              <td class="leader-category">
+                                {% if quarterly_scores.opponent_quarter_1 > quarterly_scores.team_quarter_1 %}
+                                  <h6 >{{ quarterly_scores.opponent_quarter_1 }}</h6>
+                                {% else %}
+                                  {{ quarterly_scores.opponent_quarter_1 }}
+                                {% endif %}
+                              </td>
+                              <td class="leader-category">
+                                {% if quarterly_scores.opponent_quarter_2 > quarterly_scores.team_quarter_2 %}
+                                  <h6 >{{ quarterly_scores.opponent_quarter_2 }}</h6>
+                                {% else %}
+                                  {{ quarterly_scores.opponent_quarter_2 }}
+                                {% endif %}
+                              </td>
+                              <td class="leader-category">
+                                {% if quarterly_scores.opponent_quarter_3 > quarterly_scores.team_quarter_3 %}
+                                  <h6>{{ quarterly_scores.opponent_quarter_3 }}</h6>
+                                {% else %}
+                                  {{ quarterly_scores.opponent_quarter_3 }}
+                                {% endif %}
+                              </td>
+                              <td class="leader-category">
+                                {% if quarterly_scores.opponent_quarter_4 > quarterly_scores.team_quarter_4 %}
+                                  <h6>{{ quarterly_scores.opponent_quarter_4 }}</h6>
+                                {% else %}
+                                  {{ quarterly_scores.opponent_quarter_4 }}
+                                {% endif %}
+                              </td>
+                              <td class="leader-category">
+                                {% if game_details.opponent_scores > game_details.team_scores %}
+                                  <h6>{{ game_details.opponent_scores }}</h6>
+                                {% else %}
+                                  {{ game_details.opponent_scores }}
+                                {% endif %}
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- Quarterly Scores End -->
+
+                <!-- Game Result Begin -->
+                <div class="col-sm-12">
+                  <!-- Heading Component-->
+                  <article class="heading-component">
+                    <div class="heading-component-inner">
+                      <h5 class="heading-component-title">Game Results
+                      </h5>
+                    </div>
+                  </article>
+                  <!-- Game Result Bug-->
+                  <article class="game-result" style="border-radius: 10px; ">
+                    <div class="game-info game-info-classic" >
+                      <p class="game-info-subtitle">{{ game_details.game_venue }} - 
+                        <time datetime="{{ game_date }}"> {{ readable_date }}</time>
+                       
+                      </p>
+                      <h3 class="game-info-title">{{ game_details.competition }} {{ game_details.competition.year }}</h3>
+                      <div class="game-info-main">
+                        <div class="game-info-team game-info-team-first">
+                          <figure><img src="{{ game_details.team.team_logo.url }}" alt="{{ game.team }}" width="75" height="99">
+                          </figure>
+                          <div class="game-result-team-name">{{ game_details.team }}</div>
+                          <div class="game-result-team-country">{{ game_details.team.city }}</div>
+                        </div>
+
+                        <div class="game-info-middle">
+                          <div class="game-result-score-wrap">
+                            {% if  game_details.team_scores >  game_details.opponent_scores %}
+                            <div class="game-info-score game-result-team-win" style="color:rgb(3, 164, 3); font-weight: bold; transform:scaleY(1.5);">{{ game_details.team_scores }}</div>
+                            <div class="game-info-score" style="color:grey; font-weight: bold; transform:scaleY(1.5);">{{ game_details.opponent_scores }}</div>
+                            {% elif  game_details.team_scores ==  game_details.opponent_scores %}
+                            <div class="game-info-score " style="color:grey; font-weight: bold; transform:scaleY(1.5);">{{ game_details.team_scores }}</div>
+                            <div class="game-info-score" style="color:grey; font-weight: bold; transform:scaleY(1.5);">{{ game_details.opponent_scores }}</div>
+                            {% else %}
+                            <div class="game-info-score game-result-team-win" style="color:red; font-weight: bold;">{{ game_details.team_scores }}</div>
+                            <div class="game-info-score" style="color:grey; font-weight: bold;" >{{ game_details.opponent_scores }}</div>
+                            {% endif %}
+                          </div>
+                          <div class="game-result-divider-wrap">
+                            <span class="game-info-team-divider" style=" size: 15px;">{{ game_details.indicator }}</span>
+                          </div>
+                        </div>
+
+                        <div class="game-info-team game-info-team-second">
+                          <figure><img src="{{ game_details.opponent.logo.url }}" alt="" width="77" height="99">
+                          </figure>
+                          <div class="game-result-team-name">{{ game_details.opponent }}</div>
+                          <div class="game-result-team-country">{{ game_details.opponent.city }}</div>
+                        </div>
+                      </div>
+                      <!-- Table Game Info-->
+                      <div class="table-game-info-wrap">
+                        <span class="table-game-info-title">Game statistics
+                          <span></span>
+                        </span>
+                        <div class="table-game-info-main table-custom-responsive">
+                          <table class="table-custom table-game-info">
+                            <tbody>
+                              <tr>
+                                {% if  game_details.team_scores >  game_details.opponent_scores %}
+                                <td class="table-game-info-number"  style="background-color:#35ad79;">{{ game_details.team_scores }}</td>
+                                <td class="table-game-info-category">POINTS</td>
+                                <td class="table-game-info-number">{{ game_details.opponent_scores }}</td>
+                                {% else %}
+                                <td class="table-game-info-number" >{{ game_details.team_scores }}</td>
+                                <td class="table-game-info-category">POINTS</td>
+                                <td class="table-game-info-number" style="background-color:#3B7CC0;">{{ game_details.opponent_scores }}</td>
+                                {% endif %}
+                              </tr>
+
+                          
+                              <tr>
+                                {% if  overall_sum_df.total_rebounds >  opp_total_stats_df.total_rebounds %}
+                                <td class="table-game-info-number" style="background-color:#35ad79;  border-radius: 20px; ">{{ overall_sum_df.total_rebounds|floatformat:0 }}</td>
+                                <td class="table-game-info-category">REBOUNDS</td>
+                                <td class="table-game-info-number">{{opp_total_stats_df.total_rebounds|floatformat:0}}</td>
+                                {% elif overall_sum_df.total_rebounds  ==  opp_total_stats_df.total_rebounds %}
+                                <td class="table-game-info-number" >{{ overall_sum_df.total_rebounds|floatformat:0 }}</td>
+                                <td class="table-game-info-category">REBOUNDS</td>
+                                <td class="table-game-info-number">{{ opp_total_stats_df.total_rebounds|floatformat:0 }}</td>
+                                {% else %}
+                                <td class="table-game-info-number" >{{ overall_sum_df.total_rebounds|floatformat:0 }}</td>
+                                <td class="table-game-info-category">REBOUNDS</td>
+                                <td class="table-game-info-number" style="background-color:#3B7CC0; border-radius: 20px;">{{opp_total_stats_df.total_rebounds|floatformat:0}}</td>
+                                {% endif %}
+                              </tr>
+                              
+                              <tr>
+                                {% if  overall_sum_df.assists >  opp_total_stats_df.assists %}
+                                <td class="table-game-info-number" style="background-color:#35ad79;  border-radius: 20px; ">{{ overall_sum_df.assists|floatformat:0 }}</td>
+                                <td class="table-game-info-category">ASSISTS</td>
+                                <td class="table-game-info-number">{{ opp_total_stats_df.assists|floatformat:0 }}</td>
+                                {% elif overall_sum_df.assists  ==  opp_total_stats_df.assists %}
+                                <td class="table-game-info-number" >{{ overall_sum_df.assists|floatformat:0 }}</td>
+                                <td class="table-game-info-category">ASSISTS</td>
+                                <td class="table-game-info-number">{{ opp_total_stats_df.assists |floatformat:0 }}</td>
+                                {% else %}
+                                <td class="table-game-info-number" >{{ overall_sum_df.assists|floatformat:0 }}</td>
+                                <td class="table-game-info-category">ASSISTS</td>
+                                <td class="table-game-info-number" style="background-color:#3B7CC0; border-radius: 20px;">{{ opp_total_stats_df.assists|floatformat:0}}</td>
+                                {% endif %}
+                              </tr>
+                               <tr>
+                                {% if  overall_sum_df.field_goal_made >  opp_total_stats_df.field_goal_made %}
+                                <td class="table-game-info-number" style="background-color:#35ad79;  border-radius: 20px; ">{{ overall_sum_df.field_goal_made|floatformat:0 }}</td>
+                                <td class="table-game-info-category">FG MADE</td>
+                                <td class="table-game-info-number">{{ opp_total_stats_df.field_goal_made|floatformat:0 }}</td>
+                                {% elif overall_sum_df.field_goal_made  ==  opp_total_stats_df.field_goal_made %}
+                                <td class="table-game-info-number" >{{ overall_sum_df.field_goal_made |floatformat:0 }}</td>
+                                <td class="table-game-info-category">FG MADE</td>
+                                <td class="table-game-info-number">{{ opp_total_stats_df.field_goal_made |floatformat:0 }}</td>
+                                {% else %}
+                                <td class="table-game-info-number" >{{ overall_sum_df.field_goal_made|floatformat:0 }}</td>
+                                <td class="table-game-info-category">FG MADE</td>
+                                <td class="table-game-info-number" style="background-color:#3B7CC0; border-radius: 20px;">{{ opp_total_stats_df.field_goal_made|floatformat:0 }}</td>
+                                {% endif %}
+                              </tr>
+
+                              <tr>
+                                {% if  overall_sum_df.field_goal_attempts >   opp_total_stats_df.field_goal_attempts  %}
+                                <td class="table-game-info-number" style="background-color:#35ad79;  border-radius: 20px; ">{{ overall_sum_df.field_goal_attempts|floatformat:0 }}</td>
+                                <td class="table-game-info-category">FG ATTEMPTS</td>
+                                <td class="table-game-info-number">{{ opp_total_stats_df.field_goal_attempts|floatformat:0 }}</td>
+                                {% elif overall_sum_df.field_goal_attempts  ==  opp_total_stats_df.field_goal_attempts %}
+                                <td class="table-game-info-number" >{{ overall_sum_df.field_goal_attempts |floatformat:0 }}</td>
+                                <td class="table-game-info-category">FG ATTEMPTS</td>
+                                <td class="table-game-info-number">{{ opp_total_stats_df.field_goal_attempts |floatformat:0 }}</td>
+                                {% else %}
+                                <td class="table-game-info-number" >{{ overall_sum_df.field_goal_attempts|floatformat:0 }}</td>
+                                <td class="table-game-info-category">FG ATTEMPTS</td>
+                                <td class="table-game-info-number" style="background-color:#3B7CC0; border-radius: 20px;">{{ opp_total_stats_df.field_goal_attempts|floatformat:0 }}</td>
+                                {% endif %}
+                              </tr>
+                              
+                              <tr>
+                                {% if  overall_sum_df.point_3_made > opp_total_stats_df.point_3_made %}
+                                <td class="table-game-info-number" style="background-color:#35ad79;  border-radius: 20px; ">{{ overall_sum_df.point_3_made|floatformat:0 }}</td>
+                                <td class="table-game-info-category">3P MADE</td>
+                                <td class="table-game-info-number">{{ opp_total_stats_df.point_3_made|floatformat:0 }}</td>
+                                {% elif overall_sum_df.point_3_made  ==  opp_total_stats_df.point_3_made  %}
+                                <td class="table-game-info-number" >{{ overall_sum_df.point_3_made |floatformat:0 }}</td>
+                                <td class="table-game-info-category">3P MADE</td>
+                                <td class="table-game-info-number">{{ opp_total_stats_df.point_3_made |floatformat:0 }}</td>
+                                {% else %}
+                                <td class="table-game-info-number" >{{ overall_sum_df.point_3_made|floatformat:0 }}</td>
+                                <td class="table-game-info-category">3P MADE</td>
+                                <td class="table-game-info-number" style="background-color:#3B7CC0; border-radius: 20px;">{{ opp_total_stats_df.point_3_made|floatformat:0 }}</td>
+                                {% endif %}
+                              </tr>
+                              <tr>
+                                {% if overall_sum_df.point_3_attempts >   opp_total_stats_df.point_3_attempts  %}
+                                <td class="table-game-info-number" style="background-color:#35ad79;  border-radius: 20px; ">{{ overall_sum_df.point_3_attempts|floatformat:0 }}</td>
+                                <td class="table-game-info-category">3P ATTEMPTS</td>
+                                <td class="table-game-info-number">{{ opp_total_stats_df.point_3_attempts|floatformat:0 }}</td>
+                                {% elif overall_sum_df.point_3_attempts ==  opp_total_stats_df.point_3_attempts %}
+                                <td class="table-game-info-number" >{{ overall_sum_df.point_3_attempts|floatformat:0 }}</td>
+                                <td class="table-game-info-category">3P ATTEMPTS</td>
+                                <td class="table-game-info-number">{{ opp_total_stats_df.point_3_attempts|floatformat:0 }}</td>
+                                {% else %}
+                                <td class="table-game-info-number" >{{ overall_sum_df.point_3_attempts|floatformat:0 }}</td>
+                                <td class="table-game-info-category">3P ATTEMPTS</td>
+                                <td class="table-game-info-number" style="background-color:#3B7CC0; border-radius: 20px;">{{ opp_total_stats_df.point_3_attempts|floatformat:0 }}</td>
+                                {% endif %}
+                              </tr>
+
+                               <tr>
+                                {% if  overall_sum_df.ft_made >   opp_total_stats_df.ft_made  %}
+                                <td class="table-game-info-number" style="background-color:#35ad79;  border-radius: 20px; ">{{ overall_sum_df.ft_made|floatformat:0 }}</td>
+                                <td class="table-game-info-category">FT MADE</td>
+                                <td class="table-game-info-number">{{ opp_total_stats_df.ft_made|floatformat:0 }}</td>
+                                {% elif overall_sum_df.ft_made ==  opp_total_stats_df.ft_made %}
+                                <td class="table-game-info-number" >{{ overall_sum_df.ft_made|floatformat:0 }}</td>
+                                <td class="table-game-info-category">FT MADE</td>
+                                <td class="table-game-info-number">{{ opp_total_stats_df.ft_made|floatformat:0 }}</td>
+                                {% else %}
+                                <td class="table-game-info-number" >{{ overall_sum_df.ft_made|floatformat:0 }}</td>
+                                <td class="table-game-info-category">FT MADE</td>
+                                <td class="table-game-info-number" style="background-color:#3B7CC0; border-radius: 20px;">{{ opp_total_stats_df.ft_made|floatformat:0 }}</td>
+                                {% endif %}
+                              </tr>
+
+                               <tr>
+                                {% if  overall_sum_df.ft_attempts > opp_total_stats_df.ft_attempts  %}
+                                <td class="table-game-info-number" style="background-color:#35ad79;  border-radius: 20px; ">{{ overall_sum_df.ft_attempts|floatformat:0 }}</td>
+                                <td class="table-game-info-category">FT ATTEMPTS</td>
+                                <td class="table-game-info-number">{{ opp_total_stats_df.ft_attempts|floatformat:0 }}</td>
+                                {% elif overall_sum_df.ft_attempts ==  opp_total_stats_df.ft_attempts %}
+                                <td class="table-game-info-number" >{{ overall_sum_df.ft_attempts|floatformat:0 }}</td>
+                                <td class="table-game-info-category">FT ATTEMPTS</td>
+                                <td class="table-game-info-number">{{ opp_total_stats_df.ft_attempts|floatformat:0 }}</td>
+                                {% else %}
+                                <td class="table-game-info-number" >{{ overall_sum_df.ft_attempts|floatformat:0 }}</td>
+                                <td class="table-game-info-category">FT ATTEMPTS</td>
+                                <td class="table-game-info-number" style="background-color:#3B7CC0; border-radius: 20px;">{{ opp_total_stats_df.ft_attempts|floatformat:0 }}</td>
+                                {% endif %}
+                              </tr>
+                              
+                              <tr>
+                                {% if  overall_sum_df.offensive_rebs > opp_total_stats_df.offensive_rebs  %}
+                                <td class="table-game-info-number" style="background-color:#35ad79;  border-radius: 20px; ">{{ overall_sum_df.offensive_rebs|floatformat:0 }}</td>
+                                <td class="table-game-info-category">OFF REBOUNDS</td>
+                                <td class="table-game-info-number">{{ opp_total_stats_df.offensive_rebs|floatformat:0 }}</td>
+                                {% elif overall_sum_df.offensive_rebs ==  opp_total_stats_df.offensive_rebs %}
+                                <td class="table-game-info-number" >{{ overall_sum_df.offensive_rebs|floatformat:0 }}</td>
+                                <td class="table-game-info-category">OFF REBOUNDS</td>
+                                <td class="table-game-info-number">{{ opp_total_stats_df.offensive_rebs|floatformat:0 }}</td>
+                                {% else %}
+                                <td class="table-game-info-number" >{{ overall_sum_df.offensive_rebs|floatformat:0 }}</td>
+                                <td class="table-game-info-category">OFF REBOUNDS</td>
+                                <td class="table-game-info-number" style="background-color:#3B7CC0; border-radius: 20px;">{{ opp_total_stats_df.offensive_rebs|floatformat:0 }}</td>
+                                {% endif %}
+                              </tr>
+                              <tr>
+                                {% if  overall_sum_df.defensive_rebs > opp_total_stats_df.defensive_rebs %}
+                                <td class="table-game-info-number" style="background-color:#35ad79;  border-radius: 20px; ">{{ overall_sum_df.defensive_rebs|floatformat:0 }}</td>
+                                <td class="table-game-info-category">DEF REBOUNDS</td>
+                                <td class="table-game-info-number">{{ opp_total_stats_df.defensive_rebs|floatformat:0 }}</td>
+                                {% elif overall_sum_df.defensive_rebs ==  opp_total_stats_df.defensive_rebs %}
+                                <td class="table-game-info-number" >{{ overall_sum_df.defensive_rebs|floatformat:0 }}</td>
+                                <td class="table-game-info-category">DEF REBOUNDS</td>
+                                <td class="table-game-info-number">{{ opp_total_stats_df.defensive_rebs|floatformat:0 }}</td>
+                                {% else %}
+                                <td class="table-game-info-number" >{{ overall_sum_df.defensive_rebs|floatformat:0 }}</td>
+                                <td class="table-game-info-category">DEF REBOUNDS</td>
+                                <td class="table-game-info-number" style="background-color:#3B7CC0; border-radius: 20px;">{{ opp_total_stats_df.defensive_rebs|floatformat:0 }}</td>
+                                {% endif %}
+                              </tr>
+                             
+                              <tr>
+                                {% if  overall_sum_df.steals >  opp_total_stats_df.steals  %}
+                                <td class="table-game-info-number" style="background-color:#35ad79;  border-radius: 20px; ">{{ overall_sum_df.steals|floatformat:0 }}</td>
+                                <td class="table-game-info-category">STEALS</td>
+                                <td class="table-game-info-number">{{ opp_total_stats_df.steals|floatformat:0 }}</td>
+                                {% elif overall_sum_df.steals ==  opp_total_stats_df.steals %}
+                                <td class="table-game-info-number" >{{ overall_sum_df.steals|floatformat:0 }}</td>
+                                <td class="table-game-info-category">STEALS</td>
+                                <td class="table-game-info-number">{{ opp_total_stats_df.steals|floatformat:0 }}</td>
+                                {% else %}
+                                <td class="table-game-info-number" >{{ overall_sum_df.steals|floatformat:0 }}</td>
+                                <td class="table-game-info-category">STEALS</td>
+                                <td class="table-game-info-number" style="background-color:#3B7CC0; border-radius: 20px;">{{ opp_total_stats_df.steals|floatformat:0 }}</td>
+                                {% endif %}
+                              </tr>
+
+                              <tr>
+                                {% if  overall_sum_df.blocks > opp_total_stats_df.blocks  %}
+                                <td class="table-game-info-number" style="background-color:#35ad79;  border-radius: 20px; ">{{ overall_sum_df.blocks|floatformat:0 }}</td>
+                                <td class="table-game-info-category">BLOCKS</td>
+                                <td class="table-game-info-number">{{ opp_total_stats_df.blocks|floatformat:0 }}</td>
+                                {% elif overall_sum_df.blocks ==  opp_total_stats_df.blocks %}
+                                <td class="table-game-info-number" >{{ overall_sum_df.blocks|floatformat:0 }}</td>
+                                <td class="table-game-info-category">BLOCKS</td>
+                                <td class="table-game-info-number">{{ opp_total_stats_df.blocks|floatformat:0 }}</td>
+                                {% else %}
+                                <td class="table-game-info-number" >{{ overall_sum_df.blocks|floatformat:0 }}</td>
+                                <td class="table-game-info-category">BLOCKS</td>
+                                <td class="table-game-info-number" style="background-color:#3B7CC0; border-radius: 20px;">{{ opp_total_stats_df.blocks|floatformat:0 }}</td>
+                                {% endif %}
+                              </tr>
+                               <tr>
+                                {% if  overall_sum_df.turnovers > opp_total_stats_df.turnovers %}
+                                <td class="table-game-info-number">{{ overall_sum_df.turnovers|floatformat:0 }}</td>
+                                <td class="table-game-info-category">TURNOVERS</td>
+                                <td class="table-game-info-number" style="background-color:#3B7CC0; border-radius: 20px;"> {{ opp_total_stats_df.turnovers|floatformat:0}}</td>
+                                {% elif overall_sum_df.turnovers ==  opp_total_stats_df.turnovers %}
+                                <td class="table-game-info-number" >{{ overall_sum_df.turnovers|floatformat:0 }}</td>
+                                <td class="table-game-info-category">TURNOVERS</td>
+                                <td class="table-game-info-number">{{ opp_total_stats_df.turnovers|floatformat:0}}</td>
+                                {% else %}
+                                <td class="table-game-info-number"  style="background-color:#35ad79;  border-radius: 20px; " >{{ overall_sum_df.turnovers|floatformat:0 }}</td>
+                                <td class="table-game-info-category">TURNOVERS</td>
+                                <td class="table-game-info-number" >{{ opp_total_stats_df.turnovers|floatformat:0}}</td>
+                                {% endif %}
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+
+                      <!-- Percentages -->
+                       {% if  overall_sum_df.points >  0 %}
+                      <div class="progress-bar-main progress-bar-rotate-90">
+                        <div class="progress-bar-team progress-bar-team-first progress-bar-primary">
+                          <div class="progress-bar-wrap">
+                              <div class="progress-bar-js progress-bar-radial">
+                                <svg class="progress-circle-bar" width="150" height="150" viewBox="0 0 150 150">
+                                  <circle class="progress-circle-bg" cx="75" cy="75" r="70"></circle>
+                                  <circle class="progress-circle-fg-new" cx="75" cy="75" r="70" 
+                                          style="--percent: {{ overall_sum_df.fg_percent|default:0.0 }};"></circle>
+                                </svg>
+                                <div class="progress-circle-counter">{{ overall_sum_df.fg_percent|floatformat:1 }}</div>
+                              </div>
+                              <p class="progress-bar-title">FG%</p>
+                          </div>
+                         <div class="progress-bar-wrap">
+                              <div class="progress-bar-js progress-bar-radial">
+                                <svg class="progress-circle-bar" width="150" height="150" viewBox="0 0 150 150">
+                                  <circle class="progress-circle-bg" cx="75" cy="75" r="70"></circle>
+                                  <circle class="progress-circle-fg-new" cx="75" cy="75" r="70" 
+                                          style="--percent: {{ overall_sum_df.point_3_percent|default:0.0 }};"></circle>
+                                </svg>
+                                <div class="progress-circle-counter">{{ overall_sum_df.point_3_percent|floatformat:1 }}</div>
+                              </div>
+                              <p class="progress-bar-title">3P%</p>
+                          </div>
+
+                           <div class="progress-bar-wrap">
+                              <div class="progress-bar-js progress-bar-radial">
+                                <svg class="progress-circle-bar" width="150" height="150" viewBox="0 0 150 150">
+                                  <circle class="progress-circle-bg" cx="75" cy="75" r="70"></circle>
+                                  <circle class="progress-circle-fg-new" cx="75" cy="75" r="70" 
+                                          style="--percent: {{ overall_sum_df.ft_percent|default:0.0 }};"></circle>
+                                </svg>
+                                <div class="progress-circle-counter">{{ overall_sum_df.ft_percent|floatformat:1 }}</div>
+                              </div>
+                              <p class="progress-bar-title">FT%</p>
+                          </div>
+
+                        </div>
+                        <!-- OPPONENT-->
+                        <div class="progress-bar-divider"></div>
+                        <div class="progress-bar-team progress-bar-team-second team2-blue">
+                          <div class="progress-bar-wrap">
+                              <div class="progress-bar-js progress-bar-radial">
+                                <svg class="progress-circle-bar" width="150" height="150" viewBox="0 0 150 150">
+                                  <circle class="progress-circle-bg" cx="75" cy="75" r="70"></circle>
+                                  <circle class="progress-circle-fg-new-opponent" cx="75" cy="75" r="70" 
+                                    style="--percent: {{ opp_total_stats_df.fg_percent|default:0.0 }};">
+                                  </circle>
+                                </svg>
+                                <div class="progress-circle-counter">{{ opp_total_stats_df.fg_percent|floatformat:1 }}</div>
+                              </div>
+                              <p class="progress-bar-title">FG%</p>
+                            </div>
+                          <div class="progress-bar-wrap">
+                            <div class="progress-bar-js progress-bar-radial">
+                              <svg class="progress-circle-bar" x="0" y="0" width="150" height="150" viewBox="0 0 150 150">
+                                <circle class="progress-circle-bg" cx="75" cy="75" r="72"></circle>
+                                <circle class="progress-circle-fg-new-opponent" cx="75" cy="75" r="70" 
+                                    style="--percent: {{ opp_total_stats_df.point_3_percent|floatformat:1 }};">
+                                </circle>
+                              </svg>
+                              <div class="progress-circle-counter">{{ opp_total_stats_df.point_3_percent|floatformat:1 }}</div>
+                            </div>
+                            <p class="progress-bar-title">3PT%</p>
+                          </div>
+
+                           <div class="progress-bar-wrap">
+                            <div class="progress-bar-js progress-bar-radial">
+                              <svg class="progress-circle-bar" x="0" y="0" width="150" height="150" viewBox="0 0 150 150">
+                                <circle class="progress-circle-bg" cx="75" cy="75" r="72"></circle>
+                                <circle class="progress-circle-fg-new-opponent" cx="75" cy="75" r="70" 
+                                    style="--percent: {{ opp_total_stats_df.ft_percent|floatformat:1 }};">
+                                </circle>
+                              </svg>
+                              <div class="progress-circle-counter">{{ opp_total_stats_df.ft_percent|floatformat:1 }}</div>
+                            </div>
+                            <p class="progress-bar-title">FT%</p>
+                          </div>
+                        </div>
+                      </div>
+                      {% else %}
+                       <div class="progress-bar-main progress-bar-rotate-90">
+                        <div class="progress-bar-team progress-bar-team-first progress-bar-primary">
+                          <div class="progress-bar-wrap">
+                              <div class="progress-bar-js progress-bar-radial">
+                                <svg class="progress-circle-bar" width="150" height="150"  viewBox="0 0 150 150">
+                                  <circle class="progress-circle-bg" cx="75" cy="75" r="70"></circle>
+                                  <circle class="progress-circle-fg clipped" cx="75" cy="75" r="72" clip-path="url(#nnxcwvxp)"></circle>
+                                  <clipPath id="nnxcwvxp"><path d="M 75 75 L 75 -33 A 108 108 0 0 1 75 -33"></path></clipPath>
+                                </svg>
+                                </svg>
+                                <div class="progress-circle-counter">0.0</div>
+                              </div>
+                              <p class="progress-bar-title">FG%</p>
+                          </div>
+                         <div class="progress-bar-wrap">
+                              <div class="progress-bar-js progress-bar-radial">
+                                <svg class="progress-circle-bar" width="150" height="150" viewBox="0 0 150 150">
+                                  <circle class="progress-circle-bg" cx="75" cy="75" r="70"></circle>
+                                  <circle class="progress-circle-fg clipped" cx="75" cy="75" r="72" clip-path="url(#nnxcwvxp)"></circle>
+                                  <clipPath id="nnxcwvxp"><path d="M 75 75 L 75 -33 A 108 108 0 0 1 75 -33"></path></clipPath>
+                                </svg>
+                                </svg>
+                                <div class="progress-circle-counter">0.0</div>
+                              </div>
+                              <p class="progress-bar-title">3P%</p>
+                          </div>
+
+                           <div class="progress-bar-wrap">
+                              <div class="progress-bar-js progress-bar-radial">
+                                <svg class="progress-circle-bar" width="150" height="150" viewBox="0 0 150 150">
+                                  <circle class="progress-circle-bg" cx="75" cy="75" r="70"></circle>
+                                  <circle class="progress-circle-fg clipped" cx="75" cy="75" r="72" clip-path="url(#nnxcwvxp)"></circle>
+                                  <clipPath id="nnxcwvxp"><path d="M 75 75 L 75 -33 A 108 108 0 0 1 75 -33"></path></clipPath>
+                                </svg>
+                                </svg>
+                                <div class="progress-circle-counter">0.0</div>
+                              </div>
+                              <p class="progress-bar-title">FT%</p>
+                          </div>
+
+                        </div>
+                        <div class="progress-bar-divider"></div>
+                        <div class="progress-bar-team progress-bar-team-second team2-blue">
+                          <div class="progress-bar-wrap">
+                              <div class="progress-bar-js progress-bar-radial">
+                                <svg class="progress-circle-bar" width="150" height="150" viewBox="0 0 150 150">
+                                  <circle class="progress-circle-bg" cx="75" cy="75" r="70"></circle>
+                                  <circle class="progress-circle-fg clipped" cx="75" cy="75" r="72" clip-path="url(#nnxcwvxp)"></circle>
+                                  <clipPath id="nnxcwvxp"><path d="M 75 75 L 75 -33 A 108 108 0 0 1 75 -33"></path></clipPath>
+                                </svg>
+                                </svg>
+                                <div class="progress-circle-counter">0.0</div>
+                              </div>
+                              <p class="progress-bar-title">FG%</p>
+                            </div>
+                          <div class="progress-bar-wrap">
+                            <div class="progress-bar-js progress-bar-radial">
+                              <svg class="progress-circle-bar" x="0" y="0" width="150" height="150" viewBox="0 0 150 150">
+                                  <circle class="progress-circle-bg" cx="75" cy="75" r="72"></circle>
+                                  <circle class="progress-circle-fg clipped" cx="75" cy="75" r="72" clip-path="url(#nnxcwvxp)"></circle>
+                                <clipPath id="nnxcwvxp"><path d="M 75 75 L 75 -33 A 108 108 0 0 1 75 -33"></path></clipPath>
+                              </svg>
+                              <div class="progress-circle-counter">0.0</div>
+                            </div>
+                            <p class="progress-bar-title">3PT%</p>
+                          </div>
+
+                           <div class="progress-bar-wrap">
+                            <div class="progress-bar-js progress-bar-radial">
+                              <svg class="progress-circle-bar" x="0" y="0" width="150" height="150" viewBox="0 0 150 150">
+                                  <circle class="progress-circle-bg" cx="75" cy="75" r="72"></circle>
+                                  <circle class="progress-circle-fg clipped" cx="75" cy="75" r="72" clip-path="url(#nnxcwvxp)"></circle>
+                                  <clipPath id="nnxcwvxp"><path d="M 75 75 L 75 -33 A 108 108 0 0 1 75 -33"></path></clipPath>
+                              </svg>
+                              <div class="progress-circle-counter">0.0</div>
+                            </div>
+                            <p class="progress-bar-title">FT%</p>
+                          </div>
+                        </div>
+                      </div>
+                      {% endif %}
+                    </div>
+                  </article>
+                </div>
+                <!-- Game Result End -->
+
+                <!--Boostrap progress Bar -->
+                <div class="container mt-5 px-4"> 
+  
+                  <div class="row align-items-center justify-content-center mb-4"> 
+                    <div class="col-5 px-0" style="max-width: 40%;"> 
+                      <div class="progress" style="height: 30px; transform: rotate(180deg); background-color: #989899; margin-right: 5px;">
+                        <div class="progress-bar progress-bar-striped progress-bar-animated bg-primary" 
+                            role="progressbar" 
+                            style="width: 85%; transform: rotate(180deg);" 
+                            aria-valuenow="85">
+                            <span style="padding: 5px;">85%</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-1 text-center px-2" style="flex: 0 0 auto; width: auto; min-width: 45px;"> 
+                      <span style="font-weight: bold; font-size: 12px; color: #555;">PTS</span>
+                    </div>
+
+                    <div class="col-5 px-0" style="max-width: 40%;"> 
+                      <div class="progress" style="height: 30px; background-color: #989899; margin-left: 5px;">
+                        <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" 
+                            role="progressbar" 
+                            style="width: 70%" 
+                            aria-valuenow="70">
+                            <span style="font-size: 15px; line-height: 10px; display: block;">70%</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row align-items-center justify-content-center mb-4">
+                    <div class="col-3 px-0" style="max-width: 30%;">
+                      <div class="progress" style="height: 10px; transform: rotate(180deg); background-color: #e9ecef; margin-right: 5px;">
+                        <div class="progress-bar progress-bar-striped progress-bar-animated bg-primary" 
+                            role="progressbar" 
+                            style="width: 85%; transform: rotate(180deg);" 
+                            aria-valuenow="85">
+                            <span style="font-size: 8px; line-height: 10px; display: block;">85%</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-1 text-center px-2" style="flex: 0 0 auto; width: auto; min-width: 45px;">
+                      <span style="font-weight: bold; font-size: 12px; color: #555;">REB</span>
+                    </div>
+
+                    <div class="col-3 px-0" style="max-width: 30%;">
+                      <div class="progress" style="height: 10px; background-color: #e9ecef; margin-left: 5px;">
+                        <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" 
+                            role="progressbar" 
+                            style="width: 90%" 
+                            aria-valuenow="90">
+                            <span style="font-size: 8px; line-height: 10px; display: block;">90%</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                </div> 
+                <!--Boostrap progress Bar End-->
+
+
+                <!-- Game Statistics -->  
+                <div class="col-sm-12">
+                  <!-- Heading Component-->
+                  <article class="heading-component">
+                    <div class="heading-component-inner">
+                      <h5 class="heading-component-title">Players Stats</h5>
+                    
+                        <!-- The button logic is now inside this new centering container -->
+                        {% if user.is_authenticated %}
+                            {% if game_details and game_details.pk %}
+                                <a href="{% url 'game-stats-pdf' game_pk=game_details.pk %}" class="btn btn-success me-2">
+                                  <h5 >Download PDF</h5>
+                                </a>
+                            {% else %}
+                                <a href="#" class="btn btn-danger me-2">
+                                  <h5 >PDF Unavailable</h5>
+                                </a>
+                            {% endif %}
+                        {% else %}
+                            <a href="{% url 'login-user' %}" class="btn btn-success me-2">
+                              <h5 >Login to Download Stats</h5>
+                            </a>
+                        {% endif %}
+
+                    
+
+                    </div>
+                  </article>
+
+                  <div class="row row-30">
+
+                    <div class="col-12">
+                      <!-- Table Roster: Team -->
+                     <div class="leader-category" style="
+                        text-align:left;
+                        padding:15px 10px 0px 10px;
+                        background-color:#35ad79;
+                       
+                        height:50px;
+                        line-height:50px;
+                        margin: -25 auto;
+                        ">
+                        <h6 class="leader-name">{{ game_details.team }}</h6>
+                      </div>
+
+                      <div class="table-custom-responsive" style="max-height: 800px; overflow-y: auto; ">
+                        <table class="table-custom table-roster">
+                     
+                         
+                          <tbody>
+                            <tr class="sticky-cols">
+                              <td class="sticky-cols" style="">N0</td>
+                              <td class="sticky-cols" colspan="1" style=" text-align: left;">NAME</td>
+                              <td>MIN</td>
+                              <td style="color: #151515; background-color: #b5f2d6;">PTS</td>
+                              <td style="color: #151515; background-color: #b5f2d6;">REB</td>
+                              <td style="color: #151515; background-color: #b5f2d6;">AST</td>
+
+                              <td>FGM</td>
+                              <td>FGA</td>
+                              <td>FG%</td>
+
+                              <td>3PM</td>
+                              <td>3PA</td>
+                              <td>3P%</td>
+
+                              <td>FTM</td>
+                              <td>FTA</td>
+                              <td>FT%</td>
+
+                              <td>OREB</td>
+                              <td>DREB</td>
+                              <td>REB</td>
+
+                              <td>BLK</td>
+                              <td>STL</td>
+                              <td>TOV</td>
+                              <td>PF</td>
+                              <td>+/-</td>
+                              <td>EFF</td>
+                              <td>DEF</td>
+                            </tr>
+                            {% for player in team_players %}
+                            <tr>
+                              <td>{{ player.player_name__jersey_number }}</td>
+                              <td style="text-align: left;">
+                                <a href="{% url 'players-id' competition.id player.player_id %}">{{ player.player_name }}</a>
+                              </td>
+                              <td>{{ player.minutes }}</td>
+                              <td style=" background-color: #b5f2d6;">{{ player.points }}</td>
+                              <td style="background-color: #b5f2d6;">{{ player.total_rebounds }}</td>
+                              <td style="background-color: #b5f2d6;">{{ player.assists }}</td>
+
+                              <td>{{ player.field_goal_made }}</td>
+                              <td>{{ player.field_goal_attempts }}</td>
+                              <td>{{ player.fg_percent|floatformat:1 }}</td>
+
+                              <td>{{ player.point_3_made }}</td>
+                              <td>{{ player.point_3_attempts }}</td>
+                              <td>{{ player.point_3_percent|floatformat:1 }}</td>
+
+                              <td>{{ player.ft_made }}</td>
+                              <td>{{ player.ft_attempts }}</td>
+                              <td>{{ player.ft_percent|floatformat:1 }}</td>
+
+                              <td>{{ player.offensive_rebs }}</td>
+                              <td>{{ player.defensive_rebs }}</td>
+                              <td>{{ player.total_rebounds }}</td>
+
+                              <td>{{ player.blocks }}</td>
+                              <td>{{ player.steals }}</td>
+                              <td>{{ player.turnovers }}</td>
+                              <td>{{ player.personal_fouls }}</td>
+                              <td>{{ player.plus_minus }}</td>
+                              <td>{{ player.efficiency }}</td>
+                              <td>{{ player.def }}</td>
+                              
+
+                            </tr>
+                            
+                           
+                        
+                            
+                            {% endfor %}
+                            
+                          </tbody>
+                          <tfoot>
+                             <tr style=" font-weight: bold; border-top: 0.4px solid #35ad79;">
+                                  <td></td> 
+                                  <td style="text-align: left; color: #151515;">{{ game_details.team }}</td>
+                                  <td style="color: #151515;">200</td>
+                                  <td style="color: #151515; background-color: #b5f2d6;">{{ overall_sum_df.points|floatformat:0  }}</td>
+                                  <td style="color: #151515; background-color: #b5f2d6;">{{ overall_sum_df.total_rebounds|floatformat:0 }}</td>
+                                  <td style="color: #151515; background-color: #b5f2d6;">{{ overall_sum_df.assists|floatformat:0 }}</td>
+                                  
+                                  <td style="color: #151515;">{{ overall_sum_df.field_goal_made|floatformat:0 }}</td>
+                                  <td style="color: #151515;">{{ overall_sum_df.field_goal_attempts|floatformat:0 }}</td>
+                                   {% if overall_sum_df.points > 0 %}
+                                  <td style="color: #35ad79;">{{ overall_sum_df.fg_percent|floatformat:1 }}%</td>
+                                  {% else %}
+                                  <td style="color: #35ad79;">0.0%</td>
+                                  {% endif %}
+
+                                  <td style="color: #151515;">{{ overall_sum_df.point_3_made|floatformat:0 }}</td>
+                                  <td style="color: #151515;">{{ overall_sum_df.point_3_attempts|floatformat:0 }}</td>
+                                   {% if overall_sum_df.points > 0 %}
+                                  <td style="color: #35ad79;">{{ overall_sum_df.point_3_percent|floatformat:1 }}%</td>
+                                  {% else %}
+                                  <td style="color: #35ad79;">0.0%</td>
+                                  {% endif %}
+
+                                  <td style="color: #151515;">{{ overall_sum_df.ft_made|floatformat:0 }}</td>
+                                  <td style="color: #151515;">{{ overall_sum_df.ft_attempts|floatformat:0 }}</td>
+                                  {% if overall_sum_df.points > 0 %}
+                                  <td style="color: #35ad79;">{{ overall_sum_df.ft_percent|floatformat:1 }}%</td>
+                                  {% else %}
+                                  <td style="color: #35ad79;">0.0%</td>
+                                  {% endif %}
+
+                                  <td style="color: #151515;">{{ overall_sum_df.offensive_rebs|floatformat:0 }}</td>
+                                  <td style="color: #151515;">{{ overall_sum_df.defensive_rebs|floatformat:0 }}</td>
+                                  <td style="color: #151515;">{{ overall_sum_df.total_rebounds|floatformat:0 }}</td>
+
+                                  <td style="color: #151515;">{{ overall_sum_df.blocks|floatformat:0 }}</td>
+                                  <td style="color: #151515;">{{ overall_sum_df.steals|floatformat:0 }}</td>
+                                  <td style="color: #151515;">{{ overall_sum_df.turnovers|floatformat:0 }}</td>
+
+                                  <td style="color: #151515;">{{ overall_sum_df.personal_fouls|floatformat:0 }}</td>
+                                  <td style="color: #151515;">{{ overall_sum_df.plus_minus|floatformat:0 }}</td>
+                                  <td style="color: #151515;">{{ overall_sum_df.efficiency|floatformat:0 }}</td>
+                                  <td style="color: #151515;">{{ overall_sum_df.def|floatformat:1 }}</td>
+                                  </tr>
+                        </tfoot>
+                        </table>
+                      </div>
+                    </div>
+
+                     <br> 
+                    <!-- Opponent Table -->
+                     <div class="col-12">
+                      <br> 
+                      <!-- Table Roster: Atletico -->
+                     <div class="leader-category" style="
+                        text-align:left;
+                        padding:15px 10px 0px 10px;
+                        background-color:#3B7CC0;
+                       
+                        height:50px;
+                        line-height:50px;
+                        margin: -25 auto;
+                        ">
+                        <h6 class="leader-name">{{ game_details.opponent }}</h6>
+                      </div>
+
+                      <div class="table-custom-responsive" style="max-height: 800px; overflow-y: auto; ">
+                        <table class="table-custom table-roster">
+                     
+                         
+                          <tbody>
+                            <tr class="sticky-cols">
+                              <td style="">N0</td>
+                              <td colspan="1" style=" text-align: left;">NAME</td>
+                              <td>MIN</td>
+                              <td style="background-color: #b1d3f8; color: #151515;">PTS</td>
+                              <td style="background-color: #b1d3f8; color: #151515;">REB</td>
+                              <td style="background-color: #b1d3f8; color: #151515;">AST</td>
+
+                              <td>FGM</td>
+                              <td>FGA</td>
+                              <td>FG%</td>
+
+                              <td>3PM</td>
+                              <td>3PA</td>
+                              <td>3P%</td>
+
+                              <td>FTM</td>
+                              <td>FTA</td>
+                              <td>FT%</td>
+
+                              <td>OREB</td>
+                              <td>DREB</td>
+                              <td>REB</td>
+
+                              <td>BLK</td>
+                              <td>STL</td>
+                              <td>TOV</td>
+                              <td>PF</td>
+                              <td>+/-</td>
+                              <td>EFF</td>
+                              <td>DEF</td>
+                            </tr>
+                            {% for player in opponent_players %}
+                            <tr>
+                              <td>{{ player.player_name__jersey_number }}</td>
+                              <td style="text-align: left;">
+                                <a href="">{{ player.player_name }}</a>
+                              </td>
+                              <td>{{ player.minutes }}</td>
+                              <td style="background-color: #b1d3f8">{{ player.points }}</td>
+                              <td style="background-color: #b1d3f8"  >{{ player.total_rebounds }}</td>
+                              <td style="background-color: #b1d3f8"  >{{ player.assists }}</td>
+
+                              <td>{{ player.field_goal_made }}</td>
+                              <td>{{ player.field_goal_attempts }}</td>
+                              <td>{{ player.fg_percent|floatformat:1 }}</td>
+
+                              <td>{{ player.point_3_made }}</td>
+                              <td>{{ player.point_3_attempts }}</td>
+                              <td>{{ player.point_3_percent|floatformat:1 }}</td>
+
+                              <td>{{ player.ft_made }}</td>
+                              <td>{{ player.ft_attempts }}</td>
+                              <td>{{ player.ft_percent|floatformat:1 }}</td>
+
+                              <td>{{ player.offensive_rebs }}</td>
+                              <td>{{ player.defensive_rebs }}</td>
+                              <td>{{ player.total_rebounds }}</td>
+
+                              <td>{{ player.blocks }}</td>
+                              <td>{{ player.steals }}</td>
+                              <td>{{ player.turnovers }}</td>
+                              <td>{{ player.personal_fouls }}</td>
+                              <td>{{ player.plus_minus }}</td>
+                              <td>{{ player.efficiency }}</td>
+                              <td>{{ player.def }}</td>
+
+                            </tr>
+                            {% endfor %}
+                          </tbody>
+                          <tfoot>
+                             <tr style=" font-weight: bold; border-top: 0.4px solid #35ad79;">
+                                  <td></td> 
+                                  <td style="text-align: left; color: #151515;">{{ game_details.opponent }}</td>
+                                  <td style="color: #151515;">200</td>
+                                  <td style="background-color: #b1d3f8; color: #151515;">{{opp_total_stats_df.points|floatformat:0  }}</td>
+                                  <td style="background-color: #b1d3f8;color: #151515;">{{opp_total_stats_df.total_rebounds|floatformat:0  }}</td>
+                                  <td style="background-color: #b1d3f8; color: #151515;">{{opp_total_stats_df.assists|floatformat:0}}</td>
+                                  
+                                  <td style="color: #151515;">{{opp_total_stats_df.field_goal_made|floatformat:0}}</td>
+                                  <td style="color: #151515;">{{opp_total_stats_df.field_goal_attempts|floatformat:0 }}</td>
+                                  <td style="color: #35ad79;">{{opp_total_stats_df.fg_percent|floatformat:1 }}%</td>
+
+                                  <td style="color: #151515;">{{opp_total_stats_df.point_3_made|floatformat:0}}</td>
+                                  <td style="color: #151515;">{{opp_total_stats_df.point_3_attempts|floatformat:0 }}</td>
+                                  <td style="color: #35ad79;">{{opp_total_stats_df.point_3_percent|floatformat:1 }}%</td>
+
+                                  <td style="color: #151515;">{{opp_total_stats_df.ft_made|floatformat:0 }}</td>
+                                  <td style="color: #151515;">{{opp_total_stats_df.ft_attempts|floatformat:0}}</td>
+                                  <td style="color: #35ad79;">{{opp_total_stats_df.ft_percent|floatformat:1 }}%</td>
+
+                                  <td style="color: #151515;">{{opp_total_stats_df.offensive_rebs|floatformat:0 }}</td>
+                                  <td style="color: #151515;">{{opp_total_stats_df.defensive_rebs|floatformat:0 }}</td>
+                                  <td style="color: #151515;">{{opp_total_stats_df.total_rebounds|floatformat:0}}</td>
+
+                                  <td style="color: #151515;">{{opp_total_stats_df.blocks|floatformat:0}}</td>
+                                  <td style="color: #151515;">{{opp_total_stats_df.steals|floatformat:0}}</td>
+                                  <td style="color: #151515;">{{opp_total_stats_df.turnovers|floatformat:0 }}</td>
+
+                                  <td style="color: #151515;">{{opp_total_stats_df.personal_fouls|floatformat:0}}</td>
+                                  <td style="color: #151515;">{{opp_total_stats_df.plus_minus|floatformat:0}}</td>
+                                  <td style="color: #151515;">{{opp_total_stats_df.efficiency|floatformat:0}}</td>
+                                  <td style="color: #151515;">{{opp_total_stats_df.def|floatformat:0 }}</td>
+                                  </tr>
+                          </tfoot>
+                        </table>
+                      </div>
+                    </div>
+
+                 
+                  </div>
+                </div>
+                <!-- Game Statistics End -->  
+
+
+
+
+
+
+                <!-- Game Performance Leaders Begin --> 
+                <div class="stat-card" style="background-color: (135deg, #1a1a2e, #16213e);">
+                  <div class="col-sm-12 stats-wrapper" style="background-color: (135deg, #1a1a2e, #16213e);">
+                    <article class="heading-component">
+                      <div class="heading-component-inner">
+                        <h5 class="heading-component-title" style=" color:aliceblue;">Game Leaders</h5>
+                      </div>
+                    </article>
+
+                    
+                    <div class="leaders-grid" style="background-color: (135deg, #1a1a2e, #16213e); color:aliceblue;">
+                     <p class="leader-team-name">{{ game_details.team}}</p>
+                      <div class="leader-row">
+                       
+                        {% for point in top_points_df %}
+                        <div class="leader-team team-left">
+                         
+                          <div class="leader-img">
+                            <a href="{% url 'players-id' competition.id point.player_id %}">
+                              <img src="/media/{{ point.player_name__player_image }}" alt="Leader">
+                            </a>
+                          </div>
+                          <div class="leader-info">
+                             <p class="leader-team-name">{{ game_details.team}}</p>
+                            <span class="leader-number">#{{ point.player_name__jersey_number }}</span>
+                            <h6 class="leader-name" style=" color:rgb(9, 163, 91);">{{ point.player_name }}</h6>
+                            <p class="leader-team-name">{{ point.player_name__team__name }}</p>
+                            <span class="leader-stat">{{ point.points }} <small>PTS</small></span>
+                            <small class="stat-detail">FG: {{point.field_goal_made }}/{{point.field_goal_attempts }} • FT: {{point.ft_made }}/{{point.ft_attempts }}</small>
+                          </div>
+                        </div>
+                        {% endfor %}
+
+                        <div class="leader-category">
+                          <div class="category-pill">
+                            <span class="category-icon">🏀</span>
+                            <h6 style=" color:rgb(227, 169, 10);" >Points</h6>
+                          </div>
+                        </div>
+
+                        {% for point in opp_top_points %}
+                        <div class="leader-team team-right">
+                          <div class="leader-info">
+                            <span class="leader-number">#{{ point.player_name__jersey_number }}</span>
+                            <h6 class="leader-name" style=" color:rgb(9, 163, 91);">{{ point.player_name }}</h6>
+                            <p class="leader-team-name">{{ point.player_name__team__name }}</p>
+                            <span class="leader-stat">{{ point.points }} <small>PTS</small></span>
+                            <small class="stat-detail">FG: {{point.field_goal_made }}/{{point.field_goal_attempts }} • FT: {{point.ft_made }}/{{point.ft_attempts }}</small>
+                          </div>
+                          <div class="leader-img">
+                            <img src="/media/{{ point.player_name__player_image }}" alt="Leader">
+                          </div>
+                        </div>
+                        {% endfor %}
+                      </div>
+
+                      <div class="leader-row">
+                        {% for reb in top_rebounds_df %}
+                        <div class="leader-team team-left">
+                          <div class="leader-img">
+                            <img src="/media/{{ reb.player_name__player_image }}">
+                          </div>
+                          <div class="leader-info">
+                            <span class="leader-number">#{{ reb.player_name__jersey_number }}</span>
+                            <h6 class="leader-name" style=" color:rgb(9, 163, 91);">{{ reb.player_name }}</h6>
+                            <span class="leader-stat">{{ reb.total_rebounds }} <small>REB</small></span>
+                            <small class="stat-detail">OFF: {{ reb.offensive_rebs }} • DEF: {{ reb.defensive_rebs }}</small>
+                          </div>
+                        </div>
+                        {% endfor %}
+
+                        <div class="leader-category">
+                          <div class="category-pill">
+                              <span class="category-icon">🏀</span>
+                              <h6 style=" color:rgb(227, 169, 10);" >Rebounds</h6>
+                          </div>
+                        </div>
+
+                        {% for reb in opp_top_rebounds %}
+                        <div class="leader-team team-right">
+                          <div class="leader-info">
+                            <span class="leader-number">#{{ reb.player_name__jersey_number }}</span>
+                            <h6 class="leader-name" style=" color:rgb(9, 163, 91);" >{{ reb.player_name }}</h6>
+                            <span class="leader-stat">{{ reb.total_rebounds }} <small>REB</small></span>
+                            <small class="stat-detail">OFF: {{ reb.offensive_rebs }} • DEF: {{ reb.defensive_rebs }}</small>
+                          </div>
+                          <div class="leader-img">
+                            <img src="/media/{{ reb.player_name__player_image }}">
+                          </div>
+                        </div>
+                        {% endfor %}
+                      </div>
+                      
+                      <div class="leader-row">
+                        {% for ast in top_assist_df %}
+                        <div class="leader-team team-left">
+                          <div class="leader-img">
+                            <img src="/media/{{ ast.player_name__player_image }}">
+                          </div>
+                          <div class="leader-info">
+                            <span class="leader-number">#{{ ast.player_name__jersey_number }}</span>
+                            <h6 class="leader-name" style=" color:rgb(9, 163, 91);" >{{ ast.player_name }}</h6>
+                            <span class="leader-stat">{{ ast.assists }} <small>AST</small></span>
+                            <small class="stat-detail">TO: {{ ast.turnovers }} • MIN: {{ ast.minutes }}</small>
+                          </div>
+                        </div>
+                        {% endfor %}
+
+                        <div class="leader-category">
+                          <div class="category-pill">
+                              <span class="category-icon">🏀</span>
+                              <h6 style=" color:rgb(227, 169, 10);"  >Assists</h6>
+                          </div>
+                        </div>
+
+                        {% for ast in opp_top_assists %}
+                        <div class="leader-team team-right">
+                          <div class="leader-info">
+                            <span class="leader-number">#{{ ast.player_name__jersey_number }}</span>
+                            <h6 class="leader-name" style=" color:rgb(9, 163, 91);" >{{ ast.player_name }}</h6>
+                            <span class="leader-stat">{{ ast.assists }} <small>AST</small></span>
+                            <small class="stat-detail">TO: {{ ast.turnovers }} • MIN: {{ ast.minutes }}</small>
+                          </div>
+                          <div class="leader-img">
+                            <img src="/media/{{ ast.player_name__player_image }}">
+                          </div>
+                        </div>
+                        {% endfor %}
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+                <!-- Game Performance Leaders Ends --> 
+
+
+                <!-- International Games Begin --> 
+                <div class="col-sm-12">
+                 
+                  <!-- Game Result Bug-->
+                   {% for game in int_games_in_other_games %}
+                  <article class="game-result">
+                    <a href="{% url 'game-overview' competition.id game.id %}" class="btn-modern btn-edit">
+                    <div class="game-info">
+                      <p class="game-info-subtitle">{{ game.game_venue__name }} - 
+                        <time datetime="08:30"> {{ game.time }}</time>
+                      </p>
+                      <h3 class="game-info-title">{{ game.game_type }}</h3>
+                      <div class="game-info-main">
+                        <div class="game-info-team game-info-team-first">
+                          <figure>
+                            <img src="/media/{{ game.team__team_logo }}" alt="{{ game.team__name }}" width="75" height="99">
+                          </figure>
+                          <div class="game-result-team-name">{{ game.team__name }}</div>
+                          <div class="game-result-team-country">{{ game.team__city }}</div>
+                        </div>
+                        <div class="game-info-middle game-info-middle-vertical">
+                          <time class="time-big" datetime="2024-04-17"><span class="heading-3">{{ game.date }}</span>
+                          </time>
+                          <div class="game-result-divider-wrap"><span class="game-info-team-divider">{{ game.indicator }}</span></div>
+                          <div class="group-sm">
+                            <div class="button button-sm button-share-outline">Share
+                              <ul class="game-info-share">
+                                <li class="game-info-share-item"><a class="icon fa fa-facebook" href="#"></a></li>
+                                <li class="game-info-share-item"><a class="icon fa fa-twitter" href="#"></a></li>
+                                <li class="game-info-share-item"><a class="icon fa fa-google-plus" href="#"></a></li>
+                                <li class="game-info-share-item"><a class="icon fa fa-instagram" href="#"></a></li>
+                              </ul>
+                            </div><a class="button button-sm button-primary" href="#">Buy tickets</a>
+                          </div>
+                        </div>
+                        <div class="game-info-team game-info-team-second">
+                          <figure>
+                            <img src="/media/{{ game.opponent__logo }}" alt="{{ game.opponent__name }}" width="78" height="98">
+                          </figure>
+                          <div class="game-result-team-name">{{ game.opponent__name }}</div>
+                          <div class="game-result-team-country">{{ game.opponent__city }}</div>
+                        </div>
+                      </div>
+                    </div>
+                    </a>
+                  </article>
+                  {% endfor %}
+                 
+                </div>
+                <!-- International Games End --> 
+
+
+
+
+
+              </div>
+            </div>
+
+
+            <div class="col-lg-4">
+              <div class="row row-50">
+                <!-- Game Highlight Begin --> 
+                <div class="col-md-6 col-lg-12"  >
+                  <!-- Heading Component-->
+                  <article class="heading-component">
+                    <div class="heading-component-inner">
+                      <h5 class="heading-component-title">Game highlights
+                      </h5>
+                    </div>
+                  </article>
+                  <!-- Game Highlights-->
+                   {% if  overall_sum_df.points >  0 %}
+                  <div class="game-highlights" >
+                    <ul class="game-highlights-list">
+                      <li>
+                        <p class="game-highlights-title">Start of the Match
+                        </p><span class="game-highlights-minute">0’</span>
+                      </li>
+                      <li>
+                        <p class="game-highlights-title">
+                          <span class="icon icon-xxs icon-orange-dark fa fa-exclamation"></span>Foul by Django
+                        </p>
+                        <p class="game-highlights-description">Django showed sharp reflexes but failed to score for his team.</p>
+                        <span class="game-highlights-minute">12’</span>
+                      </li>
+                      <li class="team-primary">
+                        <p class="game-highlights-title">
+                          <span class="icon icon-xxs icon-primary fa fa-futbol-o"></span>
+                          <span class="game-highlights-goal">Basket</span> (56-65)
+                        </p>
+                        <p class="game-highlights-description">Flasks scored with the right hand. Assisted by by the assist king Pandas.</p>
+                        <span class="game-highlights-minute">18’</span>
+                      </li>
+                      <li class="team2-blue">
+                        <p class="game-highlights-title">
+                          <span class="icon icon-xxs icon-blue-boston fa fa-basketbol-o"></span>
+                          <span class="game-highlights-goal">Basket</span> (65-70)
+                        </p>
+                        <p class="game-highlights-description">Django the defender or stopper blocks his oppopnent aggresively.</p>
+                        <span class="game-highlights-minute">21’</span>
+                      </li>
+                      <li>
+                        <p class="game-highlights-title">
+                          <span class="icon icon-xxs icon-orange fa fa-file"></span>Technical Foul
+                        </p>
+                        <p class="game-highlights-description">Tensorflow got his first in the season just before the first half ended.</p>
+                        <span class="game-highlights-minute">28’</span>
+                      </li>
+                      <li>
+                        <p class="game-highlights-title">
+                          <span class="icon icon-xxs icon-primary fa fa-life-ring"></span>Attempt shot missed
+                        </p>
+                        <p class="game-highlights-description">Pandas attempted field goals was missed due to imbalance.</p>
+                        <span class="game-highlights-minute">31’</span>
+                      </li>
+                      <li>
+                        <p class="game-highlights-title">
+                          <span class="icon icon-xxs icon-blue-boston fa fa-hand-o-right"></span>Free-throw
+                        </p>
+                        <p class="game-highlights-description">Performed by tensorflow, this freethrow is crucial.</p>
+                        <span class="game-highlights-minute">47’</span>
+                      </li>
+                      <li>
+                        <p class="game-highlights-title">
+                          <span class="icon icon-xxs icon-primary fa fa-flag"></span>Offensive Foul
+                        </p>
+                        <p class="game-highlights-description">Django recieved received warning for touching the passed ball.</p>
+                        <span class="game-highlights-minute">60’</span>
+                      </li>
+                      <li>
+                        <p class="game-highlights-title">
+                          <span class="icon icon-xxs icon-red-2 fa fa-file"></span>Ejection
+                        </p>
+                        <p class="game-highlights-description">The referee gave an ejection on the 74th minute of the match.</p>
+                        <span class="game-highlights-minute">74’</span>
+                      </li>
+                      <li>
+                        <p class="game-highlights-title">
+                          <span class="icon icon-xxs icon-primary fa fa-exchange"></span>Pandas 
+                          <span class="text-gray-500">for</span> Numpy
+                        </p>
+                        <p class="game-highlights-description">Python replaces their first forward with Pandas before the 2 quarter time ends.</p>
+                        <span class="game-highlights-minute">86’</span>
+                      </li>
+                      <li>
+                        <p class="game-highlights-title">
+                          <span class="icon icon-xxs icon-blue-boston fa fa-clock-o"></span>The referee adds 4 minutes 
+                        </p>
+                        <p class="game-highlights-description">The referee  to the second time to compensate the opponent celebration time.</p>
+                        <span class="game-highlights-minute">89’</span>
+                      </li>
+                      <li>
+                        <p class="game-highlights-title">
+                          <span class="icon icon-xxs icon-primary fa fa-flag-checkered"></span>End of the game
+                        </p>
+                        <p class="game-highlights-description">4 minutes later the referee announces the end of the game with a draw as a result.</p>
+                        <span class="game-highlights-minute">94’</span>
+                      </li>
+                    </ul>
+                  </div>
+                  {%  else %}
+                  <div class="game-highlights" style="display: none;" >
+                    <ul class="game-highlights-list">
+                      <li>
+                        <p class="game-highlights-title">Start of the Match
+                        </p><span class="game-highlights-minute">0’</span>
+                      </li>
+                      <li>
+                        <p class="game-highlights-title">
+                          <span class="icon icon-xxs icon-orange-dark fa fa-exclamation"></span>Foul by Django
+                        </p>
+                        <p class="game-highlights-description">Django showed sharp reflexes but failed to score for his team.</p>
+                        <span class="game-highlights-minute">12’</span>
+                      </li>
+                      <li class="team-primary">
+                        <p class="game-highlights-title">
+                          <span class="icon icon-xxs icon-primary fa fa-futbol-o"></span>
+                          <span class="game-highlights-goal">Basket</span> (56-65)
+                        </p>
+                        <p class="game-highlights-description">Flasks scored with the right hand. Assisted by by the assist king Pandas.</p>
+                        <span class="game-highlights-minute">18’</span>
+                      </li>
+                      <li class="team2-blue">
+                        <p class="game-highlights-title">
+                          <span class="icon icon-xxs icon-blue-boston fa fa-basketbol-o"></span>
+                          <span class="game-highlights-goal">Basket</span> (65-70)
+                        </p>
+                        <p class="game-highlights-description">Django the defender or stopper blocks his oppopnent aggresively.</p>
+                        <span class="game-highlights-minute">21’</span>
+                      </li>
+                      <li>
+                        <p class="game-highlights-title">
+                          <span class="icon icon-xxs icon-orange fa fa-file"></span>Technical Foul
+                        </p>
+                        <p class="game-highlights-description">Tensorflow got his first in the season just before the first half ended.</p>
+                        <span class="game-highlights-minute">28’</span>
+                      </li>
+                      <li>
+                        <p class="game-highlights-title">
+                          <span class="icon icon-xxs icon-primary fa fa-life-ring"></span>Attempt shot missed
+                        </p>
+                        <p class="game-highlights-description">Pandas attempted field goals was missed due to imbalance.</p>
+                        <span class="game-highlights-minute">31’</span>
+                      </li>
+                      <li>
+                        <p class="game-highlights-title">
+                          <span class="icon icon-xxs icon-blue-boston fa fa-hand-o-right"></span>Free-throw
+                        </p>
+                        <p class="game-highlights-description">Performed by tensorflow, this freethrow is crucial.</p>
+                        <span class="game-highlights-minute">47’</span>
+                      </li>
+                      <li>
+                        <p class="game-highlights-title">
+                          <span class="icon icon-xxs icon-primary fa fa-flag"></span>Offensive Foul
+                        </p>
+                        <p class="game-highlights-description">Django recieved received warning for touching the passed ball.</p>
+                        <span class="game-highlights-minute">60’</span>
+                      </li>
+                      <li>
+                        <p class="game-highlights-title">
+                          <span class="icon icon-xxs icon-red-2 fa fa-file"></span>Ejection
+                        </p>
+                        <p class="game-highlights-description">The referee gave an ejection on the 74th minute of the match.</p>
+                        <span class="game-highlights-minute">74’</span>
+                      </li>
+                      <li>
+                        <p class="game-highlights-title">
+                          <span class="icon icon-xxs icon-primary fa fa-exchange"></span>Pandas 
+                          <span class="text-gray-500">for</span> Numpy
+                        </p>
+                        <p class="game-highlights-description">Python replaces their first forward with Pandas before the 2 quarter time ends.</p>
+                        <span class="game-highlights-minute">86’</span>
+                      </li>
+                      <li>
+                        <p class="game-highlights-title">
+                          <span class="icon icon-xxs icon-blue-boston fa fa-clock-o"></span>The referee adds 4 minutes 
+                        </p>
+                        <p class="game-highlights-description">The referee  to the second time to compensate the opponent celebration time.</p>
+                        <span class="game-highlights-minute">89’</span>
+                      </li>
+                      <li>
+                        <p class="game-highlights-title">
+                          <span class="icon icon-xxs icon-primary fa fa-flag-checkered"></span>End of the game
+                        </p>
+                        <p class="game-highlights-description">4 minutes later the referee announces the end of the game with a draw as a result.</p>
+                        <span class="game-highlights-minute">94’</span>
+                      </li>
+                    </ul>
+                  </div>
+                  {% endif %}
+                </div>
+                <!-- Game Highlight End --> 
+
+
+                <div class="col-md-6 col-lg-12">
+                  <!-- Heading Component-->
+                  <article class="heading-component">
+                   
+                    <div class=" col-lg-6 heading-component-inner" style="flex:nowrap;">
+                      <h6 class="heading-component-title " style="flex:nowrap;">Other Game results</h6>
+                      <a class="button button-xs button-gray-outline" href="{% url 'game-schedule' competition.id %}">View All</a>
+                    </div>
+                  
+                  </article>
+
+                  <!-- Game 1 Result Classic-->
+                   {% for other_game in other_games|slice:":4"  %}
+                    {% if other_game.team_scores > 0 %}
+                    <article class="game-result game-result-classic">
+                      <a href="{% url 'game-overview' competition.id other_game.pk %}" class="btn-modern btn-edit">
+                      <div class="game-result-main">
+                        
+                        <div class="game-result-team game-result-team-first">
+                          <figure class="game-result-team-figure game-result-team-figure-big">
+                            <img src="{{ other_game.team.team_logo.url }}" alt="{{ other_game.team }}" width="41" height="55">
+                          </figure>
+                          <div class="game-result-team-name">{{ other_game.team }}</div>
+                          <div class="game-result-team-country">{{ other_game.team.city }}</div>
+                        </div>
+
+                        <div class="game-result-middle">
+                          <div class="game-result-score-wrap">
+                            <div class="game-result-score game-result-team-win">{{ other_game.team_scores }}
+                              {% if other_game.team_scores > other_game.opponent_scores %}
+                              <span class="game-result-team-label game-result-team-label-top">Win</span>
+                              {% elif other_game.team_scores < other_game.opponent_scores %}
+                              <span class="game-result-team-label game-result-team-label-top" style="background-color:red;">Loss</span>
+                              {% else %}
+                              <span class="game-result-team-label game-result-team-label-top" style="background-color:transparent;"></span>
+                              {% endif %}
+                            </div>
+                            <div class="game-result-score-divider">
+                              <svg x="0px" y="0px" width="7px" height="21px" viewBox="0 0 7 21" enable-background="new 0 0 7 21" xml:space="preserve">
+                                <g>
+                                  <circle cx="3.5" cy="3.5" r="3"></circle>
+                                  <path d="M3.5,1C4.879,1,6,2.122,6,3.5S4.879,6,3.5,6S1,4.878,1,3.5S2.122,1,3.5,1 M3.5,0C1.567,0,0,1.567,0,3.5S1.567,7,3.5,7      S7,5.433,7,3.5S5.433,0,3.5,0L3.5,0z"></path>
+                                </g>
+                                <g>
+                                  <circle cx="3.695" cy="17.5" r="3"></circle>
+                                  <path d="M3.695,15c1.378,0,2.5,1.122,2.5,2.5S5.073,20,3.695,20s-2.5-1.122-2.5-2.5S2.316,15,3.695,15 M3.695,14      c-1.933,0-3.5,1.567-3.5,3.5s1.567,3.5,3.5,3.5s3.5-1.567,3.5-3.5S5.628,14,3.695,14L3.695,14z"></path>
+                                </g>
+                              </svg>
+                            </div>
+                            <div class="game-result-score">{{ other_game.opponent_scores }}
+                            </div>
+                          </div>
+                          {% if other_game.indicator == "@" %}    
+                          <div class="game-results-status">AWAY</div>
+                          {% else %}
+                          <div class="game-results-status">HOME</div>
+                          {% endif %}
+                        </div>
+                        <div class="game-result-team game-result-team-second">
+                          <figure class="game-result-team-figure game-result-team-figure-big">
+                            <img src="{{ other_game.opponent.logo.url }}" alt="{{ other_game.opponent }}" width="50" height="50">
+                          </figure>
+                          <div class="game-result-team-name">{{ other_game.opponent }}</div>
+                          <div class="game-result-team-country">{{ other_game.opponent.city }}</div>
+                        </div>
+                      </div>
+                      <div class="game-result-footer">
+                        <ul class="game-result-details">
+                          <li>{{ other_game.game_type }}</li>
+                          <li>{{ other_game.game_venue }}</li>
+                          <li>
+                            <time datetime="{{ other_game.date|date:'Y-m-d' }}">
+                              {{ other_game.date|date:'F d, Y' }}
+                            </time>
+
+                          </li>
+                        </ul>
+                      </div>
+                      </a>
+                    </article>
+                    {% else %}
+                     No Games
+                    {% endif %}
+                  
+                   {% endfor %}
+
+                </div>
+                
+
+
+
+                <!--Standing Table-->
+                 <div class="col-md-6 col-lg-12">
+                  <article class="heading-component">
+                    <div class="heading-component-inner">
+                      <h5 class="heading-component-title">Standings</h5>
+                      <a class="button button-xs button-gray-outline" href="{% url 'view-standing' competition.id %}">Full Standings</a>
+                    </div>
+                  </article>
+
+                  <div class="table-custom-responsive" style="overflow-x: auto;">
+                    <table class="table-custom table-standings table-classic">
+                      <thead>
+                        <tr>
+                          <th style="position: sticky; left: -50; z-index: 10; background-color: #35ad79; color: #333;">Pos</th>
+                          <th colspan="1"   style="position: sticky; left: 0px; z-index: 10; background-color: #35ad79; color: #333; text-align: left; width: 20%;">Team</th>
+                          <th>W</th>
+                          <th>L</th>
+                          <th>PPG</th>
+                        
+                          
+                          
+                          
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for row in standing_df %}
+                        <tr>
+                          <td style="position: sticky; left: -50; z-index: 5; background-color: #ffffff;">
+                            <span>{{ forloop.counter }}</span>
+                          </td>
+                          
+                          <td class="team-inline" style="position: sticky; left: 0px; z-index: 5; background-color: #ffffff;">
+                            <div class="team-figure">
+                              {% if row.team__team_logo %}
+                              <img src="/media/{{ row.team__team_logo }}" alt="" width="30">
+                              {% else %} 
+                              <img src="" alt="" width="30">
+                              {% endif %}
+                            </div>
+                            <div class="team-title">
+                              <div class="team-name">{{ row.team__name }}</div>
+                              <div class="team-country">{{ row.team.city }}</div>
+                            </div>
+                          </td>
+                          <td>{{ row.w }}</td>
+                          <td>{{ row.l }}</td>
+                          <td>{{ row.ppg }}</td>
+                           
+                      </tr>  
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                  </div>
+                 </div>
+                 <!--Standing Table End -->
+
+               
+
+
+
+                <div class="col-md-6 col-lg-12">
+                  <!-- Heading Component-->
+                  <article class="heading-component">
+                    <div class="heading-component-inner">
+                      <h5 class="heading-component-title">Team Averages
+                      </h5>
+                    </div>
+                  </article>
+                  <div class="table-custom-responsive">
+                    <table class="table-custom table-custom-bordered table-team-statistic">
+                      <tbody>
+                        <tr>
+                          <td>
+                            
+                            <p class="team-statistic-counter">{{mean_merge_df.team_scores|floatformat:1}}</p>
+                            <p class="team-statistic-title">Points Per Game</p>
+                          </td>
+                          <td>
+                            <p class="team-statistic-counter">{{mean_merge_df.total_rebounds|floatformat:1}}</p>
+                            <p class="team-statistic-title">Rebounds Per Game</p>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <p class="team-statistic-counter">{{mean_merge_df.assists|floatformat:1}}</p>
+                            <p class="team-statistic-title">Assists Per Game</p>
+                          </td>
+                          <td>
+                            <p class="team-statistic-counter">{{mean_merge_df.opponent_scores|floatformat:1}}</p>
+                            <p class="team-statistic-title">Points Allowed</p>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                <div class="col-md-6 col-lg-12">
+                  <!-- Heading Component-->
+                  <article class="heading-component">
+                    <div class="heading-component-inner">
+                      <h5 class="heading-component-title">Join Our Newsletter
+                      </h5>
+                    </div>
+                  </article>
+                  <!-- Mail Form Modern-->
+                  <form class="rd-mailform " method="post" action="{% url 'subscribe-newsletter' %}">
+                    {% csrf_token %}
+                    <div class="form-wrap">
+                      <label class="form-label " for="email">Enter Your E-mail</label>
+                      <input class="form-input" id="email" type="email" name="email" required>
+                      <span class="form-validation"></span>
+                    </div>
+                    <div class="form-wrap">
+                      <button class="button button-block button-primary" type="submit">Subscribe</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+
+     
+    </div>
+
+<script>
+      document.querySelectorAll('.progress-bar-radial').forEach(container => {
+          const percent = parseFloat(container.getAttribute('data-percentage')) || 0;
+          const circle = container.querySelector('.progress-circle-fg');
+          
+          // We use the Stroke-Dasharray method because it's more reliable than ClipPath for dynamic AI/Django data
+          const radius = 72;
+          const circumference = 2 * Math.PI * radius;
+          
+          // Set the circle's styles
+          circle.style.strokeDasharray = circumference;
+          
+          // Calculate the offset (100% = 0 offset, 0% = full circumference offset)
+          const offset = circumference - (percent / 100) * circumference;
+          circle.style.strokeDashoffset = offset;
+          
+          // Ensure the circle is visible and rotated to start from the top
+          circle.style.transition = 'stroke-dashoffset 1s ease-in-out';
+          circle.setAttribute('transform', 'rotate(-90 75 75)');
+      });
+</script>
+
+
+
+
+{% endblock %}

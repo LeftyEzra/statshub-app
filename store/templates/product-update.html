@@ -1,0 +1,156 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+{% block extra_head %}
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+{% endblock %}
+{% block content %}
+<style>
+    select.form-select{
+        background-color: #1e293b !important;
+        color: rgb(104, 175, 237);
+        border-color: #94a3b8;
+    }
+
+    /* Force text visibility for all form controls in the registration form */
+    .form-control, .form-control:focus {
+        color: #ffffff !important; /* Pure white text */
+        background-color: #0f172a !important; /* Very dark slate background */
+    }
+
+    /* Fix the placeholder color so it doesn't look like typed text */
+    .form-control::placeholder {
+        color: #64748b !important;
+        opacity: 1;
+    }
+
+</style>
+
+<section class="section parallax-container breadcrumbs-wrap" data-parallax-img="{% static 'img/bg-breadcrumbs-1-1920x726.jpg' %}">
+    <div class="material-parallax parallax">
+        <img src="{% static 'img/bg-breadcrumbs-1-1920x726.jpg' %}" alt="" style="transform: translate3d(-50%, 82px, 0px); display: block;">
+    </div>
+    <div class="parallax-content breadcrumbs-custom context-dark">
+        <div class="container">
+            <h1 class="breadcrumbs-custom-title">Update Product</h1>
+            <ul class="breadcrumbs-custom-path">
+                <li><a href="{% url 'home' %}">Home</a></li>
+                <li><a href="{% url 'grid-shop' %}">Products</a></li>
+                <li class="active">Update Product</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+
+<div class="container my-5" style="max-width: 900px;">
+  <div class="p-4 p-md-5 rounded-3 shadow-lg" style="background-color: #1e293b;">
+    <h2 class="text-3xl font-bold text-center mb-5" style="color: #a5b4fc;">
+       Edit Product
+    </h2>
+
+    <form method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+
+      <!-- Product Name -->
+      <div class="mb-3">
+        <label for="{{ form.name.id_for_label }}" class="form-group-custom">Product Name</label>
+        {% render_field form.name class="form-control bg-dark text-white border-light" placeholder="Enter product name" %}
+      </div>
+      <!-- Product Image -->
+      <div class="mb-3">
+        <label for="{{ form.image.id_for_label }}" class="form-group-custom">Product Image</label>
+        {% render_field form.image class="form-control bg-dark text-white border-light" %}
+      </div>
+
+      <!-- Price -->
+      <div class="mb-3">
+        <label for="{{ form.price.id_for_label }}" class="form-group-custom">Price</label>
+        {% render_field form.price class="form-control bg-dark text-white border-light"  style="min-width: 280px;" placeholder="Product Price" %}
+      </div>
+      <div class="row">
+        <!-- Sports -->
+        <div class="mb-3">
+            <label for="{{ form.sports.id_for_label }}" class="form-group-custom">Sports</label>
+            {% render_field form.sports class="form-select form-select-lg bg-dark text-white border-light" %}
+        </div>
+        <!-- Product Category -->
+        <div class="mb-3">
+          <label for="{{ form.category.id_for_label }}" class="form-group-custom">Product Category</label>
+          {% render_field form.category class="form-select form-select-lg bg-dark text-white border-light" %}
+        </div>
+        <!-- Size Type -->
+          <div class="mb-3">
+              <label for="{{ form.size_type.id_for_label }}" class="form-group-custom">Product Size</label>
+              {% render_field form.size_type class="form-select form-select-lg bg-dark text-white border-light" %}
+          </div>
+         
+      </div>
+      <div class="row">
+        <!-- Color Type -->
+        <div class="mb-3">
+            <label for="{{ form.colors.id_for_label }}" class="form-group-custom">Product Color</label>
+            {% render_field form.colors class="form-select form-select-lg bg-success text-white border-light" %}
+        </div>
+         <!-- Brand Type -->
+        <div class="mb-3">
+            <label for="{{ form.brand_type.id_for_label }}" class="form-group-custom">Current</label>
+            {% render_field form.brand_type class="form-select form-select-lg bg-dark text-white border-light" %}
+        </div>
+      </div>
+
+      <!-- Description -->
+      <div class="mb-3">
+        <label for="{{ form.description.id_for_label }}" class="form-group-custom">Product Summary</label>
+        {% render_field form.description class="form-control bg-dark text-white border-light" placeholder="Product Details....." %}
+      </div>
+
+      <!-- Is Sales -->
+      <div class="form-check mb-3">
+        {% render_field form.is_sales class="form-check-input" %}
+        <label class="form-check-label" for="{{ form.is_sales.id_for_label }}">Is Sales</label>
+      </div>
+
+      <!-- Sales Price -->
+      <div class="mb-3">
+        <label for="{{ form.sale_price.id_for_label }}" class="form-group-custom"> Sales Price</label>
+        {% render_field form.sale_price class="form-control bg-dark text-white border-light"  style="min-width: 280px;" placeholder="Sales Price" %}
+      </div>
+
+      <!-- Sales Price -->
+      <div class="mb-3">
+        <label for="{{ form.pieces.id_for_label }}" class="form-group-custom"> Pieces</label>
+        {% render_field form.pieces class="form-control bg-dark text-white border-light"  style="min-width: 280px;" placeholder="Pieces" %}
+      </div>
+
+      <!-- Player -->
+        <div class="mb-3">
+            <label for="{{ form.featured_player.id_for_label }}" class="form-group-custom">Player</label>
+            {% render_field form.featured_player class="form-select form-select-lg bg-dark text-white border-light" %}
+        </div>
+
+
+
+      <!-- Submit Button -->
+      <div class="text-center mt-4">
+        <button type="submit" class="btn btn-lg w-100 font-weight-bold" 
+                style="background-color: #4f46e5; color: white; border: none;">
+          Update Product
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+<br><br>
+{% endblock %}
+

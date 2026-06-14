@@ -1,0 +1,340 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+{% block content %}
+
+<style>
+    /* ----------------------------------------------------- */
+    /* General Form & Layout Styling (Dark Theme) */
+    /* ----------------------------------------------------- */
+    body {
+        font-family: 'Inter', sans-serif;
+        background: linear-gradient(135deg, #0f172a 0%, #171d2c 100%);
+        min-height: 100vh;
+        color: #e2e8f0;
+    }
+
+    .scores-container {
+        max-width: 650px;
+        margin: 50px auto;
+        padding: 30px;
+        background: #1e293b; /* Dark card background */
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+        border-top: 5px solid #4f46e5; /* Accent color */
+    }
+
+    .form-title {
+        color: #f1f5f9;
+        font-size: 2em;
+        font-weight: 800;
+        margin-bottom: 25px;
+        text-align: center;
+    }
+    
+    .form-subtitle {
+        color: #94a3b8;
+        font-size: 1em;
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    /* ----------------------------------------------------- */
+    /* Grid Layout for Quarters */
+    /* ----------------------------------------------------- */
+    .quarters-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr; /* Two main columns: Team and Opponent */
+        gap: 30px;
+        margin-bottom: 30px;
+    }
+
+    /* Column Container */
+    .score-column {
+        background: #0f172a;
+        padding: 20px;
+        border-radius: 10px;
+        border: 1px solid #334155;
+    }
+
+    .column-header {
+        text-align: center;
+        font-size: 1.25em;
+        font-weight: 700;
+        margin-bottom: 15px;
+        padding-bottom: 10px;
+        border-bottom: 2px solid #334155;
+    }
+
+    .team-header { color: #4f46e5; } /* Blue for Team */
+    .opponent-header { color: #ef4444; } /* Red for Opponent */
+
+    /* Input Field Styling */
+    .quarter-group {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+    }
+
+    .quarter-group label {
+        font-weight: 600;
+        color: #a5b4fc;
+        width: 40%;
+    }
+
+    .quarter-group input {
+        width: 55%;
+        padding: 10px;
+        border: 1px solid #334155;
+        border-radius: 6px;
+        background: #1e293b;
+        color: #f1f5f9;
+        font-size: 16px;
+        text-align: center;
+        transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .quarter-group input:focus {
+        border-color: #4f46e5;
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.3);
+    }
+    
+    /* ----------------------------------------------------- */
+    /* Form Errors and Submission */
+    /* ----------------------------------------------------- */
+    .form-errors {
+        color: #ef4444;
+        list-style: none;
+        padding: 0;
+        margin-bottom: 20px;
+    }
+
+    .btn-submit {
+        display: block;
+        width: 100%;
+        padding: 15px;
+        background: #4f46e5;
+        color: white;
+        border: none;
+        border-radius: 10px;
+        font-size: 1.1em;
+        font-weight: 700;
+        cursor: pointer;
+        transition: background 0.3s, transform 0.1s;
+    }
+
+    .btn-submit:hover {
+        background: #4338ca;
+    }
+
+    /* Hidden fields (like game ID and competition ID) */
+    .hidden-fields label {
+        display: none;
+    }
+    .hidden-fields input {
+        display: none;
+    }
+    
+    /* Responsive adjustment */
+    @media (max-width: 600px) {
+        .quarters-grid {
+            grid-template-columns: 1fr; /* Stack columns on small screens */
+        }
+        .scores-container {
+            margin: 20px 10px;
+            padding: 20px;
+        }
+    }
+
+/* --- Game Summary Bar Styles --- */
+.game-summary-bar {
+    background: #0f172a;
+    padding: 15px 25px;
+    border-radius: 10px;
+    margin-bottom: 30px;
+    border: 1px solid #4f46e5;
+    text-align: center;
+}
+
+.summary-title {
+    font-size: 0.9em;
+    font-weight: 500;
+    color: #94a3b8;
+    margin-bottom: 5px;
+}
+
+.summary-details {
+    font-size: 1.5em;
+    font-weight: 800;
+    color: #f1f5f9;
+}
+
+.team-name {
+    color: #4f46e5; /* Accent color for your team */
+}
+
+.opponent-name {
+    color: #a5b4fc; /* Lighter accent for opponent */
+}
+
+.vs-text {
+    font-size: 0.8em;
+    font-weight: 500;
+    color: #94a3b8;
+    margin: 0 10px;
+}
+
+
+
+
+
+
+
+</style>
+
+
+
+<section class="section parallax-container breadcrumbs-wrap" data-parallax-img="{% static 'img/bg-breadcrumbs-1-1920x726.jpg' %}">
+    <div class="material-parallax parallax">
+        <img src="{% static 'img/bg-breadcrumbs-1-1920x726.jpg' %}" alt="" style="transform: translate3d(-50%, 82px, 0px); display: block;">
+    </div>
+    <div class="parallax-content breadcrumbs-custom context-dark">
+        <div class="container">
+            <h2 class="breadcrumbs-custom-title">Game Scores Registration</h2>
+            <ul class="breadcrumbs-custom-path">
+                <li><a href="{% url 'home' %}">Home</a></li>
+                <li><a href="">Game Scores</a></li>
+                <li class="active">Scores Registration</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+
+
+
+
+<div class="scores-container">
+    <h1 class="form-title">🏀 Enter Game Scores</h1>
+    <p class="form-subtitle">Record the scores for all four quarters.</p>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        {% if form.non_field_errors %}
+            <ul class="form-errors">
+                {% for error in form.non_field_errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        
+
+        <div class="mb-3">
+            {{ form.game.label_tag }}
+            {% render_field form.game class="form-select bg-dark text-white border-light" %}
+            <small class="text-red-400">{{ form.game.errors }}</small>
+        </div>
+
+        <div class="game-summary-bar">
+            <h2 class="summary-title">Game:</h2>
+            <div class="summary-details">
+                <span class="team-name">{{ game.team.name }}</span> 
+                <span class="vs-text">vs</span> 
+                <span class="opponent-name">{{ game.opponent }}</span>
+            </div>
+        </div>
+
+
+        <div class="mb-3">
+            {{ form.quarterly_scores_for.label_tag }}
+            {% render_field form.quarterly_scores_for class="form-select bg-dark text-white border-light" %}
+            <small class="text-red-400">{{ form.quarterly_scores_for.errors }}</small>
+        </div>
+
+        <div class="quarters-grid">
+            
+            <div class="score-column">
+                <div class="column-header team-header">Your Team Scores</div>
+                
+                <div class="quarter-group">
+                    {{ form.team_quarter_1.label_tag }}
+                    {{ form.team_quarter_1 }}
+                </div>
+                {% if form.team_quarter_1.errors %}
+                    <ul class="form-errors">{{ form.team_quarter_1.errors }}</ul>
+                {% endif %}
+
+                <div class="quarter-group">
+                    {{ form.team_quarter_2.label_tag }}
+                    {{ form.team_quarter_2 }}
+                </div>
+                {% if form.team_quarter_2.errors %}
+                    <ul class="form-errors">{{ form.team_quarter_2.errors }}</ul>
+                {% endif %}
+                
+                <div class="quarter-group">
+                    {{ form.team_quarter_3.label_tag }}
+                    {{ form.team_quarter_3 }}
+                </div>
+                {% if form.team_quarter_3.errors %}
+                    <ul class="form-errors">{{ form.team_quarter_3.errors }}</ul>
+                {% endif %}
+                
+                <div class="quarter-group">
+                    {{ form.team_quarter_4.label_tag }}
+                    {{ form.team_quarter_4 }}
+                </div>
+                {% if form.team_quarter_4.errors %}
+                    <ul class="form-errors">{{ form.team_quarter_4.errors }}</ul>
+                {% endif %}
+                
+            </div>
+            
+            <div class="score-column">
+                <div class="column-header opponent-header">Opponent Scores</div>
+
+                <div class="quarter-group">
+                    {{ form.opponent_quarter_1.label_tag }}
+                    {{ form.opponent_quarter_1 }}
+                </div>
+                {% if form.opponent_quarter_1.errors %}
+                    <ul class="form-errors">{{ form.opponent_quarter_1.errors }}</ul>
+                {% endif %}
+
+                <div class="quarter-group">
+                    {{ form.opponent_quarter_2.label_tag }}
+                    {{ form.opponent_quarter_2 }}
+                </div>
+                {% if form.opponent_quarter_2.errors %}
+                    <ul class="form-errors">{{ form.opponent_quarter_2.errors }}</ul>
+                {% endif %}
+
+                <div class="quarter-group">
+                    {{ form.opponent_quarter_3.label_tag }}
+                    {{ form.opponent_quarter_3 }}
+                </div>
+                {% if form.opponent_quarter_3.errors %}
+                    <ul class="form-errors">{{ form.opponent_quarter_3.errors }}</ul>
+                {% endif %}
+
+                <div class="quarter-group">
+                    {{ form.opponent_quarter_4.label_tag }}
+                    {{ form.opponent_quarter_4 }}
+                </div>
+                {% if form.opponent_quarter_4.errors %}
+                    <ul class="form-errors">{{ form.opponent_quarter_4.errors }}</ul>
+                {% endif %}
+                
+            </div>
+        </div>
+
+        <button type="submit" class="btn-submit">Save Quarterly Scores</button>
+
+    </form>
+</div>
+
+{% endblock %}

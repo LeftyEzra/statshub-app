@@ -1,0 +1,1171 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block extra_head %}
+ <link rel="stylesheet" href="{% static 'css/home.css' %}">
+{% endblock %}
+
+{% block content %}
+
+
+      
+
+      
+
+  
+      <!-- Swiper-->
+      <section class="section swiper-container swiper-slider swiper-classic bg-gray-2" data-loop="true" data-autoplay="4000" data-simulate-touch="false" data-slide-effect="fade">
+        <div class="swiper-wrapper">
+          <div class="swiper-slide text-center" data-slide-bg="{% static 'img/players_backdrop.png' %}">
+            <div class="container">
+              <div class="row justify-content-center">
+                <div class="col-xl-6">
+                  <div class="swiper-slide-caption">
+                    <h1 data-caption-animate="fadeInUp" data-caption-delay="100">We play Basketball</h1>
+                    <h4 data-caption-animate="fadeInUp" data-caption-delay="200">like no one else in the league</h4>
+                    <a class="button button-primary" data-caption-animate="fadeInUp" data-caption-delay="300" href="{% url 'about' %}">Read More</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="swiper-slide" data-slide-bg="{% static 'img/IMG_1734.png' %}">
+            <div class="container">
+              <div class="row justify-content-end">
+                <div class="col-xl-5">
+                  <div class="swiper-slide-caption">
+                    <h1 data-caption-animate="fadeInUp" data-caption-delay="100">We Are Pros</h1>
+                    <h4 data-caption-animate="fadeInUp" data-caption-delay="200">in Everything Concerning Basketball</h4>
+                    <a class="button button-primary" data-caption-animate="fadeInUp" data-caption-delay="300" href="{% url 'about' %}">Read More</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="swiper-slide" data-slide-bg="{% static 'img/nikola.jpg' %}">
+            <div class="container">
+              <div class="row">
+                <div class="col-xl-5">
+                  <div class="swiper-slide-caption">
+                    <h1 data-caption-animate="fadeInUp" data-caption-delay="100">Statshub</h1>
+                    <h4 data-caption-animate="fadeInUp" data-caption-delay="200">for team basketball news, updates, <br class="d-none d-xl-block"> and game results</h4>
+                    <a class="button button-primary" data-caption-animate="fadeInUp" data-caption-delay="300" href="{% url 'about' %}">Read More</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="swiper-slide" data-slide-bg="{% static 'img/IMG_5008.JPG' %}">
+            <div class="container">
+              <div class="row">
+                <div class="col-xl-5">
+                  <div class="swiper-slide-caption">
+                    <h1 data-caption-animate="fadeInUp" data-caption-delay="100">Hire Us</h1>
+                    <h4 data-caption-animate="fadeInUp" data-caption-delay="200">for  news, up for your basketball team, players game analysis, <br class="d-none d-xl-block"> and game results</h4>
+                    <a class="button button-primary" data-caption-animate="fadeInUp" data-caption-delay="300" href="{% url 'about' %}">Read More</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="swiper-button swiper-button-prev"></div>
+        <div class="swiper-button swiper-button-next"></div>
+        <div class="swiper-pagination"></div>
+      </section>
+
+
+
+      <!-- Latest News-->
+      <section class="section section-md bg-gray-100">
+
+        <div class="container">
+            <article class="heading-component">
+                <div class="heading-component-inner">
+                    <h5 class="heading-component-title">Game Schedules</h5>
+                    <div class="game-nav-controls">
+                        <button class="nav-btn prev" onclick="scrollG( -300)">&#10094;</button>
+                        <button class="nav-btn next" onclick="scrollG(300)">&#10095;</button>
+                    </div>
+                </div>
+            </article>
+
+            <div class="game-slider-wrapper ">
+                <div class="row  game-scroll-row" id="gameRow">
+                    {% for game in games %}
+                    <div class="col-lg-4 col-md-6 col-12"> 
+                      <article class="game-result game-result-classic">
+                            <a href="{% url 'game-overview' competition.competition_slug game.slug %}" class="btn-modern btn-edit">
+                            <div class="game-result-main">
+                              
+                              <div class="game-result-team game-result-team-first">
+                                <figure class="game-result-team-figure game-result-team-figure-big">
+                                  <img src="{{ game.team.team_logo.url }}" alt="" width="41" height="55">
+                                </figure>
+                                <div class="game-result-team-name">{{ game.team }}</div>
+                                <div class="game-result-team-country">{{ game.team.city }}</div>
+                              </div>
+
+                              <div class="game-result-middle">
+                                <div class="game-result-score-wrap">
+                                  <div class="game-result-score game-result-team-win"> {{ game.team_scores }}
+                                    {% if game.team_scores > game.opponent_scores %}
+                                    <span class="game-result-team-label game-result-team-label-top">Win</span>
+                                    {% elif game.team_scores < game.opponent_scores %}
+                                    <span class="game-result-team-label game-result-team-label-top" style="background-color:red;">Loss</span>
+                                    {% else %}
+                                    <span class="game-result-team-label game-result-team-label-top" style="background-color:transparent;"></span>
+                                    {% endif %}
+                                  </div>
+                                  <div class="game-result-score-divider">
+                                    <svg x="0px" y="0px" width="7px" height="21px" viewBox="0 0 7 21" enable-background="new 0 0 7 21" xml:space="preserve">
+                                      <g>
+                                        <circle cx="3.5" cy="3.5" r="3"></circle>
+                                        <path d="M3.5,1C4.879,1,6,2.122,6,3.5S4.879,6,3.5,6S1,4.878,1,3.5S2.122,1,3.5,1 M3.5,0C1.567,0,0,1.567,0,3.5S1.567,7,3.5,7      S7,5.433,7,3.5S5.433,0,3.5,0L3.5,0z"></path>
+                                      </g>
+                                      <g>
+                                        <circle cx="3.695" cy="17.5" r="3"></circle>
+                                        <path d="M3.695,15c1.378,0,2.5,1.122,2.5,2.5S5.073,20,3.695,20s-2.5-1.122-2.5-2.5S2.316,15,3.695,15 M3.695,14      c-1.933,0-3.5,1.567-3.5,3.5s1.567,3.5,3.5,3.5s3.5-1.567,3.5-3.5S5.628,14,3.695,14L3.695,14z"></path>
+                                      </g>
+                                    </svg>
+                                  </div>
+                                  <div class="game-result-score">{{ game.opponent_scores }}
+                                  </div>
+                                </div>
+                              
+                                <div class="game-results-status">{{ game.indicator }}</div>
+                                
+                                
+                              </div>
+
+                              <div class="game-result-team game-result-team-second">
+
+                                <figure class="game-result-team-figure game-result-team-figure-big">
+                                  {% if game.opponent.logo %}
+                                  <img src="{{ game.opponent.logo.url }}" alt="{{ game.opponent }}" width="50" height="50">
+                                  {% else %}
+                                  <img src="" alt="{{ game.opponent }}" width="50" height="50">
+                                  {% endif %}
+                                </figure>
+                                <div class="game-result-team-name">{{ game.opponent }} </div>
+                                <div class="game-result-team-country">{{ game.opponent.city }}</div>
+                              </div>
+                            </div>
+                            <div class="game-result-footer">
+                              <ul class="game-result-details">
+                                <li>{{ game.game_type }}</li>
+                                <li>{{ game.game_venue }}</li>
+                                <li><time datetime="{{ game.date|date:'Y-m-d' }}">{{ game.date|date:"d M, Y" }}</time></li>
+                              </ul>
+                            </div>
+                            </a>
+                      </article>
+                    </div>
+                    {% endfor %}
+                   
+            
+                </div>
+            </div>
+
+            <div class="container">
+              <div class="row row-50">
+                <div class="col-lg-8">
+                  <div class="main-component">
+                    <!-- Heading Component-->
+                    <article class="heading-component">
+                      <div class="heading-component-inner">
+                        <h5 class="heading-component-title">Popular news
+                          {% if competition.slug %}
+                              </h5><a class="button button-xs button-gray-outline" href="{% url 'news-list' competition.slug   %}">Read More News</a>
+                          {% else %}
+                              </h5><a class="button button-xs button-gray-outline" href="">Read More News</a>
+                          {% endif %}
+                      </div>
+                    </article>
+                    <div class="row row-30">
+                      {% for news in team_news %}
+                      <div class="col-md-6">
+                        <!-- Post Future-->
+                        
+                        <article class="post-future">
+                          <a class="post-future-figure" href="{% url 'news-list' competition.id   %}">
+                              <img src="{{ news.image.url }}" alt="" width="368" height="287"/>
+                          </a>
+                          <div class="post-future-main">
+                            <h4 class="post-future-title">
+                              <a href="{% url 'news-list' competition.id   %}">{{ news.heading }}</a>
+                            </h4>
+                            <div class="post-future-meta">
+                              <!-- Badge-->
+                              <div class="badge badge-secondary">The {{ news.category }}
+                              </div>
+                              <div class="post-future-time">
+                                <span class="icon mdi mdi-clock"></span>
+                                <time datetime="2020">{{ news.published_date }}</time>
+                              </div>
+                            </div>
+                            <hr/>
+                            <div class="post-future-text">
+                              <p>{{news.intro }}</p>
+                            </div>
+                            <div class="post-future-footer group-flex group-flex-xs">
+                              <a class="button button-gray-outline" href="{% url 'news-list' competition.id %}">Read more</a>
+                              <div class="post-future-share">
+                                <div class="inline-toggle-parent">
+                                  <div class="inline-toggle icon material-icons-share"></div>
+                                  <div class="inline-toggle-element">
+                                    <ul class="list-inline">
+                                      <li>Share</li>
+                                      <li><a class="icon fa-facebook" href="#"></a></li>
+                                      <li><a class="icon fa-twitter" href="#"></a></li>
+                                      <li><a class="icon fa-google-plus" href="#"></a></li>
+                                      <li><a class="icon fa-instagram" href="#"></a></li>
+                                    </ul>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </article>
+                        
+                      </div>
+                      {% endfor %}  
+
+
+
+
+
+                    
+
+                    
+                      {% for hot_news in hot_news %}
+                      <div class="col-md-12" >
+                        <!-- Post Future-->
+                        <article class="post-future post-future-horizontal">
+                          <a class="post-future-figure" href="{% url 'news-list' competition.id   %}">
+                            <img src="{{ hot_news.image.url  }}" alt="" width="370" height="325"/>
+                          </a>
+                          <div class="post-future-main">
+                            <h4 class="post-future-title">
+                              <a href="{% url 'news-list' competition.id   %}">{{ hot_news.heading }}</a>
+                            </h4>
+                            <div class="post-future-meta">
+                              <!-- Badge-->
+                              <div class="badge badge-red">{{ hot_news.category }}<span class="icon mdi mdi-fire"></span></div>
+                              <div class="post-future-time">
+                                <span class="icon mdi mdi-clock"></span>
+                                <time datetime="2020">{{ hot_news.published_date }}</time>
+                              </div>
+                            </div>
+                            <hr/>
+                            <div class="post-future-text">
+                              <p>{{ hot_news.intro }}</p>
+                            </div>
+                          </div>
+                        </article>
+                      </div>
+                      {% endfor %}
+
+                      {% for news in league_news %}
+                      <div class="col-md-12">
+                        <!-- Post Future-->
+                        <article class="post-future post-future-horizontal">
+                          <a class="post-future-figure" href="{% url 'news-list' competition.id   %}">
+                            <img src="{{ news.image.url }}" alt="" style="max-width: fit-content; height:325px; object-fit: cover;" />
+                          </a>
+                          <div class="post-future-main">
+                            <h4 class="post-future-title">
+                              <a href="{% url 'news-list' competition.id   %}">{{ news.heading }}</a>
+                            </h4>
+                            <div class="post-future-meta">
+                              <!-- Badge-->
+                              <div class="badge badge-primary">The {{ news.category }}
+                              </div>
+                              <div class="post-future-time">
+                                <span class="icon mdi mdi-clock"></span>
+                                <time datetime="2020">{{ news.published_date}}</time>
+                              </div>
+                            </div>
+                            <hr/>
+                            <div class="post-future-text">
+                              <p>{{ news.intro }}</p>
+                            </div>
+                          </div>
+                        </article>
+                      </div>
+                      {% endfor %}
+
+
+                      <!-- Leaders Swiper Begins -->
+                        <!-- Swiper-->
+                      <div class="col-md-12">
+                        <!-- Team Leaders Heading -->
+                        <div class="heading-component" style="text-align:center; margin-bottom:20px;">
+                          <div class="heading-component-inner">
+                            <h3 class="heading-component-title" 
+                                style=" font-size:28px;  
+                                      text-transform:uppercase; letter-spacing:1px;">
+                              TEAM LEADERS
+                            </h3>
+                          </div>
+                        </div>
+                        <div class="swiper-container swiper-slider post-slider"
+                              data-loop="false" data-autoplay="false" data-simulate-touch="false"
+                              style="background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+                                      border-radius: 5px;
+                                      box-shadow: 0 2px 5px rgba(0,0,0,0.6);">
+
+                              
+                          <div class="swiper-wrapper">
+                          
+                            <div class="swiper-slide">
+                              <div class="swiper-slide-caption">
+                                <!-- Post Alice-->
+                                <article class="group-sm group-flex">
+                                  
+                                    <div class="container">
+                                      <div class="row row-30">
+                                      
+                                        <div class="col-sm-6">
+                                            <article class="heading-component">
+                                                <div class="heading-component-inner">
+                                                    <h5 class="heading-component-title" style=" color: #ffffff;" >POINTS</h5>
+                                                </div>
+                                            </article>
+                                            {% for ppg in pts_per_game %}
+                                            <article class="post-classic" style="background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); box-shadow: 0 4px 10px rgba(0,0,0,0.3);">
+                                                <div class="post-classic-aside">
+                                                    <a class="post-classic-figure" href="{% url 'players-id' competition.id ppg.player_id %}">
+                                                      <img src="/media/{{ ppg.player_name__player_image }}" alt="{{ ppg.player_name__player_name }} Image" width="94" height="94">
+                                                    </a>
+                                                </div>
+                                                <div class="post-classic-main">
+                                                    <p class="post-classic-title" ><a style=" color: #ffffff; " href="{% url 'players-id' competition.id ppg.player_id %}">{{ ppg.player_name__player_name }}</a></p>
+                                                    <div class="post-classic-time" style="font-size: 20px; font-weight: bold; color: #35ad79;">
+                                                        {{ ppg.points|floatformat:1 }}
+                                                    </div>
+                                                </div>
+                                            </article>
+                                            {% endfor %}
+                                        </div>
+
+                                        <div class="col-sm-6">
+                                            <article class="heading-component">
+                                                <div class="heading-component-inner">
+                                                    <h5 class="heading-component-title" style=" color: #ffffff;" >REBOUNDS</h5>
+                                                </div>
+                                            </article>
+
+                                            {% for rpg in reb_per_game %}
+                                            <article class="post-classic" style="background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); box-shadow: 0 4px 10px rgba(0,0,0,0.3);">
+                                                <div class="post-classic-aside">
+                                                    <a class="post-classic-figure" href="{% url 'players-id' competition.id rpg.player_id %}">
+                                                      <img src="/media/{{ rpg.player_name__player_image }}" alt="{{ rpg.player_name__player_name }} Image" width="94" height="94">
+                                                    </a>
+                                                </div>
+                                                <div class="post-classic-main">
+                                                    <p class="post-classic-title"><a style=" color: #ffffff; " href="{% url 'players-id' competition.id rpg.player_id %}">{{ rpg.player_name__player_name }}</a></p>
+                                                    <div class="post-classic-time" style="font-size: 20px; font-weight: bold; color: #35ad79;">
+                                                        {{ rpg.total_rebounds|floatformat:1 }}
+                                                    </div>
+                                                </div>
+                                            </article>
+                                            {% endfor %}
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </article>
+                              </div>
+                            </div>
+                            
+                            <div class="swiper-slide">
+                              <div class="swiper-slide-caption">
+                                <!-- Post Alice-->
+                                <article class="group-sm group-flex">
+                                  
+                                    <div class="container">
+                                <div class="row row-30">
+                                
+                                <div class="col-sm-6">
+                                    <article class="heading-component">
+                                        <div class="heading-component-inner">
+                                            <h5 class="heading-component-title" style=" color: #ffffff;" >ASSISTS</h5>
+                                        </div>
+                                    </article>
+                                    
+                                    {% for apg in ast_per_game %}
+                                    <article class="post-classic" style="background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); box-shadow: 0 4px 10px rgba(0,0,0,0.3);">
+                                        <div class="post-classic-aside">
+                                            <a class="post-classic-figure" href="{% url 'players-id' competition.id apg.player_id %}">
+                                              <img src="/media/{{ apg.player_name__player_image }}" alt="{{ apg.player_name__player_name }} Image" width="94" height="94">
+                                            </a>
+                                        </div>
+                                        <div class="post-classic-main">
+                                            <p class="post-classic-title"><a style=" color: #ffffff; " href="{% url 'players-id' competition.id apg.player_id %}">{{ apg.player_name__player_name }}</a></p>
+                                            <div class="post-classic-time" style="font-size: 20px; font-weight: bold; color: #35ad79;">
+                                                {{ apg.assists|floatformat:1 }}
+                                            </div>
+                                        </div>
+                                      </article>
+                                    {% endfor %}
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <article class="heading-component">
+                                        <div class="heading-component-inner">
+                                            <h5 class="heading-component-title" style=" color: #ffffff;" >BLOCKS</h5>
+                                        </div>
+                                    </article>
+
+                                    {% for bpg in blk_per_game %}
+                                    <article class="post-classic" style="background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); box-shadow: 0 4px 10px rgba(0,0,0,0.3);">
+                                        <div class="post-classic-aside">
+                                            <a class="post-classic-figure" href="{% url 'players-id' competition.id bpg.player_id %}">
+                                              <img src="/media/{{ bpg.player_name__player_image }}" alt="{{ bpg.player_name__player_name }} Image" width="94" height="94">
+                                            </a>
+                                        </div>
+                                        <div class="post-classic-main">
+                                            <p class="post-classic-title"><a style=" color: #ffffff; " href="{% url 'players-id' competition.id bpg.player_id %}">{{ bpg.player_name__player_name }}</a></p>
+                                            <div class="post-classic-time" style="font-size: 20px; font-weight: bold; color: #35ad79;">
+                                                {{ bpg.blocks|floatformat:1 }}
+                                            </div>
+                                        </div>
+                                    </article>
+                                    {% endfor %}
+
+                                
+                                </div>
+
+                            
+                            </div>
+                                    </div>
+                                  </article>
+                              </div>
+                            </div>
+
+
+                            <div class="swiper-slide">
+                              <div class="swiper-slide-caption">
+                                <!-- Post Alice-->
+                                <article class="group-sm group-flex">
+                                  
+                                    <div class="container">
+                                      <div class="row row-30">
+                                
+                                        <div class="col-sm-6">
+                                            <article class="heading-component">
+                                                <div class="heading-component-inner">
+                                                    <h5 class="heading-component-title" style=" color: #ffffff;" >STEALS</h5>
+                                                </div>
+                                            </article>
+                                            
+                                          {% for spg in stl_per_game %}
+                                            <article class="post-classic" style="background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); box-shadow: 0 4px 10px rgba(0,0,0,0.3);">
+                                                <div class="post-classic-aside">
+                                                    <a class="post-classic-figure" href="{% url 'players-id' competition.id spg.player_id %}">
+                                                      <img src="/media/{{ spg.player_name__player_image }}" alt="{{ spg.player_name__player_name }} Image" width="94" height="94">
+                                                    </a>
+                                                </div>
+                                                <div class="post-classic-main">
+                                                    <p class="post-classic-title"><a style=" color: #ffffff; " href="{% url 'players-id' competition.id spg.player_id %}">{{ spg.player_name__player_name }}</a></p>
+                                                    <div class="post-classic-time" style="font-size: 20px; font-weight: bold; color: #35ad79;">
+                                                        {{ spg.steals|floatformat:1 }}
+                                                    </div>
+                                                </div>
+                                            </article>
+                                            {% endfor %}
+
+                                        
+                                        </div>
+
+                                        <div class="col-sm-6">
+                                            <article class="heading-component">
+                                                <div class="heading-component-inner">
+                                                    <h5 class="heading-component-title" style=" color: #ffffff;" >EFFICIENCY</h5>
+                                                </div>
+                                            </article>
+
+                                            {% for epg in eff_per_game %}
+                                            <article class="post-classic" style="background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); box-shadow: 0 4px 10px rgba(0,0,0,0.3);">
+                                                <div class="post-classic-aside">
+                                                    <a class="post-classic-figure" href="{% url 'players-id' competition.id epg.player_id %}">
+                                                      <img src="/media/{{ epg.player_name__player_image }}" alt="{{ epg.player_name__player_name }} Image" width="94" height="94">
+                                                    </a>
+                                                </div>
+                                                <div class="post-classic-main">
+                                                    <p class="post-classic-title"><a style=" color: #ffffff;" href="{% url 'players-id' competition.id epg.player_id %}">{{ epg.player_name__player_name }}</a></p>
+                                                    <div class="post-classic-time" style="font-size: 20px; font-weight: bold; color: #35ad79;">
+                                                        {{ epg.efficiency|floatformat:1 }}
+                                                    </div>
+                                                </div>
+                                            </article>
+                                            {% endfor %}
+                                        </div>
+
+                            
+                                      </div>
+                                    </div>
+                                </article>
+                              </div>
+                            </div>
+
+                          
+
+                              
+                          </div>
+
+
+                          <!-- Swiper Pagination-->
+                          <br><br>
+                          <div class="swiper-pagination"></div>
+                          <!-- Swiper Navigation-->
+                          <div class="swiper-button-prev"></div>
+                          <div class="swiper-button-next"></div>
+                      </div>
+                    </div>
+                    <!-- Leader Swiper End-->
+
+
+                    </div>
+                  </div>
+
+                  <div class="main-component">
+                    <!-- Heading Component-->
+                    <article class="heading-component">
+                      <div class="heading-component-inner">
+                        <h5 class="heading-component-title">Upcoming Match
+                          {% if competition.slug %}
+                            </h5><a class="button button-xs button-gray-outline" href="{% url 'game-schedule' competition.slug %}">Calendar</a>
+                          {% else %}
+                              </h5><a class="button button-xs button-gray-outline" href="">Calendar</a>
+                          {% endif %}
+                      </div>
+                    </article>
+                    <!-- Game Result Bug-->
+                     {% for game in international_games %}
+                    <article class="game-result">
+                      <div class="game-info game-info-creative">
+                        <p class="game-info-subtitle">{{ game.game_venue }} - 
+                          <time datetime="{{ game.date|date:'Y-m-d' }}"> {{ game.date|date:'F d, Y' }}</time>
+                        </p>
+                        <h3 class="game-info-title">{{ game.game_type }}</h3>
+                        <div class="game-info-main">
+                          <div class="game-info-team game-info-team-first">
+                            <figure>
+                              <img src="{{ game.team.team_logo.url }}" alt="" width="75" height="99"/>
+                            </figure>
+                            <div class="game-result-team-name">{{ game.team }}</div>
+                            <div class="game-result-team-country">{{ game.team.city }}</div>
+                          </div>
+                          <div class="game-info-middle game-info-middle-vertical">
+                            <time class="time-big" datetime="{{ other_game.date|date:'Y-m-d' }}">
+                              <span class="heading-3">{{ game.date}}</span> 
+                            </time>
+                            <div class="game-result-divider-wrap">
+                              <span class="game-info-team-divider">{{ game.indicator }}</span>
+                            </div>
+                            <div class="group-sm">
+                              <div class="button button-sm button-share-outline">Share
+                                <ul class="game-info-share">
+                                  <li class="game-info-share-item"><a class="icon icon-xs fa fa-facebook" href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri|urlencode }}" target="_blank" title="Share on Facebook"></a></li>
+                                  <li class="game-info-share-item"><a class="icon icon-xs fa fa-twitter"  href="https://twitter.com/intent/tweet?url={{ request.build_absolute_uri|urlencode }}"   target="_blank"  title="Share on X"> </a></li>
+                                  <li class="game-info-share-item"><a class="icon icon-xs fa fa-instagram"   href="#"  id="copy-ig-link"  data-url="{{ request.build_absolute_uri }}"  title="Copy Link for Instagram"></a></li>
+                                  <li class="game-info-share-item"><a class="icon icon-xs fa fa-whatsapp"  href="https://api.whatsapp.com/send?text=Check+this+out:+{{ request.build_absolute_uri|urlencode }}"  target="_blank"></a></li>
+                                  <li class="game-info-share-item"> <a class="icon icon-xs fa fa-linkedin" href="https://www.linkedin.com/sharing/share-offsite/?url={{ request.build_absolute_uri|urlencode }}"  target="_blank"></a></li>  
+                                </ul>
+                              </div><a class="button button-sm button-primary text-muted disabled" href="#">Buy tickets</a>
+                            </div>
+                          </div>
+                          <div class="game-info-team game-info-team-second">
+                            <figure>
+                              <img src="{{ game.opponent.logo.url }}" alt="" width="91" height="91"/>
+                            </figure>
+                            <div class="game-result-team-name">{{ game.opponent }}</div>
+                            <div class="game-result-team-country">{{ game.opponent.city }}</div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="game-info-countdown">
+                        <div class="countdown countdown-bordered" data-type="until" data-time="31 Dec 2020 16:00" data-format="dhms" data-style="short"></div>
+                      </div>
+                    </article>
+                    {% endfor %}
+                  </div>
+
+<br>
+
+<div class="basketball-stats-container" style="background: #fff; padding: 10px; border: 1px solid #eee; border-radius: 4px;">
+    <svg viewBox="0 0 500 450" xmlns="http://www.w3.org/2000/svg" style="width: 100%; height: auto;">
+        <!-- Court Floor -->
+        <rect width="500" height="450" fill="#ffffff" />
+        
+        <g stroke="#333" stroke-width="1.5" fill="none">
+            <!-- Baseline (The "Out of Bounds" line it kisses) -->
+            <line x1="30" y1="20" x2="470" y2="20" />
+            
+            <!-- Sidelines -->
+            <line x1="30" y1="20" x2="30" y2="430" />
+            <line x1="470" y1="20" x2="470" y2="430" />
+
+            
+            <!-- Straight sections from baseline to 2.99m out -->
+            <line x1="60" y1="20" x2="60" y2="120" />
+            <line x1="440" y1="20" x2="440" y2="120" />
+            <!-- The actual Arc connecting the straight lines -->
+            <path d="M 60 120 A 190 190 0 0 0 440 120" stroke-linecap="round"/>
+
+            <!-- The Paint / Restricted Area -->
+            <rect x="175" y="20" width="150" height="190" />
+            
+            <!-- Free Throw Top Circle -->
+            <path d="M 175 210 A 75 75 0 0 0 325 210" />
+
+            <!-- Backboard and Rim -->
+            <line x1="210" y1="50" x2="290" y2="50" stroke-width="3" />
+            <circle cx="250" cy="65" r="15" />
+        </g>
+
+        <!-- --- DATA OVERLAYS (Positioned to NOT hide lines) --- -->
+        <!-- FG% Card (Inside the Paint) -->
+        <g transform="translate(195, 90)">
+            <rect width="110" height="40" rx="4" fill="#333" />
+            <text x="55" y="15" text-anchor="middle" fill="#ccc" font-size="9" font-weight="bold">OVERALL FG% 🏀</text>
+            <text x="55" y="34" text-anchor="middle" fill="#35ad79" font-size="16" font-weight="900">{{ team_fg_pct }}%</text>
+        </g>
+
+        <!-- FT% Card (Free Throw Line) -->
+        <g transform="translate(200, 220)">
+            <rect width="100" height="40" rx="4" fill="#f8f9fa" stroke="#ddd" />
+            <text x="50" y="15" text-anchor="middle" fill="#666" font-size="8" font-weight="bold">FREE THROWS% 🏀</text>
+            <text x="50" y="34" text-anchor="middle" fill="#333" font-size="16" font-weight="900">{{ team_ft_pct}}%</text>
+        </g>
+
+        <!-- 3PT Card (Moved further back so the ARC is visible) -->
+         <g transform="translate(360, 280)">
+            <rect width="100" height="40" rx="4" fill="#f5b003" />
+            <text x="50" y="15" text-anchor="middle" fill="black" font-size="8" font-weight="bold"><tspan font-size="10"  fill="black">3 POINTS%</tspan><tspan font-size="15">🏀</tspan></text>
+            <text x="50" y="35" text-anchor="middle" fill="black" font-size="16" font-weight="900">{{ team_3p_pct }}%<tspan font-size="10" fill="black"></tspan></text>
+        </g>
+
+
+
+
+        <g transform="translate(200, 380)">
+          
+            <text x="50" y="50" text-anchor="middle" fill="black" font-size="25" font-weight="bold"><tspan font-size="18"  fill="black">Regular Season Shooting Performance</tspan></text>
+        </g>
+    </svg>
+
+  
+   
+</div>
+
+
+
+
+
+
+
+
+                 
+               
+
+
+
+
+
+
+
+                  <!-- Things To bE Fixed-->
+                  
+                  <p> <h5 style="color: #ff7b00;">PDF Download Beautification</h5> </p>
+                  <p> <h5>Opponents Stats Important!</h5> </p>
+                  <p> <h5>Player Details Page</h5> </p>
+                  <!-- Things To bE Fixed End -->
+                </div>
+
+                <!-- Aside Block-->
+                <div class="col-lg-4">
+                  <aside class="aside-components">
+                    <div class="aside-component">
+                      <div class="owl-carousel-outer-navigation-1">
+                        <!-- Heading Component-->
+                        <article class="heading-component">
+                          <div class="heading-component-inner">
+                            <h5 class="heading-component-title">Latest results
+                            </h5>
+                            <div class="owl-carousel-arrows-outline">
+                              <div class="owl-nav">
+                                <button class="owl-arrow owl-arrow-prev"></button>
+                                <button class="owl-arrow owl-arrow-next"></button>
+                              </div>
+                            </div>
+                          </div>
+                        </article>
+                        <!-- Owl Carousel-->
+                        <div class="owl-carousel owl-spacing-1" data-items="1" data-dots="false" data-nav="true" data-autoplay="true" data-autoplay-speed="4000" data-stage-padding="0" data-loop="true" data-margin="30" data-mouse-drag="false" data-animation-in="fadeIn" data-animation-out="fadeOut" data-nav-custom=".owl-carousel-outer-navigation-1">
+                          <!-- Game Result Creative-->
+                          {% for game in games %}
+                          <article class="game-result game-result-creative">
+                            <div class="game-result-main-vertical">
+                              <div class="game-result-team game-result-team-horizontal game-result-team-first">
+                                <figure class="game-result-team-figure">
+                                  <img src="{{ game.team.team_logo.url }}" alt="{{ game.team }}" width="31" height="41"/>
+                                </figure>
+                                <div class="game-result-team-title">
+                                  <div class="game-result-team-name">{{ game.team }}</div>
+                                  <div class="game-result-team-country">{{ game.team.city }}</div>
+                                </div>
+                                <div class="game-result-score game-result-score-big game-result-team-win">{{ game.team_scores }}
+                                
+                                    {% if game.team_scores > game.opponent_scores %}
+                                    <span class="game-result-team-label game-result-team-label-right">Win</span>
+                                    {% elif game.team_scores < game.opponent_scores %}
+                                    <span class="game-result-team-label game-result-team-label-right" style="background-color:red;">Loss</span>
+                                    {% else %}
+                                    <span class="game-result-team-label game-result-team-label-right" style="background-color:transparent;"></span>
+                                    {% endif %}
+                                  
+                                </div>
+                              </div>
+                              <span class="game-result-team-divider">{{ game.indicator }}</span>
+                              <div class="game-result-team game-result-team-horizontal game-result-team-second">
+                                <figure class="game-result-team-figure">
+                                  <img src="{{ game.opponent.logo.url }}" alt="" width="40" height="32"/>
+                                </figure>
+                                <div class="game-result-team-title">
+                                  <div class="game-result-team-name">{{ game.opponent }}</div>
+                                  <div class="game-result-team-country">{{ game.opponent.city}}</div>
+                                </div>
+                                <div class="game-result-score game-result-score-big">{{ game.opponent_scores }}
+                                </div>
+                              </div>
+                            </div>
+                            <div class="game-result-footer">
+                              <ul class="game-result-details">
+                                <li>{{ game.game_type }}</li>
+                                <li>{{ game.game_venue }}</li>
+                                <li>
+                                  <time datetime="2020-04-14">{{ game.date|date:"d M, Y" }}</time>
+                                </li>
+                              </ul>
+                            </div>
+                          </article>
+                          {% endfor %}
+                      
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="aside-component">
+                      <!-- Heading Component-->
+                      <article class="heading-component">
+                        <div class="heading-component-inner">
+                          <h5 class="heading-component-title">In the spotlight
+                          {% if competition.slug %}
+                            </h5><a class="button button-xs button-gray-outline" href="{% url 'news-list' competition.slug   %}">Read More News</a>
+                          {% else %}
+                              </h5><a class="button button-xs button-gray-outline" href="">Read More News</a>
+                          {% endif %}
+                        </div>
+                      </article>
+                      <!-- List Post Classic-->
+                      <div class="list-post-classic">
+                        <!-- Post Classic-->
+                         {% for news in sidebar_news %}
+                        <article class="post-classic">
+                          <div class="post-classic-aside">
+                            <a class="post-classic-figure" href="{% url 'news-list' competition.id   %}">
+                              <img src="{{ news.image.url }}" alt="" style="object-fit: cover;" width="94" height="94"/></a></div>
+                          <div class="post-classic-main">
+                            <p class="post-classic-title">
+                              <a href="{% url 'news-list' competition.id   %}">{{ news.heading }}</a>
+                            </p>
+                            <div class="post-classic-time">
+                              <span class="icon mdi mdi-clock"></span>
+                              <time datetime="2020">{{ news.published_date }}</time>
+                            </div>
+                          </div>
+                        </article>
+                        {% endfor %}
+                      
+                      </div>
+                    </div>
+
+                    <!-- Standing -->
+                    <div class="aside-component">
+                      <!-- Heading Component-->
+                      <article class="heading-component">
+                        <div class="heading-component-inner">
+                          <h5 class="heading-component-title">Standings</h5>
+                          {% if competition.slug %}
+                          <a class="button button-xs button-gray-outline" href="{% url 'view-standing' competition.slug %}">Full Standings</a>
+                          {% else %}
+                          <a class="button button-xs button-gray-outline" href="">Full Standings</a>
+                          {% endif %}
+                        </div>
+                      </article>
+                      <!-- Table team-->
+                      <div class="table-custom-responsive">
+                        <table class="table-custom table-standings table-classic">
+                          <thead>
+                            <tr>
+                              <th colspan="2">Team Position</th>
+                              <th>W</th>
+                              <th>L</th>
+                              <th>PPG</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {% for row in standing_df %}
+                            <tr>
+                              <td>
+                                <span>{{ forloop.counter }}</span>
+                              </td>
+                              <td class="team-inline">
+                                <div class="team-figure">
+                                  {% if row.team__team_logo %}
+                                  <img src="/media/{{ row.team__team_logo }}" alt="" width="30">
+                                  {% else %} 
+                                  <img src="" alt="" width="30">
+                                  {% endif %}
+                                </div>
+                                <div class="team-title">
+                                  <div class="team-name">{{ row.team__name }}</div>
+                                  <div class="team-country">{{ row.team.city }}</div>
+                                </div>
+                              </td>
+                              <td>{{ row.w }}</td>
+                              <td>{{ row.l }}</td>
+                              <td>{{ row.ppg }}</td>
+                            </tr>
+                            {% endfor %}
+
+                        
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                    <!--Standing-->
+
+                    <div class="aside-component">
+                      <!-- Heading Component-->
+                      <article class="heading-component">
+                        <div class="heading-component-inner">
+                          <h5 class="heading-component-title">Follow us
+                          </h5>
+                        </div>
+                      </article>
+
+                      <!-- Buttons Media-->
+                      <div class="group-sm group-flex">
+                        <a class="button-media button-media-facebook" href="#">
+                          <h4 class="button-media-title">50k</h4>
+                          <p class="button-media-action">Like
+                            <span class="icon material-icons-add_circle_outline icon-sm"></span>
+                          </p>
+                          <span class="button-media-icon fa-facebook"></span>
+                        </a>
+                        <a class="button-media button-media-twitter" href="#">
+                          <h4 class="button-media-title">120k</h4>
+                          <p class="button-media-action">Follow
+                            <span class="icon material-icons-add_circle_outline icon-sm"></span>
+                          </p>
+                          <span class="button-media-icon fa-twitter"></span>
+                        </a>
+                        <a class="button-media button-media-google" href="#">
+                          <h4 class="button-media-title">15k</h4>
+                          <p class="button-media-action">Follow
+                            <span class="icon material-icons-add_circle_outline icon-sm"></span>
+                          </p>
+                          <span class="button-media-icon fa-google"></span>
+                        </a>
+                        <a class="button-media button-media-instagram" href="#">
+                          <h4 class="button-media-title">85k</h4>
+                          <p class="button-media-action">Follow
+                            <span class="icon material-icons-add_circle_outline icon-sm"></span>
+                          </p>
+                          <span class="button-media-icon fa-instagram"></span>
+                        </a>
+                      </div>
+                    </div>
+
+                    <!-- Team Stats -->
+                    <div class="aside-component">
+                    
+                        <!-- Heading Component-->
+                        <article class="heading-component">
+                          <div class="heading-component-inner">
+                            <h5 class="heading-component-title">Team Stats
+                            </h5>
+                          </div>
+                        </article>
+                        <div class="table-custom-responsive">
+                          <table class="table-custom table-custom-bordered table-team-statistic">
+                            <tbody><tr>
+                              <td>
+                                <p class="team-statistic-counter">{{ mean_points }}</p>
+                                <p class="team-statistic-title">Points Per Game</p>
+                                <p class="team-statistic-title">1st</p>
+                              </td>
+                              <td>
+                                <p class="team-statistic-counter">{{ mean_rebounds }}</p>
+                                <p class="team-statistic-title">Rebounds Per Game</p>
+                                <p class="team-statistic-title">3rd</p>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <p class="team-statistic-counter">{{ mean_assists }}</p>
+                                <p class="team-statistic-title">Assists Per Game</p>
+                                <p class="team-statistic-title">2nd</p>
+                              </td>
+                              <td>
+                                <p class="team-statistic-counter">{{ mean_opp_points }}</p>
+                                <p class="team-statistic-title">Points Allowed</p>
+                                <p class="team-statistic-title">6th</p>
+                              </td>
+                            </tr>
+                          </tbody></table>
+                        </div>
+                    
+                    </div>
+
+                    <!--Team Stat Ends-->
+
+
+                    <div class="aside-component">
+                      <!-- Heading Component-->
+                      <article class="heading-component">
+                        <div class="heading-component-inner">
+                          <h5 class="heading-component-title">Our Awards
+                          </h5>
+                        </div>
+                      </article>
+                      <!-- Owl Carousel-->
+                      <div class="owl-carousel owl-carousel-dots-modern awards-carousel" data-items="1" data-autoplay="true" data-autoplay-speed="4000" data-dots="true" data-nav="false" data-stage-padding="0" data-loop="true" data-margin="0" data-mouse-drag="true">
+                        <!-- Awards Item-->
+                         {% for award in awards %}
+                        <div class="awards-item"> 
+                          <div class="awards-item-main">
+                            <h4 class="awards-item-title">
+                              <span class="text-accent"></span>{{ award.name }}
+                            </h4>
+                            <div class="divider"></div>
+                            <h5 class="awards-item-time">{{ award.date|date:'F Y'  }}</h5>
+                          </div>
+                          <div class="awards-item-aside"> 
+                            <img src="{{ award.image.url }}" alt="" width="67" height="147"/>
+                          </div>
+                        </div>
+                        {% endfor %}
+                    
+                      </div>
+                    </div>
+                
+
+
+
+                    <!-- Gallery -->
+                    <div class="aside-component">
+                      <!-- Heading Component-->
+                      <article class="heading-component">
+                        <div class="heading-component-inner">
+                          <h5 class="heading-component-title">Gallery
+                          </h5>
+                        </div>
+                      </article>
+                      <article class="gallery" data-lightgallery="group">
+                        <div class="row row-10 row-narrow">
+                          {% for image in team_images %}
+                          <div class="col-6 col-sm-4 col-md-6 col-lg-4">
+                            <a class="thumbnail-creative" data-lightgallery="item" href="{{image.images.url}}">
+                              <img src="{{image.images.url}}" alt="" />
+                              <div class="thumbnail-creative-overlay"></div>
+                            </a>
+                          </div>
+                          {% endfor %}
+                      
+                        </div>
+                      </article>
+
+                      <nav aria-label="page navigation example">
+                        <ul class="pagination justify-content-center">
+
+                              {% if team_images.has_previous %}
+                                  <li class="page-item"><a class="page-link" href="?page=1">&laquo; First</a></li>
+                                  <li class="page-item"><a class="page-link" href="?page={{ team_images.previous_page_number }}">Previous</a></li>
+                              {% endif %}
+
+                                      <!--
+                                      <li class="page-item disabled" ><a class="page-link" href="#"> Page {{ venues.number }} of {{ venues.paginator.num_pages }}</a></li>
+                                      -->
+                              {% for i in nums %}
+                                      <li class="page-item"><a class="page-link" href="?page={{ forloop.counter }}">{{ forloop.counter }}</a></li>
+                              {% endfor %}
+
+                              {% if team_images.has_next %}
+                                  <li class="page-item"><a class="page-link" href="?page={{ team_images.next_page_number }}">Next</a></li>
+                                  <li class="page-item"><a class="page-link" href="?page={{ team_images.paginator.num_pages }}">Last &raquo;</a></li>
+                              {% endif %}
+
+                        </ul>
+                      </nav>
+
+
+
+                    </div>
+
+                   <!--E-SHOP -->
+                    <div class="aside-component">
+                      <div class="owl-carousel-outer-navigation">
+                        <!-- Heading Component-->
+                        <article class="heading-component">
+                          <div class="heading-component-inner">
+                            <h5 class="heading-component-title">Shop
+                            </h5>
+                            <div class="owl-carousel-arrows-outline">
+                              <div class="owl-nav">
+                                <button class="owl-arrow owl-arrow-prev"></button>
+                                <button class="owl-arrow owl-arrow-next"></button>
+                              </div>
+                            </div>
+                          </div>
+                        </article>
+                        <!-- Owl Carousel-->
+                        <div class="owl-carousel owl-spacing-1" data-items="1" data-dots="false" data-nav="true" data-autoplay="true" data-autoplay-speed="4000" data-stage-padding="0" data-loop="false" data-margin="30" data-mouse-drag="false" data-nav-custom=".owl-carousel-outer-navigation">
+                          {% for product in products%}
+                          <article class="product">
+                            <header class="product-header">
+                              <!-- Badge-->
+                               {% if product.is_sales %}
+                                <div class="badge badge-red">HOT<span class="icon material-icons-whatshot"></span>
+                              {% endif %}
+                              
+                              <div class="product-figure">
+                                <a href="{% url 'product-id' product.pk %}">
+                                  <img src="{{ product.image.url }}" alt="{{ product.name }}" style="object-fit: contain;">
+                                </a>
+                              </div>
+                              <div class="product-buttons">
+                                <div class="product-button product-button-share fl-bigmug-line-share27" style="font-size: 22px">
+                                  <ul class="product-share">
+                                    <li class="product-share-item"><span>Share</span></li>
+                                    <li class="product-share-item"><a class="icon icon-xs fa fa-facebook" href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri|urlencode }}" target="_blank" title="Share on Facebook"></a></li>
+                                    <li class="product-share-item"><a class="icon icon-xs fa fa-instagram"   href="#"  id="copy-ig-link"  data-url="{{ request.build_absolute_uri }}"  title="Copy Link for Instagram"></a></li>
+                                    <li class="product-share-item" ><a class="icon icon-xs fa fa-twitter"  href="https://twitter.com/intent/tweet?url={{ request.build_absolute_uri|urlencode }}&text=Check+out+this+gear!+🔥"   target="_blank"  title="Share on X"> </a></li>
+                                    <li class="product-share-item"><a class="icon icon-xs fa fa-whatsapp"  href="https://api.whatsapp.com/send?text=Check+this+out:+{{ request.build_absolute_uri|urlencode }}"  target="_blank"></a></li>
+                                    <li class="product-share-item"> <a class="icon icon-xs fa fa-linkedin" href="https://www.linkedin.com/sharing/share-offsite/?url={{ request.build_absolute_uri|urlencode }}"  target="_blank"></a></li>  
+                                  </ul>
+                               
+                                  <span id="share-toast" style="display: none; color: #35ad79; font-size: 12px; margin-left: 10px; font-weight: bold;">
+                                      Link copied! Paste to your IG bio or story.
+                                  </span>
+                                </div>
+                                <a class="product-button fl-bigmug-line-shopping202" href="{% url 'product-id' product.pk %}" style="font-size: 26px"></a>
+                                <a class="product-button fl-bigmug-line-zoom60" href="{{ product.image.url }}" data-lightgallery="item" style="font-size: 25px"></a>
+                              </div>
+                            </header>
+                            <footer class="product-content">
+                              <h6 class="product-title">
+                                <a href="{% url 'product-id' product.pk %}">{{ product.name }}</a>
+                              </h6>
+                              <div class="product-price">
+                                {% if product.is_sales %}
+                                  <span class="product-price-old">${{ product.price }}</span>
+                                  <span class="heading-6 product-price-new">${{ product.sale_price }}</span>
+                                {% else %}
+                                  <span class="heading-6 product-price-new">${{ product.price }}</span>
+                                {% endif %}
+                              </div>
+                              <ul class="product-rating">
+                                <li><span class="material-icons-star"></span></li>
+                                <li><span class="material-icons-star"></span></li>
+                                <li><span class="material-icons-star"></span></li>
+                                <li><span class="material-icons-star"></span></li>
+                                <li><span class="material-icons-star_half"></span></li>
+                              </ul>
+                            </footer>
+                          </article>
+                          {% endfor %}
+                        
+                        </div>
+                      </div>
+                    </div>
+                  </aside>
+                </div>
+              </div>
+            </div>
+      </section>
+
+      <!-- Image Carousel Section -->
+      <section class="section section-xs bg-gray-100">
+        {% if team_images %}
+        <div class="owl-carousel owl-carousel-mystic owl-loaded" data-items="1" data-sm-items="2" data-lg-items="3" data-xl-items="4" data-autoplay="true" data-autoplay-speed="6750" data-dots="false" data-nav="true" data-stage-padding="0" data-loop="true" data-margin="30" data-mouse-drag="false" data-lightgallery="group-owl">
+            <div class="owl-stage-outer">
+                <div class="owl-stage" style="transform: translate3d(-1286px, 0px, 0px); transition: 0.25s; width: 3430px;">
+                  {% for image in team_images %}  
+                  <div class="owl-item " style="width: 398.667px; margin-right: 30px;">
+                        <a class="thumbnail-alice" href="{{image.images.url}}" data-lightgallery="item">
+                            <figure class="thumbnail-alice-figure">
+                                <img class="thumbnail-alice-image" src="{{image.images.url}}" alt="" width="419" height="350">
+                            </figure>
+                        </a>
+                    </div>
+                  {% endfor %}
+
+                 
+                </div>
+            </div>
+            <div class="owl-nav">
+                <button type="button" role="presentation" class="owl-prev"></button>
+                <button type="button" role="presentation" class="owl-next"></button>
+            </div>
+            <div class="owl-dots disabled"></div>
+        </div>
+         {% else %}
+        <div class="text-center py-5">
+                <h6 class="text-muted">
+                    <span class="icon mdi mdi-camera-off"></span> 
+                    Pictures Unavailable @ the moment... Check back soon!
+                </h6>
+            </div>
+        {% endif %}
+      </section>
+
+<script>
+  function scrollG(distance) {
+    // Target the WRAPPER, not the row
+    const container = document.querySelector('.game-slider-wrapper');
+    if (container) {
+        container.scrollBy({
+            left: distance,
+            behavior: 'smooth'
+        });
+    } else {
+        console.error("Slider wrapper not found!");
+    }
+}
+
+
+// Instagram button
+$(document).on('click', '#copy-ig-link', function(e) {
+    e.preventDefault();
+    
+    var pageUrl = $(this).attr('data-url');
+    
+    // Create a temporary input to run the browser's copy command
+    var $temp = $("<input>");
+    $("body").append($temp);
+    $temp.val(pageUrl).select();
+    document.execCommand("copy");
+    $temp.remove();
+    
+    // Flash a quick success confirmation text next to the icons
+    $('#share-toast').fadeIn().delay(2500).fadeOut();
+});
+</script>
+      
+
+{% endblock %}
+
+

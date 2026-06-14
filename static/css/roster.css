@@ -1,0 +1,335 @@
+
+.page-title {
+    font-size: 1.5em;
+    font-weight: 700;
+    margin-bottom: 20px;
+    /* Changed color to white/light for the dark background */
+    color: #f1f5f9; 
+    text-align: center;
+}
+
+/* --- Grid Container (Default: 3 Columns) --- */
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); 
+    gap: 20px;
+    max-width: 1200px; 
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* --- Player Card Styling (Changed to Glassmorphism Card Style) --- */
+.player-card {
+    /* Glassmorphism Styles */
+    background: rgba(255, 255, 255, 0.08); /* glassy transparency */
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 16px; /* Increased border radius for glass effect */
+    box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+    /* Existing Layout Styles */
+    min-width: 250px; 
+    padding: 20px;
+    padding-top: 30px; 
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Card Hover Effect */
+.player-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 25px rgba(79, 70, 229, 0.5);
+}
+
+/* --- Header Info --- */
+.header-info {
+    text-align: left;
+    margin-bottom: 15px;
+}
+
+.player-name {
+    font-size: 1.4em;
+    font-weight: 700;
+    margin: 0;
+    /* Light color for dark background */
+    color: #a5b4fc; 
+}
+
+.player-position {
+    font-size: 0.8em;
+    font-weight: 500;
+    /* Lighter grey for subtitle */
+    color: #e2e8f0;
+    margin-top: 3px;
+    text-transform: uppercase;
+}
+
+/* --- Biographical Details (TIGHTER & WIDER LINES) --- */
+.details-and-image {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 5px; 
+}
+
+.details-list {
+    flex-grow: 1;
+    margin-right: -100px; 
+}
+
+.detail-item {
+    display: flex;
+    justify-content: flex-start; 
+    padding: 5px 0; 
+    /* Thinner border-bottom, width reduced to 70% */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2); 
+    border-width: 0px;
+    font-size: 0.75em; 
+    width: 60%;
+}
+
+.detail-item:last-child {
+    border-bottom: none;
+}
+
+.detail-label {
+    font-weight: 500;
+    /* Light color for dark background */
+    color: #f1f5f9;
+    text-transform: uppercase;
+    flex-basis: 60%; 
+    text-align: left;
+}
+
+.detail-value {
+    font-weight: bold;
+    /* Light color for dark background */
+    color: #f1f5f9; 
+    margin-left: 5px; 
+    
+}
+
+/* --- Player Image and Number (LARGER PHOTO & HIGH NUMBER) --- */
+.player-image-container {
+    height: 220px;
+    width: 200px; 
+    position: relative;
+    line-height: 0; 
+    margin-top: -20px; 
+    margin-right: -10px; 
+    border: none; 
+    box-shadow: none;
+    overflow: visible; 
+}
+
+.player-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* Subtle light border */
+    border: 0px solid rgba(255, 255, 255, 0.3); 
+    
+    display: block;
+    border-radius: 8px; /* Slight rounding for the photo */
+}
+
+.player-number {
+    position: absolute;
+    top: -75px; 
+    right: 0px;
+    font-size: 8em; 
+    font-weight: 900;
+    /* Very light, low opacity number */
+    color: rgba(255, 255, 255, 0.08); 
+    z-index: 0; 
+    line-height: 1;
+}
+
+
+
+/* --- Season Stats Section (BOXED STYLING) --- */
+.stats-title {
+    font-size: 0.9em;
+    font-weight: 700;
+    /* Light color */
+    color: #f1f5f9;
+    text-align: center;
+    text-transform: uppercase;
+    /* Light border for dark background */
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    border-bottom: none;
+    padding: 5;
+    margin-top: 2px 0 0 0; 
+}
+
+.season-stats {
+    /* Using a light, transparent background for the stats block */
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 5px;
+    padding: 0 5px;
+    margin-bottom: 15px;
+}
+
+.stat-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0;
+    /* Light borders */
+    border-left: 1px solid rgba(255, 255, 255, 0.1);
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.stat-row.headers {
+    font-weight: 600;
+    font-size: 0.8em;
+    /* Lighter color for header text */
+    color: #a5b4fc;
+    text-transform: uppercase;
+    margin-top: 5px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.stat-row.values {
+    font-size: 0.9em;
+    /* White text for values */
+    color: #fff;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Vertical divisions for the "boxes" */
+.stat-label, .stat-value {
+    flex-basis: 18%;
+    text-align: center;
+    font-weight: 400;
+    padding: 7px 0; 
+    /* Light vertical separator */
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Handle the first column (SEASON) */
+.stat-label:first-child, .stat-value.empty-cell {
+    flex-basis: 28%; 
+    text-align: left;
+    padding-left: 10px; 
+    font-weight: 600;
+    /* Slightly different color for the label column */
+    color: #c4d7e0;
+}
+
+/* Remove border on the last stat cell */
+.stat-row .stat-label:last-child,
+.stat-row .stat-value:last-child {
+    border-right: none;
+}
+
+.stat-row.values .stat-value {
+    font-weight: 600; 
+    color: #fff;
+}
+
+.stat-row.footer-stat {
+    border-top: none;
+    padding-top: 5px;
+    border-bottom: none; /* Removed double border */
+    border-left: none; 
+    border-right: none;
+    padding-bottom: 5px;
+}
+
+.stat-label.full-width {
+    flex-basis: 100%;
+    text-align: center; /* Centered link text */
+    font-weight: 500;
+    font-size: 0.75em;
+    color: #a5b4fc; /* Highlighted color for link */
+    padding-left: 0;
+}
+
+/* --- FOOTER BUTTONS (EQUAL SPACE) --- */
+.card-footer {
+    display: flex;
+    justify-content: space-evenly; 
+    padding-top: 10px;
+    /* Light border for the footer separator */
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    font-size: 0.8em;
+}
+
+.footer-link {
+    text-decoration: none;
+    font-weight: 600;
+    padding: 8px 10px; 
+    border-radius: 5px;
+    transition: background-color 0.3s, border-color 0.3s;
+    flex-grow: 1; 
+    text-align: center;
+    margin: 0 5px; 
+    /* Adopted the glassmorphism button style */
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: #fff;
+}
+
+.footer-link:hover {
+    background: rgba(79, 70, 229, 0.6); /* Blue hover color */
+    border-color: #a5b4fc;
+    color: #fff;
+}
+.footer-delete:hover{
+    background-color: rgba(234, 21, 28, 0.6); /* Blue hover color */
+    border-color: #dc3545;
+}
+
+/* ---------------------------------------------------------------- */
+/* --- RESPONSIVENESS (Media Queries) --- */
+/* ---------------------------------------------------------------- */
+
+/* Medium screens (Tablets/Smaller Laptops) - Change to 2 columns */
+@media (max-width: 992px) {
+    .grid-container {
+        grid-template-columns: repeat(2, 1fr);
+        padding: 0 15px;
+    }
+    /* Adjusted player number position for 2-column layout */
+    .player-number {
+        top: -75px; 
+        right: 0px;
+        font-size: 8em;
+    }
+}
+
+/* Small screens (Mobile Phones) - Change to 1 column */
+@media (max-width: 600px) {
+
+    .grid-container {
+        grid-template-columns: 1fr;
+        gap: 15px;
+        padding: 0 10px;
+    }
+    
+  
+
+    .player-card {
+        padding: 15px;
+    }
+
+    /* Smaller player number for mobile */
+    .player-number {
+        font-size: 6em; 
+        top: -65px;
+        right: -5px;
+    }
+    
+    /* Ensure the buttons stack nicely on very narrow screens */
+    .card-footer {
+        flex-direction: column;
+    }
+    .footer-link {
+        margin: 5px 0; 
+    }
+}

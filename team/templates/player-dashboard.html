@@ -1,0 +1,1218 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block extra_head %}
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+{% endblock %}
+
+{% block content %}
+ 
+
+<style>
+    /* Very compact height for mobile */
+    .chart-box {
+        position: relative; 
+        height: 85px 
+        width: 100%; 
+        margin: 0 auto;
+    }
+
+    /* Standard height for desktop */
+    @media (min-width: 768px) {
+        .col-4 h6 { font-size: 14px !important; }
+        .chart-box { height: 150px !important; }
+        .dashboard-container { padding: 20px !important; }
+    }
+
+
+
+
+
+
+
+
+
+
+
+/* Keep your original layout - just tightened the air */
+.container-xl {
+    max-width: 600px;
+    margin: 0 auto;
+    padding-top: 5px !important;
+}
+
+.dashboard-section {
+    
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    box-shadow: 2 6px 18px rgba(0, 0, 0, 0.05);
+    padding: 15px 20px !important; /* Slightly tighter vertical padding */
+    transition: all 0.3s ease;
+}
+
+.dashboard-section h3 {
+
+    color: #2d3436;
+    letter-spacing: 0.5px;
+    font-size: 1.1rem; /* Slightly smaller to save space */
+    text-transform: uppercase;
+    margin-bottom: 6px !important;
+}
+
+/* NEW COMPRESSED HEIGHTS */
+/* Reduce bar and donut heights */
+.bar-wrapper {
+  height: 110px !important;   /* was 110px */
+  width: 100%;
+  position: relative;
+}
+
+.donut-wrapper {
+  height: 70px !important;
+  width: 90% !important;   /* 🔹 slightly narrower than bar */
+  max-width: 100px;        /* 🔹 cap width so it doesn’t stretch too far */
+  margin-top: 5px;
+  margin-left: auto;
+  margin-right: auto;      /* 🔹 center it inside the column */
+  position: relative;
+}
+
+
+/* Reduce spacing between rows of charts */
+.row-cols-5 .col {
+  padding-left: 3px;
+  padding-right: 3px;
+}
+
+/* Reduce spacing around section titles and dividers */
+.dashboard-section h3 {
+  margin-bottom: 6px !important; /* tighter spacing under headings */
+}
+
+.chart-block {
+  margin-bottom: 1.5rem;       /* spacing between sections */
+  border-bottom: 1px solid #eee; /* optional divider line */
+  padding-bottom: 1rem;
+}
+
+.chart-block:last-child {
+  border-bottom: none; /* no divider after last section */
+}
+
+
+
+canvas {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+
+/* Mobile Adjustments */
+@media (max-width: 768px) {
+    .dashboard-section {
+        padding: 10px !important;
+    }
+    .dashboard-section h3 {
+        font-size: 1rem;
+    }
+    .row-cols-5 {
+        overflow-x: auto;
+        display: flex;
+        flex-wrap: nowrap;
+    }
+    .row-cols-5 .col {
+        flex: 0 0 20%;
+        min-width: 85px 
+    }
+
+  
+
+}
+
+
+
+
+
+
+
+
+
+
+
+    /* Green background to match your reference image */
+ .scoring-donut {
+  height: 120px !important;   /* slightly larger for scoring pies */
+  width: 85% !important;      /* narrower so they don’t hug edges */
+  max-width: 110px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.chart-block small {
+  font-size: 0.75rem;
+  color: #444;
+}
+
+
+
+  
+
+</style>
+
+  <!-- Section Breadcrumbs-->
+      <section class="section parallax-container breadcrumbs-wrap" data-parallax-img="{% static 'img/bg-breadcrumbs-1-1920x726.jpg' %}">
+        <div class="material-parallax parallax">
+          <img src="{% static 'img/ball_court.png' %}" alt="" style="display: block; transform: translate3d(-50%, 68px, 0px);"></div>
+        <div class="parallax-content breadcrumbs-custom context-dark">
+          <div class="container">
+            <h3 class="breadcrumbs-custom-title">{{ player_details.player_name|default:"Name of Player" }} Analytics Dashboard</h3>
+            <ul class="breadcrumbs-custom-path">
+              <li><a href="{% url 'home' %}">Home</a></li>
+              <li><a href="{% url 'team-roster' competition.id %}">Roster</a></li>
+              <li class="active">Dashboard</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      
+
+<section class="section p-0">
+    <div class="container-fluid p-0"> 
+        <div class="row g-0 text-white text-center m-0" style="overflow: hidden;">
+            
+            <div class="col-3 col-md-3 p-3" style="background-color: #f1c40f;">
+                <h2 class="mb-0 font-weight-bold">37.08</h2>
+                <p class="small text-uppercase mb-0">Avg MPG</p>
+            </div>
+            
+            <div class="col-3 col-md-3 p-3" style="background-color: #27ae60;">
+                <h2 class="mb-0 font-weight-bold">{{ mean_points }}</h2>
+                <p class="small text-uppercase mb-0">Avg PPG</p>
+            </div>
+            
+            <div class="col-3 col-md-3 p-3" style="background-color: #c0392b;">
+                <h2 class="mb-0 font-weight-bold">{{ mean_rebounds }}</h2>
+                <p class="small text-uppercase mb-0">Avg RPG</p>
+            </div>
+            
+            <div class="col-3 col-md-3 p-3" style="background-color: #f39c12;">
+                <h2 class="mb-0 font-weight-bold">{{ mean_assists }}</h2>
+                <p class="small text-uppercase mb-0">Avg TOV</p>
+            </div>
+            
+        </div>
+    </div>
+</section>
+
+<!-- Search Form-->
+  {% if user.is_authenticated and user.is_superuser %}
+<section class="section-md bg-gray-100">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-9 col-xl-8">
+        <!-- Search Form -->
+        <div class="rd-search-modern">
+          <form id="searchForm" class="rd-form rd-search rd-form-inline" action="{% url 'search-result' %}" method="GET">
+            <div class="form-wrap">
+              <label class="form-label rd-input-label" for="rd-search-form-input"></label>
+              <input class="form-input" id="rd-search-form-input" type="text" name="s" value="{{ searched }}" autocomplete="on" placeholder="Search Player (e.g. Python)...">
+            </div>
+            <button class="rd-search-form-submit fl-budicons-launch-search81" type="submit"></button>
+          </form>
+        </div>
+
+        <!-- Collapsible Results -->
+        <div class="collapse" id="searchResults">
+          <div class="card card-body">
+            <div id="resultsContent">
+              <!-- AJAX will inject search results here -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<!-- This is the block your JS is looking for -->
+<div class="rd-search-results" style="display: none;">
+ 
+
+  {% if searched_players %}
+  
+    <ul>
+      {% for player in searched_players %}
+        <li>
+          <img src="{{ player.player_image.url }}" alt="{{ player.player_name }}" class="player-photo" width="40" height="40">
+          <a href="{% url 'players-id' competition.id player.pk %}">{{ player.player_name }}</a>
+          ({{ player.get_position_display }}) - Team: {{ player.team.name }}
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    {% if searched %}
+      <p>No results found for "{{ searched }}".</p>
+    {% endif %}
+  {% endif %}
+</div>
+<!-- Search Form End -->
+
+<section id="player-matrix-section" class="py-4 bg-light">
+    <div class="container-fluid">
+        <div class="row">
+            
+            <div class="col-lg-6 col-12 mb-4">
+                <div class="card shadow-sm border-0 h-100" style="background: white; border-radius: 12px; padding: 15px;">
+                    <h5 class="text-center mb-3" style="font-weight: bold; color: #333; font-size: 1.1rem;">
+                        <i class="fas fa-chart-bar mr-2"></i> {{player_details.player_name }} Season Totals Matrix
+                    </h5>
+                    <div style="height: 350px; width: 100%;">
+                        <canvas id="matrixChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6 col-12 mb-4">
+                <div class="card shadow-sm border-0 h-100" style="background: white; border-radius: 12px; padding: 15px;">
+                    <h5 class="text-center mb-3" style="font-weight: bold; color: #333; font-size: 1.1rem;">
+                        <i class="fas fa-calculator mr-2"></i> {{player_details.player_name }} Average Performance Matrix
+                    </h5>
+                    <div style="height: 350px; width: 100%;">
+                        <canvas id="matrixChartAvg"></canvas>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+<!-- Average Player Performance Matrix End -->
+
+<!-- Statitical Sumarry & Total Stats Percentages Of Each Players begin -->
+
+<section class="section section-md bg-gray-100">
+    <div class="container-fluid">
+        <div class="row">
+            
+            <div class="col-lg-6 col-12 mb-4">
+                <div class="dashboard-container" style="padding: 15px; border-radius: 16px; background: #fff; height: 100%; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+                    <h2 class="text-center mb-3" style="font-family: 'Arial Black'; color: black; text-transform: uppercase; font-size: 14px;">
+                       {{player_details.player_name }} Regular Season Statistical Summary
+                    </h2>
+                    <div style="position: relative; height: 350px; width: 100%;">
+                        <canvas id="summaryMatrixChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="col-lg-6 col-12 mb-4">
+                <div class="dashboard-container" style="padding: 5px; border-radius: 16px; background: #fff; height: 100%; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+                    <h2 class="text-center mb-3" style="font-family: 'Arial Black'; color: black; text-transform: uppercase; font-size: 14px;">
+                        {{player_details.player_name }} Regular Season Aggregate Sum of All Statistical Features
+                    </h2>
+                    
+                    <div class="card border-0 mb-3" style="background-color: #8ab5e1; border-radius: 12px; padding: 10px;">
+                        <div style="position: relative; height: 185px; width: 100%;">
+                            <canvas id="totalsBarChart"></canvas>
+                        </div>
+                    </div>
+
+         <div class="row text-center gx-2 mt-n1">
+
+            
+            <div class="col-4">
+                <div class="card shadow-sm border-0 p-1" style="border-radius: 10px; background-color: #e9ecef; height: 100%;">
+                    <h6 style="font-family: 'Arial Black'; color: black; font-size: 9px; margin-bottom: 5px;">FG%</h6>
+                    <div class="chart-box">
+                        <canvas id="fgDoughnut"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-4">
+                <div class="card shadow-sm border-0 p-1" style="border-radius: 10px; background-color: #e9ecef; height: 100%;">
+                    <h6 style="font-family: 'Arial Black'; color: black; font-size: 9px; margin-bottom: 5px;">3PT%</h6>
+                    <div class="chart-box">
+                        <canvas id="tpDoughnut"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-4">
+                <div class="card shadow-sm border-0 p-1" style="border-radius: 10px; background-color: #e9ecef; height: 100%;">
+                    <h6 style="font-family: 'Arial Black'; color: black; font-size: 9px; margin-bottom: 5px;">FT%</h6>
+                    <div class="chart-box">
+                        <canvas id="ftDoughnut"></canvas>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- Statitical Sumarry Of Each Players End-->
+
+
+<!-- Full Charts -->
+
+
+
+
+<!-- Charts Section -->
+<section id="player-matrix-section" class="py-4 bg-light">
+  <div class="container-fluid">
+    <!-- Section Title -->
+    <div class="row mb-3">
+      <div class="col-12 text-center">
+        <h5 class="font-weight-bold text-dark">Performance Range: Home vs Away</h5>
+      </div>
+    </div>
+
+    <div class="row g-3">
+      <!-- Home Chart -->
+      <div class="col-12 col-md-6">
+        <div class="chart-container card shadow-sm" style="background-color: #8ab5e1;">
+          <div class="card-body">
+            <canvas id="homecomparisonChart"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- Away Chart -->
+      <div class="col-12 col-md-6">
+        <div class="chart-container card shadow-sm" style="background-color: #8ab5e1;">
+          <div class="card-body">
+            <canvas id="awaycomparisonChart"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!--Last 5 Games FG-3P-FT -->
+
+
+
+
+<section id="last-5-games-split" class="py-4 bg-light">
+  <div class="container-fluid">
+    <div class="row g-3">
+      
+      <div class="col-12 col-md-6">
+        <div class="card shadow-sm h-100 border-0">
+          <div class="card-header text-center py-2" 
+              style="background: linear-gradient(135deg, #1a1a1a 0%, #343a40 100%); border-bottom: 1px solid #444;">
+              <h6 class="m-0" style="color: #ffffff !important; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;">
+                  Shot Accuracy (FG / 3P / FT)
+              </h6>
+          </div>
+          <div class="card-body p-2" style="background-color: #e9ecef;">
+    
+    <div class="mb-4">
+        <h6 class="text-center small font-weight-bold text-muted text-uppercase mb-2" style="letter-spacing: 1px;">Field Goals</h6>
+        <div class="row row-cols-5 g-1 mx-0">
+            <div class="col"><div style="height: 85px"><canvas id="fgBar1"></canvas></div><div style="height: 60px;"><canvas id="fgDonut1"></canvas></div></div>
+            <div class="col"><div style="height: 85px"><canvas id="fgBar2"></canvas></div><div style="height: 60px;"><canvas id="fgDonut2"></canvas></div></div>
+            <div class="col"><div style="height: 85px"><canvas id="fgBar3"></canvas></div><div style="height: 60px;"><canvas id="fgDonut3"></canvas></div></div>
+            <div class="col"><div style="height: 85px"><canvas id="fgBar4"></canvas></div><div style="height: 60px;"><canvas id="fgDonut4"></canvas></div></div>
+            <div class="col"><div style="height: 85px"><canvas id="fgBar5"></canvas></div><div style="height: 60px;"><canvas id="fgDonut5"></canvas></div></div>
+        </div>
+    </div>
+
+    <div class="mb-4">
+        <h6 class="text-center small font-weight-bold text-muted text-uppercase mb-2" style="letter-spacing: 1px;">3-Pointers</h6>
+        <div class="row row-cols-5 g-1 mx-0">
+            <div class="col"><div style="height: 85px"><canvas id="tpBar1"></canvas></div><div style="height: 60px;"><canvas id="tpDonut1"></canvas></div></div>
+            <div class="col"><div style="height: 85px"><canvas id="tpBar2"></canvas></div><div style="height: 60px;"><canvas id="tpDonut2"></canvas></div></div>
+            <div class="col"><div style="height: 85px"><canvas id="tpBar3"></canvas></div><div style="height: 60px;"><canvas id="tpDonut3"></canvas></div></div>
+            <div class="col"><div style="height: 85px"><canvas id="tpBar4"></canvas></div><div style="height: 60px;"><canvas id="tpDonut4"></canvas></div></div>
+            <div class="col"><div style="height: 85px"><canvas id="tpBar5"></canvas></div><div style="height: 60px;"><canvas id="tpDonut5"></canvas></div></div>
+        </div>
+    </div>
+
+    <div>
+        <h6 class="text-center small font-weight-bold text-muted text-uppercase mb-2" style="letter-spacing: 1px;">Free Throws</h6>
+        <div class="row row-cols-5 g-1 mx-0">
+            <div class="col"><div style="height: 85px"><canvas id="ftBar1"></canvas></div><div style="height: 60px;"><canvas id="ftDonut1"></canvas></div></div>
+            <div class="col"><div style="height: 85px"><canvas id="ftBar2"></canvas></div><div style="height: 60px;"><canvas id="ftDonut2"></canvas></div></div>
+            <div class="col"><div style="height: 85px"><canvas id="ftBar3"></canvas></div><div style="height: 60px;"><canvas id="ftDonut3"></canvas></div></div>
+            <div class="col"><div style="height: 85px"><canvas id="ftBar4"></canvas></div><div style="height: 60px;"><canvas id="ftDonut4"></canvas></div></div>
+            <div class="col"><div style="height: 85px"><canvas id="ftBar5"></canvas></div><div style="height: 60px;"><canvas id="ftDonut5"></canvas></div></div>
+        </div>
+    </div>
+
+</div>
+        </div>
+      </div>
+
+      <div class="col-12 col-md-6">
+  <div class="card shadow-sm h-100 border-0">
+    <div class="card-header text-center py-2" style="background: linear-gradient(135deg, #1a1a1a 0%, #343a40 100%); border-bottom: 1px solid #444;">
+      <h6 class="m-0" style="color: #ffffff !important; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;">Performance Matrix</h6>
+    </div>
+
+    <div class="card-body p-2 bg-white">
+
+      <div class="mb-4" style="background-color: #048023; border-radius: 8px; ">
+        <h6 class="text-center small font-weight-bold text-uppercase py-1" style="color: #f9f9f9; letter-spacing: 1px; border-radius: 4px;">Scoring Pattern Distribution</h6>
+        <div class="row row-cols-5 g-2 mx-0" style="background-color: #7b7265;  padding: -5px; " >
+          <div class="col"><div style="height: 140px;"><canvas id="patternChart1"></canvas></div></div>
+          <div class="col"><div style="height: 140px;"><canvas id="patternChart2"></canvas></div></div>
+          <div class="col"><div style="height: 140px;"><canvas id="patternChart3"></canvas></div></div>
+          <div class="col"><div style="height: 140px;"><canvas id="patternChart4"></canvas></div></div>
+          <div class="col"><div style="height: 140px;"><canvas id="patternChart5"></canvas></div></div>
+        </div>
+      </div>
+        <div class="card-body p-2 bg-white">
+
+        <div class="mb-4" style="background-color: #7b7265; border-radius: 8px; padding: 15px;">
+            <h6 class="text-center small font-weight-bold text-uppercase py-1 text-white" style="letter-spacing: 1px;">Trend Analysis: Points Over Last 10 Games</h6>
+            <div style="height: 150px; width: 100%;">
+            <canvas id="widePointsChart"></canvas>
+            </div>
+        </div>
+
+        <div style="background-color: #f39c12; border-radius: 8px; padding: 15px;">
+            <h6 class="text-center small font-weight-bold text-uppercase py-1 text-dark" style="letter-spacing: 1px;">Scoring Contribution: FG% Over Last 10 Games</h6>
+            <div style="height: 150px; width: 100%;">
+            <canvas id="wideFGChart"></canvas>
+            </div>
+        </div>
+
+        </div>
+
+    </div>
+  </div>
+</div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Full chart ends -->
+
+
+
+<section class="section section-md bg-gray-100">
+  <div class="container">
+    <div class="row row-30">
+      
+      <div class="col-lg-8">
+        <div class="card shadow-sm p-3">
+          <h6 class="text-center">Scoring Trend (Last 5 Games)</h6>
+          <canvas id="lineChart"></canvas>
+        </div>
+      </div>
+
+      <div class="col-lg-4">
+        <div class="card shadow-sm p-3">
+          <h6 class="text-center">Field Goal Efficiency</h6>
+          <canvas id=""></canvas>
+        </div>
+        <div class="card shadow-sm p-3">
+          <h6 class="text-center">3 Points Efficiency</h6>
+          <canvas id=""></canvas>
+        </div>
+        <div class="card shadow-sm p-3">
+          <h6 class="text-center">Free-Throw Efficiency</h6>
+          <canvas id=""></canvas>
+        </div>
+      </div>
+
+      <div class="col-lg-6">
+        <div class="card shadow-sm p-3">
+          <h6 class="text-center">Season Totals</h6>
+          <canvas style="color: #e0e0e0;" id="barChartVertical"></canvas>
+        </div>
+      </div>
+
+      <div class="col-lg-6">
+        <div class="card shadow-sm p-3">
+          <h6 class="text-center">Rebounds vs League Avg</h6>
+          <canvas id="barChartHorizontal"></canvas>
+        </div>
+      </div>
+
+
+      <div class="col-lg-8">
+        <div class="card shadow-sm p-3">
+          <h6 class="text-center">Scoring Trend (Last 5 Games)</h6>
+          <canvas id="myChart"></canvas>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+
+
+{% endblock %}
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-chart-matrix@2.0.1"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0"></script>
+<script src="https://cdn.zingchart.com/zingchart.min.js"></script>
+
+ 
+
+  <script>
+    // 1. REGISTER PLUGINS ONCE AT THE TOP
+    // This is the most common reason for charts not rendering
+    Chart.register(ChartDataLabels);
+
+    // 2. Fetch Django Data first so it's available for other scripts
+    const barLabels = {{ bar_labels|safe }};
+    const barData = {{ bar_data|safe }};
+    const fgStats = {{ fg_stats|safe }};
+    const tpStats = {{ three_p_stats|safe }};
+    const ftStats = {{ ft_stats|safe }};
+
+    // 3. Matrix Chart Logic wrapped in a function to avoid global conflicts
+    (function renderMainMatrix() {
+        try {
+            const matrixCanvas = document.getElementById('matrixChart');
+            if (!matrixCanvas) return;
+
+            const ctx = matrixCanvas.getContext('2d');
+
+            
+            //Django Data
+            const statsArr = {{ sum_x|safe }};
+            const playersArr = {{ sum_y|safe }};
+            const zDataArr = {{ sum_z|safe }};
+
+            const formattedMatrixData = [];
+            playersArr.forEach((player, pIdx) => {
+                statsArr.forEach((stat, sIdx) => {
+                    formattedMatrixData.push({ x: stat, y: player, v: zDataArr[pIdx][sIdx] });
+                });
+            });
+
+            new Chart(ctx, {
+                type: 'matrix',
+                data: {
+                    datasets: [{
+                        label: 'Performance Matrix',
+                        data: formattedMatrixData,
+                        backgroundColor(c) {
+                            const val = c.dataset.data[c.dataIndex].v;
+                            const alpha = Math.min(val / 100, 1);
+                            return `rgba(0, 166, 90, ${0.1 + alpha})`;
+                        },
+                       
+                      
+                        // Responsive logic: ensure width/height calculation doesn't hit 0/NaN
+                        width: ({chart}) => chart.chartArea ? chart.chartArea.width / statsArr.length - 1 : 0,
+                        height: ({chart}) => chart.chartArea ? chart.chartArea.height / playersArr.length - 1 : 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: false,
+                        datalabels: {
+                            display: true,
+                            color: 'black',
+                            font: { size: 7, weight: 'bold' },
+                            formatter: (val) => val.v
+                        }
+                    },
+                    scales: {
+                        x: { type: 'category', ticks: { font: { size: 8 } } ,labels: statsArr, position: 'top', grid: { display: false } },
+                        y: { type: 'category', ticks: { font: { size: 10 } } ,labels: playersArr, offset: true, grid: { display: false } }
+                    }
+                }
+            });
+        } catch (err) {
+            console.error("Matrix Chart Error: ", err);
+        }
+    })();
+
+
+
+    (function renderAverageMatrix() {
+    try {
+        const avgCanvas = document.getElementById('matrixChartAvg');
+        if (!avgCanvas) return;
+
+        const avgCtx = avgCanvas.getContext('2d');
+        
+        const statsAvg = {{ mean_x|safe }};
+        const playersAvg = {{ mean_y|safe }};
+
+        // (Your zDataAvg remains the same)
+        const zDataAvg = {{ mean_z|safe }};
+
+        const formattedAvgData = [];
+        playersAvg.forEach((player, pIdx) => {
+            statsAvg.forEach((stat, sIdx) => {
+                formattedAvgData.push({ x: stat, y: player, v: zDataAvg[pIdx][sIdx] });
+            });
+        });
+
+        new Chart(avgCtx, {
+            type: 'matrix',
+            data: {
+                datasets: [{
+                    data: formattedAvgData,
+                    backgroundColor(c) {
+                        const val = c.dataset.data[c.dataIndex].v;
+                        const alpha = Math.min(val / 50, 1);
+                        return `rgba(54, 162, 235, ${0.1 + alpha})`; 
+                    },
+                   
+                    // These lines force the boxes to scale to the chart's actual width
+                    width: ({chart}) => chart.chartArea ? chart.chartArea.width / statsAvg.length : 0,
+                    height: ({chart}) => chart.chartArea ? chart.chartArea.height / playersAvg.length : 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false, // Critical for "Shrink to Fit"
+                plugins: {
+                    legend: false,
+                    datalabels: {
+                        display: true,
+                        color: 'black',
+                        // Shrink font size for mobile fit
+                        font: { size: 9, weight: 'bold' },
+                        formatter: (val) => val.v
+                    }
+                },
+                scales: {
+                    x: { 
+                        type: 'category', 
+                        labels: statsAvg, 
+                        position: 'top', 
+                        grid: { display: false },
+                        ticks: { font: { size: 8 } } 
+                    },
+                    y: { 
+                        type: 'category', 
+                        labels: playersAvg, 
+                        offset: true, 
+                        grid: { display: false },
+                        ticks: { font: { size: 9 } }
+                    }
+                }
+            }
+        });
+    } catch (err) {
+        console.error("Average Matrix Failed:", err);
+    }
+})();
+
+
+
+(function renderSummaryMatrix() {
+    const sCanvas = document.getElementById('summaryMatrixChart');
+    if (!sCanvas) return;
+
+    const sX = {{ summary_x|safe }}, sY = {{ summary_y|safe }}, sZ = {{ summary_z|safe }}, sData = [];
+    sY.forEach((y, i) => sX.forEach((x, j) => sData.push({ x: x, y: y, v: sZ[i][j] || 0 })));
+
+    new Chart(sCanvas.getContext('2d'), {
+        type: 'matrix',
+        data: { datasets: [{
+            data: sData,  borderColor: '#fff',
+            backgroundColor: (c) => {
+                const v = c.dataset.data[c.dataIndex]?.v || 0;
+                return `rgba(54, 162, 235, ${0.1 + Math.min(v / 50, 1)})`;
+            },
+            // Logic to force the boxes to fill the entire canvas area
+            width: ({chart}) => chart.chartArea ? (chart.chartArea.width / sX.length) : 0,
+            height: ({chart}) => chart.chartArea ? (chart.chartArea.height / sY.length) : 0
+        }]},
+        options: {
+            responsive: true, maintainAspectRatio: false,
+            plugins: { 
+                legend: false, 
+                datalabels: { 
+                    display: true ,
+                    font: { size: 8.6, weight: 'bold' }, 
+                    formatter: (v) => v.v ? Number(v.v).toFixed(1) : '0' 
+                } 
+            },
+            scales: {
+                x: { type: 'category', labels: sX, position: 'top', offset: true, grid: { display: false }, ticks: { font: { size: 9 }}},
+                y: { type: 'category', labels: sY, offset: true, grid: { display: false }, ticks: { font: { size: 9 }}}
+            }
+        }
+    });
+})();
+
+
+
+
+
+// --- 1. BAR CHART (Visible values on top) ---
+new Chart(document.getElementById('totalsBarChart'), {
+    type: 'bar',
+    data: {
+        labels: barLabels,
+        datasets: [{
+            data: barData,
+            backgroundColor: '#008000', // Solid green
+            borderRadius: 4
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { display: false }, 
+        datalabels: { anchor: 'end', align: 'top', color: 'black',font: { weight: 'bold', size: 12 },
+                display: true, // Force display on top
+                offset: -4,   // 🔹 moves labels closer to the bar (negative pulls down)
+                clamp: true,  // keeps labels inside chart area
+                clip: false, 
+            }
+        },
+        scales: {
+            y: { beginAtZero: false, display: true }, // Hide axis to save space
+            x: { grid: { display: true }, ticks: { font: { size: 9 } } }
+        }
+    }
+});
+// --- 1. Doughnut CHART (Visible values on top) ---
+const configs = [{ id: 'fgDoughnut', stats: fgStats },
+                 { id: 'tpDoughnut', stats: tpStats }, 
+                 { id: 'ftDoughnut', stats: ftStats }];
+configs.forEach(c => {
+    new Chart(document.getElementById(c.id), {
+        type: 'doughnut',
+        data: { labels: ['Made', 'Missed'], datasets: [{ data: c.stats, backgroundColor: ['#008000', '#FF0000'], borderWidth: 0 }]},
+        options: {
+            responsive: true, maintainAspectRatio: false, cutout: '70%',
+            plugins: { legend: false, datalabels: { display: true, color: '#000', font: { weight: 'bold', size: 12 },
+                formatter: (v, ctx) => { let d = ctx.chart.data.datasets[0].data; 
+                return ((v * 100) / (d[0] + d[1])).toFixed(1) + "%"; }
+            }}
+        }
+    });
+});
+
+
+
+
+// 1. Data Prep (Replace these with your Django context variables)
+// 1. Setup your basketball categories and stats
+
+
+const labels = ['MP','FG','FGA','3P','3PA','FT','FTA','ORB','DRB','TRB','AST','STL','BLK','TOV','PTS'];
+
+// Shared Defaults to keep code "well arranged"
+const sharedPlugins = {
+    datalabels: {
+        anchor: 'end',
+        align: 'top',
+        color: 'black',
+        font: { weight: 'bold', size: 9 },
+        display: true,
+        offset: -4,   // 🔹 moves labels closer to the bar (negative pulls down)
+        clamp: true,  // keeps labels inside chart area
+        clip: false 
+    },
+    legend: {
+        display: true,
+        position: 'top',
+        labels: { boxWidth: 12, font: { size: 10 } }
+    }
+};
+
+const sharedScales = {
+    y: { beginAtZero: true, grid: { color: '#f0f0f0' } },
+    x: { grid: { display: false }, ticks: { font: { weight: 'bold', size:10 } } }
+};
+
+// 1. Home Chart Configuration
+const homeConfig = {
+    type: 'bar',
+    data: {
+        labels: labels,
+        datasets: [
+            {
+                label: 'Home Max',
+                data: [39,10,17,2,6,8,8,6,12,15,9,3,1,4,25],
+                backgroundColor: 'rgba(0, 128, 0, 0.8)', // Solid Green
+                borderRadius: 4
+            },
+            {
+                label: 'Home Min',
+                data: [20,1,3,0,0,0,0,0,0,1,0,0,0,0,3],
+                backgroundColor: 'rgba(226, 74, 59, 0.8)', // Solid Red
+                borderRadius: 4
+            }
+        ]
+    },
+    options: {
+        maintainAspectRatio: false,
+        responsive: true,
+        plugins: {
+            ...sharedPlugins,
+            title: {
+                display: true,
+                text: 'Performance Comparison: Home Games',
+                font: { size: 10, weight: 'bold' },
+                padding: { bottom: 0 }
+            }
+        },
+        scales: sharedScales
+    },
+    plugins: [ChartDataLabels]
+};
+
+// 2. Away Chart Configuration
+const awayConfig = {
+    type: 'bar',
+    data: {
+        labels: labels,
+        datasets: [
+            {
+                label: 'Away Max',
+                data: [41,11,21,2,4,8,14,8,9,13,7,3,4,4,30],
+                backgroundColor: 'rgba(0, 123, 255, 0.8)', // Solid Blue
+                borderRadius: 4
+            },
+            {
+                label: 'Away Min',
+                data: [18,0,3,0,0,0,0,0,0,1,1,0,0,0,2],
+                backgroundColor: 'rgba(255, 165, 0, 0.8)', // Solid Orange
+                borderRadius: 4
+            }
+        ]
+    },
+    options: {
+        maintainAspectRatio: false,
+        responsive: true,
+        plugins: {
+            ...sharedPlugins,
+            title: {
+                display: true,
+                text: 'Performance Comparison: Away Games',
+                font: { size: 16, weight: 'bold' },
+                padding: { bottom: 20 }
+            }
+        },
+        scales: sharedScales
+    },
+    plugins: [ChartDataLabels]
+};
+
+// Initialize
+new Chart(document.getElementById('homecomparisonChart'), homeConfig);
+new Chart(document.getElementById('awaycomparisonChart'), awayConfig);
+
+
+
+
+
+const last5Games = [
+    { date: '2025-03-09 @ OKC L', fga: 23, fgm: 10, tpa: 10, tpm: 2, fta: 6, ftm: 2 },
+    { date: '2025-03-11 @ OKC W', fga: 20, fgm: 15, tpa: 2, tpm: 1, fta: 5, ftm: 4 },
+    { date: '2025-03-13 vs MIN L', fga: 23, fgm: 13, tpa: 6, tpm: 2, fta: 8, ftm: 6 },
+    { date: '2025-03-15 vs LAL W', fga: 16, fgm: 8, tpa: 4, tpm: 0, fta: 17, ftm: 12 },
+    { date: '2025-03-16 vs WAS L', fga: 30, fgm: 16, tpa: 8, tpm: 1, fta: 7, ftm: 7 }
+];
+
+// --- UPDATED HELPER FUNCTION ---
+function renderVolumeBar(canvasId, labelX, attempted, made, colorHigh, colorLow, yMax) {
+    const el = document.getElementById(canvasId);
+    if (!el) return;
+    new Chart(el, {
+        type: 'bar',
+        data: {
+            labels: [labelX],
+            datasets: [
+                { 
+                    label: 'Made', 
+                    data: [made], 
+                    backgroundColor: colorLow // Swapped to first position
+                },
+                { 
+                    label: 'Att', 
+                    data: [attempted], 
+                    backgroundColor: colorHigh // Swapped to second position
+                }
+            ]
+        },
+        options: {
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { display: false },
+                datalabels: { 
+                    
+                    anchor: 'end', 
+                    align: 'top', 
+                    display: true, 
+                    font: { weight: 'bold', size: 10 },
+                    offset: -4,   // 🔹 moves labels closer to the bar (negative pulls down)
+                    clamp: true,  // keeps labels inside chart area
+                    clip: false   // prevents labels from being cut off
+                }
+            },
+            scales: {
+                y: { display: false, max: yMax }, 
+                x: { 
+                    grid: { display: false }, 
+                    color: '#000',
+                    ticks: { font: { weight: 'bold', size: 7, }, 
+                    padding: 10} 
+                }
+            }
+        },
+        plugins: [ChartDataLabels]
+    });
+}
+
+
+function renderPercentDonut(canvasId, attempted, made, colorMade, colorMissed) {
+    const el = document.getElementById(canvasId);
+    if (!el) return;
+
+    let chartData, chartColors, displayPct;
+
+    //IF CLAUSE: Handle 0 attempts to prevent chart crashing
+    if (attempted <= 0) {
+        chartData = [0, 1]; // 0 Made, 1 Placeholder
+        chartColors = ['#eeeeee', '#eeeeee']; // Gray empty ring
+        displayPct = "0.0%";
+    } else {
+        const missed = attempted - made;
+        // 2. DATA ORDER: Made (Success) is Index 0, Missed is Index 1
+        // This ensures Green starts at the top and goes clockwise
+        chartData = [made, missed]; 
+        chartColors = [colorMade, colorMissed];
+        displayPct = ((made / attempted) * 100).toFixed(1) + "%";
+    }
+
+    new Chart(el, {
+        type: 'doughnut',
+        data: {
+            labels: ['Made', 'Missed'],
+            datasets: [{
+                data: chartData,
+                backgroundColor: chartColors,
+                borderWidth: 0
+            }]
+        },
+        options: {
+           
+            cutout: '70%',
+            rotation: 0, // Starts the "Made" slice exactly at the top
+            maintainAspectRatio: false,
+            responsive: true,
+            layout: {
+
+                padding: {
+                    left: 5, right: 5, top: 5, bottom: 5
+                }
+            },
+            plugins: {
+                legend: { display: false },
+                tooltip: { enabled: attempted > 0 },
+                datalabels: {
+                    formatter: (value, ctx) => {
+                        // Only show the percentage text on the 'Made' slice
+                        return ctx.dataIndex === 0 ? displayPct : '';
+                    },
+                    color: '#000',
+                    font: { weight: 'bold', size: 10 },
+                    anchor: 'center',
+                    align: 'center'
+                }
+            }
+        },
+        plugins: [ChartDataLabels]
+    });
+}
+
+
+
+
+
+// --- RENDERING LOOP (Colors remain assigned to correct stats) ---
+last5Games.forEach((game, index) => {
+    const i = index + 1;
+
+    // Field Goals: Made (Dark Green) before Attempts (Red)
+    renderVolumeBar(`fgBar${i}`, game.date, game.fga, game.fgm, '#FB8C00', '#1E88E5', 40);
+    renderPercentDonut(`fgDonut${i}`, game.fga, game.fgm,'#26A69A',  '#9E9E9E');
+
+    // 3-Pointers: Made (Dark Green) before Attempts (Gold)
+    renderVolumeBar(`tpBar${i}`, game.date, game.tpa, game.tpm, '#FDD835', '#8E24AA', 30);
+    renderPercentDonut(`tpDonut${i}`, game.tpa, game.tpm,'#2E7D32', '#9E9E9E',);
+
+    // Freethrows: Made (Bright Green) before Attempts (Red)
+    renderVolumeBar(`ftBar${i}`, game.date, game.fta, game.ftm, '#FF7043', '#283593', 30);
+    renderPercentDonut(`ftDonut${i}`, game.fta, game.ftm, '#26A69A', '#cc241d');
+});
+
+
+
+
+
+
+  const createPieChart = (canvasId, dataValues) => {
+    const el = document.getElementById(canvasId);
+    if (!el) return;
+    const ctx = el.getContext('2d');
+    
+    new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: ['FTM', '2PM', '3PM'],
+            datasets: [{
+                data: dataValues,
+                // Using your color palette: Dark Red, Tomato, Seashell
+                backgroundColor: ['#8B0000', '#FF6347', '#FFF5EE'], 
+                borderWidth: 1,
+                borderColor: '#ffffff'
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { display: false },
+                datalabels: {
+                    color: '#000',
+                    font: { weight: 'bold', size: 9 }, // Slightly smaller to fit label + %
+                    textAlign: 'center',
+                    formatter: (value, ctx) => {
+                        // 1. Calculate Total
+                        let sum = ctx.dataset.data.reduce((a, b) => a + b, 0);
+                        if (sum === 0 || value === 0) return ''; // Hide label if 0
+
+                        // 2. Calculate Percentage
+                        let percentage = (value * 100 / sum).toFixed(0) + "%";
+
+                        // 3. Get the Label (FTM, 2PM, or 3PM)
+                        let label = ctx.chart.data.labels[ctx.dataIndex];
+
+                        // 4. Return Label + Percentage on new lines
+                        return `${label}\n${percentage}`;
+                    }
+                }
+            }
+        },
+        plugins: [ChartDataLabels]
+    });
+};
+
+    // Example initialization (You would loop your data here)
+    createPieChart('patternChart1', [17.9, 55.4, 26.8]);
+    createPieChart('patternChart2', [12.4, 61.3, 26.3]);
+    createPieChart('patternChart3', [16.8, 63.6, 19.6]);
+    createPieChart('patternChart4', [16.8, 54.4, 28.8]);
+    createPieChart('patternChart5', [9.7, 56.9, 33.3]);
+
+
+
+
+
+
+// Line Charts
+const gameLabels = {{ gameLabel|safe }};
+const pointsTrend = {{ gameValues|safe }};
+const FGValues = {{ fg_percentValues|safe }}
+
+function createWideTrendChart(canvasId, data, label, lineColor, fill) {
+    const ctx = document.getElementById(canvasId).getContext('2d');
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: gameLabels,
+            datasets: [{
+                
+                label: label,
+                data: data,
+                borderColor: lineColor,
+                backgroundColor: fill,
+                fill: true,
+                borderWidth: 3,
+                tension: 0.4, // This gives it that smooth Seaborn curve
+                pointRadius: 10,
+                pointBackgroundColor: lineColor
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { display: false },
+                datalabels: {
+                    color: 'green',
+                },
+            },
+            scales: {
+                x: {
+                    grid: { display: true },
+                    ticks: { color: lineColor, font: { size: 10 } }
+                },
+                y: {
+                    beginAtZero: true,
+                    grid: { color: 'rgba(255,255,255,0.1)' },
+                    ticks: { color: lineColor, font: { size: 10 } }
+                }
+            }
+        }
+    });
+}
+
+// Render Points Chart (White line on Brown)
+createWideTrendChart('widePointsChart', pointsTrend, 'PTS', '#e0e0e0', 'rgba(255,255,255,0.1)');
+
+// Render FG% Chart (Dark line on Orange)
+createWideTrendChart('wideFGChart', FGValues, 'FG%', '#e0e0e0', 'rgba(0,0,0,0.05)');
+
+
+
+// My bar chart
+//var objId =
+//var dataURL = 
+var charData = {
+    "type": "bar",
+    'scale-x': {
+        'values':[
+            'Dennis',
+            'Akins',
+            'Ezra',
+        ]
+    },
+    "series":[
+        {
+            "values":[
+                29,
+                21,
+                30,
+
+            ]
+        }
+    ]
+}
+zingChart.render({
+    id: "myChart",
+    data: charData
+})
+</script>
+
+<script src="{% static 'js/player-dashboard.js' %}?v={{ timestamp }}"></script>
+
+{% endblock %}
+
+
+
+

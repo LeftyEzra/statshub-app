@@ -1,0 +1,588 @@
+    {% load static%}
+      <!-- Page Header-->
+      <header class="section page-header rd-navbar-dark">
+        
+        <!-- RD Navbar-->
+        <div class="rd-navbar-wrap">
+          <nav class="rd-navbar rd-navbar-classic" data-layout="rd-navbar-fixed" data-sm-layout="rd-navbar-fixed" data-md-layout="rd-navbar-fixed" data-md-device-layout="rd-navbar-fixed" data-lg-layout="rd-navbar-fixed" data-lg-device-layout="rd-navbar-fixed" data-xl-layout="rd-navbar-static" data-xl-device-layout="rd-navbar-static" data-xxl-layout="rd-navbar-static" data-xxl-device-layout="rd-navbar-static" data-lg-stick-up-offset="166px" data-xl-stick-up-offset="166px" data-xxl-stick-up-offset="166px" data-lg-stick-up="true" data-xl-stick-up="true" data-xxl-stick-up="true">
+            <div class="rd-navbar-panel">
+              <!-- RD Navbar Toggle-->
+              <button class="rd-navbar-toggle" data-rd-navbar-toggle=".rd-navbar-main">
+                <span></span>
+              </button>
+              <!-- RD Navbar Panel-->
+              <div class="rd-navbar-panel-inner container">
+                <div class="rd-navbar-collapse rd-navbar-panel-item rd-navbar-panel-item-left">
+                  <!-- Owl Carousel-->
+                  <div class="owl-carousel-navbar owl-carousel-inline-outer">
+                    <div class="owl-inline-nav">
+                        <button class="owl-arrow owl-arrow-prev">
+                         
+                        </button>
+                        <button class="owl-arrow owl-arrow-next">
+
+                        </button>
+                    </div>
+                    <div class="owl-carousel-inline-wrap">
+                      <div class="owl-carousel owl-carousel-inline" data-items="1" data-dots="false" data-nav="true" data-autoplay="true" data-autoplay-speed="3200" data-stage-padding="0" data-loop="true" data-margin="10" data-mouse-drag="false" data-touch-drag="false" data-nav-custom=".owl-carousel-navbar">
+                        <!-- Post Inline-->
+                         {% for game in games %}
+                        <article class="post-inline">
+                          <time class="post-inline-time" datetime="2020">{{ game.date }}</time>
+                          <p class="post-inline-title">{{ game.team }} {{ game.indicator }} {{ game.opponent }}</p>
+                        </article>
+                        {% endfor %}
+                        
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="rd-navbar-panel-item rd-navbar-panel-item-right">
+                  <ul class="list-inline list-inline-bordered">
+                    <li>
+                      <!-- Select 2-->
+                      <select class="select select-inline" data-placeholder="Select an option" data-dropdown-class="select-inline-dropdown">
+                        <option value="en" selected="">en</option>
+                        <option value="fr">fr</option>
+                        <option value="es">es</option>
+                      </select>
+                    </li>
+                    <li>
+                      <div class="cart-inline-toggled-outer">
+                        <!-- Link Cart-->
+                        <button class="link link-cart cart-inline-toggle" data-rd-navbar-toggle="#cart-inline">
+                          <span class="link-cart-icon fas fa-shopping-cart"></span>
+                          <span class="link-cart-counter" id="cart_quantity">
+                              {{ cart|length }}
+                          </span>
+                        </button>
+                        <!-- Cart Inline-->
+                        <article class="cart-inline cart-inline-toggled" id="cart-inline">
+                          <div class="cart-inline-inner">
+                            <div class="cart-inline-header">
+                              <h5 class="cart-inline-title">In cart:<span id="cart_header_qty">{{ cart|length }}</span> products</h5>
+                              <p class="cart-inline-subtitle">total price: ${{totals}}</p>
+                            </div>
+                            <div class="cart-inline-main">
+                                    <!-- Product inline-->
+                                     {% if cart_products %}            
+                                      {% for product in cart_products %}
+                                    <article class="product-inline">
+                                      <div class="product-inline-aside">
+                                        <a class="product-inline-figure" href="{% url 'product-id' product.pk %}">
+                                          <img class="product-inline-image" src="{{ product.image.url }}" alt="" width="67" height="30"/>
+                                        </a>
+                                      </div>
+                                      <div class="product-inline-main">
+                                        <p class="heading-7 product-inline-title">
+                                          <a href="{% url 'product-id' product.pk %}">{{ product.name }}</a>
+                                        </p>
+                                        <ul class="product-inline-meta">
+                                        
+                                          <li>
+                                               {% if product.is_sales %}
+                                                    <del style="color: red;">$ {{ product.price }}</del> 
+                                                    <p class="product-inline-price"> 
+                                                        $ {{ product.sale_price }}
+                                                    </p>
+                                                {% else %}
+                                                    <p class="product-inline-price"> 
+                                                        $ {{ product.price }}
+                                                    </p>
+                                                {% endif %}
+                                          </li>
+                                        </ul>
+                                      </div>
+                                    </article>
+                                             {% endfor %}
+                                            {% else %}
+                                            <article>Nothing in your cart..</article>
+                                            
+                                            {% endif %}  
+                              
+                            </div>
+                            <div class="cart-inline-footer">
+                              <a class="button button-md button-default-outline" href="{% url 'cart-summary'  %}">Go to Cart</a>
+                               <br> 
+                              {% if grand_totals > 0 %}
+                                 <a class="button button-md button-primary" href="{% url 'checkout' %}">Checkout</a>
+                                {% else %}
+                                 <a class="button button-md button-primary " href="{% url 'grid-shop' %}">Go to Shop</a>
+                                {% endif %}
+                            </div>
+                          </div>
+                        </article>
+                      </div>
+                    </li>
+                    <li>
+                      {% if user.is_authenticated %}
+                      <li class="rd-nav-item rd-navbar-submenu">
+                         <a class="link link-icon link-icon-left link-classic" href="#">
+                          <span class="icon fl-bigmug-line-login12"></span>
+                          <span class="link-icon-text">My Account</span>
+                          
+                        </a>
+                        <ul class="rd-menu rd-navbar-dropdown">
+                          <li class="rd-dropdown-item">
+                              <a class="rd-dropdown-link" href="{% url 'update-user'  %}">
+                                User Profile
+                              </a>
+                          </li>
+                          <li class="rd-dropdown-item">
+                              <a class="rd-dropdown-link" href="{% url 'update-info'  %}">
+                                User Info
+                              </a>
+                          </li>
+                          <li class="rd-dropdown-item">
+                              <a class="rd-dropdown-link" href="{% url 'logout-user'  %}">
+                                Logout
+                              </a>
+                          </li>
+
+                        </ul>
+
+                      </li>
+                    
+                    {% else %}
+                       <a class="link link-icon link-icon-left link-classic" href="{% url 'login-user'  %}">
+                        <span class="icon fl-bigmug-line-login12"></span>
+                        <span class="link-icon-text">Login</span>
+                        
+                      </a>
+                    {% endif %}  
+                  </li>
+                  </ul>
+                </div>
+                <div class="rd-navbar-collapse-toggle rd-navbar-fixed-element-1" data-rd-navbar-toggle=".rd-navbar-collapse">
+                  <span></span>
+                </div>
+              </div>
+            </div>
+            <div class="rd-navbar-main">
+              <div class="rd-navbar-main-top">
+                <div class="rd-navbar-main-container container">
+                  <!-- RD Navbar Brand-->
+                  <div class="rd-navbar-brand">
+                    <a class="brand" href="{% url 'home' %}">
+                      <img class="brand-logo " src="{% static 'img/python.PNG' %}" alt="" width="95" height="126"/>
+                    </a>
+                  </div>
+                  <!-- RD Navbar List-->
+                  <ul class="rd-navbar-list">
+                    <li class="rd-navbar-list-item">
+                      <a class="rd-navbar-list-link" href="#">
+                        <img src="{% static 'img/partners-1-inverse-75x42.png' %}" alt="partner 1" width="75" height="42"/>
+                      </a>
+                    </li>
+                    <li class="rd-navbar-list-item">
+                      <a class="rd-navbar-list-link" href="#">
+                        <img src="{% static 'img/partners-2-inverse-88x45.png' %}" alt="partner 2" width="88" height="45"/>
+                      </a>
+                    </li>
+                    <li class="rd-navbar-list-item">
+                      <a class="rd-navbar-list-link" href="#">
+                        <img src="{% static 'img/partners-3-inverse-79x52.png' %}" alt="partner 3" width="79" height="52"/>
+                      </a>
+                    </li>
+                  </ul>
+                  <!-- RD Navbar Search-->
+                  <div class="rd-navbar-search">
+                    <button class="rd-navbar-search-toggle" data-rd-navbar-toggle=".rd-navbar-search">
+                      <span></span>
+                    </button>
+                    <form class="rd-search" action="{% url 'search-result' %}" data-search-live="rd-search-results-live" method="GET">
+                      <div class="form-wrap">
+                        <label class="form-label" for="rd-navbar-search-form-input">Enter your search request here...</label>
+                        <input class="rd-navbar-search-form-input form-input" id="rd-navbar-search-form-input" type="text" name="s" autocomplete="off">
+                        <div class="rd-search-results-live" id="rd-search-results-live"></div>
+                      </div>
+                      <button class="rd-search-form-submit fas fa-search" type="submit"></button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+
+
+              <!-- Bottom Navbar -->
+              <div class="rd-navbar-main-bottom rd-navbar-darker">
+                <div class="rd-navbar-main-container container">
+                    <!-- RD Navbar Nav-->
+                    <ul class="rd-navbar-nav">
+                        <li class="rd-nav-item rd-navbar--has-dropdown rd-navbar-submenu">
+                            <a class="rd-nav-link" href="{% url 'home' %}">Home</a>
+                            <span class="rd-navbar-submenu-toggle" style="display: none;"></span>
+                        </li>
+                        <li class="rd-nav-item rd-navbar--has-megamenu rd-navbar-submenu">
+                            <a class="rd-nav-link" href="#">Features</a>
+                            
+                            <article class="rd-menu rd-navbar-megamenu rd-megamenu-2-columns context-light rd-navbar-open-right">
+                                <div class="rd-megamenu-main">
+                                    <div class="rd-megamenu-item rd-megamenu-item-nav">
+                                        <!-- Heading Component-->
+                                        <article class="heading-component heading-component-simple">
+                                            <div class="heading-component-inner">
+                                                <h5 class="heading-component-title">Elements </h5>
+                                            </div>
+                                        </article>
+                                        <div class="rd-megamenu-list-outer">
+                                            <ul class="rd-megamenu-list">
+                                                <li class="rd-megamenu-list-item">
+                                                  <a class="rd-megamenu-list-link" href="{% url 'gallery'  %}">Gallery</a>
+                                                </li>
+                                
+                                                <li class="rd-megamenu-list-item">
+                                                  <a class="rd-megamenu-list-link" href="404-error-page.html">404 Error Page</a>
+                                                </li>
+                                                <li class="rd-megamenu-list-item">
+                                                  <a class="rd-megamenu-list-link" href="{% url 'privacy-policy' %}">Privacy Policy</a>
+                                                </li>
+                                                <li class="rd-megamenu-list-item">
+                                                  <a class="rd-megamenu-list-link" href="{% url 'help-and-suppport' %}">Help & Support</a>
+                                                </li>
+                                                 <li class="rd-megamenu-list-item">
+                                                  <a class="rd-megamenu-list-link" href="#">Coming Soon</a>
+                                                </li>
+                                            </ul>
+                                            <ul class="rd-megamenu-list">
+                                                <li class="rd-megamenu-list-item">
+                                                  <a class="rd-megamenu-list-link" href="{% url 'about' %}">About Us</a>
+                                                </li>
+                                              
+                                                
+                                                <li class="rd-megamenu-list-item">
+                                                  <a class="rd-megamenu-list-link" href="{% url 'search-result' %}">Search Results</a>
+                                                </li>
+                                               
+                                                <li class="rd-megamenu-list-item">
+                                                  <a class="rd-megamenu-list-link" href="{% url 'contact'  %}">Contact Us</a>
+                                                </li>
+                                                <li class="rd-megamenu-list-item">
+                                                   {% if user.is_authenticated %}
+                                                      <a class="rd-megamenu-list-link"href="{% url 'logout-user'  %}">                         
+                                                        Logout
+                                                      </a>
+                                                    {% else %}
+                                                      <a class="rd-megamenu-list-link" href="{% url 'login-user'  %}">                                                   
+                                                        Login
+                                                      </a>
+                                                    {% endif %}
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="rd-megamenu-item rd-megamenu-item-content">
+                                        <!-- Heading Component-->
+                                        <article class="heading-component heading-component-simple">
+                                        <div class="heading-component-inner">
+                                            <h5 class="heading-component-title">Latest News</h5>
+                                            {% if competition.slug %}
+                                              <a class="button button-xs button-gray-outline" href="{% url 'news-list' competition.slug   %}">See all News</a>
+                                            {% else %}
+                                                <a href="#">News</a>
+                                            {% endif %}
+                                        </div>
+                                        </article>
+                                        <div class="row row-20">
+                                              {% for news in team_news|slice:":2" %}
+                                                <div class="col-lg-6">
+                                                    <!-- Post Classic-->
+                                                    <article class="post-classic">
+                                                        <div class="post-classic-aside">
+                                                          <a class="post-classic-figure" href="{% url 'news-list' news.competition.slug   %}">
+                                                            <img src="{{ news.image.url }}" alt="" width="93" height="94">
+                                                          </a>
+                                                        </div>
+                                                        <div class="post-classic-main">
+                                                        <!-- Badge-->
+                                                        <div class="badge badge-secondary">The {{ news.category }}
+                                                        </div>
+                                                        <p class="post-classic-title">
+                                                          <a href="{% url 'news-list' news.competition.slug   %}">{{news.intro|truncatechars:50 }}</a>
+                                                        </p>
+                                                        <div class="post-classic-time">
+                                                          <span class="icon mdi mdi-clock"></span>
+                                                            <time datetime="2024">{{ news.published_date }}</time>
+                                                        </div>
+                                                        </div>
+                                                    </article>
+                                                </div>
+                                                {% endfor %}  
+                                                {% for news in league_news|slice:":1" %}
+                                                <div class="col-lg-6">
+                                                    <!-- Post Classic-->
+                                                    <article class="post-classic">
+                                                        <div class="post-classic-aside">
+                                                          <a class="post-classic-figure" href="{% url 'news-list' news.competition.slug   %}">
+                                                            <img src="{{ news.image.url }}" alt="" width="93" height="94">
+                                                          </a>
+                                                        </div>
+                                                        <div class="post-classic-main">
+                                                          <!-- Badge-->
+                                                          <div class="badge badge-primary">The {{ news.category }}</div>
+                                                          <p class="post-classic-title">
+                                                            <a href="{% url 'news-list' news.competition.slug   %}">{{news.intro|truncatechars:30 }}</a>
+                                                          </p>
+                                                          <div class="post-classic-time">
+                                                            <span class="icon mdi mdi-clock"></span>
+                                                              <time datetime="2024">{{ news.published_date }}</time>
+                                                          </div>
+                                                        </div>
+                                                    </article>
+                                                </div>
+                                                 {% endfor %}
+                                              
+                                                {% for news in hot_news|slice:":1" %}
+                                                <div class="col-lg-6">
+                                                    <!-- Post Classic-->
+                                                    <article class="post-classic">
+                                                        <div class="post-classic-aside">
+                                                          <a class="post-classic-figure" href="">
+                                                            <img src="{{ news.image.url }}" alt="" width="93" height="94">
+                                                          </a>
+                                                        </div>
+                                                        <div class="post-classic-main">
+                                                          <!-- Badge-->
+                                                          <div class="badge badge-red">{{ news.category }}<span class="icon mdi mdi-fire"></span></div>
+                                                          
+                                                          <p class="post-classic-title">
+                                                            <a href="{% url 'news-list' news.competition.slug   %}">{{news.intro|truncatechars:30 }}</a>
+                                                          </p>
+                                                          <div class="post-classic-time">
+                                                            <span class="icon mdi mdi-clock"></span>
+                                                              <time datetime="2024">{{ news.published_date }}</time>
+                                                          </div>
+                                                        </div>
+                                                    </article>
+                                                </div>
+                                                 {% endfor %}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Event Teaser-->
+                                 {% for game in international_games|slice:":1" %}
+                                <article class="event-teaser rd-megamenu-footer">
+                                    <div class="event-teaser-header">
+                                    <div class="event-teaser-caption">
+                                        <h5 class="event-teaser-title">{{ game.game_type }}</h5>
+                                        <time class="event-teaser-time" datetime="{{ game.date|date:'Y-m-d' }}"> {{ game.date|date:'F d, Y' }}</time>
+                                    </div>
+                                    <div class="event-teaser-teams">
+                                        <div class="event-teaser-team">
+                                        <div class="unit unit-spacing-xs unit-horizontal align-items-center">
+                                            <div class="unit-left">
+                                              <img class="event-teaser-team-image" src="{{ game.team.team_logo.url }}" alt="" width="38" height="50">
+                                            </div>
+                                            <div class="unit-body">
+                                            <p class="heading-7">{{ game.team }}</p>
+                                            <p class="text-style-1">{{ game.team.city }}</p>
+                                            </div>
+                                        </div>
+                                        </div>
+                                        <div class="event-teaser-team-divider">
+                                          <span class="event-teaser-team-divider-text">{{ game.indicator }}</span>
+                                        </div>
+                                        <div class="event-teaser-team">
+                                        <div class="unit unit-spacing-xs unit-horizontal align-items-center">
+                                            <div class="unit-left">
+                                              <img class="event-teaser-team-image" src="{{ game.opponent.logo.url }}" alt="" width="41" height="55">
+                                            </div>
+                                            <div class="unit-body">
+                                              <p class="heading-7">{{ game.opponent }}</p>
+                                              <p class="text-style-1">{{ game.opponent.city }}</p>
+                                            </div>
+                                        </div>
+                                        </div>
+                                    </div>
+                                    </div>
+                                    <div class="event-teaser-countdown event-teaser-highlighted">
+                                      <!-- Countdown-->
+                                      <div class="countdown countdown-classic is-countdown" data-type="until" data-time="31 Dec 2024 16:00" data-format="dhms" data-style="short">
+                                        <span class="countdown-row countdown-show0"></span>
+                                      </div> 
+                                    </div>
+                                    <div class="event-teaser-aside">
+                                      <a class="event-teaser-link disabled" href="#">Buy Tickets</a>
+                                    </div>
+                                </article>
+                                {% endfor %}
+                            </article>
+                        </li>
+   
+
+                        <li class="rd-nav-item  rd-navbar--has-dropdown rd-navbar-submenu">
+                          <a class="rd-nav-link" href="#">Team</a>
+                          <span class="rd-navbar-submenu-toggle" style="display: none;"></span>
+                            <ul class="rd-menu rd-navbar-dropdown">
+                                <li class="rd-dropdown-item">
+                                    {% if competition and competition.slug %}
+                                        <a class="rd-dropdown-link" href="{% url 'team-roster' competition.slug %}">Roster</a>
+                                    {% else %}
+                                        <a class="rd-dropdown-link text-muted"  href="#">No Competition</a>
+                                    {% endif %}
+                                </li>
+                                <li class="rd-dropdown-item">
+                                  {% if competition.slug %}
+                                    <a class="rd-dropdown-link" href="{% url 'view-standing' competition.slug %}">Standings</a>
+                                  {% else %}
+                                    <a class="rd-dropdown-link" href="">Standings</a>
+                                  {% endif %}
+                                </li>
+                               
+                                <li class="rd-dropdown-item">
+                                  {% if competition.slug %}
+                                    <a class="rd-dropdown-link" href="{% url 'game-schedule' competition.slug %}">Game schedule</a>
+                                  {% else %}
+                                    <a class="rd-dropdown-link" href="">Game schedule</a>
+                                  {% endif %}  
+                                </li>
+
+                                 <li class="rd-dropdown-item">
+                                    {% if competition.slug %}
+                                      <a class="rd-dropdown-link" href="{% url 'team-charts' competition.slug %}">Last 5 Games</a>
+                                    {% else %}
+                                      <a class="rd-dropdown-link" href="">Last 5 Games</a>
+                                    {% endif %} 
+                                    
+                                </li>
+                                
+                            </ul>
+                        </li>
+
+                        <li class="rd-nav-item rd-navbar--has-dropdown rd-navbar-submenu">
+                          <a class="rd-nav-link" href="{% url 'grid-shop' %}">Elite Store</a>
+                          <span class="rd-navbar-submenu-toggle" style="display: none;"></span>
+                            <ul class="rd-menu rd-navbar-dropdown">
+                               
+                                <li class="rd-dropdown-item">
+                                    <a class="rd-dropdown-link" href="{% url 'grid-shop' %}" target="_blank" rel="noopener noreferrer">Elite Store</a>
+                                </li>  
+                                <li class="rd-dropdown-item">
+                                    <a class="rd-dropdown-link" href="{% url 'cart-summary'  %}">Shopping Cart</a>
+                                </li>
+                                <li class="rd-dropdown-item">
+                                  {% if grand_totals > 0 %} 
+                                    <a class="rd-dropdown-link" href="{% url 'checkout' %}">Checkout</a>
+                                  {% else %} 
+                                   <a class="rd-dropdown-link" href="">Checkout</a>
+                                  {% endif %}
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li class="rd-nav-item rd-navbar--has-dropdown rd-navbar-submenu">
+                          <a class="rd-nav-link" href="">Elite Services</a>
+                          <span class="rd-navbar-submenu-toggle" style="display: none;"></span>
+                            <ul class="rd-menu rd-navbar-dropdown">
+                                <li class="rd-dropdown-item">
+                                    <a class="rd-dropdown-link" href="{% url  'basketball-coaching' %}">Athletic Coaching</a>
+                                </li>  
+                                <li class="rd-dropdown-item">
+                                    <a class="rd-dropdown-link" href="{% url 'fitness-services'  %}">Fitness & Training</a>
+                                </li>
+                                <li class="rd-dropdown-item">
+                                    <a class="rd-dropdown-link" href="{% url  'kitchen-services' %}">Performance Kitchen</a>
+                                </li>
+                                
+                            </ul>
+                        </li>
+
+                        
+
+
+                       
+
+                        <li class="rd-nav-item rd-navbar--has-dropdown rd-navbar-submenu">
+                            {% if user.is_authenticated and user.is_superuser %}
+                              <a class="rd-nav-link" href="#">Registrations</a>
+                              <span class="rd-navbar-submenu-toggle" style="display: none;"></span>
+
+                              <ul class="rd-menu rd-navbar-dropdown" style="min-width: 600px; padding: 20px;">
+                                  <div class="row">
+                                      
+                                      <div class="col-md-4">
+                                          <p style="font-weight: bold; border-bottom: 1px solid #eee; padding-bottom: 5px; margin-bottom: 10px; font-size: 12px; color: #e20e0e;">CORE SETUP</p>
+                                          <li class="rd-dropdown-item"><a class="rd-dropdown-link" href="{% url 'season-create' %}">Season Form</a></li>
+                                          <li class="rd-dropdown-item"><a class="rd-dropdown-link" href="{% url 'competition-create' %}">Competition Form</a></li>
+                                          <li class="rd-dropdown-item"><a class="rd-dropdown-link" href="{% url 'create-opponent' %}">Opponent Form</a></li>
+                                          <li class="rd-dropdown-item"><a class="rd-dropdown-link" href="{% url 'create-game' competition.id %}">Game Form</a></li>
+                                      </div>
+
+                                      <div class="col-md-4">
+                                          <p style="font-weight: bold; border-bottom: 1px solid #eee; padding-bottom: 5px; margin-bottom: 10px; font-size: 12px; color: #e20e0e;">TEAMS & PLAYERS</p>
+                                          <li class="rd-dropdown-item"><a class="rd-dropdown-link" href="{% url 'team-create' %}">Team Form</a></li>
+                                          <li class="rd-dropdown-item"><a class="rd-dropdown-link" href="{% url 'create-player' %}">Players Form</a></li>
+                                          <li class="rd-dropdown-item"><a class="rd-dropdown-link" href="{% url 'create-staff' %}">Staff Form</a></li>
+                                          <li class="rd-dropdown-item"><a class="rd-dropdown-link" href="{% url 'create-records' competition.id %}">Career Records</a></li>
+                                      </div>
+
+                                      <div class="col-md-4">
+                                          <p style="font-weight: bold; border-bottom: 1px solid #eee; padding-bottom: 5px; margin-bottom: 10px; font-size: 12px; color: #e20e0e;">MEDIA & NEWS</p>
+                                          <li class="rd-dropdown-item"><a class="rd-dropdown-link" href="{% url 'create-news' competition.id %}">News Form</a></li>
+                                          <li class="rd-dropdown-item"><a class="rd-dropdown-link" href="{% url 'create-award' %}">Award Form</a></li>
+                                          <li class="rd-dropdown-item"><a class="rd-dropdown-link" href="{% url 'create-image' %}">Gallery Form</a></li>
+                                          <li class="rd-dropdown-item"><a class="rd-dropdown-link" href="#">Sponsor Form</a></li>
+                                      </div>
+
+                                      <div class="col-md-4">
+                                          <p style="font-weight: bold; border-bottom: 1px solid #eee; padding-bottom: 5px; margin-bottom: 10px; font-size: 12px; color: #e20e0e;">TEAM STORE</p>
+                                          <li class="rd-dropdown-item"><a class="rd-dropdown-link" href="">Category Form</a></li>
+                                          <li class="rd-dropdown-item"><a class="rd-dropdown-link" href="{% url 'add-product' %}">Product Form</a></li>
+                                          <li class="rd-dropdown-item"><a class="rd-dropdown-link" href="#">Customer Form</a></li>
+                                          <li class="rd-dropdown-item"><a class="rd-dropdown-link" href="#">Order Form</a></li>
+                                      </div>
+                                       <div class="col-md-4">
+                                          <p style="font-weight: bold; border-bottom: 1px solid #eee; padding-bottom: 5px; margin-bottom: 10px; font-size: 12px; color: #e20e0e;">MEDIA & NEWS</p>
+                                          <li class="rd-dropdown-item"><a class="rd-dropdown-link" href="{% url 'add-product-image' %}">Product Images</a></li>
+                                          <li class="rd-dropdown-item"><a class="rd-dropdown-link" href="{% url 'add-product-colors' %}">Product Colors</a></li>
+                                          <li class="rd-dropdown-item"><a class="rd-dropdown-link" href="{% url 'add-product-sizes' %}">Product Sizes</a></li>
+                                          <li class="rd-dropdown-item"><a class="rd-dropdown-link" href="{% url 'create-chart' %}">Chart Form</a></li>
+                                         
+                                      </div>
+
+                                  </div>
+                              </ul>
+                            {% endif %}
+                        </li>
+
+
+                         <li class="rd-nav-item rd-navbar--has-dropdown rd-navbar-submenu">
+                          {% if user.is_authenticated %}
+                            {% if user.is_superuser %}
+                          <a class="rd-nav-link" href="#">List</a>
+                          <span class="rd-navbar-submenu-toggle" style="display: none;"></span>
+                            <ul class="rd-menu rd-navbar-dropdown">
+                                <li class="rd-dropdown-item">
+                                    <a class="rd-dropdown-link" href="{% url 'admin-dashboard' %}">Dashboard</a>
+                                </li>
+                                <li class="rd-dropdown-item">
+                                    <a class="rd-dropdown-link" href="{% url 'contact-list' %}">Registered Contacts</a>
+                                </li>
+                                <li class="rd-dropdown-item">
+                                    <a class="rd-dropdown-link" href="{% url 'subscriber-list' %}">Subscribers</a>
+                                </li>
+                               
+                            </ul>
+                              {% endif %}  
+                        {% endif %} 
+                        </li>
+                    </ul>
+                  <div class="rd-navbar-main-element">
+                    <ul class="list-inline list-inline-sm">
+                      <li><a class="icon icon-xs icon-light fa fa-facebook" href="#"></a></li>
+                      <li><a class="icon icon-xs icon-light fa fa-twitter" href="#"></a></li>
+                      <li><a class="icon icon-xs icon-light fa fa-google-plus" href="#"></a></li>
+                      <li><a class="icon icon-xs icon-light fa fa-instagram" href="#"></a></li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Bottom Navbar End -->
+
+
+
+            </div>
+          </nav>
+        </div>
+      </header>

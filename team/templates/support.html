@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Support & Help Center - StatsHub{% endblock %}
+
+{% block content %}
+
+
+
+
+    <!-- Page Header Start -->
+      <!-- Section Breadcrumbs-->
+      <section class="section parallax-container breadcrumbs-wrap" data-parallax-img="{% static 'img/ball_court.png' %}">
+        <div class="material-parallax parallax"><img src="{% static 'img/ball_court.png' %}" alt="" style="display: block; transform: translate3d(-50%, 68px, 0px);"></div>
+        <div class="parallax-content breadcrumbs-custom context-dark">
+          <div class="container">
+            <h3 class="breadcrumbs-custom-title">Help & Support</h3>
+            <ul class="breadcrumbs-custom-path">
+              <li><a href="{% url 'home' %}">Home</a></li>
+              <li><a href="{% url 'about' %}">About Us</a></li>
+              <li class="active">Help & Support</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+    <!-- Page Header End -->
+
+
+ <!-- Support Starts -->
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <h1 class="text-center mb-4 text-warning">Customer Support & Help Center</h1>
+            <p class="text-center lead mb-5">
+                Find answers to common questions or contact our team for project inquiries, technical assistance, or billing support.
+            </p>
+
+            <hr class="mb-5">
+
+            <section class="mb-5">
+                <h2 class="text-primary mb-4">1. Frequently Asked Questions (FAQ)</h2>
+                
+                <div class="accordion" id="faqAccordion">
+                    
+                    <div class="card mb-3 border-secondary">
+                        <div class="card-header bg-light" id="headingOne">
+                            <h5 class="mb-0">
+                                <button class="btn btn-link text-left" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                    How do I request a quote for a product on line?
+                                </button>
+                            </h5>
+                        </div>
+                        <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#faqAccordion">
+                            <div class="card-body">
+                                To receive an accurate quote, please use our dedicated **<a href="">Contact Form</a>** and provide details including: project dimensions, required materials (e.g., Carbon Steel, Stainless Steel), location, and any relevant blueprints or specifications. We typically respond within 24-48 hours.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card mb-3 border-secondary">
+                        <div class="card-header bg-light" id="headingTwo">
+                            <h5 class="mb-0">
+                                <button class="btn btn-link text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                    What types of materials and welding processes do you specialize in?
+                                </button>
+                            </h5>
+                        </div>
+                        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#faqAccordion">
+                            <div class="card-body">
+                                We specialize in structural fabrication, piping, and maintenance services. Our expertise includes working with Carbon Steel, Stainless Steel, and Aluminum, utilizing processes such as SMAW, TIG, and MIG welding.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card mb-3 border-secondary">
+                        <div class="card-header bg-light" id="headingThree">
+                            <h5 class="mb-0">
+                                <button class="btn btn-link text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                    Do you offer a warranty on your fabrication work?
+                                </button>
+                            </h5>
+                        </div>
+                        <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#faqAccordion">
+                            <div class="card-body">
+                                Yes, we guarantee our workmanship. Please refer to our <a href="">Terms & Conditions</a> page, Section 4.1, for specific details regarding the duration and scope of our guarantee against structural defects.
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <hr class="my-4">
+
+            <section class="mb-5 text-center">
+                <h2 class="text-primary mb-4">2. Direct Contact</h2>
+                <p class="lead">If you cannot find the answer in our FAQs, please contact the appropriate department below:</p>
+                
+                <div class="row mt-4">
+                    <div class="col-md-6 mb-3">
+                        <div class="p-3 border rounded h-100 bg-light">
+                            <h4 class="text-success">General Inquiries & Quotes</h4>
+                            <p class="mb-1">For new projects, general questions, or site consultations.</p>
+                            <i class="fa fa-envelope mr-2"></i> Email: <a href="mailto:info@statshub.com">info@statshub.com</a>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="p-3 border rounded h-100 bg-light">
+                            <h4 class="text-success">Urgent  Support & Billing</h4>
+                            <p class="mb-1">For urgent need, active product issues, or billing inquiries.</p>
+                            <i class="fa fa-phone mr-2"></i> Whats App: [+234 8125363010]
+                            <i class="fa fa-phone mr-2"></i> Phone: [+234 9053509607]
+                            <br>
+                            <i class="fa fa-clock mr-2"></i> Hours: Monday - Saturday, 9:00 AM - 5:00 PM (WAT)
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </div>
+</div>
+ <!-- Support End -->
+{% endblock content %}

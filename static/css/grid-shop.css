@@ -1,0 +1,542 @@
+.et-shop-section {
+    /* 1. Pull the section up toward the breadcrumbs */
+    margin-top: -5px !important; 
+    
+    /* 2. Remove the massive internal spacing */
+    padding-top: 20px !important;
+    padding-bottom: 20px !important;
+    
+    /* 3. Ensure it stays behind the navbar but above products */
+    position: relative;
+    z-index: 10;
+}
+
+/* Fix the Search Form UI */
+.et-search-form {
+    background: white;
+    border-radius: 4px;
+    border: none !important; /* Removes the double border look */
+}
+
+.et-search-btn {
+    background: #f1f1f1 !important; /* Light grey instead of red */
+    height: 42px !important;
+    border: none !important;
+}
+
+/* Ensure the product grid doesn't get tucked UNDER the orange */
+.product-roster {
+    margin-top: 20px !important;
+}
+
+/* Section with search bar */
+
+
+
+
+
+
+
+
+
+  /* Unique Section Wrapper */
+.et-shop-section {
+  padding: 50px 0;
+  background-color: #354F52;
+}
+
+.et-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
+
+/* UI Elements */
+.et-badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: #ff4444;
+  color: #fff;
+  padding: 2px 8px;
+  font-size: 10px;
+  font-weight: bold;
+  border-radius: 5px;
+  z-index: 2;
+}
+
+
+
+
+
+
+/* Swatch styling */
+.swatch-circle {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    display: inline-block;
+    border: 1px solid #ddd;
+    margin-right: 4px;
+}
+
+
+.form-select-sm {
+    /* This tells the font: "Stay around 14px, but shrink if the screen gets tiny" */
+    font-size: clamp(12px, 2vw, 14px) !important;
+    padding-top: 4px;
+    padding-bottom: 4px;
+}
+
+
+
+.page-link {
+    background: rgba(3, 3, 25, 0.5);
+    color: #fdb22f; /* info color */
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(5px);
+}
+
+.page-item.disabled .page-link {
+    background: rgba(3, 3, 25, 0.2);
+    color: rgba(53, 53, 53, 0.5);
+}
+
+
+
+
+
+/* Container clustering the individual button groups */
+.product-filter-group {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+/* Subtle separator lines between your main filter categories */
+.filter-divider {
+    color: rgba(255, 255, 255, 0.2);
+    font-size: 1.5rem;
+    padding: 0 5px; /* Pushes the groups apart cleanly */
+    align-self: center;
+    user-select: none;
+}
+
+/* Clean, Rounded Pill Button Style */
+.product-filter-pill {
+    display: inline-block;
+    padding: 6px 16px;
+    background-color: transparent;
+    color: #CAD2C5; /* Light soft gray-green to match your theme elements */
+    border: 1px solid rgba(202, 210, 197, 0.25);
+    border-radius: 20px; /* Gives the perfect round look */
+    font-size: 0.85rem;
+    font-weight: 500;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: all 0.2s ease-in-out;
+}
+
+/* Hover States */
+.product-filter-pill:hover {
+    color: #ffffff !important;
+    border-color: #52796F;
+    background-color: rgba(82, 121, 111, 0.15);
+    text-decoration: none;
+}
+
+/* Active Highlighted State (When the URL matches the filter item) */
+.product-filter-pill.active {
+    background-color: #52796F !important; /* Your signature brand green */
+    color: #ffffff !important;
+    border-color: #52796F !important;
+    box-shadow: 0 2px 8px rgba(82, 121, 111, 0.35);
+}
+
+/* Hide scrollbars for Webkit browsers (Chrome, Safari) inside your filter track */
+#filterScrollRow::-webkit-scrollbar {
+    display: none;
+}
+/* Ensure the default select state stays readable */
+.form-select {
+    color: #2b2b2b !important;
+}
+
+
+
+
+
+
+
+
+.nav-btn {
+    font-size: 20px;
+    color: #17a2b8; /* Match your Statshub info color */
+    transition: transform 0.2s;
+}
+
+.nav-btn:hover {
+    transform: scale(1.2);
+}
+
+
+
+
+/* Delete Modal*/
+
+.modal-overlay {
+    display: none; /* Hidden by default */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7); /* Dims the background */
+    backdrop-filter: blur(5px); /* Adds that glass look */
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background: #030319; /* Your elite theme color */
+    padding: 30px;
+    border-radius: 15px;
+    border: 1px solid rgba(255,255,255,0.1);
+    max-width: 400px;
+    text-align: center;
+    color: white;
+}
+
+.modal-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+
+
+
+
+
+
+
+
+
+
+/********************* Elite Trade Product  *************************/
+
+/* Base styles: Exactly 3 columns x 2 rows when screen is shrunk */
+.product-roster {
+    max-width: 900px;
+    margin: 0px auto;
+    padding: 10px;
+    background-color: #354F52; /* Darker roster background */
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+.product-roster-title {
+    text-align: center;
+    font-size:  1.5em;
+    color: #CAD2C5; /* Light text color */
+    margin-bottom: 20px;
+}
+
+.product-roster-grid {
+    display: grid;
+    /* Forces exactly 3 items side-by-side on smaller screen sizes */
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 15px;
+}
+
+.product-roster-item {
+    background-color: #52796F; /* Darker card background */
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+    display: flex;
+    flex-direction: column;
+}
+
+
+
+/* --- STAR RATING HORIZONTAL FIX --- */
+.et-rating {
+  display: flex;                /* This forces them into a row */
+  justify-content: center;      /* Centers the stars in the card */
+  list-style: none;             /* Removes the bullet points */
+  padding: 0;                   /* Removes default list padding */
+  margin: 0 0 10px 0;           /* Adds space below the stars */
+}
+
+.et-rating li {
+  display: inline-block;        /* Backup for older browsers */
+  margin: 0 2px;                /* Adds a tiny gap between each star */
+}
+
+.et-rating li span {
+  font-size: 18px;              /* Adjust size as needed */
+  color: #ffc107;               /* Classic gold/yellow color */
+}
+
+/*-------------------------------------------------------------------------*/
+
+/* ==========================================================================
+   DESKTOP VIEW: Expands the container layout and displays 7 columns across
+   ========================================================================== */
+@media (min-width: 1200px) {
+    .product-roster {
+        max-width: 95%; /* Outer div shares the full desktop screen space */
+        width: 100%;
+    }
+    
+    .product-roster-grid {
+        /* Displays exactly 7 columns side-by-side */
+        grid-template-columns: repeat(7, minmax(0, 1fr)); 
+    }
+}
+
+
+/* Inner Utility and Typography Elements */
+.product-roster-item:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.product-roster-link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    flex: 1; /* Ensure it takes all available space */
+}
+
+.product-roster-link:hover {
+    text-decoration: none;
+}
+
+.product-roster-content {
+    text-align: center;
+    padding: 10px;
+}
+
+.product-roster-image {
+    width: 100%;
+    height: 150px; /* Fixed height for consistency */
+    object-fit: cover; /* Ensure images cover the area without distortion */
+}
+
+.product-roster-info {
+    padding-top: 8px;
+}
+
+.product-roster-name {
+    font-size: 1.1em;
+    margin: 8px 0 5px;
+    color: #CAD2C5;
+}
+
+@media (max-width: 1024px) {
+     .product-roster-name {
+        font-size: 1.1em;
+        margin: 8px 0 5px;
+        color: #CAD2C5;
+    }
+}
+
+@media (min-width: 992px) {
+    .product-roster-name {
+        font-size: 1.2em;
+        margin: 8px 0 5px;
+        color: #CAD2C5;
+    }
+}    
+
+@media (min-width: 448px) {
+    .product-roster-name {
+        font-size: 0.65em;
+        margin: 8px 0 5px;
+        color: #CAD2C5;
+    }
+}
+
+.product-roster-position {
+    font-size: 0.8em;
+    color: #B2BEB5; /* Soft complementary text color */
+}
+
+.product-roster-footer {
+    padding: 10px;
+    background: #354F52;
+}
+
+.product-btn-action-group {
+    display: flex;
+    justify-content: center;
+}
+
+.product-btn-action-group a {
+    margin-right: 5px;
+    margin-left: 5px;
+    color: white;
+}
+
+/**************************************************************************/
+/* Base styles: Exactly your original structure for smaller/shrunk screens */
+.team-roster {
+    max-width: 900px;
+    margin: 0px auto;
+    padding: 10px;
+    background-color: #354F52; /* Darker roster background */
+    border-radius: 0px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+/* DESKTOP ONLY: Break out to full screen and force exactly 7 cards */
+@media (min-width: 1200px) {
+    .team-roster {
+        max-width: 95%; /* Expands the teal div to share the full screen */
+        width: 100%;
+    }
+    .roster-grid {
+        /* Overrides the auto-fill to force exactly 7 cards across */
+        grid-template-columns: repeat(7, minmax(0, 1fr)); 
+    }
+}
+
+.roster-title {
+    text-align: center;
+    font-size: 1.5em;
+    color: #CAD2C5; /* Light text color */
+    margin-bottom: 20px;
+}
+
+  /* 1. Slider Wrapper handles horizontal axis containment */
+.roster-slider-wrapper {
+    overflow-x: auto;
+    width: 100%;
+    scroll-behavior: smooth;
+    padding-bottom: 10px; /* Space for the cards to elevate safely on hover */
+}
+
+/* Hide native browser scrollbar tracks to match premium store look */
+.roster-slider-wrapper::-webkit-scrollbar {
+    display: none;
+}
+.roster-slider-wrapper {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+
+/* 2. Re-configuring the CSS Grid to feed horizontally */
+.roster-grid {
+    display: grid;
+    grid-auto-flow: column; /* Prevents cards from dropping to lines below */
+    grid-auto-columns: minmax(160px, 1fr); /* Maintains robust card structures */
+    gap: 15px;
+    width: max-content; /* Forces grid row extension past the boundary wrapper */
+}
+
+/* 3. Freeze widths on roster items so columns never stretch or distort */
+.roster-item {
+    width: 160px; 
+    background-color: #52796F;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+    display: flex;
+    flex-direction: column;
+}
+
+.roster-item:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.roster-link:hover {
+    text-decoration: none;
+}
+
+.roster-link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    flex: 1; /* Ensure it takes all available space */
+}
+
+.roster-content {
+    text-align: center;
+    padding: 10px;
+}
+
+.roster-image {
+    width: 100%;
+    height: 150px; /* Fixed height for consistency */
+    object-fit: cover; /* Ensure images cover the area without distortion */
+}
+
+.roster-info {
+    padding-top: 8px;
+}
+
+.roster-name {
+    font-size: 1.3em;
+    margin: 8px 0 5px;
+    color: #CAD2C5; /* Light text color */
+}
+
+@media (max-width: 1024px) {
+     .roster-name {
+        font-size: 1.3em;
+        margin: 8px 0 5px;
+        color: #CAD2C5; /* Light text color */
+    }
+}
+/* Desktop Adjustments */
+@media (min-width: 992px) {
+    .roster-name {
+        font-size: 1.3em;
+        margin: 8px 0 5px;
+        color: #CAD2C5; /* Light text color */
+    }
+}    
+@media (min-width: 448px) {
+    .roster-name {
+        font-size: 0.65em;
+        margin: 8px 0 5px;
+        color: #CAD2C5; /* Light text color */
+    }
+
+     .roster-title {
+        font-size: 1.1em;
+        margin: 8px 0 5px;
+        color: #CAD2C5; /* Light text color */
+    }
+}
+.roster-position {
+    font-size: 0.8em;
+    color: #B2BEB5; /* Soft complementary text color */
+}
+
+.card-footer {
+    padding: 10px;
+    background: #354F52;
+}
+
+.btn-action-group {
+    display: flex;
+    justify-content: center;
+}
+
+.btn-action-group a {
+    margin-right: 5px;
+    margin-left: 5px;
+    color: white;
+}
+
+
+

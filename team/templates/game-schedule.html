@@ -1,0 +1,909 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block extra_head %}
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<link rel="stylesheet" href="{% static 'css/game-schedule.css' %}">
+<!-- Calling  timestamp to ensure that the browser loads the latest version of the .js file -->
+<script src="{% static 'js/team.js' %}?v={{ timestamp }}"></script>
+{% endblock %}
+{% block content %}
+
+
+
+
+
+      <!-- Section Breadcrumbs-->
+      <section class="section parallax-container breadcrumbs-wrap" data-parallax-img="{% static 'img/bg-breadcrumbs-1-1920x726.jpg' %}">
+        <div class="material-parallax parallax">
+          <img src="{% static 'img/ball_court.png' %}" alt="" style="transform: translate3d(-50%, 61px, 0px); display: block;"></div>
+        <div class="parallax-content breadcrumbs-custom context-dark">
+          <div class="container">
+            <h3 class="breadcrumbs-custom-title">Game schedule</h3>
+            <ul class="breadcrumbs-custom-path">
+              <li><a href="{% url 'home' %}">Home</a></li>
+              <li><a href="{% url 'view-standing' competition.id %}">Standing</a></li>
+              <li class="active">Game schedule</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+
+      <section class="section section-sm bg-gray-100">
+        <div class="container">
+          <div class="row row-50">
+            <div class="col-lg-8">
+              <!-- Heading Component-->
+              <article class="heading-component">
+                <div class="heading-component-inner">
+                  <h5 class="heading-component-title">Game schedule
+                  </h5>
+                  <div class="heading-component-aside">
+                    <ul class="list-inline list-inline-xs list-inline-middle">
+                      <li>
+                      
+                   <select id="competition-filter">
+                      <option value="all">All Competitions</option>
+                      <option value="regular">Regular Season</option>
+                      <option value="playoff">Playoffs</option>
+                      <option value="preseason">Pre-Season</option>
+                      <option value="tournament">Tournament</option>
+                      <option value="international">International</option>
+                    </select>
+
+
+
+                
+    
+  
+                      <select class="select" id="month-filter" style="min-width: 180px;">
+                        <option value="all" selected>All Months</option>
+                        <option value="January">January</option>
+                        <option value="Febuary">Febuary</option>
+                        <option value="March">March</option>
+                        <option value="April">April</option>
+                        <option value="May">May</option>
+                        <option value="June">June</option>
+                        <option value="July">July</option>
+                        <option value="August">August</option>
+                        <option value="September">September</option>
+                        <option value="October">October</option>
+                        <option value="November">November</option>
+                        <option value="December">December</option>
+                      </select>
+                     
+                      </li>
+                  
+                      <li>
+                        <select class="select" id="year-filter" style="min-width: 120px;">
+                            <option value="all">All Years</option>
+                            <option value="2025">2025</option>
+                            <option value="2026" selected>2026</option>
+                            <option value="2027">2027</option>
+                            <option value="2028">2028</option>
+                        </select>
+                      
+                      
+                      </li>
+                    </ul>
+                  </div>
+
+
+
+                </div>
+              </article>
+
+              <div id="all-games-container">
+                <div id="all_games_cards">
+                    {% for game in games|slice:":3" %}
+                          <article class="game-result"
+                              data-year="{{ game.date|date:'Y' }}"
+                              data-month="{{ game.date|date:'F' }}"
+                              data-type="{{ game.game_type }}">
+
+                              
+                              <div class="game-info">
+                                <p class="game-info-subtitle">{{ game.game_type }} - {{ game.game_venue }} - 
+                                  <time datetime="08:30"> {{ game.time }}</time>
+                                </p>
+                                <h3 class="game-info-title">{{ game.competition }}</h3>
+                                <div class="game-info-main">
+                                  <div class="game-info-team game-info-team-first">
+                                    <figure>
+                                      <img src="{{ game.team.team_logo.url }}" alt="{{ game.team }}" width="75" height="99">
+                                    </figure>
+                                    <div class="game-result-team-name">{{ game.team }}</div>
+                                    <div class="game-result-team-country">{{ game.team.city }}</div>
+                                  </div>
+                                  <div class="game-info-middle game-info-middle-vertical">
+                                    <time class="time-big" datetime="2024-04-17">
+                                      <a href="{% url 'game-overview' competition.id game.pk %}" class="btn-modern btn-edit">
+                                      <span class="heading-3">{{ game.date }}</span>
+                                      </a>
+                                    </time>
+                                    <div class="game-result-divider-wrap">
+                                      <span class="game-info-team-divider">{{ game.indicator }}</span>
+                                    </div>
+                                    <div class="group-sm">
+                                      <div class="button button-sm button-share-outline">Share
+                                        <ul class="game-info-share">
+                                          <li class="game-info-share-item"><a class="icon icon-xs fa fa-facebook" href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri|urlencode }}" target="_blank" title="Share on Facebook"></a></li>
+                                          <li class="game-info-share-item"><a class="icon icon-xs fa fa-twitter"  href="https://twitter.com/intent/tweet?url={{ request.build_absolute_uri|urlencode }}"   target="_blank"  title="Share on X"> </a></li>
+                                          <li class="game-info-share-item"><a class="icon icon-xs fa fa-instagram"   href="#"  id="copy-ig-link"  data-url="{{ request.build_absolute_uri }}"  title="Copy Link for Instagram"></a></li>
+                                        </ul>
+                                      </div>
+                                      <a class="button button-sm button-primary disabled" href="#">Buy tickets</a>
+                                    </div>
+                                  </div>
+                                  <div class="game-info-team game-info-team-second">
+                                    <figure>
+                                      <img src="{{ game.opponent.logo.url }}" alt="" width="78" height="98">
+                                    </figure>
+                                    <div class="game-result-team-name">{{ game.opponent }}</div>
+                                    <div class="game-result-team-country">{{ game.city }}</div>
+                                  </div>
+                                </div>
+                              </div>
+                            </article>
+                    {% endfor %}
+                </div>
+
+                <div class="text-center" style="margin: 20px 0;">
+                    <button id="show-table-btn" class="button button-sm button-primary">View All Games</button>
+                </div>
+
+                <div id="all_games_header"  class="table-header-info" style="margin-bottom: 15px; border-left: 4px solid #35ad79; padding-left: 15px; display: none;">
+                    <h4 style="margin: 0; text-transform: uppercase; color: #333;">
+                        {{ competition.name }} <span style="font-weight: 300; font-size: 0.8em;">| Schedule</span>
+                    </h4>
+                </div>
+
+                <div id="all_games_table" class="table-responsive-sticky"  style="max-height: 600px; overflow-y: auto; display: none;">  
+                  <table class="table-custom table-standings">
+                      <thead>
+                          <tr data-year="{{ game.date|date:'Y' }}" data-month="{{ game.date|date:'F' }}">
+                              <th class="sticky-col-1" style="background-color: #35ad79;">DATE</th>
+                              <th class="sticky-cols" >TIME</th>
+                              <th  class="sticky-cols" style="text-align: left; background: #35ad79;">OPPONENT</th>
+                              <th  class="sticky-cols" style="text-align: left;" >RESULT</th>
+                              <th  class="sticky-cols">W-L</th>
+                              <th  class="sticky-cols" style="text-align: left;">+ PTS</th>
+                              <th  class="sticky-cols" style="text-align: left;">+ REB</th>
+                              <th  class="sticky-cols" style="text-align: left;">+ AST</th>
+                            
+                          </tr>
+                      </thead>
+                      <tbody>
+                          {% for game in games %}
+                          <tr>
+                              <td class="sticky-col-1 font-weight text-align:left;">
+                                  <a href="{% url 'game-overview' competition.id game.id %}" class="btn-link">{{ game.date|date:"M d, y" }}</a>
+                              </td>
+                              <td class="record-cell">{{ game.time|time:"H:i" }}</td>
+
+                              <td  style="text-align: left;">
+                                <div style="display: flex; align-items: center; gap: 8px;">
+                                    <span class="font-weight" style="color: #666; font-size: 0.9em; width: 15px;">
+                                        {{ game.indicator }}
+                                    </span>
+
+                                    <div class="team-figure" style="min-width: 30px;">
+                                        {% if game.opponent.logo %}
+                                            <img src="{{ game.opponent.logo.url }}" alt="{{ game.opponent }}" width="30">
+                                        {% else %}
+                                            <div style="width: 30px; height: 30px; background: #eee; border-radius: 50%;"></div>
+                                        {% endif %}
+                                    </div>
+
+                                    <div class="team-title">
+                                        <div class="font-weight" style="white-space: nowrap;">
+                                            <h6 style="margin: 0;">{{ game.opponent }}</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                              </td>
+
+                              
+                              {% if game.team_scores != 0 %}
+                                {% if game.team_scores > game.opponent_scores%}
+                                <td style="text-align: left;">
+                                  <span style="color:#35ad79;">{{ game.team_win_loss|slice:":1" }}</span> {{ game.team_scores }}-{{ game.opponent_scores }}
+                                </td>
+                                {% else %}
+                                <td style="text-align: left;">
+                                  <span style="color: red;">{{ game.team_win_loss|slice:":1" }}</span> {{ game.team_scores }}-{{ game.opponent_scores }}
+                                </td>
+                                {% endif %}
+                              {% else %}
+                                <td style="text-align: left;">
+                                  
+                                </td>
+                              {% endif %}
+
+
+                              {% if game.team_scores != 0 %}
+                              <td>{{ game.running_record|default:"" }}</td>
+                              {% else %}
+                                <td> </td>
+                              {% endif %}
+
+                              <td style="color: #35ad79; text-align: left;">
+                                {% if game.team_scores != 0 %}
+                                  {% if game.leader_pts_id %}
+                                  <a href="{% url 'players-id' competition.id game.leader_pts_id %}">{{ game.leader_pts|default:"" }}</a>
+                                  {% else %}
+                                  {{ game.leader_pts|default:"" }}
+                                  {% endif %}
+                                {% else %}
+                                
+                                {% endif %}  
+                              </td>
+                              <td style="color: #35ad79; text-align: left;">
+                                {% if game.team_scores != 0 %}
+                                  {% if game.leader_reb_id %}
+                                  <a href="{% url 'players-id' competition.id game.leader_reb_id %}">{{ game.leader_reb|default:"" }}</a>
+                                  {% else %}
+                                  {{ game.leader_reb|default:"" }}
+                                  {% endif %}
+                                {% else %}
+                                
+                                {% endif %}   
+                              </td>
+                              <td style="color: #35ad79; text-align: left;">
+                                {% if game.team_scores != 0 %}
+                                  {% if game.leader_ast_id %}
+                                  <a href="{% url 'players-id' competition.id game.leader_ast_id %}">{{ game.leader_ast|default:"" }}</a>
+                                  {% else %}
+                                  {{ game.leader_ast|default:"" }}
+                                  {% endif %}
+                                {% else %}
+                                
+                                {% endif %}   
+                              </td> 
+                          </tr>
+                          {% endfor %}
+                      </tbody>
+                  </table>
+                </div>
+
+              </div>
+
+
+               <!-- Game Result Bug For Regular Season-->
+              <div id="regular-season-container" style="display:none;">
+                <div id="regular_season_games_cards">
+                  {% for game in regular_season_games|slice:":3" %}
+
+                  <article class="game-result" id="regular_season_games" >
+                    
+                    <div class="game-info">
+                      <p class="game-info-subtitle">{{ game.game_type }} - {{ game.game_venue__name  }} - 
+                        <time datetime="08:30"> {{ game.time }}</time>
+                      </p>
+                      <h3 class="game-info-title">{{ game.competition__name }}</h3>
+                      <div class="game-info-main">
+                        <div class="game-info-team game-info-team-first">
+                          <figure>
+                            <img src="/media/{{ game.team__team_logo }}" alt="{{ game.team__name }}" width="75" height="99">
+                          </figure>
+                          <div class="game-result-team-name">{{ game.team__name }}</div>
+                          <div class="game-result-team-country">{{ game.team__city }}</div>
+                        </div>
+                        <div class="game-info-middle game-info-middle-vertical">
+                          <time class="time-big" datetime="2024-04-17">
+                            <a href="{% url 'game-overview' competition.id game.id %}" class="btn-modern btn-edit">
+                            <span class="heading-3">{{ game.date }}</span>
+                            </a>
+                          </time>
+                          <div class="game-result-divider-wrap">
+                            <span class="game-info-team-divider">{{ game.indicator }}</span>
+                          </div>
+                          <div class="group-sm">
+                            <div class="button button-sm button-share-outline">Share
+                              <ul class="game-info-share">
+                                <li class="game-info-share-item"><a class="icon fa fa-facebook" href="#"></a></li>
+                                <li class="game-info-share-item"><a class="icon fa fa-twitter" href="#"></a></li>
+                                <li class="game-info-share-item"><a class="icon fa fa-google-plus" href="#"></a></li>
+                                <li class="game-info-share-item"><a class="icon fa fa-instagram" href="#"></a></li>
+                              </ul>
+                            </div>
+                            <a class="button button-sm button-primary disabled" href="#">Buy tickets</a>
+                          </div>
+                        </div>
+                        <div class="game-info-team game-info-team-second">
+                          <figure>
+                            <img src="/media/{{ game.opponent__logo }}" alt="{{ game.opponent__name }}" width="78" height="98">
+                          </figure>
+                          <div class="game-result-team-name">{{ game.opponent__name }}</div>
+                          <div class="game-result-team-country">{{ game.opponent__city }}</div>
+                        </div>
+                      </div>
+                    </div>
+                  </article>
+                  {% endfor %}
+                </div>  
+
+                <!-- Button To View All The Games-->
+                <div class="text-center" style="margin: 20px 0;">
+                  <button id="show-regular-season-table-btn" class="button button-sm button-primary">View All Games</button>
+                </div>
+                <!-- Competition Header -->
+                <div id="regular_season_header"  class="table-header-info" style="margin-bottom: 15px; border-left: 4px solid #35ad79; padding-left: 15px; display: none;">
+                      <h4 style="margin: 0; text-transform: uppercase; color: #333;">
+                          {{ competition.name }} <span style="font-weight: 300; font-size: 0.8em;">| Schedule</span>
+                      </h4>
+                </div>
+
+                <!-- Table To Diplay Regular Season Games-->
+                <div id="regular_season_table" class="table-responsive-sticky" style="display: none;">
+  
+    
+                  <table class="table-custom table-standings">
+                      <thead>
+                          <tr>
+                              <th class="sticky-col-1" style="background-color: #35ad79;">DATE</th>
+                              <th>TIME</th>
+                              <th  style="text-align: left; background: #35ad79;">OPPONENT</th>
+                              <th style="text-align: left;" >RESULT</th>
+                              <th>W-L</th>
+                              <th>+ PTS</th>
+                              <th>+ REB</th>
+                              <th>+ AST</th>
+                            
+                          </tr>
+                      </thead>
+                      <tbody>
+                          {% for game in regular_season_games %}
+                          <tr>
+                              <td class="sticky-col-1 font-weight text-left">
+                                  <a href="{% url 'game-overview' competition.id game.id %}" class="btn-link">{{ game.date }}</a>
+                              </td>
+                              <td class="record-cell">{{ game.time|time:"H:i" }}</td>
+
+                              <td  style="text-align: left;">
+                                <div style="display: flex; align-items: center; gap: 8px;">
+                                    <span class="font-weight" style="color: #666; font-size: 0.9em; width: 15px;">
+                                        {{ game.indicator }}
+                                    </span>
+
+                                    <div class="team-figure" style="min-width: 30px;">
+                                        {% if game.opponent__logo %}
+                                            <img src="/media/{{ game.opponent__logo }}" alt="{{ game.opponent__name }}" width="30">
+                                        {% else %}
+                                            <div style="width: 30px; height: 30px; background: #eee; border-radius: 50%;"></div>
+                                        {% endif %}
+                                    </div>
+
+                                    <div class="team-title">
+                                        <div class="font-weight" style="white-space: nowrap;">
+                                            <h6 style="margin: 0;">{{ game.opponent__name }}</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                              </td>
+
+                              
+                              {% if game.team_scores != 0 %}<!--  only display any scores that is greater than 0-->
+                                {% if game.team_scores > game.opponent_scores%}
+                                <td style="text-align: left;">
+                                  <span style="color:#35ad79;">{{ game.team_win_loss|slice:":1" }}</span> {{ game.team_scores }}-{{ game.opponent_scores }}
+                                </td>
+                                {% else %}
+                                <td style="text-align: left;">
+                                  <span style="color: red;">{{ game.team_win_loss|slice:":1" }}</span> {{ game.team_scores }}-{{ game.opponent_scores }}
+                                </td>
+                                {% endif %}
+                              {% else %}
+                                <td style="text-align: left;">
+                                  
+                                </td>
+                              {% endif %}
+
+
+                              {% if game.team_scores != 0 %}
+                              <td>{{ game.running_record|default:"" }}</td>
+                              {% else %}
+                                <td> </td>
+                              {% endif %}
+
+                              <td style="color: #35ad79">
+                                {% if game.team_scores != 0 %}
+                                  {% if game.player_name__id_x %}
+                                  <a href="">{{ game.player_name__player_name_x }} {{ game.points_x|default:"" }}</a>
+                                  {% else %}
+                                  {{ game.points_x|default:"" }}
+                                  {% endif %}
+                                {% else %}
+                                  
+                                {% endif %}    
+                              </td>
+                              <td style="color: #35ad79">
+                                {% if game.team_scores != 0 %}
+                                  {% if game.player_name__id_y %}
+                                  <a href="">{{ game.player_name__player_name_y }} {{ game.rebounds_y|default:"" }}</a>
+                                  {% else %}
+                                  {{ game.rebounds_y|default:"" }}
+                                  {% endif %}
+                                {% else %}
+                                  
+                                {% endif %}    
+                              </td>
+                              <td style="color: #35ad79">
+                                {% if game.team_scores != 0 %}
+                                  {% if game.player_name__id %}
+                                  <a href="">{{ game.player_name__player_name }} {{ game.assists|default:"" }}</a>
+                                  {% else %}
+                                  {{ game.assists|default:"" }}
+                                  {% endif %}
+                                {% else %}
+                              
+                                {% endif %}  
+                              </td> 
+                          </tr>
+                          {% endfor %}
+                      </tbody>
+                  </table>
+                </div>
+
+              </div>
+
+              
+              
+                <!-- Game Result Bug For Season Playoffs-->
+              <div id="playoff-container" style="display:none;">
+                  {% for game in playoff_games %}
+
+                  <article class="game-result " id="playoff_games">
+                    
+                    <div class="game-info">
+                      <p class="game-info-subtitle">{{ game.game_type }} - {{ game.game_venue__name  }} - 
+                        <time datetime="08:30"> {{ game.time }}</time>
+                      </p>
+                      <h3 class="game-info-title">{{ game.competition__name }}</h3>
+                      <div class="game-info-main">
+                        <div class="game-info-team game-info-team-first">
+                          <figure>
+                            <img src="/media/{{ game.team__team_logo }}" alt="{{ game.team__name }}" width="75" height="99">
+                          </figure>
+                          <div class="game-result-team-name">{{ game.team__name }}</div>
+                          <div class="game-result-team-country">{{ game.team__city }}</div>
+                        </div>
+                        <div class="game-info-middle game-info-middle-vertical">
+                          <time class="time-big" datetime="2024-04-17">
+                            <a href="{% url 'game-overview' competition.id game.id %}" class="btn-modern btn-edit">
+                            <span class="heading-3">{{ game.date }}</span>
+                            </a>
+                          </time>
+                          <div class="game-result-divider-wrap">
+                            <span class="game-info-team-divider">{{ game.indicator }}</span>
+                          </div>
+                          <div class="group-sm">
+                            <div class="button button-sm button-share-outline">Share
+                              <ul class="game-info-share">
+                                <li class="game-info-share-item"><a class="icon fa fa-facebook" href="#"></a></li>
+                                <li class="game-info-share-item"><a class="icon fa fa-twitter" href="#"></a></li>
+                                <li class="game-info-share-item"><a class="icon fa fa-google-plus" href="#"></a></li>
+                                <li class="game-info-share-item"><a class="icon fa fa-instagram" href="#"></a></li>
+                              </ul>
+                            </div>
+                            <a class="button button-sm button-primary disabled" href="#">Buy tickets</a>
+                          </div>
+                        </div>
+                        <div class="game-info-team game-info-team-second">
+                          <figure>
+                            <img src="/media/{{ game.opponent__logo}}" alt="" width="78" height="98">
+                          </figure>
+                          <div class="game-result-team-name">{{ game.opponent__name }}</div>
+                          <div class="game-result-team-country">{{ game.opponent__city }}</div>
+                        </div>
+                      </div>
+                    </div>
+                  </article>
+                  {% endfor %}
+              </div>
+
+
+                <!-- Game Result Bug For International Games -->
+              <div id="international-container" style="display:none;">
+                  {% for game in other_competitions_df  %}
+                    <article class="game-result " id="international_games">
+                    
+                      <div class="game-info">
+                        <p class="game-info-subtitle">{{ game.game_type }} - {{ game.game_venue__name  }} - 
+                          <time datetime="08:30"> {{ game.time }}</time>
+                        </p>
+                        <h3 class="game-info-title">{{ game.competition__name }}</h3>
+                        <div class="game-info-main">
+                          <div class="game-info-team game-info-team-first">
+                            <figure>
+                              <img src="/media/{{ game.team__team_logo }}" alt="{{ game.team__name }}" width="75" height="99">
+                            </figure>
+                            <div class="game-result-team-name">{{ game.team__name }}</div>
+                            <div class="game-result-team-country">{{ game.team__city }}</div>
+                          </div>
+                          <div class="game-info-middle game-info-middle-vertical">
+                            <time class="time-big" datetime="2024-04-17">
+                              <a href="{% url 'game-overview' competition.id game.id %}" class="btn-modern btn-edit">
+                              <span class="heading-3">{{ game.date }}</span>
+                              </a>
+                            </time>
+                            <div class="game-result-divider-wrap">
+                              <span class="game-info-team-divider">{{ game.indicator }}</span>
+                            </div>
+                            <div class="group-sm">
+                              <div class="button button-sm button-share-outline">Share
+                                <ul class="game-info-share">
+                                  <li class="game-info-share-item"><a class="icon fa fa-facebook" href="#"></a></li>
+                                  <li class="game-info-share-item"><a class="icon fa fa-twitter" href="#"></a></li>
+                                  <li class="game-info-share-item"><a class="icon fa fa-google-plus" href="#"></a></li>
+                                  <li class="game-info-share-item"><a class="icon fa fa-instagram" href="#"></a></li>
+                                </ul>
+                              </div>
+                              <a class="button button-sm button-primary disabled" href="#">Buy tickets</a>
+                            </div>
+                          </div>
+                          <div class="game-info-team game-info-team-second">
+                            <figure>
+                              <img src="/media/{{ game.opponent__logo}}" alt="" width="78" height="98">
+                            </figure>
+                            <div class="game-result-team-name">{{ game.opponent__name }}</div>
+                            <div class="game-result-team-country">{{ game.opponent__city }}</div>
+                          </div>
+                        </div>
+                      </div>
+                    </article>
+                 
+                  {% endfor %}
+              </div>
+
+
+              <div id="year_container">
+                <div id="all_year_cards">
+                    {% for game in game_year %}
+                          <article class="game-result " id="all_year">
+                              
+                              <div class="game-info">
+                                <p class="game-info-subtitle">{{ game.game_type }} - {{ game.game_venue }} - 
+                                  <time datetime="08:30"> {{ game.time }}</time>
+                                </p>
+                                <h3 class="game-info-title">{{ game.competition }}</h3>
+                                <div class="game-info-main">
+                                  <div class="game-info-team game-info-team-first">
+                                    <figure>
+                                      <img src="{{ game.team.team_logo.url }}" alt="{{ game.team }}" width="75" height="99">
+                                    </figure>
+                                    <div class="game-result-team-name">{{ game.team }}</div>
+                                    <div class="game-result-team-country">{{ game.team.city }}</div>
+                                  </div>
+                                  <div class="game-info-middle game-info-middle-vertical">
+                                    <time class="time-big" datetime="2024-04-17">
+                                      <a href="{% url 'game-overview' competition.id game.pk %}" class="btn-modern btn-edit">
+                                      <span class="heading-3">{{ game.date }}</span>
+                                      </a>
+                                    </time>
+                                    <div class="game-result-divider-wrap">
+                                      <span class="game-info-team-divider">{{ game.indicator }}</span>
+                                    </div>
+                                    <div class="group-sm">
+                                      <div class="button button-sm button-share-outline">Share
+                                        <ul class="game-info-share">
+                                          <li class="game-info-share-item"><a class="icon fa fa-facebook" href="#"></a></li>
+                                          <li class="game-info-share-item"><a class="icon fa fa-twitter" href="#"></a></li>
+                                          <li class="game-info-share-item"><a class="icon fa fa-google-plus" href="#"></a></li>
+                                          <li class="game-info-share-item"><a class="icon fa fa-instagram" href="#"></a></li>
+                                        </ul>
+                                      </div>
+                                      <a class="button button-sm button-primary disabled" href="#">Buy tickets</a>
+                                    </div>
+                                  </div>
+                                  <div class="game-info-team game-info-team-second">
+                                    <figure>
+                                      <img src="{{ game.opponent.logo.url }}" alt="" width="78" height="98">
+                                    </figure>
+                                    <div class="game-result-team-name">{{ game.opponent }}</div>
+                                    <div class="game-result-team-country">{{ game.city }}</div>
+                                  </div>
+                                </div>
+                              </div>
+                            </article>
+                    {% endfor %}
+                </div>
+                </div>
+
+            </div>
+
+
+            <div class="col-lg-4">
+              <div class="row row-30">
+                <div class="col-md-6 col-lg-12">
+                  <!-- Heading Component-->
+                  <article class="heading-component">
+                    <div class="heading-component-inner">
+                      <h5 class="heading-component-title">Standings
+                      </h5><a class="button button-xs button-gray-outline" href="{% url 'view-standing' competition.id %}">Full Standings</a>
+                    </div>
+                  </article>
+                  <!-- Table team-->
+                  <div class="table-custom-responsive">
+                    <table class="table-custom table-standings table-classic">
+                      <thead>
+                        <tr>
+                          <th colspan="2">Team Position</th>
+                          <th>W</th>
+                          <th>L</th>
+                          <th>PPG</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for row in standing_df %}
+                        <tr>
+                          <td>
+                            <span>{{ forloop.counter }}</span>
+                          </td>
+                          <td class="team-inline">
+                            <div class="team-figure">
+                              {% if row.team__team_logo %}
+                              <img src="/media/{{ row.team__team_logo }}" alt="" width="30">
+                              {% else %} 
+                              <img src="" alt="" width="30">
+                              {% endif %}
+                            </div>
+                            <div class="team-title">
+                              <div class="team-name">{{ row.team__name }}</div>
+                              <div class="team-country">{{ row.team.city }}</div>
+                            </div>
+                          </td>
+                          <td>{{ row.w }}</td>
+                          <td>{{ row.l }}</td>
+                          <td>{{ row.ppg }}</td>
+                        </tr>
+                        {% endfor %}
+
+                     
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                <!-- Player Of The Month -->
+                <div class="col-md-6 col-lg-12">
+                  <!-- Heading Component-->
+                  <article class="heading-component">
+                    <div class="heading-component-inner">
+                      <h5 class="heading-component-title">Player of the month
+                      </h5>
+                    
+                    </div>
+                  </article>
+                  <!-- Player of the Month  Info Minimal-->
+                   
+                  <div class="player-info-minimal">
+                    <div class="player-info-minimal-figure">
+                      <img src="/media/{{ month_may.player_name__player_image }}" alt="" width="229" height="268">
+                    </div>
+                    <div class="player-info-minimal-number">
+                      <p>{{ month_may.player_name__jersey_number }}</p>
+                    </div>
+                    <div class="player-info-minimal-content">
+                      <div class="player-info-minimal-title">
+                        <h3><span>{{ month_may.player_name__player_name }}</span></h3>
+                      </div>
+                      <div class="player-info-minimal-progress">
+                        <!-- Linear progress bar-->
+                        <article class="progress-linear progress-bar-modern">
+                          <div class="progress-header">
+                            <p>PPG</p><span class="value">{{ month_may.points }}</span>
+                          </div>
+                          <div class="progress-bar-linear-wrap">
+                            <div class="progress-bar-linear" style="transition-duration: 1s;"></div>
+                          </div>
+                        </article>
+                        <!-- Linear progress bar-->
+                        <article class="progress-linear progress-bar-modern">
+                          <div class="progress-header">
+                            <p>RPG</p><span class="value">{{ month_may.total_rebounds }}</span>
+                          </div>
+                          <div class="progress-bar-linear-wrap">
+                            <div class="progress-bar-linear" style="transition-duration: 1s;"></div>
+                          </div>
+                        </article>
+                         <article class="progress-linear progress-bar-modern">
+                          <div class="progress-header">
+                            <p>APG</p><span class="value">{{ month_may.assists }}</span>
+                          </div>
+                          <div class="progress-bar-linear-wrap">
+                            <div class="progress-bar-linear" style="transition-duration: 1s;"></div>
+                          </div>
+                        </article>
+                      </div>
+                    </div>
+                  </div>
+                   
+                </div>
+
+                <!-- Latest Game Results -->
+                <div class="col-md-6 col-lg-12 owl-carousel-outer-navigation-1">
+                  <!-- Heading Component-->
+                  <article class="heading-component">
+                    <div class="heading-component-inner">
+                      <h5 class="heading-component-title">Latest results
+                      </h5>
+                      <div class="owl-carousel-arrows-outline">
+                        <div class="owl-nav">
+                          <button class="owl-arrow owl-arrow-prev"></button>
+                          <button class="owl-arrow owl-arrow-next"></button>
+                        </div>
+                      </div>
+                    </div>
+                  </article>
+                  <!-- Owl Carousel-->
+                  <div class="owl-carousel owl-spacing-1 owl-loaded" data-items="1" data-dots="false" data-nav="true" data-autoplay="true" data-autoplay-speed="4000" data-stage-padding="0" data-loop="true" data-margin="30" data-mouse-drag="false" data-animation-in="fadeIn" data-animation-out="fadeOut" data-nav-custom=".owl-carousel-outer-navigation-1">
+                    <!-- Game Result Creative-->
+                    
+                    <!-- Game Result Creative-->
+                    
+                    <div class="owl-stage-outer">
+                      <div class="owl-stage" style="transform: translate3d(-1148px, 0px, 0px); transition: all; width: 3444px;">
+                         {% for game in games %}
+                        <div class="owl-item cloned" style="width: 544px; margin-right: 30px;">
+                          <article class="game-result game-result-creative">
+                          <div class="game-result-main-vertical">
+                            <div class="game-result-team game-result-team-horizontal game-result-team-first">
+                              <figure class="game-result-team-figure">
+                                <img src="{{ game.team.team_logo.url }}" alt="" width="31" height="41">
+                              </figure>
+                              <div class="game-result-team-title">
+                                <div class="game-result-team-name">{{ game.team }}</div>
+                                <div class="game-result-team-country">{{ game.team.city }}</div>
+                              </div>
+                              <div class="game-result-score game-result-score-big game-result-team-win">{{ game.team_scores }}
+                                {% if game.team_scores > game.opponent_scores%}
+                                <span class="game-result-team-label game-result-team-label-right">Win</span>
+                                {% else %}
+                                <span class="game-result-team-label game-result-team-label-right" style="background-color:red;">Loss</span>
+                                {% endif %}
+                              </div>
+                            </div>
+                            <span class="game-result-team-divider">{{ game.indicator }}</span>
+                            <div class="game-result-team game-result-team-horizontal game-result-team-second">
+                              <figure class="game-result-team-figure">
+                                <img src="{{ game.opponent.logo.url }}" alt="" width="40" height="32">
+                              </figure>
+                              <div class="game-result-team-title">
+                                <div class="game-result-team-name">{{ game.opponent }}</div>
+                                <div class="game-result-team-country">{{ game.opponent.city }}</div>
+                              </div>
+                              <div class="game-result-score game-result-score-big">{{ game.opponent_scores }}
+                              </div>
+                            </div>
+                          </div>
+                          <div class="game-result-footer">
+                            <ul class="game-result-details">
+                            
+                              {% if game.indicator == "@" %}    
+                              <li>AWAY</li>
+                              {% else %}
+                              <li>HOME</li>
+                              {% endif %}
+                              <li>{{ game.game_venue }}</li>
+                              <li>
+                                <time datetime="2024-04-14">{{ game.date }}</time>
+                              </li>
+                            </ul>
+                          </div>
+                          </article>
+                        </div>
+                        {% endfor %}
+                    
+                      </div>
+                    </div>
+                    <div class="owl-nav">
+                      <button type="button" role="presentation" class="owl-prev"></button>
+                      <button type="button" role="presentation" class="owl-next"></button>
+                    </div>
+                    <div class="owl-dots disabled"></div>
+                  </div>
+                </div>
+                <!-- Social Media Links -->
+                <div class="col-md-6 col-lg-12">
+                  <!-- Heading Component-->
+                  <article class="heading-component">
+                    <div class="heading-component-inner">
+                      <h5 class="heading-component-title">Follow Us
+                      </h5>
+                    </div>
+                  </article>
+                  <!-- Buttons Media-->
+                  <div class="group-sm group-flex"><a class="button-media button-media-facebook" href="#">
+                      <h4 class="button-media-title">50k</h4>
+                      <p class="button-media-action">Like<span class="icon material-icons-add_circle_outline icon-sm"></span></p><span class="button-media-icon fa-facebook"></span></a><a class="button-media button-media-twitter" href="https://x.com/leftyezra1" target="_blank">
+                      <h4 class="button-media-title">120k</h4>
+                      <p class="button-media-action">Follow<span class="icon material-icons-add_circle_outline icon-sm"></span></p><span class="button-media-icon fa-twitter"></span></a><a class="button-media button-media-google" href="https://x.com/leftyezra1?s=21&t=NXPn3egmbtRQQeoICqv-5Q" target="_blank">
+                      <h4 class="button-media-title">15k</h4>
+                      <p class="button-media-action">Follow<span class="icon material-icons-add_circle_outline icon-sm"></span></p><span class="button-media-icon fa-google"></span></a><a class="button-media button-media-instagram" href="https://x.com/leftyezra1?s=21&t=NXPn3egmbtRQQeoICqv-5Q" target="_blank">
+                      <h4 class="button-media-title">85k</h4>
+                      <p class="button-media-action">Follow<span class="icon material-icons-add_circle_outline icon-sm"></span></p><span class="button-media-icon fa-instagram"></span></a></div>
+                </div>
+                <!-- Gallery Begin-->
+                <div class="col-md-6 col-lg-12">
+                  <!-- Heading Component-->
+                  <article class="heading-component">
+                    <div class="heading-component-inner">
+                      <h5 class="heading-component-title">Gallery
+                      </h5>
+                    </div>
+                  </article>
+                  <article class="gallery" data-lightgallery="group">
+                    <div class="row row-10 row-narrow">
+                      {% for image in team_images %}
+                      <div class="col-6 col-sm-4 col-md-6 col-lg-4">
+                        <a class="thumbnail-creative" data-lightgallery="item" href="{{image.images.url}}">
+                          <img src="{{image.images.url}}" alt="">
+                          <div class="thumbnail-creative-overlay"></div>
+                        </a>
+                      </div>
+                      {% endfor %}
+                    </div>
+                  </article>
+                  <br>
+              
+                  <nav aria-label="Product Pagination">
+                    <ul class="pagination justify-content-center mt-4">
+                      {% if team_images.has_previous %}
+                        <li class="page-item">
+                          <a class="page-link" href="?page=1">&laquo; First</a>
+                        </li>
+                        <li class="page-item">
+                          <a class="page-link" href="?page={{ team_images.previous_page_number }}">Previous</a>
+                        </li>
+                      {% endif %}
+
+                      <li class="page-item disabled">
+                        <span class="page-link">Page {{ team_images.number }} of {{ team_images.paginator.num_pages }}</span>
+                      </li>
+
+                      {% if team_images.has_next %}
+                        <li class="page-item">
+                          <a class="page-link" href="?page={{ team_images.next_page_number }}">Next</a>
+                        </li>
+                        <li class="page-item">
+                          <a class="page-link" href="?page={{ team_images.paginator.num_pages }}">Last &raquo;</a>
+                        </li>
+                      {% endif %}
+                    </ul>
+                  </nav>
+                
+                </div>
+                <!-- Gallery End -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+      
+
+
+
+
+
+
+   
+ <script>
+
+function scrollFilters(distance) {
+    const row = document.getElementById('filterScrollRow');
+    // .scrollBy moves the scrollbar by the specified pixel amount
+    row.scrollBy({
+        left: distance,
+        behavior: 'smooth'
+    });
+}
+
+
+
+
+
+</script>
+
+{% endblock %}

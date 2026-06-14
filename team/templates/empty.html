@@ -1,0 +1,428 @@
+<!-- Game Peformance Leaders Begin --> 
+ <div class="col-sm-12">
+  <!-- Heading -->
+  <article class="heading-component">
+    <div class="heading-component-inner">
+      <h5 class="heading-component-title">Game Leaders</h5>
+    </div>
+  </article>
+
+  <!-- Leaders Grid -->
+  <div class="leaders-grid">
+
+    <!-- Points Leaders -->
+    <div class="leader-row">
+      <!-- Team A -->
+        {% for point in top_points_df %}
+           
+      <div class="leader-team">
+        <a href="{% url 'players-id' competition.id point.player_id %}">
+        <div class="leader-img">
+          <img src="/media/{{ point.player_name__player_image }}" alt="Team A Points Leader" width="80" height="80">
+        </div>
+        <div class="leader-info">
+          <span class="leader-number">#{{ point.player_name__jersey_number }}</span>
+          <h6 class="leader-name">{{point.player_name__player_name }}</h6>
+          </a>
+          <p class="leader-team-name">{{point.player_name__team__name }}</p>
+          <span class="leader-stat">{{point.points }} PTS</span>
+          <small>FG: {{point.field_goal_made }}/{{point.field_goal_attempts }} • FT: {{point.ft_made }}/{{point.ft_attempts }}</small>
+        </div>
+      </div>
+        
+      {% endfor %}
+
+      <!-- Stat Category (center) -->
+      <div class="leader-category">
+        <h6>Points</h6>
+      </div>
+
+      <!-- Team B -->
+      <div class="leader-team">
+        <div class="leader-img">
+          <img src="images/player-teamB-points.png" alt="Team B Points Leader" width="80" height="80">
+        </div>
+        <div class="leader-info">
+          <span class="leader-number">#22</span>
+          <h6 class="leader-name">C. Wallace</h6>
+          <p class="leader-team-name">OKC</p>
+          <span class="leader-stat">23 PTS</span>
+          <small>FG: 10/16 • FT: 2/2</small>
+        </div>
+      </div>
+  
+
+    <!-- Rebounds Leaders -->
+    <div class="leader-row">
+       {% for reb in top_rebounds_df %}
+      <div class="leader-team">
+        <a href="{% url 'players-id' competition.id point.player_id %}">
+          <div class="leader-img">
+            <img src="/media/{{ point.player_name__player_image }}" alt="Team A Rebounds Leader" width="80" height="80">
+          </div>
+          <div class="leader-info">
+            <span class="leader-number">#{{ point.player_name__jersey_number }}</span>
+            <h6 class="leader-name">{{point.player_name__player_name }}</h6>
+          </a>
+          <p class="leader-team-name">{{point.player_name__team__name }}</p>
+          <span class="leader-stat">{{reb.total_rebounds }} REB</span>
+          <small>10 DEF • 2 OFF</small>
+        </div>
+        {% endfor %}
+      </div>
+
+
+
+
+
+      <div class="leader-category">
+        <h6>Rebounds</h6>
+      </div>
+
+      <div class="leader-team">
+        <div class="leader-img">
+          <img src="images/player-teamB-rebounds.png" alt="Team B Rebounds Leader" width="80" height="80">
+        </div>
+        <div class="leader-info">
+          <span class="leader-number">#7</span>
+          <h6 class="leader-name">C. Holmgren</h6>
+          <p class="leader-team-name">OKC</p>
+          <span class="leader-stat">14 REB</span>
+          <small>11 DEF • 3 OFF</small>
+        </div>
+      </div>
+    
+
+    <!-- Assists Leaders -->
+    <div class="leader-row">
+      {% for assist in top_assist_df %}
+      <div class="leader-team">
+        <a href="{% url 'players-id' competition.id point.player_id %}">
+          <div class="leader-img">
+            <img src="/media/{{ point.player_name__player_image }}" alt="Team A Assists Leader" width="80" height="80">
+          </div>
+          <div class="leader-info">
+            <span class="leader-number">#{{ point.player_name__jersey_number }}</span>
+            <h6 class="leader-name">{{ point.player_name__player_name }}</h6>
+        </a>
+          <p class="leader-team-name">#{{ point.player_name__player__team }}</p>
+          <span class="leader-stat">{{assist.assists }}  AST</span>
+          <small>{{assist.turnovers }} TO • {{assist.minutes }} MIN</small>
+        </div>
+        {% endfor %}
+      </div>
+
+      <div class="leader-category">
+        <h6>Assists</h6>
+      </div>
+
+      <div class="leader-team">
+        <div class="leader-img">
+          <img src="images/player-teamB-assists.png" alt="Team B Assists Leader" width="80" height="80">
+        </div>
+        <div class="leader-info">
+          <span class="leader-number">#55</span>
+          <h6 class="leader-name">I. Hartenstein</h6>
+          <p class="leader-team-name">OKC</p>
+          <span class="leader-stat">11 AST</span>
+          <small>3 TO • 25 MIN</small>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+<!-- Game Peformance Leaders Ends --> 
+                
+
+<section class="section section-sm bg-gray-100">
+  <div class="container">
+    <div class="row row-50 justify-content-center">
+      <div class="col-md-10 col-lg-8">
+        
+        <article class="heading-component">
+          <div class="heading-component-inner">
+            <h5 class="heading-component-title">Stat Leaders</h5>
+            <div class="heading-component-aside">
+              <ul class="list-inline list-inline-xs list-inline-middle">
+                <li>
+                  <a class="button button-xs button-gray-outline" href="#">Full Stats</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </article>
+
+        <div class="tabs-custom tabs-horizontal tabs-modern" id="tabs-modern">
+          <ul class="nav nav-tabs">
+            <li class="nav-item" role="presentation"><a class="nav-link active" href="#tabs-modern-1" data-toggle="tab">PTS</a></li>
+            <li class="nav-item" role="presentation"><a class="nav-link" href="#tabs-modern-2" data-toggle="tab">REB</a></li>
+            <li class="nav-item" role="presentation"><a class="nav-link" href="#tabs-modern-3" data-toggle="tab">AST</a></li>
+            <li class="nav-item" role="presentation"><a class="nav-link" href="#tabs-modern-4" data-toggle="tab">EFF</a></li>
+          </ul>
+
+          <div class="tab-content">
+            <div class="tab-pane fade show active" id="tabs-modern-1">
+              <div class="row row-30">
+                <div class="col-12">
+                  <article class="post-classic">
+                    <div class="post-classic-body">
+                      <div class="post-classic-figure">
+                        <img src="path/to/player-image.jpg" alt="" width="100" height="100"/>
+                      </div>
+                      <div class="post-classic-main">
+                        <p class="post-classic-title"><a href="#">PLAYER NAME</a></p>
+                        <div class="post-classic-time">
+                          <span class="icon mdi mdi-chart-bar"></span> 24.5 PPG
+                        </div>
+                      </div>
+                    </div>
+                  </article>
+                    <article class="post-classic">
+                    <div class="post-classic-body">
+                      <div class="post-classic-figure">
+                        <img src="path/to/player-image.jpg" alt="" width="100" height="100"/>
+                      </div>
+                      <div class="post-classic-main">
+                        <p class="post-classic-title"><a href="#">PLAYER NAME</a></p>
+                        <div class="post-classic-time">
+                          <span class="icon mdi mdi-chart-bar"></span> 24.5 PPG
+                        </div>
+                      </div>
+                    </div>
+                  </article>
+                    <article class="post-classic">
+                    <div class="post-classic-body">
+                      <div class="post-classic-figure">
+                        <img src="path/to/player-image.jpg" alt="" width="100" height="100"/>
+                      </div>
+                      <div class="post-classic-main">
+                        <p class="post-classic-title"><a href="#">PLAYER NAME</a></p>
+                        <div class="post-classic-time">
+                          <span class="icon mdi mdi-chart-bar"></span> 24.5 PPG
+                        </div>
+                      </div>
+                    </div>
+                  </article>
+                </div>
+                
+                <div class="col-12">
+                  <article class="post-classic">
+                    <div class="post-classic-body">
+                      <div class="post-classic-figure">
+                        <img src="path/to/player-image2.jpg" alt="" width="100" height="100"/>
+                      </div>
+                      <div class="post-classic-main">
+                        <p class="post-classic-title"><a href="#">PLAYER NAME</a></p>
+                        <div class="post-classic-time">
+                          <span class="icon mdi mdi-chart-bar"></span> 22.1 PPG
+                        </div>
+                      </div>
+                    </div>
+                  </article>
+                </div>
+              </div>
+            </div>
+
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+
+you see that <--Leader Swiper Begin --> I want to include 
+
+
+  <div class="container">
+
+    <div class="row row-50 justify-content-center">
+
+      <div class="col-md-10 col-lg-8">
+
+        
+
+        <article class="heading-component">
+
+          <div class="heading-component-inner">
+
+            <h5 class="heading-component-title">Stat Leaders</h5>
+
+            <div class="heading-component-aside">
+
+              <ul class="list-inline list-inline-xs list-inline-middle">
+
+                <li>
+
+                  <a class="button button-xs button-gray-outline" href="#">Full Stats</a>
+
+                </li>
+
+              </ul>
+
+            </div>
+
+          </div>
+
+        </article>
+
+
+
+        <div class="tabs-custom tabs-horizontal tabs-modern" id="tabs-modern">
+
+          <ul class="nav nav-tabs">
+
+            <li class="nav-item" role="presentation"><a class="nav-link active" href="#tabs-modern-1" data-toggle="tab">PTS</a></li>
+
+            <li class="nav-item" role="presentation"><a class="nav-link" href="#tabs-modern-2" data-toggle="tab">REB</a></li>
+
+            <li class="nav-item" role="presentation"><a class="nav-link" href="#tabs-modern-3" data-toggle="tab">AST</a></li>
+
+            <li class="nav-item" role="presentation"><a class="nav-link" href="#tabs-modern-4" data-toggle="tab">EFF</a></li>
+
+          </ul>
+
+
+
+          <div class="tab-content">
+
+            <div class="tab-pane fade show active" id="tabs-modern-1">
+
+              <div class="row row-30">
+
+                <div class="col-12">
+
+                  <article class="post-classic">
+
+                    <div class="post-classic-body">
+
+                      <div class="post-classic-figure">
+
+                        <img src="path/to/player-image.jpg" alt="" width="100" height="100"/>
+
+                      </div>
+
+                      <div class="post-classic-main">
+
+                        <p class="post-classic-title"><a href="#">PLAYER NAME</a></p>
+
+                        <div class="post-classic-time">
+
+                          <span class="icon mdi mdi-chart-bar"></span> 24.5 PPG
+
+                        </div>
+
+                      </div>
+
+                    </div>
+
+                  </article>
+
+                    <article class="post-classic">
+
+                    <div class="post-classic-body">
+
+                      <div class="post-classic-figure">
+
+                        <img src="path/to/player-image.jpg" alt="" width="100" height="100"/>
+
+                      </div>
+
+                      <div class="post-classic-main">
+
+                        <p class="post-classic-title"><a href="#">PLAYER NAME</a></p>
+
+                        <div class="post-classic-time">
+
+                          <span class="icon mdi mdi-chart-bar"></span> 24.5 PPG
+
+                        </div>
+
+                      </div>
+
+                    </div>
+
+                  </article>
+
+                    <article class="post-classic">
+
+                    <div class="post-classic-body">
+
+                      <div class="post-classic-figure">
+
+                        <img src="path/to/player-image.jpg" alt="" width="100" height="100"/>
+
+                      </div>
+
+                      <div class="post-classic-main">
+
+                        <p class="post-classic-title"><a href="#">PLAYER NAME</a></p>
+
+                        <div class="post-classic-time">
+
+                          <span class="icon mdi mdi-chart-bar"></span> 24.5 PPG
+
+                        </div>
+
+                      </div>
+
+                    </div>
+
+                  </article>
+
+                </div>
+
+                
+
+                <div class="col-12">
+
+                  <article class="post-classic">
+
+                    <div class="post-classic-body">
+
+                      <div class="post-classic-figure">
+
+                        <img src="path/to/player-image2.jpg" alt="" width="100" height="100"/>
+
+                      </div>
+
+                      <div class="post-classic-main">
+
+                        <p class="post-classic-title"><a href="#">PLAYER NAME</a></p>
+
+                        <div class="post-classic-time">
+
+                          <span class="icon mdi mdi-chart-bar"></span> 22.1 PPG
+
+                        </div>
+
+                      </div>
+
+                    </div>
+
+                  </article>
+
+                </div>
+
+              </div>
+
+            </div>
+
+
+
+            </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+this structure under it. you can see how the full html structure is already  can you ake this work this time

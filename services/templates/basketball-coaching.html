@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="section section-md bg-gray-100">
+    <div class="container">
+        <div class="row row-50 justify-content-center">
+            
+            <div class="col-md-5">
+                <span class="text-success font-weight-bold uppercase " style="font-size: larger;">StatsHub Healthcare Support</span>
+                <h2 class="mt-2">Trusted & Professional Caregiving</h2>
+                <p class="mt-3">Securing premium care for your family members requires compassionate professionals who understand safety protocols, therapy tracking routines, and wellness monitoring.</p>
+                <div class="p-3 border rounded mb-3" style="background: #fdfdfd;">
+                    <h6>👨‍⚕️ Verified Care Professionals</h6>
+                    <p class="text-small text-muted">All our assistants undergo vetting, criminal background assessments, and medical response evaluations.</p>
+                </div>
+            </div>
+
+            <div class="col-md-7" style="background: #ffffff; padding: 40px; border: 1px solid #eee; border-radius: 8px;">
+                <h4>Request a Dedicated Caregiver</h4>
+                <p class="text-muted text-small mb-4">Please specify the medical and physical needs of the family member or person requiring care.</p>
+
+                {% if messages %}
+                    {% for msg in messages %}<div class="alert alert-success">{{ msg }}</div>{% endfor %}
+                {% endif %}
+
+                <form method="POST" action="">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-sm-6 mb-3">
+                            <label class="font-weight-bold text-small">Your Name (Primary Contact)</label>
+                            <input class="form-control" type="text" name="client_name" required>
+                        </div>
+                        <div class="col-sm-6 mb-3">
+                            <label class="font-weight-bold text-small">Your Phone Number</label>
+                            <input class="form-control" type="tel" name="phone" required>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="font-weight-bold text-small">Your Email Address</label>
+                        <input class="form-control" type="email" name="email" required>
+                    </div>
+                    
+                    <hr class="my-4">
+                    
+                    <div class="row">
+                        <div class="col-sm-6 mb-3">
+                            <label class="font-weight-bold text-small">Recipient Full Name</label>
+                            <input class="form-control" type="text" name="recipient_name" required placeholder="Person who needs care">
+                        </div>
+                        <div class="col-sm-6 mb-3">
+                            <label class="font-weight-bold text-small">Recipient Gender</label>
+                            <select class="form-control" name="gender" required>
+                                    <option value="M">Male</option>
+                                    <option value="F">Female</option>
+                            </select>
+                        </div>    
+                        <div class="col-sm-6 mb-3">
+                            <label class="font-weight-bold text-small">Recipient Age</label>
+                            <input class="form-control" type="number" name="recipient_age" required>
+                        </div>
+                        <div class="col-sm-6 mb-3">
+                            <label class="font-weight-bold text-small">Relationship</label>
+                            <select class="form-control" name="relationship" required>
+                                <option value="parent">Parent</option>
+                                <option value="child">Child</option>
+                                <option value="sibling">Sibling</option>
+                                <option value="self">Myself</option>
+                                <option value="other">Other Relative</option>
+                            </select>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="mb-3">
+                        <label class="font-weight-bold text-small">Primary Medical Condition / Scope of Care Need</label>
+                        <textarea class="form-control" name="medical_condition" rows="3" required placeholder="Describe mobility status, old age monitoring needs, stroke recovery factors, or cognitive diagnoses..."></textarea>
+                    </div>
+                    <div class="mb-4">
+                        <label class="font-weight-bold text-small">Special Routines or Instructions</label>
+                        <textarea class="form-control" name="instructions" rows="2" placeholder="List medication schedule notes, required physical therapy setups, or communication patterns..."></textarea>
+                    </div>
+                    <button class="button button-block button-primary btn btn-dark w-100" type="submit">Submit Caregiver Request</button>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</section>
+{% endblock %}

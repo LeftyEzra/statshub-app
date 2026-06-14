@@ -1,0 +1,140 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block extra_head %}
+ <link rel="stylesheet" href="{% static 'css/player_page.css' %}">
+{% endblock %}
+{% block content %}
+<style>
+    /* The container that holds the cards */
+    .record-scroll-wrapper {
+        display: flex;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        gap: 1rem;
+        padding: 10px;
+        padding-bottom: 15px;
+        /* Smooth scrolling for touch and mouse */
+        scroll-behavior: smooth;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    /* Custom Scrollbar Styling (Slate Theme) */
+    .record-scroll-wrapper::-webkit-scrollbar {
+        height: 8px;
+    }
+    .record-scroll-wrapper::-webkit-scrollbar-track {
+        background: #1e293b;
+        border-radius: 10px;
+    }
+    .record-scroll-wrapper::-webkit-scrollbar-thumb {
+        background: #4f46e5;
+        border-radius: 10px;
+    }
+
+    /* Force cards to take up roughly 1/4th of the container width */
+    .scroll-card {
+        flex: 0 0 calc(25% - 1rem); /* 4 cards per view */
+        min-width: 200px; /* Prevents cards from getting too squished on mobile */
+    }
+
+    @media (max-width: 992px) {
+        .scroll-card {
+            flex: 0 0 calc(50% - 1rem); /* 2 cards per view on tablets */
+        }
+    }
+</style>
+
+
+<section class="section parallax-container breadcrumbs-wrap" data-parallax-img="{% static 'img/bg-breadcrumbs-1-1920x726.jpg' %}">
+    <div class="material-parallax parallax">
+        <img src="{% static 'img/bg-breadcrumbs-1-1920x726.jpg' %}" alt="" style="transform: translate3d(-50%, 82px, 0px); display: block;">
+    </div>
+    <div class="parallax-content breadcrumbs-custom context-dark">
+        <div class="container">
+            <h2 class="breadcrumbs-custom-title">Career Records</h2>
+            <ul class="breadcrumbs-custom-path">
+                <li><a href="{% url 'home' %}">Home</a></li>
+                {% if user.is_superuser %}
+                <li><a href="{% url 'create-records' competition.id %}">New Records</a></li>
+                {% endif %}
+                <li class="active">Records</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+
+<section id="careerRecordSection" class="py-4">
+  {% for player in players %}
+    <div class="mt-5 mb-3">
+        <h3 class="text-white">{{ player.player_name }}'s Records</h3>
+    </div>
+    
+    {% for record in player.career_records.all %}
+      <div class="record-scroll-wrapper">
+        
+        <div class="scroll-card">
+            <div class="p-3 h-100" style="background-color: #1f2937; border: 1px solid #374151; border-radius: 10px;">
+                <div class="text-indigo-300 small font-weight-bold uppercase">Points</div>
+                <div class="text-white mt-1">{{ record.points_rec|default:"---" }}</div>
+            </div>
+        </div>
+
+        <div class="scroll-card">
+            <div class="p-3 h-100" style="background-color: #1f2937; border: 1px solid #374151; border-radius: 10px;">
+                <div class="text-indigo-300 small font-weight-bold uppercase">Rebounds</div>
+                <div class="text-white mt-1">{{ record.rebounds_rec|default:"---" }}</div>
+            </div>
+        </div>
+
+        <div class="scroll-card">
+            <div class="p-3 h-100" style="background-color: #1f2937; border: 1px solid #374151; border-radius: 10px;">
+                <div class="text-indigo-300 small font-weight-bold uppercase">Assists</div>
+                <div class="text-white mt-1">{{ record.assists_rec|default:"---" }}</div>
+            </div>
+        </div>
+
+        <div class="scroll-card">
+            <div class="p-3 h-100" style="background-color: #1f2937; border: 1px solid #374151; border-radius: 10px;">
+                <div class="text-indigo-300 small font-weight-bold uppercase">Blocks</div>
+                <div class="text-white mt-1">{{ record.blocks_rec|default:"---" }}</div>
+            </div>
+        </div>
+
+        <div class="scroll-card">
+            <div class="p-3 h-100" style="background-color: #1f2937; border: 1px solid #374151; border-radius: 10px;">
+                <div class="text-indigo-300 small font-weight-bold uppercase">Steals</div>
+                <div class="text-white mt-1">{{ record.steals_rec|default:"---" }}</div>
+            </div>
+        </div>
+
+        <div class="scroll-card">
+            <div class="p-3 h-100" style="background-color: #1f2937; border: 1px solid #374151; border-radius: 10px;">
+                <div class="text-indigo-300 small font-weight-bold uppercase">Efficiency</div>
+                <div class="text-white mt-1">{{ record.efficiency_rec|default:"---" }}</div>
+            </div>
+        </div>
+
+      </div>
+      {% if user.is_authenticated and user.is_superuser %}
+      <div class="d-flex gap-2 mt-3 mb-5">
+          <a href="{% url 'update-record' competition.id record.pk %}" class="btn btn-sm btn-outline-primary px-3">
+              <i class="fas fa-edit mr-1"></i> Update
+          </a>
+          <button class="btn btn-sm btn-outline-danger px-3" onclick="confirmDelete('{{ record.id }}')">
+              <i class="fas fa-trash-alt mr-1"></i> Delete
+          </button>
+      </div>
+      {% endif %}
+
+    {% empty %}
+      <div class="p-4 rounded-3 text-center mb-5" style="background-color: #111827; border: 1px dashed #374151;">
+          <p class="text-muted mb-0">No career records found for {{ player.player_name }}.</p>
+      </div>
+    {% endfor %}
+    <hr class="my-4" style="border-color: #374151; opacity: 0.3;">
+  {% endfor %}
+</section>
+
+
+{% endblock %}

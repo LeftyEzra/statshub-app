@@ -1,0 +1,194 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+
+
+ <!-- Section Breadcrumbs-->
+      <section class="section parallax-container breadcrumbs-wrap  "  data-parallax-img="{% static 'img/breadcrumbs/fitness.png' %}" data-wow-delay="0.4s">
+        <div class="material-parallax parallax" style="min-height: 150px; ">
+          <img src="{% static 'img/breadcrumbs/fitness.png' %}"  alt="" style="transform: translate3d(-50%, 68px, 0px); display: block;">
+        </div>
+        <div class="parallax-content breadcrumbs-custom context-dark">
+          <div class="container">
+            <h3 class="breadcrumbs-custom-title animated slideInDown">Contact us for your fitness Goals</h3>
+            <ul class="breadcrumbs-custom-path animated slideInDown">
+              <li><a href="{% url 'home' %}">Home</a></li>
+              <li><a href="{% url 'about' %}">About Us</a></li>
+              <li class="active">Contact us</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section-md bg-default">
+        <div class="container">
+            <div class="row row-50 justify-content-center">
+                
+                <div class="col-md-5">
+        <!-- Subtitle -->
+        <span class="text-primary font-weight-bold uppercase" style="letter-spacing: 1px; font-size: 14px;">StatsHub Performance</span>
+        
+        <!-- Main Heading -->
+        <h2 class="mt-2" style="font-weight: 700; color: #07074d;">Ready to Drop the Fat, Firm Up, and Feel Great?</h2>
+        
+        <!-- Hook Paragraphs -->
+        <p class="mt-3" style="color: #536387; line-height: 1.6;">
+            Doing random workouts will only give you random results. If you are tired of looking in the mirror and fighting stubborn belly fat, or you want to tone up flabby underarms (what some call "Mother Teresa’s arms"), just wishing for it won't change things.
+        </p>
+        <p class="mt-2" style="color: #536387; line-height: 1.6;">
+            To flatten that big stomach, lose the weight, and build real stamina, you need a smart, step-by-step plan that actually works for your body type. Don’t wait until "next Monday" or keep putting it off. Your change starts the moment you fill out the form on the right.
+        </p>
+        
+        <!-- Simple Feature Cards -->
+        <div class="card mt-4 p-3" style="border-left: 4px solid #35ad79; background: #f9f9f9; border-top: none; border-right: none; border-bottom: none; border-radius: 0 8px 8px 0;">
+            <h5 style="color: #07074d; font-weight: 600; font-size: 16px; margin-bottom: 5px;">📊 Real Tracking & Real Fat Loss</h5>
+            <p class="text-small" style="color: #536387; font-size: 14px; margin-bottom: 0;">We look at your weight, height, and daily habits to build a personal workout plan. We focus on your trouble zones so you can see real changes every single week.</p>
+        </div>
+        
+        <div class="card mt-3 p-3" style="border-left: 4px solid #35ad79; background: #f9f9f9; border-top: none; border-right: none; border-bottom: none; border-radius: 0 8px 8px 0;">
+            <h5 style="color: #07074d; font-weight: 600; font-size: 16px; margin-bottom: 5px;">🛡️ Safe Training with No Injuries</h5>
+            <p class="text-small" style="color: #536387; font-size: 14px; margin-bottom: 0;">No broken knees or painful joints here. We teach you the right form and adjust the weights so you get strong and stay safe without hurting yourself.</p>
+        </div>
+
+        <div class="card mt-3 p-3" style="border-left: 4px solid #6a64f1; background: #f4f3ff; border-top: none; border-right: none; border-bottom: none; border-radius: 0 8px 8px 0;">
+            <h5 style="color: #07074d; font-weight: 600; font-size: 16px; margin-bottom: 5px;">⚡ Stop Postponing — Save Your Spot Now!</h5>
+            <p class="text-small" style="color: #536387; font-size: 14px; margin-bottom: 0;">Our coaching slots fill up fast. Stop overthinking it! Fill out your details on the right, hit submit, and let’s help you build your dream body.</p>
+        </div>
+    </div>
+
+                <div class="col-md-7" style="background: #ffffff; padding: 40px; border: 1px solid #eee; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.02);">
+                    <h4>Start Your Fitness Intake Registration</h4>
+                    <p class="text-muted text-small mb-4">Provide accurate physical background details below to customize your onboarding cycle.</p>
+
+                    {% if messages %}
+                        {% for msg in messages %}<div class="alert alert-success">{{ msg }}</div>{% endfor %}
+                    {% endif %}
+
+                    <form enctype="multipart/form-data" method="POST" action="">
+                        {% csrf_token %}
+                        
+                        {% if form.errors %}
+                            <div class="alert alert-danger" style="color: #721c24; background-color: #f8d7da; padding: 15px; margin-bottom: 25px; border-radius: 4px;">
+                                <strong>Missing or invalid information. Please review your inputs below.</strong>
+                                {{ form.errors }}
+                            </div>
+                        {% endif %}
+
+                        <div class="row row-10 row-narrow">
+                            <div class="col-md-6">
+                                <div class="form-wrap">
+                                    <label class="font-weight-bold text-small" for="full_name">Full Name</label>
+                                    <input class="form-input" id="full_name" type="text" name="full_name" value="{{ form.full_name.value|default:'' }}" placeholder="eg.., John Doe" required>
+                                    <span class="form-validation"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-wrap">
+                                    <label class="font-weight-bold text-small" for="phone">Phone</label>
+                                    <input class="form-input" id="phone" type="tel" name="phone" value="{{ form.phone.value|default:'' }}"  placeholder="08123456789" reqired>
+                                    <span class="form-validation"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-wrap">
+                                    <label class="font-weight-bold text-small" for="email">E-mail</label>
+                                    <input class="form-input" id="email" type="email" name="email" value="{{ form.email.value|default:'' }}"  placeholder="johndoe@gmail.com" reqired>
+                                    <span class="form-validation"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-wrap">
+                                    <label class="font-weight-bold text-small" for="gender_type">Gender</label>
+                                    <select class="form-input" name="gender_type" id="gender_type" required>
+                                    <option value="M" {% if form.gender_type.value == "M" %}selected{% endif %}>Male</option>
+                                    <option value="F" {% if form.gender_type.value == "F" %}selected{% endif %}>Female</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <div class="form-wrap d-flex align-items-center justify-content-between bg-light p-2 rounded" style="min-height: 50px;">
+                                    <label class="font-weight-bold text-small mb-0" for="weight_kg">Weight (KG)</label>
+                                    <div style="max-width: 120px;">
+                                        <input class="form-input" id="weight_kg" type="number" name="weight_kg" value="{{ form.weight_kg.value|default:'50' }}" required>
+                                    </div>
+                                    <span class="form-validation"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <div class="form-wrap d-flex align-items-center justify-content-between bg-light p-2 rounded" style="min-height: 50px;">
+                                    <label class="font-weight-bold text-small mb-0" for="height_cm">Height (CM)</label>
+                                    <div style="max-width: 120px;">
+                                        <input class="form-input" id="height_cm" type="number" name="height_cm" value="{{ form.height_cm.value|default:'175' }}" required>
+                                    </div>
+                                    <span class="form-validation"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-wrap">
+                                    <label class="font-weight-bold text-small" for="age">Age</label>
+                                    <select class="form-input" name="age" id="age" required>
+                                    <option value="15+" {% if form.age.value == "15+" %}selected{% endif %}>15-19</option>
+                                    <option value="20+" {% if form.age.value == "20+" %}selected{% endif %}>20-24</option>
+                                    <option value="25+" {% if form.age.value == "25+" %}selected{% endif %}>25-29</option>
+                                    <option value="30+" {% if form.age.value == "30+" %}selected{% endif %}>30-34</option>
+                                    <option value="35+" {% if form.age.value == "15+" %}selected{% endif %}>35-39</option>
+                                    <option value="40+" {% if form.age.value == "20+" %}selected{% endif %}>40-44</option>
+                                    <option value="45+" {% if form.age.value == "25+" %}selected{% endif %}>45-49</option>
+                                    <option value="50+" {% if form.age.value == "30+" %}selected{% endif %}>50+</option>
+                                </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-wrap">
+                                    <label class="font-weight-bold text-small" for="fitness_goals">Primary Objective</label>
+                                    <select class="form-input" name="fitness_goals" id="fitness_goals" required>
+                                    <option value="weight_loss" {% if form.fitness_goals.value == "weight_loss" %}selected{% endif %}>Weight Loss / Management</option>
+                                    <option value="muscle_gain" {% if form.fitness_goals.value == "muscle_gain" %}selected{% endif %}>Strength & Muscle Hypertrophy</option>
+                                    <option value="athletic_perf" {% if form.fitness_goals.value == "athletic_perf" %}selected{% endif %}>Elite Athletic Performance Tuning</option>
+                                    <option value="endurance" {% if form.fitness_goals.value == "endurance" %}selected{% endif %}>Cardiovascular Conditioning</option>
+                                </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-wrap">
+                                    <label class="font-weight-bold text-small" for="activity_level">Current Activity Frequency</label>
+                                    <input class="form-input" id="activity_level" type="text" name="activity_level" 
+                                    value="{{ form.activity_level.value|default:'' }}" 
+                                    required placeholder="e.g., Sedentary, Training 3x weekly">
+                                    <span class="form-validation"></span>
+                                </div>
+                            </div>
+
+
+                            <div class="col-sm-12">
+                                <div class="form-wrap">
+                                    <label class="font-weight-bold text-small" for="medical_conditions">Known Health Problems / Prior Injuries</label>
+                                    <textarea class="form-input" id="medical_conditions" name="medical_conditions" 
+                                    rows="3" placeholder="State any asthma, hypertension, lower-back pain, surgeries, etc. Leave blank if none.">{{ form.medical_conditions.value|default:'' }}</textarea>
+                                    <span class="form-validation"></span>
+                                </div>
+                            </div>
+
+                        
+
+                            <div class="col-md-6">
+                                <button class="button button-lg button-primary button-block" type="submit">Submit Fitness Registration</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+      </section>
+{% endblock %}

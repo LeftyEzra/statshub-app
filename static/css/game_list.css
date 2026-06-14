@@ -1,0 +1,294 @@
+    body {
+        font-family: 'Inter', sans-serif;
+        /* Enhanced Dark Background */
+        background: linear-gradient(135deg, #0f172a 0%, #171d2c 100%);
+        min-height: 100vh;
+        padding-bottom: 50px;
+    }
+
+    .game-list-container {
+        max-width: 900px;
+        margin: 40px auto;
+        padding: 0 15px; /* Added padding for small screens */
+    }
+
+    /* Card Styling */
+    .game-card {
+        background: #1e293b;
+        border-radius: 18px; /* Slightly rounder */
+        padding: 30px; /* More generous padding */
+        margin-bottom: 25px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.4); /* Deeper shadow */
+        color: #e2e8f0;
+        transition: transform .3s ease, box-shadow .3s ease, background 0.3s;
+        border-left: 6px solid #4f46e5; /* Accent line */
+    }
+
+    .game-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 16px 35px rgba(0,0,0,0.5);
+        background: #233144; /* Subtle darken on hover */
+    }
+
+    /* Header & Badge */
+    .game-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        border-bottom: 1px solid #334155;
+        padding-bottom: 15px;
+    }
+
+    .competition-badge {
+        background: #a5b4fc; /* Lighter badge for better contrast */
+        padding: 6px 14px;
+        border-radius: 20px;
+        font-size: 13px;
+        font-weight: 700;
+        color: #0f172a; /* Dark text on light badge */
+        text-transform: uppercase;
+    }
+
+    .game-title {
+        font-size: 24px; /* Larger title */
+        font-weight: 800;
+        color: #f1f5f9;
+        max-width: 70%;
+    }
+
+    /* Game Details Grid */
+    .game-details-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr); /* 3 columns for details */
+        gap: 15px;
+        margin-top: 15px;
+        font-size: 15px;
+        line-height: 1.4;
+    }
+    
+    .detail-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-weight: 500;
+        color: #94a3b8;
+    }
+    
+    .detail-item strong {
+        color: #e2e8f0;
+        font-weight: 600;
+    }
+
+    .detail-icon {
+        color: #4f46e5; /* Accent color for icons */
+        font-size: 16px;
+    }
+
+    /* Score Box */
+    .score-box {
+        background: #0f172a;
+        padding: 15px 20px;
+        border-radius: 12px;
+        margin-top: 25px;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        font-size: 18px;
+        font-weight: 700;
+        border: 1px solid #334155;
+    }
+
+    .score-box > div {
+        text-align: center;
+    }
+
+    .score-label {
+        font-weight: 500;
+        font-size: 0.85em;
+        color: #94a3b8;
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    .score-value {
+        color: #f1f5f9;
+    }
+    
+    /* Result Styling */
+    .result-indicator {
+        margin-top: 20px;
+        font-size: 1.1em;
+        font-weight: 700;
+    }
+
+    .win {
+        color: #22c55e;
+        background: rgba(34, 197, 94, 0.15);
+        padding: 4px 10px;
+        border-radius: 6px;
+        display: inline-block;
+    }
+
+    .loss {
+        color: #ef4444;
+        background: rgba(239, 68, 68, 0.15);
+        padding: 4px 10px;
+        border-radius: 6px;
+        display: inline-block;
+    }
+
+    /* Actions */
+    .game-actions {
+        margin-top: 20px;
+        padding-top: 15px;
+        border-top: 1px solid #334155;
+        display: flex;
+        gap: 15px;
+    }
+
+    .btn-modern {
+        padding: 10px 20px;
+        border-radius: 10px;
+        font-weight: 700;
+        text-decoration: none;
+        transition: 0.2s;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        flex-grow: 1; /* Make buttons fill space evenly */
+        text-align: center;
+    }
+
+    .btn-edit {
+        background: #3b82f6;
+        color: white;
+    }
+
+    .btn-edit:hover {
+        background: #2563eb;
+    }
+
+    .btn-delete {
+        background: #ef4444;
+        color: white;
+    }
+
+    .btn-delete:hover {
+        background: #dc2626;
+    }
+
+    @media (max-width: 600px) {
+        .game-card {
+            padding: 20px;
+        }
+        .game-title {
+            font-size: 20px;
+        }
+        .game-details-grid {
+            grid-template-columns: 1fr; /* Stack details on mobile */
+        }
+        .score-box {
+            flex-direction: row;
+            gap: 10px;
+        }
+        .game-actions {
+            flex-direction: column;
+        }
+    }
+
+    .game-count-info {
+        text-align: right;
+        font-size: 0.9em;
+        color: #94a3b8; /* Light gray color */
+        margin-top: -30px; /* Pull it up slightly below the main heading */
+        margin-bottom: 25px; 
+        padding-right: 10px;
+    }
+    
+    .game-count-info strong {
+        color: #f1f5f9; /* White color for the number itself */
+        font-weight: 700;
+    }
+
+
+
+
+      /* --- DELETE MODAL STYLES --- */
+
+  .modal-overlay {
+      /* Hide by default */
+      display: none; 
+      position: fixed;
+      z-index: 1000; /* Ensure it's above everything else */
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      /* Dark, slightly transparent background */
+      background-color: rgba(0, 0, 0, 0.7); 
+      backdrop-filter: blur(5px);
+      overflow: auto;
+      animation: fadeIn 0.3s;
+  }
+
+  .modal-content {
+      background: #1e293b;
+      color: #e2e8f0;
+      margin: 10% auto; /* Center vertically and horizontally */
+      padding: 30px;
+      border: 1px solid #334155;
+      border-radius: 12px;
+      width: 90%; 
+      max-width: 450px; /* Max size for desktop */
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      animation: slideDown 0.3s;
+  }
+
+  .modal-title {
+      color: #ef4444; /* Red accent for destructive action */
+      font-size: 1.5em;
+      font-weight: 700;
+      margin-bottom: 15px;
+      border-bottom: 2px solid #334155;
+      padding-bottom: 10px;
+  }
+
+  .modal-message {
+      font-size: 1em;
+      margin-bottom: 25px;
+      line-height: 1.6;
+  }
+
+  .modal-actions {
+      display: flex;
+      justify-content: flex-end; /* Buttons align to the right */
+      gap: 15px;
+      margin-top: 20px;
+  }
+
+  .btn-cancel {
+      background: #334155; /* Neutral dark color for Cancel */
+      color: #f1f5f9;
+  }
+
+  .btn-cancel:hover {
+      background: #475569;
+  }
+
+  .btn-delete-confirm {
+      background: #ef4444; /* Red color for Delete */
+      color: white;
+  }
+
+  .btn-delete-confirm:hover {
+      background: #dc2626;
+  }
+
+  /* Animations */
+  @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+  }
+  @keyframes slideDown {
+      from { transform: translateY(-50px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+  }

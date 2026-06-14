@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<style>
+.form-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #00008B; /*linear-gradient(to right, #bdbec2, #7a7b8a); */
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            color:rgb(249, 177, 32);
+            font-size: larger;
+            font-weight: 100;
+            font-style: oblique;
+        }
+</style>
+
+
+
+
+<center>
+ <h1 class="display-4 fw-bolder" style="color:#ffffff">Scores Update</h1>
+</center>
+
+        <div class="container mt-5">
+            <div class="form-container">
+                <h2 class="text-center" style="color:White">Update Scores</h2>
+               <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.as_p }} <!-- Ensure this renders StaffForm -->
+                <div class="text-center">
+                    <input type="submit" value="Submit" class="btn btn-success">
+                </div>
+            </form>
+            </div>
+        </div>
+
+
+
+
+{% endblock %}
+

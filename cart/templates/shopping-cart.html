@@ -1,0 +1,328 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block extra_head %}
+    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+{% endblock %}
+{% block content %}
+<style>
+/* Ensure the image container has a defined size */
+.product-cart-media {
+    width: 100px; /* Adjust to your design preference */
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+/* Force the image to fill the container properly */
+.product-cart-media img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: contain; /* Use 'cover' if you want it to fill without white space */
+}
+
+/* Sticky logic for Rank and Team columns */
+#sticky-col-1 {
+    position: sticky;
+    left: -55;
+    z-index: 10;
+    background-color: #fff !important; /* Must have a solid background */
+    border-right: 0px solid #dee2e6;
+}
+
+
+#sticky-col-2 {
+    position: sticky;
+    left: 0px; /* Width of the first column */
+    z-index: 50;
+    background-color: #fff !important;
+    border-right: 0px solid #dee2e6;
+   
+    min-width: 180px;
+}
+</style>
+      <!-- Section Breadcrumbs-->
+      <section class="section parallax-container breadcrumbs-wrap" data-parallax-img="{% static 'img/breadcrumbs/shopping-cart.JPG' %}">
+        <div class="material-parallax parallax">
+          <img src="{% static 'img/breadcrumbs/shopping_cart.png' %}" alt="" style="transform: translate3d(-50%, 61px, 0px); display: block;">
+        </div>
+        <div class="parallax-content breadcrumbs-custom context-dark">
+          <div class="container">
+            <h3 class="breadcrumbs-custom-title">Shopping Cart</h3>
+            <ul class="breadcrumbs-custom-path">
+              <li><a href="{% url 'home' %}">Home</a></li>
+              <li><a href="{% url 'grid-shop'%}">Products</a></li>
+              {% if cart_items %}
+              <li><a href="{% url 'checkout' %}">Checkout</a></li>
+              {% else %}
+              {% endif %}
+              <li class="active">Shopping Cart</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+      
+      <!-- Shop Blocks, Elements-->
+      <section class="section section-md bg-gray-100">
+        <div class="container">
+          <!-- Heading Component-->
+          <article class="heading-component">
+            <div class="heading-component-inner">
+              <h5 class="heading-component-title">Your shopping cart
+              </h5>
+            </div>
+          </article>
+          <div class="product-cart">
+            <div class="table-custom-responsive">
+              <table class="table-custom table-product">
+                <thead >
+                  <tr  >
+                    <th id="sticky-col-1" style="background-color: #35ad79;">Product name</th>
+                    <th>Color</th>
+                    <th>Size</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Sub Total</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                    {% if cart_items %}
+                        {% for item in cart_items %}
+                        <tr>
+                        <!-- Product name + image -->
+                        <td>
+                            <div class="product-cart-name">
+                            <a class="product-cart-media" href="{% url 'product-id' item.id %}">
+                                <img src="{{ item.image }}" alt="{{ item.name }}">
+                            </a>
+                            <p class="product-cart-title">
+                                <a href="{% url 'product-id' item.id %}">{{ item.name }}</a>
+                            </p>
+                            </div>
+                        </td>
+
+                        <!-- Color -->
+                        <td>
+                            <div class="product-cart-color">{{ item.color }}</div>
+                        </td>
+
+                        <!-- Size -->
+                        <td>
+                            <div class="product-cart-size"><span>{{ item.size }}</span></div>
+                        </td>
+
+                        <!-- Quantity -->
+                        <td>
+                            <div class="stepper-modern">
+                            <div class="stepper">
+                                <input class="form-input stepper-input"
+                                    type="number"
+                                        id="qty-{{ item.id }}"
+                                        data-color="{{ item.color }}"
+                                        data-size="{{ item.size }}"
+                                        value="{{ item.qty }}"
+                                        min="1" max="100">
+                                <span class="stepper-arrow up"></span>
+                                <span class="stepper-arrow down"></span>
+                            </div>
+                            </div>
+                        </td>
+
+                        <!-- Price -->
+                        <td class="product-cart-price">
+                            {% if item.is_sales %}
+                            <del style="color: red;">$ {{ item.price }}</del><br>
+                            <span class="active-price" data-price="{{ item.sale_price }}">
+                                $ {{ item.sale_price }}
+                            </span>
+                            {% else %}
+                            <span class="active-price" data-price="{{ item.price }}">
+                                $ {{ item.price }}
+                            </span>
+                            {% endif %}
+                        </td>
+
+                        <!-- Subtotal -->
+                        <td class="product-cart-subtotal">
+                            $<span class="row-total" id="subtotal-{{ item.id }}">
+                            {{ item.subtotal }}
+                            </span>
+                        </td>
+
+                        <!-- Delete -->
+                        <td>
+                            <div class="product-cart-delete">
+                            <button type="button"
+                            data-index="{{ item.id }}"
+                            data-color="{{ item.color }}"
+                            data-size="{{ item.size }}"
+                            class="btn-delete">
+                        <span class="icon fl-bigmug-line-recycling10"></span>
+                    </button>
+
+                            </div>
+                        </td>
+                        </tr>
+                        {% endfor %}
+                    {% else %}
+                        <td>Nothing in your cart.. Please buy a product</td>
+                    {% endif %}
+                </tbody>
+
+              </table>
+            </div>
+            <div class="product-cart-footer">
+              <div class="product-cart-total">
+                <span>Total</span>
+                <span class="product-cart-total-price">
+                  <span class="sup">$</span>
+                  <span id="grand-total-val">
+                    {% if grand_totals %}
+                        {{ grand_totals }}
+                    {% else %}
+                        0.00
+                    {% endif %}
+                  </span>
+                </span>
+              </div>
+              {% if grand_totals > 0 %}
+              <a class="button button-lg button-primary" href="{% url 'checkout' %}">Proceed to Checkout</a>
+              {% else %}
+              <a class="button button-lg button-primary " href="{% url 'grid-shop' %}">Go to Shop</a>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+<script>
+$(document).ready(function() {
+    // 1. Ensure arrows are visible and properly sized
+    $('.stepper-arrow').css({'display': 'block', 'min-width': '20px', 'min-height': '20px'});
+
+    // 2. Combined Logic for Plus and Minus with AJAX Update
+    $(document).on('click', '.stepper-arrow', function(e) {
+        console.log("Stepper arrow clicked!");
+        e.preventDefault();
+        
+        // Find the input field and the Product ID
+        var parent = $(this).closest('.stepper');
+        var input = parent.find('input.stepper-input');
+        
+        // This strips 'qty-' from the ID to get just the number for Django
+       
+        
+        // Get current value
+        var currentVal = parseInt(input.val()) || 1;
+
+        // Calculate the new quantity based on which class was clicked
+        var newVal = $(this).hasClass('up') ? currentVal + 1 : (currentVal > 1 ? currentVal - 1 : 1);
+
+
+
+
+        var productId = input.attr('id').replace('qty-', '');
+        var productColor = input.data('color');
+        var productSize = input.data('size');
+
+        $.ajax({
+            type: 'POST',
+            url: '{% url "update-cart-item" %}',
+            data: {
+                product_id: productId,
+                product_qty: newVal,
+                product_color: productColor,
+                product_size: productSize,
+                csrfmiddlewaretoken: '{{ csrf_token }}',
+                action: 'post'
+            },
+            success: function(json) {
+                input.val(newVal);
+        
+    
+    try {
+        var currentRow = input.closest('tr');
+        // Ensure we are grabbing the data-price correctly
+        var pricePerItem = parseFloat(currentRow.find('.active-price').attr('data-price'));
+        
+        if (!isNaN(pricePerItem)) {
+            var newSubtotal = (pricePerItem * newVal).toFixed(2);
+            
+            // Update the row subtotal
+            // Note: Ensure your HTML has id="subtotal-{{product.id}}"
+            $('#subtotal-' + productId).text(newSubtotal);
+
+            // --- GRAND TOTAL CALCULATOR ---
+            var grandTotal = 0;
+            
+            // Use the specific class you have in your HTML
+            $('.row-total').each(function() {
+                var rawText = $(this).text().replace(/[^\d.]/g, '');
+                var subValue = parseFloat(rawText);
+                if (!isNaN(subValue)) {
+                    grandTotal += subValue;
+                }
+            });
+            console.log("Calculated Grand Total is: ", grandTotal); // Add this line
+            
+            // Update the 580
+            $('#grand-total-val').text(grandTotal.toFixed(2));
+        }
+    } catch (err) {
+        console.error("Calculation error, but buttons will still work: ", err);
+    }
+
+    // 3. Update Navbar Cart Count
+    if(document.getElementById("cart_quantity")) {
+        document.getElementById("cart_quantity").textContent = json.qty;
+    }
+},
+            error: function(xhr, errmsg, err) {
+                // If this triggers, check your console (F12) to see the error
+                console.log("Error: Could not update the session. Check your URL and View.");
+            }
+        });
+    });
+});
+
+
+
+
+// Delete cart
+
+    //Check if button pressed
+  $(document).on('click', '.btn-delete', function(e) {
+    console.log("Delete button clicked!");
+    e.preventDefault();
+
+    var productId = $(this).data('index');
+    var productColor = $(this).data('color');
+    var productSize = $(this).data('size');
+
+    $.ajax({
+        type: 'POST',
+        url: '{% url "delete-cart-item" %}',
+        data: {
+            product_id: productId,
+            product_color: productColor,
+            product_size: productSize,
+            csrfmiddlewaretoken: '{{ csrf_token }}',
+            action: 'post'
+        },
+        success: function(json) {
+            location.reload();
+        },
+        error: function(xhr, errmsg, err) {
+            console.error('AJAX request failed:', errmsg);
+        }
+    });
+});
+
+
+</script>    
+{% endblock %}

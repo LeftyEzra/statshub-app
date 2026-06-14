@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<style>
+.form-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(to right, #bdbec2, #7a7b8a);
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+</style>
+
+
+
+
+<center>
+ <h1 class="display-4 fw-bolder" style="color:White">Update Competition</h1>
+</center>
+
+        <div class="container mt-5">
+            <div class="form-container">
+                <h2 class="text-center">Update Form</h2>
+                <form method="post" enctype="multipart/form-data" >
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <div class="text-center">
+                        <input type="submit" value="Update" class="btn btn-success">
+                    </div>
+                </form>
+            </div>
+        </div>
+
+
+
+
+{% endblock %}

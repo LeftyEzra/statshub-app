@@ -1,0 +1,380 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block extra_head %}
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+    /* --- Layout & Alignment Fixes --- */
+    .score-field-container {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        margin-bottom: 1rem;
+    }
+
+    .full-screen-container {
+        width: 98% !important;
+        max-width: 1800px !important;
+        margin: 1.5rem auto;
+    }
+
+    .total-score-input {
+        width: 100% !important;        
+        max-width: 150px;
+        background: #0f172a !important;
+        border: 2px solid #64748b !important;
+        color: #ffffff !important; 
+        padding: 8px 10px !important;
+        font-size: 1.1rem !important;
+        border-radius: 8px;
+    }
+
+    /* --- ⏱ COMPACT QUARTERLY SECTION --- */
+    .quarters-section {
+        background: #0f172a;
+        padding: 12px;
+        border-radius: 10px;
+        border: 1px solid #334155;
+        margin-top: 1rem;
+    }
+
+    .quarters-grid {
+        display: flex;
+        gap: 10px;
+        width: 100%;
+    }
+
+    .score-column {
+        flex: 1;
+        min-width: 0;
+        background: #1e293b;
+        padding: 10px;
+        border-radius: 6px;
+        border: 1px solid #475569;
+    }
+
+    .column-header {
+        text-align: center;
+        font-size: 0.9em;
+        font-weight: 700;
+        margin-bottom: 8px;
+        padding-bottom: 4px;
+        border-bottom: 1px solid #334155;
+    }
+
+    .team-header { color: #a5b4fc; }
+    .opponent-header { color: #fb7185; }
+
+    .quarter-group {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 5px;
+        gap: 4px;
+    }
+
+    .quarter-group label { font-size: 0.7rem; color: #94a3b8; white-space: nowrap; }
+
+    .quarter-group input {
+        width: 50px;
+        background: #334155 !important;
+        border: 1px solid #475569 !important;
+        color: #ffffff !important; 
+        text-align: center;
+        border-radius: 4px;
+        padding: 2px;
+        font-size: 0.85rem;
+    }
+
+    /* --- 📊 ULTRA COMPACT BOX SCORE TABLE --- */
+    .table-wrapper { 
+        overflow-x: auto; 
+        background: #0f172a; 
+        border-radius: 8px; 
+        border: 1px solid #334155;
+        margin-top: 1rem;
+    }
+    
+    .box-score-table { 
+        width: 100%; 
+        border-collapse: collapse; 
+        font-size: 0.75rem;
+    }
+    
+    .box-score-table th { 
+        background: #334155; 
+        color: #cbd5e1; 
+        padding: 6px 4px;
+        text-align: center; 
+        border-bottom: 2px solid #475569;
+        font-weight: 600;
+        white-space: nowrap;
+    }
+
+    .box-score-table td { 
+        padding: 4px 2px; 
+        border-bottom: 1px solid #1e293b; 
+        text-align: center; 
+    }
+
+    .sticky-player {
+        position: sticky; left: 0; background: #1e293b !important; 
+        z-index: 10; border-right: 2px solid #475569;
+        min-width: 180px; text-align: left !important;
+        padding-left: 8px !important;
+    }
+
+    .player-name-display {
+        background: transparent !important;
+        border: none !important;
+        color: #a5b4fc !important;
+        font-weight: 600 !important;
+        width: 100%;
+        outline: none !important;
+        pointer-events: none;
+        font-size: 0.8rem;
+    }
+
+    /* MINI STAT INPUTS */
+    .stat-input-small {
+        width: 42px; 
+        background: #1e293b !important;
+        border: 1px solid #475569 !important; 
+        color: white !important;
+        text-align: center; 
+        border-radius: 3px; 
+        padding: 3px 0;
+        font-size: 0.85rem;
+    }
+
+    /* STARTER CHECKBOX STYLING */
+    .starter-checkbox {
+        width: 16px;
+        height: 16px;
+        accent-color: #a5b4fc;
+        cursor: pointer;
+        vertical-align: middle;
+        margin-right: 8px;
+    }
+
+    .stat-input-small:focus { border-color: #a5b4fc !important; outline: none; background: #334155 !important; }
+
+    .pts-col { background: rgba(34, 211, 238, 0.05); }
+
+    input[type=number]::-webkit-inner-spin-button, 
+    input[type=number]::-webkit-outer-spin-button { 
+        -webkit-appearance: none; margin: 0; 
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+
+
+<section class="section parallax-container breadcrumbs-wrap" data-parallax-img="{% static 'img/bg-breadcrumbs-1-1920x726.jpg' %}">
+    <div class="material-parallax parallax">
+        <img src="{% static 'img/bg-breadcrumbs-1-1920x726.jpg' %}" alt="" style="transform: translate3d(-50%, 82px, 0px); display: block;">
+    </div>
+    <div class="parallax-content breadcrumbs-custom context-dark">
+        <div class="container">
+            <h2 class="breadcrumbs-custom-title">Game Update</h2>
+            <ul class="breadcrumbs-custom-path">
+                <li><a href="{% url 'home' %}">Home</a></li>
+                <li><a href="{% url 'game-list' competition_id %}">Game lists</a></li>
+                <li class="active">Update Game & Stats</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+
+<div class="full-screen-container">
+    <div class="p-4 p-md-5 rounded-3 shadow-lg" style="background-color: #1e293b;">
+        
+        <h2 class="text-3xl font-bold text-center mb-5" style="color: #a5b4fc;">
+            🏀 Update Game & Player Stats
+        </h2>
+
+        <form method="POST">
+            {% csrf_token %}
+
+            {% if form.errors %}
+            <div class="alert alert-danger">
+                {{ form.errors }}
+            </div>
+            {% endif %}
+
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="text-slate-400 text-sm">Competition</label>
+                    {% render_field form.competition class="form-select bg-dark text-white border-secondary" %}
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="text-slate-400 text-sm">Game Type</label>
+                    {% render_field form.game_type class="form-select bg-dark text-white border-secondary" %}
+                </div>
+                
+                <div class="col-md-3 mb-3">
+                    <label class="text-slate-400 text-sm">Date</label>
+                    {% render_field form.date class="form-control bg-dark text-white border-secondary" type="date" %}
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label class="text-slate-400 text-sm">Time</label>
+                    {% render_field form.time class="form-control bg-dark text-white border-secondary" type="time" %}
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <label class="text-slate-400 text-sm">Team</label>
+                    {% render_field form.team class="form-select bg-dark text-white border-secondary" %}
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label class="text-slate-400 text-sm">Result Indicator</label>
+                    {% render_field form.indicator class="form-select bg-dark text-white border-secondary" %}
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label class="text-slate-400 text-sm">Opponent</label>
+                    {% render_field form.opponent class="form-select bg-dark text-white border-secondary" %}
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4 score-field-container">
+                    <label class="text-slate-400 text-sm">Team Total Score</label>
+                    {% render_field form.team_scores class="total-score-input" %}
+                </div>
+                <div class="col-md-4 score-field-container">
+                    <label class="text-slate-400 text-sm">Opponent Total Score</label>
+                    {% render_field form.opponent_scores class="total-score-input" %}
+                </div>
+                <div class="col-md-4 score-field-container">
+                    <label class="text-slate-400 text-sm">Win/Loss</label>
+                    {% render_field form.team_win_loss class="total-score-input text-base" %}
+                </div>
+            </div>
+
+            <hr class="my-5 border-slate-700">
+            <h4 class="mb-3 text-xl font-semibold" style="color: #a5b4fc;">⏱ Quarterly Breakdown</h4>
+            
+           {{ formset.management_form }}
+            {% if formset.non_form_errors %}
+            <div class="alert alert-danger">{{ formset.non_form_errors }}</div>
+            {% endif %}
+
+            {% for s_form in formset %}
+                {% if s_form.errors %}
+                <div class="alert alert-danger">{{ s_form.errors }}</div>
+                {% endif %}
+                <div class="quarters-section">
+                    {% for hidden in s_form.hidden_fields %}{{ hidden }}{% endfor %}
+                    <div class="quarters-grid">
+                        <div class="score-column">
+                            <div class="column-header team-header">Your Team</div>
+                            <div class="quarter-group"><label>Q1</label>{% render_field s_form.team_quarter_1 %}</div>
+                            <div class="quarter-group"><label>Q2</label>{% render_field s_form.team_quarter_2 %}</div>
+                            <div class="quarter-group"><label>Q3</label>{% render_field s_form.team_quarter_3 %}</div>
+                            <div class="quarter-group"><label>Q4</label>{% render_field s_form.team_quarter_4 %}</div>
+                        </div>
+                        <div class="score-column">
+                            <div class="column-header opponent-header">Opponent</div>
+                            <div class="quarter-group"><label>Q1</label>{% render_field s_form.opponent_quarter_1 %}</div>
+                            <div class="quarter-group"><label>Q2</label>{% render_field s_form.opponent_quarter_2 %}</div>
+                            <div class="quarter-group"><label>Q3</label>{% render_field s_form.opponent_quarter_3 %}</div>
+                            <div class="quarter-group"><label>Q4</label>{% render_field s_form.opponent_quarter_4 %}</div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+
+
+            <hr class="my-5 border-slate-700">
+            <h4 class="mb-3 text-xl font-semibold" style="color: #a5b4fc;">📊 Player Box Score</h4>
+
+            <div class="table-wrapper">
+                {{ stats_formset.management_form }}
+
+
+                {% if stats_formset.non_form_errors %}
+                <div class="alert alert-danger">
+                    {{ stats_formset.non_form_errors }}
+                </div>
+                {% endif %}
+
+                <table class="box-score-table">
+                    <thead>
+                        <tr>
+                            <th class="sticky-player">S | PLAYER NAME</th>
+                            <th>MIN</th><th style="color: #22d3ee;">PTS</th>
+                            <th>FGM</th><th>FGA</th>
+                            <th>3PM</th><th>3PA</th>
+                            <th>FTM</th><th>FTA</th>
+                            <th>OR</th><th>DR</th>
+                            <th>AST</th><th>STL</th><th>BLK</th><th>TO</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for st_form in stats_formset %}
+                        <tr>
+                            {% if st_form.errors %}
+                            <td colspan="16">
+                                <div class="alert alert-danger">
+                                    {{ st_form.errors }}
+                                </div>
+                            </td>
+                            {% endif %}
+                           
+                            <td class="sticky-player">
+                                <div class="flex items-center">
+                                    {% render_field st_form.starter class="starter-checkbox" %}
+
+                                    <span class="player-name-text ml-2 text-indigo-300 font-semibold">
+                                        {% if st_form.instance.player_name %}
+                                            {{ st_form.instance.player_name }}
+                                        {% else %}
+                                            {{ st_form.initial.player_name }}
+                                        {% endif %}
+                                    </span>
+
+                                    <div style="display:none;">
+                                        {{ st_form.player_name }}
+                                        {% for hidden in st_form.hidden_fields %}{{ hidden }}{% endfor %}
+                                    </div>
+                                </div>
+                            </td>
+                            <td>{% render_field st_form.minutes class="stat-input-small" %}</td>
+                            <td class="pts-col">{% render_field st_form.points class="stat-input-small font-bold text-cyan-400" %}</td>
+                            <td>{% render_field st_form.field_goal_made class="stat-input-small" %}</td>
+                            <td>{% render_field st_form.field_goal_attempts class="stat-input-small" %}</td>
+                            <td>{% render_field st_form.point_3_made class="stat-input-small" %}</td>
+                            <td>{% render_field st_form.point_3_attempts class="stat-input-small" %}</td>
+                            <td>{% render_field st_form.ft_made class="stat-input-small" %}</td>
+                            <td>{% render_field st_form.ft_attempts class="stat-input-small" %}</td>
+                            <td>{% render_field st_form.offensive_rebs class="stat-input-small" %}</td>
+                            <td>{% render_field st_form.defensive_rebs class="stat-input-small" %}</td>
+                            <td>{% render_field st_form.assists class="stat-input-small" %}</td>
+                            <td>{% render_field st_form.steals class="stat-input-small" %}</td>
+                            <td>{% render_field st_form.blocks class="stat-input-small" %}</td>
+                            <td>{% render_field st_form.turnovers class="stat-input-small" %}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="flex gap-4 mt-8">
+                <button type="submit" class="flex-grow bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-4 rounded-lg shadow-lg">
+                    Save All Stats
+                </button>
+                <a href="{% url 'game-list' competition_id %}" class="flex-grow bg-slate-600 hover:bg-slate-700 text-white font-bold py-4 text-center rounded-lg">
+                    Cancel
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+<br><br>
+{% endblock %}

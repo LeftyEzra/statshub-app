@@ -1,0 +1,502 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block extra_head %}
+    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+{% endblock %}
+{% block content %}
+<style>
+/* Ensure the image container has a defined size */
+.product-cart-media {
+    width: 100px; /* Adjust to your design preference */
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+/* Force the image to fill the container properly */
+.product-cart-media img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: contain; /* Use 'cover' if you want it to fill without white space */
+}
+
+
+
+
+/* Style the checkbox container */
+.custom-checkbox .custom-control-input:checked ~ .custom-control-label::before {
+    background-color: #28a745; /* Success Green */
+    border-color: #28a745;
+}
+
+/* Ensure the checkbox is large enough to see easily */
+.custom-control-label::before, 
+.custom-control-label::after {
+    top: 0.1rem;
+    width: 1.25rem;
+    height: 1.25rem;
+}
+
+/* Align text and box perfectly */
+.custom-control-label {
+    padding-left: 0.5rem;
+    line-height: 1.5rem;
+}
+</style>
+      <!-- Section Breadcrumbs-->
+      <section class="section parallax-container breadcrumbs-wrap" data-parallax-img="{% static 'img/breadcrumbs/checkoutgraphics.png' %}">
+        <div class="material-parallax parallax">
+          <img src="{% static 'img/breadcrumbs/checkoutgraphics.png' %}" alt="" style="transform: translate3d(-50%, 61px, 0px); display: block;">
+        </div>
+        <div class="parallax-content breadcrumbs-custom context-dark">
+          <div class="container">
+            <h3 class="breadcrumbs-custom-title">Checkout</h3>
+            <ul class="breadcrumbs-custom-path">
+              <li><a href="{% url 'home'%}">Home</a></li>
+              <li><a href="{% url 'grid-shop'%}">Products</a></li>
+              <li><a href="{% url 'cart-summary'%}">Shoping Cart</a></li>
+              <li class="active">Review Your Order....</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+      <!-- Shop Blocks, Elements-->
+      <section class="section section-md bg-gray-100">
+        <div class="container text-center">
+          <form class="rd-form" action="{% url 'checkout' %}" method="POST">
+          {% csrf_token %}
+          <div class="row row-50 text-start">
+            <!-- Billing Address Form-->
+            <div class="col-md-12">
+              <div class="row row-50">
+                <div class="col-lg-6">
+                  <!-- Heading Component-->
+                  <article class="heading-component">
+                    <div class="heading-component-inner">
+                      <h5 class="heading-component-title">Billing Address
+                      </h5>
+                    </div>
+                  </article>
+                 
+                    <div class="form-wrap">
+                      <div class="row row-10 row-narrow">
+                        <div class="col-md-6">
+                          <div class="form-wrap">
+                            <label class="form-label rd-input-label" for="id_first_name">First Name</label>
+                            <input class="form-input form-control-has-validation form-control-last-child" id="id_first_name" type="text" name="first_name" value="{{request.user.first_name}}" readonly>
+                            <span class="form-validation"></span>
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <div class="form-wrap">
+                            <label class="form-label rd-input-label" for="id_last_name">Family Name</label>
+                            <input class="form-input form-control-has-validation form-control-last-child" id="id_last_name" type="text" name="last_name" value="{{request.user.last_name}}" readonly>
+                            <span class="form-validation"></span>
+                          </div>
+                        </div>
+                        <div class="col-md-12">
+                          <div class="form-wrap">
+                            <label class="form-label rd-input-label" for="id_address1">Address1</label>
+                            <input class="form-input form-control-has-validation form-control-last-child" id="id_address1" type="text" name="address1" value="{{ profile.address1 }}" readonly>
+                            <span class="form-validation"></span>
+                          </div>
+                        </div>
+                        <div class="col-md-12">
+                          <div class="form-wrap">
+                            <label class="form-label rd-input-label" for="id_address1">Address2</label>
+                            <input class="form-input form-control-has-validation form-control-last-child" id="id_address2" value="{{ profile.address2 }}" type="text" name="address2" readonly>
+                            <span class="form-validation"></span>
+                          </div>
+                        </div>
+                        <div class="col-md-12">
+                          <div class="form-wrap">
+                            <label class="form-label rd-input-label" for="id_email">Email</label>
+                            <input class="form-input form-control-has-validation form-control-last-child" id="id_email" value="{{request.user.email}}" type="email" name="email" readonly>
+                            <span class="form-validation"></span>
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <div class="form-wrap">
+                            <label class="form-label rd-input-label" for="id_phone">Phone</label>
+                            <input class="form-input form-control-has-validation form-control-last-child" id="id_phone" value="{{ profile.phone }}" type="text" name="phone" readonly>
+                            <span class="form-validation"></span>
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <div class="form-wrap">
+                            <label class="form-label rd-input-label" for="id_zipcode">Zipcode</label>
+                            <input class="form-input form-control-has-validation form-control-last-child" id="id_zipcode" value="{{ profile.zipcode }}" type="text" name="zipcode" readonly>
+                            <span class="form-validation"></span>
+                          </div>
+                        </div>
+                        <div class="col-md-4">
+                          <div class="form-wrap">
+                            <label class="form-label rd-input-label" for="id_country">Country</label>
+                            <input class="form-input form-control-has-validation form-control-last-child" id="id_country" value="{{ profile.country }}" type="text" name="country" readonly>
+                            <span class="form-validation"></span>
+                          </div>
+                        </div>
+                        <div class="col-md-4">
+                          <div class="form-wrap">
+                            <label class="form-label rd-input-label" for="id_state">State</label>
+                            <input class="form-input form-control-has-validation form-control-last-child" value="{{ profile.state }}"  id="id_state" type="text" name="state" readonly>
+                            <span class="form-validation"></span>
+                          </div>
+                        </div>
+                        <div class="col-md-4">
+                          <div class="form-wrap">
+                            <label class="form-label rd-input-label" for="id_city">City</label>
+                            <input class="form-input form-control-has-validation form-control-last-child" id="id_city" value="{{ profile.city }}"  type="text" name="city" readonly>
+                            <span class="form-validation"></span>
+                          </div>
+                        </div>
+                        
+                      </div>
+                    </div>
+                  
+                </div>
+                <div class="col-lg-6">
+                  <!-- Heading Component-->
+                  <article class="heading-component">
+                    <div class="heading-component-inner">
+                      <h5 class="heading-component-title">Delivery/Shipping Address
+                      </h5>
+                    </div>
+                  </article>
+                 
+                    <div class="form-wrap" id="shipping-form-container">
+                      <div class="row row-10 row-narrow">
+                        <div class="col-md-6">
+                          <div class="form-wrap">
+                            <label class="form-label rd-input-label" for="id_shipping_first_name"> Enter recipient's first Name</label>
+                            <input class="form-input form-control-has-validation form-control-last-child" value="{{ shipping_form.shipping_first_name.value|default:'' }}" id="id_shipping_first_name" type="text" name="shipping_first_name" data-constraints="@Required" >
+                            <span class="form-validation"></span>
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <div class="form-wrap">
+                            <label class="form-label rd-input-label" for="id_shipping_last_name">Enter recipient's last Name</label>
+                            <input class="form-input form-control-has-validation form-control-last-child" value="{{ shipping_form.shipping_last_name.value|default:'' }}" id="id_shipping_last_name" type="text" name="shipping_last_name" data-constraints="@Required" >
+                            <span class="form-validation"></span>
+                          </div>
+                        </div>
+                        <div class="col-md-12">
+                          <div class="form-wrap">
+                            <label class="form-label rd-input-label" for="id_shipping_address1">Address1</label>
+                            <input class="form-input form-control-has-validation form-control-last-child" value="{{ shipping_form.shipping_address1.value|default:'' }}" id="id_shipping_address1" type="text" name="shipping_address1" data-constraints="@Required">
+                            <span class="form-validation"></span>
+                          </div>
+                        </div>
+                        <div class="col-md-12">
+                          <div class="form-wrap">
+                            <label class="form-label rd-input-label" for="id_shipping_address2">Address2 optional...</label>
+                            <input class="form-input form-control-has-validation form-control-last-child" value="{{ shipping_form.shipping_address2.value|default:'' }}" id="id_shipping_address2" type="text" name="shipping_address2">
+                            <span class="form-validation"></span>
+                          </div>
+                        </div>
+                        <div class="col-md-12">
+                          <div class="form-wrap">
+                            <label class="form-label rd-input-label" for="id_shipping_email">Email</label>
+                            <input class="form-input form-control-has-validation form-control-last-child" value="{{ shipping_form.shipping_email.value|default:'' }}" id="id_shipping_email" type="email" name="shipping_email" data-constraints="@Required">
+                            <span class="form-validation"></span>
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <div class="form-wrap">
+                            <label class="form-label rd-input-label" for="id_shipping_phone">Phone</label>
+                            <input class="form-input form-control-has-validation form-control-last-child" value="{{ shipping_form.shipping_phone.value|default:'' }}" id="id_shipping_phone" type="text" name="shipping_phone" data-constraints="@Required">
+                            <span class="form-validation"></span>
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <div class="form-wrap">
+                            <label class="form-label rd-input-label" for="id_shipping_zipcode">Zipcode</label>
+                            <input class="form-input form-control-has-validation form-control-last-child" value="{{ shipping_form.shipping_zipcode.value|default:'' }}" id="id_shipping_zipcode" type="text" name="shipping_zipcode" >
+                            <span class="form-validation"></span>
+                          </div>
+                        </div>
+                        <div class="col-md-4">
+                          <div class="form-wrap">
+                            <label class="form-label rd-input-label" for="id_shipping_country">Country</label>
+                            <input class="form-input form-control-has-validation form-control-last-child" id="id_shipping_country" type="text" name="shipping_country" data-constraints="@Required">
+                            <span class="form-validation"></span>
+                          </div>
+                        </div>
+                        <div class="col-md-4">
+                          <div class="form-wrap">
+                            <label class="form-label rd-input-label" for="id_shipping_state">State</label>
+                            <input class="form-input form-control-has-validation form-control-last-child" value="{{ shipping_form.shipping_state.value|default:'' }}" id="id_shipping_state" type="text" name="shipping_state" data-constraints="@Required">
+                            <span class="form-validation"></span>
+                          </div>
+                        </div>
+                        <div class="col-md-4">
+                          <div class="form-wrap">
+                            <label class="form-label rd-input-label" for="id_shipping_city">City</label>
+                            <input class="form-input form-control-has-validation form-control-last-child" value="{{ shipping_form.shipping_city.value|default:'' }}" id="id_shipping_city" type="text" name="shipping_city" >
+                            <span class="form-validation"></span>
+                          </div>
+                        </div>
+                        
+                       
+                      </div>
+                    </div>
+                 
+                </div>
+              </div>
+              
+
+              <div class="form-group mt-3 mb-3">
+                  <div class="custom-control custom-checkbox">
+                      <input type="checkbox" 
+                            name="input-checkbox-1" 
+                            class="custom-control-input" 
+                            id="sameAddressCheck"
+                            value="checkbox-1">
+                      
+                      <label class="custom-control-label" for="sameAddressCheck" style="cursor: pointer; font-weight: 500; color:black;">
+                          My Billing Address And Shipping Address are The Same
+                      </label>
+                  </div>
+              </div>
+              
+
+            </div>
+            <!-- Shopping cart items-->
+            <div class="col-sm-12">
+              <!-- Heading Component-->
+              <article class="heading-component">
+                <div class="heading-component-inner">
+                  <h5 class="heading-component-title">Your shopping cart
+                  </h5>
+                </div>
+              </article>
+              <div class="product-cart">
+                <div class="table-custom-responsive">
+                  <table class="table-custom table-product">
+                    <thead>
+                      <tr>
+                        <th>Product name</th>
+                        <th>Color</th>
+                        <th>Size</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                        <th>Sub Total</th>
+                        <th></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+  {% if cart_items %}    
+    {% for item in cart_items %}
+    <tr>
+      <td> 
+        <div class="product-cart-name">
+          <a class="product-cart-media" href="{% url 'product-id' item.id %}">
+            <img src="{{ item.image }}" alt="{{ item.name }}" >
+          </a>
+          <p class="product-cart-title">
+            <a href="{% url 'product-id' item.id %}">{{ item.name }}</a>
+          </p>
+        </div>
+      </td>
+
+      <td>
+        <div class="product-cart-color">{{ item.color }}</div>
+      </td>
+
+      <td>
+        <div class="product-cart-size"><span>{{ item.size }}</span></div>
+      </td>
+
+      <td>
+        <div class="stepper-modern">
+          <div class="stepper">
+            <input class="form-input stepper-input" 
+                   type="number" 
+                   id="qty-{{ item.id }}-{{ item.color }}-{{ item.size }}"
+                   data-color="{{ item.color }}"
+                   data-size="{{ item.size }}"
+                   value="{{ item.qty }}" 
+                   min="1" max="100" readonly>
+          </div>
+        </div>
+      </td>
+
+      <td class="product-cart-price">
+        {% if item.is_sales %}
+          <del style="color: red;">$ {{ item.price }}</del> 
+          <br>
+          <span class="active-price" data-price="{{ item.sale_price }}">
+            $ {{ item.sale_price }}
+          </span>
+        {% else %}
+          <span class="active-price" data-price="{{ item.price }}">
+            $ {{ item.price }}
+          </span>
+        {% endif %}
+      </td>
+
+      <td class="product-cart-subtotal">
+        $<span class="row-total" id="subtotal-{{ item.id }}-{{ item.color }}-{{ item.size }}">
+          {{ item.subtotal }}
+        </span>
+      </td>
+
+      <td>
+        <div class="product-cart-delete">
+          <button type="button" 
+                  data-index="{{ item.id }}" 
+                  data-color="{{ item.color }}"
+                  data-size="{{ item.size }}"
+                  class="btn-delete">
+            <span class="icon fl-bigmug-line-recycling10"></span>
+          </button>
+        </div>
+      </td>
+    </tr>
+    {% endfor %}
+  {% else %}
+    <tr>
+      <td colspan="7">Nothing in your cart..</td>
+    </tr>
+  {% endif %} 
+</tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+            
+            <div class="col-md-12">
+              <div class="row row-50">
+                <!-- Payment Methods -->
+                <div class="col-lg-6">
+                  <article class="heading-component">
+                    <div class="heading-component-inner">
+                      <h5 class="heading-component-title">Payment Methods</h5>
+                    </div>
+                  </article>
+
+                  <!-- White background container -->
+                  <div class="table-custom-responsive card-shop-table p-3">
+                    <ul class="list-unstyled mb-0">
+                      <li class="mb-3">
+                        <div class="form-check">
+                          <input class="form-check-input" type="radio" name="payment_method" id="bank" value="bank" checked>
+                          <label class="form-check-label fw-bold" for="bank">
+                            Direct Bank Transfer
+                          </label>
+                          <small class="text-muted d-block">
+                            Please finalize your order by transferring the funds directly to our designated bank account. To avoid any processing delays, remember to include your Order ID in the reference field of your transfer transaction.
+                          </small>
+                        </div>
+                      </li>
+                      <li>
+                        <div class="form-check">
+                          <input class="form-check-input" type="radio" name="payment_method" id="paypal" value="paypal">
+                          <label class="form-check-label fw-bold" for="paypal">
+                            PayPal
+                          </label>
+                          <small class="text-muted d-block">
+                            Pay via PayPal; you can use your credit card if you don’t have an account.
+                          </small>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                <!-- Cart Total -->
+                <div class="col-lg-6">
+                  <article class="heading-component">
+                    <div class="heading-component-inner">
+                      <h5 class="heading-component-title">Cart Total</h5>
+                    </div>
+                  </article>
+                  <div class="table-custom-responsive">
+                    <table class="table-custom card-shop-table">
+                      <tbody>
+                        <tr>
+                          <td>Cart Subtotal</td>
+                          <td>${{ totals }}</td>
+                        </tr>
+                        <tr>
+                          <td>Shipping</td>
+                          <td>
+                            <span class="text-muted" style="font-size: 14px; font-weight: 500;">Dynamic Charges</span>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>Total</td>
+                          <td>
+                            {% if grand_totals %} 
+                              ${{ grand_totals }} 
+                            {% else %} 
+                              $0.00 
+                            {% endif %}
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <!-- SHIPPING & DELIVERY NOTICE FOOTNOTE -->
+                    <div class="p-3 mt-3" style="background-color: #f8f9fa; border-left: 4px solid #1ab817; border-radius: 4px; display: flex; flex-direction: column; gap: 12px; justify-content: center;">
+                      
+                      <!-- First Row: Delivery Timeline -->
+                      <div style="display: flex; align-items: flex-start; gap: 8px;">
+                        <span class="icon fl-bigmug-line-ship" style="color: #40ac16; font-size: 16px; margin-top: 2px;"></span> 
+                        <p class="text-muted mb-0" style="font-size: 13px; line-height: 1.5; color: #555;">
+                          <strong>Delivery Timeline:</strong> Standard local dispatch within the state takes approximately <strong>3 working days</strong>. For interstate shipments outside the state, please allow up to <strong>7 working days</strong> for transit and regional logistics from order confirmation.
+                        </p>
+                      </div>
+
+                      <!-- Second Row: Shipping Fees -->
+                      <div style="display: flex; align-items: flex-start; gap: 8px;">
+                        <span class="icon fl-bigmug-line-money13" style="color: #37b837; font-size: 16px; margin-top: 2px;"></span> 
+                        <p class="text-muted mb-0" style="font-size: 13px; line-height: 1.5; color: #555;">
+                          <strong>Shipping Fees:</strong> Final delivery charges are dynamically calculated based on the precise transit distance to your destination.
+                        </p>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+              </div> 
+            </div> 
+
+
+            <div class="mt-4 text-center">
+              {% if grand_totals > 0 %} 
+              <div class="alert alert-warning mx-auto mb-4 p-3 text-start" style="max-width: 550px; border-radius: 6px; background-color: #fff9e6; border: 1px solid #ffe0b3;">
+                <h6 class="text-warning mb-1" style="font-weight: 700; color: #f76f46 !important;">
+                  <i class="fas fa-exclamation-triangle " style="font-size: 14px;"></i>
+                  <span class="icon fl-bigmug-line-lock12 me-1"></span> Security Safeguard Notice
+                </h6>
+                <p class="mb-0 text-dark" style="font-size: 13px; line-height: 1.5;">
+                  Please safeguard your credentials. <strong>Statshub</strong> or <strong>Elite Store</strong> representatives will <strong>never</strong> contact you via phone, email, or text to request your card PIN, password, or authentication codes. Do not disclose sensitive financial details to anyone.
+                </p>
+              </div>
+              <button type="submit" class="button button-lg button-primary">
+                Place Order
+              </button> 
+              {% else %} 
+              <div class="text-muted">
+                Your cart is empty. Add some gears to place an order!
+              </div> 
+              <a href="{% url 'grid-shop' %}"  class="button button-lg button-info">Go to Shop</a>
+              {% endif %}
+            </div>
+
+          </div>
+          </form>
+          
+        </div>
+      </section>
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+<script src="{% static 'js/checkout.js' %}"></script>
+
+ 
+{% endblock %}

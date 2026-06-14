@@ -1,0 +1,69 @@
+
+  /* Add space so the arrow doesn't overlap text */
+.select {
+    padding-right: 15px !important; 
+  
+    appearance: none; /* Removes default browser styling if needed */
+}
+
+
+.table-custom-wrapper::-webkit-scrollbar {
+    height: 6px;
+}
+.table-custom-wrapper::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 10px;
+}
+
+
+    /* Prevent the parent container from squishing the table */
+    .table-responsive-sticky {
+        overflow-x: auto;
+        display: block;
+        width: 100%;
+        position: relative;
+        border: 1px solid #dee2e6;
+    }
+
+    /* Sticky logic for Date and Opponent */
+    .sticky-col-1 {
+        position: sticky;
+        left: -0; /* Changed from -55 for better stability */
+        top: -0;
+        z-index: 10;
+        background-color: #fff !important;
+        min-width: 100px;
+    }
+
+    /* Sticky logic for T-HEADS */
+    .sticky-cols{
+        position: sticky;
+        top: -0;
+        z-index: 10;
+        min-width: 100px;
+
+    }
+    .sticky-col-2 {
+        position: sticky;
+        left: -5px; /* This must match the width of sticky-col-1 */
+        z-index: 10;
+        background-color: #fff !important;
+        border-right: .5px solid #dee2e6;
+        min-width: 200px;
+    }
+
+    /* Headers stay green and sticky */
+    .table-standings thead th.sticky-col-1
+     {
+        z-index: 11;
+        background-color: #35ad79 !important;
+        color: white;
+    }
+
+    /* Global cell alignment */
+    .table-standings td, .table-standings th {
+        white-space: nowrap; 
+        padding: 12px 15px;
+        vertical-align: middle;
+        text-align: center;
+    }

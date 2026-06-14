@@ -1,0 +1,823 @@
+{% extends 'base.html' %}
+{% load static %}
+<link href="{% static 'css/team_detail.css' %}" rel="stylesheet" />
+{% block content %}
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<!-- Calling  timestamp to ensure that the browser loads the latest version of the .js file -->
+<script src="{% static 'js/team_details.js' %}?v={{ timestamp }}"></script>
+
+  <style>
+   /* Teal green = #006666 Orange= #FFA500 Deeper orange #FF8C00*/
+     body {
+    background-color: #D3D3D3;
+    color: white;
+    font-family: 'Poppins', sans-serif;
+}
+
+.profile-header {
+    text-align: center;
+    margin-bottom: 20px;
+    padding-top: 20px;
+    position: relative;
+}
+
+.profile-header img {
+    border-radius: 50%;
+    width: 250px;
+    height: 250px;
+    border: 5px solid #ffffff;
+    margin-bottom: 20px;
+    animation: glow 2s infinite;
+}
+
+#image:hover {
+    animation-name: grow;
+    animation-duration: 3s;
+}
+
+@keyframes grow {
+    5% { transform: scale(1.5, 1.5); }
+}
+
+.profile-header::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 20px;
+    height: 200px;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    animation: ripple 2s infinite;
+}
+
+@keyframes glow {
+    0% { box-shadow: 0 0 5px #fff; }
+    50% { box-shadow: 0 0 20px #fff; }
+    100% { box-shadow: 0 0 10px #fff; }
+}
+
+@keyframes ripple {
+    0% { width: 200px; height: 200px; opacity: 0.7; }
+    100% { width: 300px; height: 300px; opacity: 0; }
+}
+
+.profile-header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+}
+
+.profile-header p {
+    font-size: 1.2rem;
+    color: #ffffff;
+    opacity: 0.8;
+}
+
+.stats {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.stat {
+    background-color: #0044ff;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    width: 100px;
+    height: 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.stat p {
+    margin: 0;
+}
+
+.stat .value {
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.nav {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.nav a {
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.nav a:hover {
+    text-decoration: underline;
+}
+
+.nav-link {
+    color: inherit; /* Inherit color from parent */
+    text-decoration: inherit; /* Inherit text decoration from parent */
+    font-weight: inherit; /* Inherit font weight from parent */
+    padding: 0; /* Remove any padding if added by default */
+}
+
+
+.profile-info {
+    display: flex;
+    justify-content: center; /* Center the entire profile-info container horizontally */
+    align-items: center; /* Center items vertically */
+    text-align: center;
+    gap: 10px;
+    margin: 20px auto;
+    max-width: 1200px;
+    height: 100px;
+    padding: 15px;
+    border-radius: 10px;
+    background-color: transparent;
+}
+
+.profile-info .info-item {
+    border-right: 1px solid white;
+    padding: 10px;
+    word-wrap: break-word;
+}
+
+.profile-info .info-item:last-child {
+    border-right: none;
+}
+
+.profile-info .label {
+    font-weight: bold;
+}
+
+@media (max-width: 900px) {
+    .profile-info {
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: repeat(2, auto);
+    }
+    .profile-info .info-item {
+        font-size: 0.9rem;
+    }
+    .profile-header h1 {
+        font-size: 2rem;
+    }
+    .profile-header p {
+        font-size: 0.9rem;
+    }
+    .stat .value {
+        font-size: 1.3rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .profile-info {
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: repeat(2, auto);
+    }
+    .profile-header h1 {
+        font-size: 1.5rem;
+    }
+    .profile-header p,
+    .stats,
+    .profile-info .info-item {
+        font-size: 0.8rem;
+    }
+}
+
+
+
+
+
+/* Game Schedule Starts */
+#gameDates {
+            min-height: 30vh;
+            padding: 0; /* Remove padding */
+            top: -40px;
+            margin-top: -60px;
+            position: relative;
+        }
+
+.average-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+            padding: 0; /* Remove padding */
+            margin: 0; /* Remove margin */
+        }
+
+.scroll-container {
+            display: flex;
+            overflow-x: hidden;
+            gap: 0; /* Remove gap */
+            padding: 0; /* Remove padding */
+            width: 100%;
+            margin: 0; /* Remove margin */
+            background-color: #bdbec2;
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+            border-bottom-left-radius: 15px;
+            border-bottom-right-radius: 15px;
+            position: relative;
+        }
+
+.side-container {
+            position: sticky; /* Make the containers sticky */
+            top: 0; /* Stick to the top */
+            min-height: 100%; /* Full height of the parent container */
+            min-width: 25px; /* Fixed width */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: grey;
+            z-index: 1;
+            margin: 0; /* Remove margin */
+            padding: 0; /* Remove padding */
+            cursor: pointer; /* Add cursor pointer to indicate clickability */
+            box-shadow: 5px 10px 40px #353635;
+        }
+.side-container:hover {
+    background-color: #333; /* Darker grey on hover */
+    }
+.left-container {
+            left: 0;
+        }
+
+.right-container {
+            right: 0;
+        }
+
+.side-container h2 {
+            margin: 0;
+            font-size: 2rem;
+            color: white;
+        }
+
+.game-summary {
+            flex: 0 0 auto;
+            width: 450px;
+            height: 240px;
+            margin: 0px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 0px;
+            position: relative;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+.game-summary:hover {
+    box-shadow: 0 0 30px rgba(11, 25, 87, 0.8); /* Glowing effect */
+}
+
+
+.game-header h2 {
+            margin: 0;
+            font-size: 0.9rem;
+            font-weight: bold;
+            color: #333;
+        }
+
+
+.team-info {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.team {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100px; /* Adjust as needed */
+}
+
+.team img {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 5px;
+    border-radius: 50%; /* Make images circular */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add shadow to images */
+}
+.team-details {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.team-name {
+    font-size: 1 rem;
+    font-weight: bold;
+    color: #0B1957;
+
+}
+
+.team-record {
+    font-size: 0.7rem;
+    color: #00008B;
+}
+
+.team-score {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-top: -10px; /* Adjust position as needed */
+    text-align: center;
+    color: #0B1957;
+}
+
+.team-record {
+    font-size: 0.9rem;
+    color: black;
+    margin-top: 2px; /* Added margin for spacing */
+}
+
+.team-final {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #00008B;
+    margin-bottom: 5px;
+    text-align: center;
+    text-shadow: 3px 3px 5px black;
+
+}
+
+.final-logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+
+.buttons {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            margin: 2px;
+            padding: 2px;
+        }
+
+.btn-custom {
+            background-color: #00008B; /* Navbar background color */
+            color: white;
+            padding: 5px;
+            text-decoration: none;
+            border-radius: 0px;
+            width: 100%;
+            text-align: center;
+            transition: background-color 0.3s ease; /* Smooth transition */
+            border-bottom-left-radius: 5px;
+            border-bottom-right-radius: 5px;
+        }
+
+.btn-custom:hover {
+            background-color: #0044ff;
+            color: #FF8C2B;
+        }
+/* Game Schedule End */
+
+/* Team Leaders Card */
+
+
+
+
+/* Team Leaders */
+
+.team-leaders-container {
+    background-color: #007BFF;
+    padding: 20px;
+    border-radius: 0px;
+}
+
+.column-title {
+    color: #fff;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.team-leaders {
+    /*background-color: #444;*/
+    background: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    border: none;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
+    height: 100px; /* Further reduced height */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.team-leaders:hover {
+    transform: scale(1.05);
+}
+
+.team-leaders .card-body {
+    display: flex;
+    align-items: center;
+    padding: 5px; /* Adjust padding as needed */
+}
+
+.team-leaders img {
+    height: 60px; /* Image height */
+    width: 60px; /* Image width */
+    border-radius: 50%; /* Make images circular */
+    object-fit: cover; /* Ensure the image covers the area */
+    margin-right: 10px; /* Add space between the image and the name */
+}
+
+.team-leaders .player-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start; /* Align names to the left */
+}
+
+.team-leaders .card-text {
+    font-size: 1rem;
+    text-align: right; /* Align text to the right */
+    padding-right: 10px; /* Add padding to the right for better alignment */
+}
+
+/* Adjusting width of card body */
+
+.card-body.d-flex.align-items-center {
+    width: 90%; /* Adjust the value as needed */
+    margin: 0 auto; /* Center align the card body */
+}
+
+/*  Team Leaders End */
+
+/* Team Leaders table */
+.table-container {
+        width: 100%;
+        padding: 20px;
+
+        border: 1px solid #ddd;
+        border-radius: 0px;
+        margin: 20px auto;
+        overflow-x: auto;
+        position: relative;
+        height: 500px;
+    }
+
+
+
+.team-leader-table tbody tr:hover {
+    background-color: #a1cbf7; /* Blue hover color */
+    color: white; /* Optional: Change text color on hover */
+}
+
+.team-leader-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+.team-leader-table th, .team-leader-table td {
+    border: none;
+    padding: 8px;
+    text-align: left;
+    white-space: nowrap; /* Prevent text from wrapping */
+    font-size: 16px;
+
+
+
+}
+.team-leader-table th {
+    background-color: none;
+    font-size: 15px;
+}
+
+
+
+#scheduleDate th #scheduleDate td{
+        height: 90px;
+
+}
+
+
+/* Description Container */
+/* Description Container */
+
+.custom-container {
+    padding: 40px 20px; /* Consistent padding for all sides */
+    display: flex;
+    flex-direction: column; /* Stack items vertically */
+    align-items: flex-start; /* Align items to the left */
+    max-width: 1000px; /* Restrict the width of the container */
+    margin-left: 5px; /* Add some space from the left of the screen */
+    min-height: auto; /* Remove full-page height for more flexibility */
+    border-radius: 0px; /* Optional: Add rounded edges for a polished look */
+}
+
+
+/* Card Styling */
+.custom-card {
+
+    color: black; /* White text for readability */
+    border-radius: 10px; /* Smooth rounded corners */
+    border: none; /* Remove border */
+   /* box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);  Enhance shadow depth */
+    /*transition: transform 0.3s, box-shadow 0.3s; Smooth animation for hover effect */
+}
+
+
+
+/* Card Body */
+.card-body {
+    padding: 10px; /* Adjust padding inside the card */
+}
+
+/* Title Styling */
+.card-title-custom {
+    font-size: 20px; /* Slightly larger title text */
+    font-weight: bold; /* Add emphasis to the title */
+    margin-bottom: 10px; /* Add spacing below the title */
+}
+
+/* Text Styling */
+.card-text {
+    font-size: 20px; /* Make text easier to read */
+    line-height: 1.5; /* Add better text spacing */
+    margin-bottom: 15px; /* Add spacing below paragraphs */
+    font-family: 'Arial Narrow'
+}
+
+/* Background Image Styling */
+.background-image {
+    width: 100%; /* Full width of the card */
+    height: 500px; /* Fixed height for the background image */
+    background-image: url('/media/uploads/background-team-image.jpg'); /* Replace with dynamic URL */
+    background-size: cover; /* Ensure the image covers the area */
+    background-position: center; /* Center the image */
+    background-repeat: no-repeat; /* Prevent repeating */
+    margin-top: 15px; /* Add spacing above the image */
+    border-radius: 10px; /* Match the card's rounded corners */
+}
+
+/* Last Updated Text */
+.text-body-secondary {
+    color: black; /* Light grey for last updated text */
+    font-size: 12px; /* Smaller text size */
+}
+
+
+@media (max-width: 768px) {
+    .custom-container {
+        max-width: 100%; /* Take up 90% of the screen width on smaller devices */
+        margin-left: 10px; /* Reduce left margin for smaller screens */
+    }
+
+    .custom-card {
+    max-width: 100%;
+    color: black; /* White text for readability */
+    border-radius: 10px; /* Smooth rounded corners */
+    border: none; /* Remove border */
+    /*box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); Enhance shadow depth */
+    /* transition: transform 0.3s, box-shadow 0.3s; Smooth animation for hover effect */
+}
+}
+
+
+.team-content {
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    margin: 20px 0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.team-info img {
+    display: block;
+    margin: 0 auto;
+    border-radius: 8px;
+}
+
+
+
+/* Description Container End */
+
+
+
+
+.team-roster {
+    max-width: 900px;
+    margin: 30px auto;
+    padding: 20px;
+    background-color: #354F52; /* Darker roster background */
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+.roster-title {
+    text-align: center;
+    font-size: 2em;
+    color: #CAD2C5; /* Light text color */
+    margin-bottom: 20px;
+}
+
+.roster-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 15px;
+}
+
+.roster-item {
+    background-color: #52796F; /* Darker card background */
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+    display: flex;
+    flex-direction: column;
+}
+
+.roster-item:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.roster-link:hover {
+    text-decoration: none;
+}
+
+.roster-link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    flex: 1; /* Ensure it takes all available space */
+}
+
+.roster-content {
+    text-align: center;
+    padding: 10px;
+}
+
+.roster-image {
+    width: 100%;
+    height: 150px; /* Fixed height for consistency */
+    object-fit: cover; /* Ensure images cover the area without distortion */
+}
+
+.roster-info {
+    padding-top: 8px;
+}
+
+.roster-name {
+    font-size: 1.1em;
+    margin: 8px 0 5px;
+    color: #CAD2C5; /* Light text color */
+}
+
+.roster-position {
+    font-size: 0.8em;
+    color: #B2BEB5; /* Soft complementary text color */
+}
+
+.card-footer {
+    padding: 10px;
+    background: #354F52;
+}
+
+.btn-action-group {
+    display: flex;
+    justify-content: center;
+}
+
+.btn-action-group a {
+    margin-right: 5px;
+    margin-left: 5px;
+    color: white;
+}
+
+
+
+</style>
+
+
+<body>
+
+
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+
+
+
+
+
+
+<div class="profile-header-container" style="background-color : #00008B;">
+    <div class="profile-header">
+        <img class="team-logo" src="{{ team_details.logo }}" alt="{{ team_details.name }}" />
+        <h1>{{ team_details.name }}</h1>
+        <p>Team Name</p>
+    </div>
+    <div class="stats">
+        <div class="stat">
+            <p>PPG</p>
+            <p class="value">PPG</p>
+            <p>3rd</p>
+        </div>
+        <div class="stat">
+            <p>RPG</p>
+            <p class="value">RPG</p>
+            <p>3rd</p>
+        </div>
+        <div class="stat">
+            <p>APG</p>
+            <p class="value">PPG</p>
+            <p>3rd</p>
+        </div>
+        <div class="stat">
+            <p>PIE</p>
+            <p class="value">FG%</p>
+            <p>3rd</p>
+        </div>
+    </div>
+
+    <div class="profile-info">
+        <div class="info-item">
+            <p class="label">Win-Loss</p>
+            <p class="label"></p>
+        </div>
+        <div class="info-item">
+            <p class="label">Position</p>
+            <p class="label"></p>
+        </div>
+
+        <div class="info-item">
+            <p class="label">Link</p>
+            <p class="label">
+                <a href="" style="text-decoration: white; color: white;; font-weight: bold;">
+                    Follow
+                </a>
+            </p>
+        </div>
+    </div>
+
+    <div id="navContainer" class="nav">
+        <a class="nav-link active" id="profile"  href="#">Profile</a>
+        <a class="nav-link" href="">Roster</a>
+        <a class="nav-link" id="schedules" href="#">Schedule</a>
+        <a class="nav-link" id="records" href="#">Records</a>
+        <a class="nav-link" href="#">Team</a>
+    </div>
+</div>
+
+
+
+<br>
+<div class="team-roster">
+    <h2 class="roster-title">Roster</h2>
+    <div class="roster-grid">
+        
+         {% for player in opp_players %}
+            <div class="roster-item">
+                <a href="" class="roster-link">
+                    <div class="roster-content">
+                        {% if player.player_image %}
+                            <img class="roster-image" src="{{ player.player_image.url }}" alt="{{ player.player_name }}">
+                        {% else %}
+                            <img class="roster-image" src="/media/uploads/Organizer_Logos/IMG_6708.JPG" alt="{{ player.player_name }}">
+                        {% endif %}
+
+                        <div class="roster-info">
+                            <h3 class="roster-name">{{ player.player_name }}</h3>
+                            <p class="roster-position">{{ player.position }}</p>
+                        </div>
+                    </div>
+                </a>
+                <!-- Player actions -->
+                <div class="card-footer">
+                    {% if user.is_authenticated %}
+                        {% if user.is_superuser %}
+                            <div class="btn-action-group">
+                                <a href="" class="btn btn-outline-primary btn-sm">Update Player</a>
+                                <a href="" onclick="return confirmDelete();" class="btn btn-outline-danger btn-sm">Delete Player</a>
+                            </div>
+                        {% endif %}
+                    {% endif %}
+                </div>
+            </div>
+         {% endfor %}
+    </div>
+</div>
+
+<script>
+    function confirmDelete() {
+        return confirm("Are you certain you want to delete this player?");
+    }
+</script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+
+{% endblock %}
+
+

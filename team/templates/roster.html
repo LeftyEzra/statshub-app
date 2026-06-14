@@ -1,0 +1,357 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block extra_head %}
+    <link rel="stylesheet" href="{% static 'css/roster.css' %}">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+{% endblock %}
+
+
+{% block content %}
+
+
+
+
+
+
+
+<!-- Section Breadcrumbs-->
+<section class="section parallax-container breadcrumbs-wrap" data-parallax-img="images/bg-breadcrumbs-1-1920x726.jpg">
+<div class="material-parallax parallax">
+    <img src="{% static 'img/ball_court.png' %}" alt="" style="display: block; transform: translate3d(-50%, 14px, 0px);"></div>
+<div class="parallax-content breadcrumbs-custom context-dark">
+    <div class="container">
+    <h3 class="breadcrumbs-custom-title">Roster</h3>
+    <ul class="breadcrumbs-custom-path">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="{%  url 'opponent-list' %}">Opponents</a></li>
+        <li class="active">Roster</li>
+    </ul>
+    </div>
+</div>
+</section>
+{% for player in players_mean_stats %}
+{{ player.player_name__player_name}}
+{% endfor%}
+
+<div class="main-container" style=" background: linear-gradient(135deg, #0f172a, #1e293b); ">
+      <br><br><br>
+    
+    <div class="grid-container">
+        {% if players_mean_stats %}
+        {% for player in players_mean_stats %}
+        <div class="player-card">
+        
+            <div class="header-info">
+                <h2 class="player-name">
+                    <a href="{% url 'players-id' competition.slug player.player_name__slug  %}">{{ player.player_name__player_name}}</a>
+                </h2>
+                <p class="player-position">{{ player.player_name__position }}</p>
+            </div>
+
+            <div class="details-and-image">
+                <div class="details-list">
+                    <div class="detail-item">
+                        <span class="detail-label">HEIGHT</span>
+                        <span class="detail-value">{{ player.player_name__height_cm }}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">WEIGHT</span>
+                        <span class="detail-value">{{ player.player_name__weight_kg }}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">AGE</span>
+                        <span class="detail-value">{{ player.player_name__age }}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">YEARS PRO</span>
+                        <span class="detail-value">{{ player.player_name__experience|floatformat:0 }}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">COUNTRY</span>
+                        <span class="detail-value">{{ player.player_name__country }}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">STATUS</span>
+                         {% if player.player_name__active_status  %}
+                            <span class="detail-value"><i class="fas fa-check-circle " style="color: rgb(6, 244, 6);"></i> Active</span>
+                            {% else %}
+                            <span class="detail-value text-nowrap">Not Active</span>
+                            {% endif %}
+                    </div>
+                </div>
+
+                <div class="player-image-container">
+                    <div class="player-number" >{{ player.player_name__jersey_number }}</div>
+                    <a href="{% url 'players-id' competition.slug player.player_name__slug  %}">
+                        {% if player.player_name__player_image %}
+                        <img src="/media/{{ player.player_name__player_image }}" alt="{{ player.player_name }}" class="player-photo">
+                        {% else %}
+                        <img src="/media/uploads/Team_Logos/python.PNG" alt="{{ player.player_name }}" class="player-photo">
+                        {% endif %}
+                    </a>  
+                </div>
+            </div>
+        
+            <h3 class="stats-title">SEASON STATS</h3>
+            <div class="season-stats">
+                <div class="stat-row headers">
+                    <span class="stat-label">SEASON</span>
+                    
+                    <span class="stat-label">PPG</span>
+                    <span class="stat-label">APG</span>
+                    <span class="stat-label">RPG</span>
+                </div>
+                
+                <div class="stat-row values">
+                    <span class="stat-value empty-cell">{{ player.game_schedule__competition__year__year  }}</span>
+                   
+                    <span class="stat-value">{{ player.points }}</span>
+                    <span class="stat-value">{{ player.total_rebounds }}</span>
+                    <span class="stat-value">{{ player.assists }}</span>
+                </div>
+            
+                <div class="stat-row footer-stat">
+                    <a href="{% url 'players-id' competition.id player.player_name__slug  %}" class="stat-label full-width">View Full Career Stats</a>
+                </div>
+            </div>
+
+            {% if user.is_authenticated %}
+            {% if user.is_superuser %}
+                <div class="card-footer">
+                    <a href="{% url 'update-player' competition.id player..player_name__slug  %}" class="footer-link footer-update">Update</a>
+                    <a href="{% url 'delete-player' competition.id player..player_name__slug  %}" class="footer-link footer-delete">Delete</a>
+                </div>
+                {% endif %}  
+            {% endif %}
+
+        </div>
+        {% endfor %}
+        {% else %}
+        {% for player in players %}
+        <div class="player-card">
+        
+            <div class="header-info">
+                <h2 class="player-name">
+                    <a href="{% url 'players-id' competition.slug player.slug  %}">{{ player.player_name}}</a>
+                </h2>
+                <p class="player-position">{{ player.position }}</p>
+            </div>
+
+            <div class="details-and-image">
+                <div class="details-list">
+                    <div class="detail-item">
+                        <span class="detail-label">HEIGHT</span>
+                        <span class="detail-value">{{ player.height_cm }}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">WEIGHT</span>
+                        <span class="detail-value">{{ player.weight_kg }}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">AGE</span>
+                        <span class="detail-value">{{ player.age }}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">YEARS PRO</span>
+                        <span class="detail-value">{{ player.experience|floatformat:0 }}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">COUNTRY</span>
+                        <span class="detail-value">{{ player.country }}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">STATUS</span>
+                         {% if player.active_status  %}
+                            <span class="detail-value"><i class="fas fa-check-circle " style="color: rgb(6, 244, 6);"></i> Active</span>
+                            {% else %}
+                            <span class="detail-value text-nowrap">Not Active</span>
+                            {% endif %}
+                    </div>
+                </div>
+
+                <div class="player-image-container">
+                    <div class="player-number" >{{ player.jersey_number }}</div>
+                    <a href="{% url 'players-id' competition.slug player.slug  %}">
+                        {% if player.player_image %}
+                        <img src="/media/{{ player.player_image }}" alt="{{ player.player_name }}" class="player-photo">
+                        {% else %}
+                        <img src="/media/uploads/Team_Logos/python.PNG" alt="{{ player.player_name }}" class="player-photo">
+                        {% endif %}
+                    </a>  
+                </div>
+            </div>
+        
+            <h3 class="stats-title">SEASON STATS</h3>
+            <div class="season-stats">
+                <div class="stat-row headers">
+                    <span class="stat-label">SEASON</span>
+                    
+                    <span class="stat-label">PPG</span>
+                    <span class="stat-label">APG</span>
+                    <span class="stat-label">RPG</span>
+                </div>
+                
+                <div class="stat-row values">
+                    <span class="stat-value empty-cell">{{ player.competition__year  }}</span>
+                   
+                    <span class="stat-value">{{ player.points }}</span>
+                    <span class="stat-value">{{ player.total_rebounds }}</span>
+                    <span class="stat-value">{{ player.assists }}</span>
+                </div>
+            
+                <div class="stat-row footer-stat">
+                    <a href="{% url 'players-id' competition.slug player.slug  %}" class="stat-label full-width">View Full Career Stats</a>
+                </div>
+            </div>
+
+            {% if user.is_authenticated %}
+            {% if user.is_superuser %}
+                <div class="card-footer">
+                    <a href="{% url 'update-player' competition.slug player.slug  %}" class="footer-link footer-update">Update</a>
+                    <a href="{% url 'delete-player' competition.slug player.slug  %}" class="footer-link footer-delete">Delete</a>
+                </div>
+                {% endif %}  
+            {% endif %}
+
+        </div>
+        {% endfor %}
+        {% endif %}
+    </div>
+
+    <br><br><br>
+</div>
+      
+
+
+
+<style>
+ /* --- Page Background --- */
+body {
+    background: linear-gradient(135deg, #0f172a, #1e293b);
+    font-family: 'Segoe UI', sans-serif;
+}
+
+/* --- Team Section --- */
+.team {
+    background: linear-gradient(135deg, #0f172a, #1e293b);
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+}
+
+/* --- Team Card --- */
+.team .team-item {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background: rgba(45, 55, 72, 0.85);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    overflow: hidden;
+    height: 100%; /* equal height across grid */
+    transition: all 0.3s ease;
+}
+
+.team .team-item:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45);
+}
+
+/* --- Image Styling --- */
+.team .team-item img.w-100 {
+    width: 100%;
+    height: 250px; /* fixed height for uniform cards */
+    object-fit: contain; /* show full image without cropping */
+    background-color: #0f172a; /* fill empty space with dark background */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* --- Text Section --- */
+.team .team-item .text-center {
+    padding: 1rem;
+    flex-grow: 1;
+}
+
+/* --- Name Styling --- */
+.team .team-item h5.mb-1 {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #e0e7ff; /* soft light blue */
+    margin-bottom: 0.4rem;
+    letter-spacing: 0.5px;
+}
+
+/* --- Role Styling --- */
+.team .team-item span {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: #cbd5e1; /* gray-blue */
+    font-style: italic;
+}
+
+/* --- Social Overlay --- */
+.team .team-item .team-social {
+    background: var(--bs-primary, #4f46e5);
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 0;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.5s;
+}
+
+.team .team-item:hover .team-social {
+    width: 100%;
+    left: 0;
+}
+
+.team .team-item .team-social .btn {
+    opacity: 0;
+    transition: 0.5s;
+    color: var(--bs-white, #fff);
+    border: 1px solid var(--bs-white, #fff);
+    background: transparent;
+}
+
+.team .team-item:hover .team-social .btn {
+    opacity: 1;
+}
+
+
+</style>
+
+
+
+
+
+<!-- Team Staff -->
+<div class="container-fluid team pt-6 pb-6">
+    <div class="row g-4">
+        {% for staff in staffs %}
+        <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
+            <div class="team-item">
+                <div class="position-relative overflow-hidden">
+                    <img class="img-fluid w-100" src="{{ staff.staff_image.url }}" alt="">
+                    <div class="team-social">
+                        </div>
+                </div>
+                <div class="text-center p-4">
+                    <h5 class="mb-1">{{ staff.full_name }}</h5>
+                    <span>{{ staff.role }}</span>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <br><br>
+    
+</div>
+<!-- Team End -->
+
+
+
+   {% endblock %}

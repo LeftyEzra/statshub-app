@@ -1,0 +1,191 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block extra_head %}
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+  <style>
+    /*
+     * All global body/reset styles remain isolated within the .login-page-wrapper
+     * to prevent conflicts with base.html.
+     */
+
+    /* Wrapper for centering the whole content block */
+    .login-page-wrapper {
+        background: linear-gradient(135deg, #1f2937, #0f172a);
+        min-height: 100vh;
+        display: flex;
+        justify-content: center; /* Centers the content horizontally */
+        align-items: center;     /* Centers the content vertically */
+        color: #f9fafb;
+        font-family: 'Poppins', sans-serif; 
+        width: 100%; /* Ensure it spans the full width of the block content */
+    }
+
+    /* --- Login Container (Controls the maximum width of the card) --- */
+    .login-container {
+        padding: 20px;
+        width: 100%;
+        /* INCREASED MAX-WIDTH to allow for a wider card */
+        max-width: 600px; 
+        /* Removed redundant justify-content/align-items here */
+    }
+    
+    /* --- Login Card Styling --- */
+    .login-card {
+        background: rgba(30, 41, 59, 0.9);
+        border-radius: 12px;
+        padding: 40px 30px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        border: 1px solid rgba(71, 85, 105, 0.5);
+        backdrop-filter: blur(5px);
+        /* REMOVED FIXED WIDTH. It now automatically takes the width of its parent (.login-container) */
+        width: 100%; 
+    }
+
+    .card-title {
+        font-size: 2em;
+        font-weight: 700;
+        margin-bottom: 8px;
+        text-align: center;
+        color: #4ade80;
+    }
+
+    .card-subtitle {
+        font-size: 0.9em;
+        color: #94a3b8;
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    /* --- Form Group Styling --- */
+    .input-group {
+        margin-bottom: 20px;
+    }
+
+    .input-group label {
+        display: block;
+        font-size: 0.9em;
+        font-weight: 600;
+        margin-bottom: 8px;
+        color: #e2e8f0;
+    }
+
+    .input-group input {
+        width: 100%;
+        padding: 12px 15px;
+        border: 2px solid #334155;
+        border-radius: 8px;
+        background-color: #0f172a;
+        color: #f9fafb;
+        font-size: 1em;
+        transition: border-color 0.3s, box-shadow 0.3s;
+    }
+
+    .input-group input:focus {
+        border-color: #4ade80;
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(74, 222, 128, 0.3);
+    }
+
+    .input-group input::placeholder {
+        color: #64748b;
+    }
+
+    /* --- Forgot Password Link --- */
+    .forgot-password {
+        text-align: right;
+        margin-bottom: 25px;
+    }
+
+    .forgot-password a {
+        color: #94a3b8;
+        font-size: 0.85em;
+        text-decoration: none;
+        transition: color 0.3s;
+    }
+
+    .forgot-password a:hover {
+        color: #4ade80;
+        text-decoration: underline;
+    }
+
+    /* --- Login Button --- */
+    .login-button {
+        width: 100%;
+        padding: 14px;
+        background-color: #4ade80;
+        color: #0f172a;
+        border: none;
+        border-radius: 8px;
+        font-size: 1.1em;
+        font-weight: 700;
+        cursor: pointer;
+        transition: background-color 0.3s, transform 0.1s;
+        letter-spacing: 1px;
+    }
+
+    .login-button:hover {
+        background-color: #22c55e;
+    }
+
+    .login-button:active {
+        transform: scale(0.99);
+    }
+
+    /* --- Sign Up Link Footer --- */
+    .signup-link {
+        text-align: center;
+        font-size: 0.9em;
+        color: #94a3b8;
+        margin-top: 30px;
+    }
+
+    .signup-link a {
+        color: #4ade80;
+        text-decoration: none;
+        font-weight: 600;
+        transition: color 0.3s;
+    }
+
+    .signup-link a:hover {
+        color: #f9fafb;
+    }
+</style>
+
+    <div class="login-page-wrapper">
+        <div class="login-container">
+            <div class="login-card">
+                
+                <h2 class="card-title">Welcome Back</h2>
+                <p class="card-subtitle">Sign in to your account</p>
+                
+                <form class="login-form" action="" method="POST">
+                  {% csrf_token %}
+                    
+                    <div class="input-group">
+                        <label for="username">Username or Email</label>
+                        <input type="text" id="username" name="username" placeholder="enter your username or email" required>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password" placeholder="••••••••" required>
+                    </div>
+                    
+                    <div class="forgot-password">
+                        <a href="#">Forgot Password?</a>
+                    </div>
+
+                    <button type="submit" class="login-button">LOG IN</button>
+                </form>
+
+                <div class="signup-link">
+                    Don't have an account? <a href="{% url 'register-user' %}">Sign Up</a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+{% endblock %}

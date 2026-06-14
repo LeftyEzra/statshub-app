@@ -1,0 +1,109 @@
+
+
+/* 1. WRAPPER CONTAINER */
+.form-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 40px; 
+    /* Dark theme background color from Competition Form */
+    background-color: #303437; 
+    border-radius: 12px; 
+    /* Modern, soft dark shadow */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7); 
+}
+
+/* 2. FIELD GROUP WRAPPER */
+.form-group-custom {
+    margin-bottom: 30px; 
+}
+
+/* 3. HEADINGS and LABELS (High Contrast White Text) */
+.form-container h2 {
+    color: #f0f0f0; /* White text for headings */
+    margin-bottom: 40px; 
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+.form-container label {
+    display: block;
+    color: #f0f0f0; /* White text for labels */
+    font-weight: 600; 
+    margin-bottom: 10px;
+    font-size: 1.05em;
+    transition: color 0.3s;
+}
+
+/* 4. INPUT AND NUMBER FIELD BASICS (Dark Flat Design) */
+.form-container input[type="text"],
+.form-container input[type="number"] {
+    /* Sizing & Box Model */
+    height: 50px; 
+    padding: 0 18px; 
+    box-sizing: border-box; 
+    width: 100%; 
+    
+    /* Theming & Appearance */
+    background-color: #44494c; /* Slightly lighter dark background for input fields */
+    color: #ffffff; /* White text */
+    border: 1px solid #777; /* Subtle border */
+    border-radius: 8px; 
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.4); /* Inner shadow for depth */
+}
+
+/* 5. BOOLEAN FIELD (CHECKBOX) STYLES */
+.form-group-custom.boolean-field {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 30px; 
+}
+.form-group-custom.boolean-field input[type="checkbox"] {
+    width: 22px !important; 
+    height: 22px !important;
+    margin: 0;
+    /* Use the green accent color */
+    accent-color: #28a745; 
+    border: 1px solid #777; 
+    border-radius: 4px;
+    background-color: transparent !important; /* Ensure checkbox area is dark */
+}
+.form-group-custom.boolean-field label {
+    font-weight: normal;
+    font-size: 1em;
+    margin-bottom: 0;
+    cursor: pointer;
+    color: #f0f0f0;
+}
+
+/* 6. FOCUS STATE (Clear visual feedback with Green accent) */
+.form-container input:focus {
+    border-color: #28a745; /* Highlight border with green accent color */
+    box-shadow: 0 0 0 3px rgba(40, 167, 69, 0.5); /* Ring shadow for focus */
+    background-color: #44494c;
+    outline: none; 
+}
+.form-container label[for]:focus-within {
+    color: #28a745; /* Change label color on input focus */
+}
+
+/* 7. SUBMIT BUTTON (Modern Flat/Success Look) */
+.form-container .btn-success {
+    padding: 12px 30px;
+    font-size: 1.1em;
+    font-weight: 600;
+    border-radius: 8px;
+    /* Green accent color */
+    background-color: #28a745; 
+    border-color: #28a745;
+    transition: all 0.3s ease;
+    /* Lifted shadow effect */
+    box-shadow: 0 4px 10px rgba(40, 167, 69, 0.4);
+}
+
+.form-container .btn-success:hover {
+    background-color: #218838;
+    border-color: #1e7e34;
+    box-shadow: 0 6px 15px rgba(40, 167, 69, 0.6);
+    transform: translateY(-2px);
+}
+

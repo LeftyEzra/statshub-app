@@ -1,0 +1,211 @@
+{% extends 'base.html' %}
+{% load static %}
+<link href="{% static 'css/home.css' %}" rel="stylesheet" />
+{% block content %}
+<style>
+    
+
+/* Team Section Begin */
+/* Team Section Styling */
+
+#teamSection {
+    padding: 5px;
+
+    position: relative;
+    height: 800px; /* Set desired height */
+}
+
+#teamsSection {
+    margin: 0;
+    padding: 10px;
+    border-radius: 5px;
+    height: 50%; /* Proportional height */
+}
+
+.container-fluid.px-4.px-lg-5 {
+    margin-top: 0;
+
+    padding: 15px;
+    height: 70%; /* Stretch to fill parent */
+}
+
+/* Card Styling */
+.card {
+    width: calc(100% / 6 - 15px); /* Fit 6 cards per row */
+    height: auto; /* Adjust height dynamically */
+    padding: 15px;
+    background-color: #9C9B7A; /* Clean and readable */
+    border-radius: 8px; /* Softer edges */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between; /* Balance content */
+    transition: transform 0.4s ease, box-shadow 0.4s ease; /* Smooth hover effect */
+}
+
+.card:hover {
+    transform: translateY(-8px) scale(1.03); /* Smooth lift and zoom */
+    box-shadow: 0px 0px 50px #007BFF; /* Deepened shadow */
+    background-color:  #007BFF; /* #708D81; */
+}
+
+
+
+
+/* Logo Styling */
+.card img {
+    width: 80px;
+    height: 60px;
+    margin-bottom: 8px;
+    object-fit: contain; /* Keep logo proportions */
+    border-radius: 50%; /* Circular logo */
+    background-color: #f2f2f2; /* Subtle contrast */
+    padding: 5px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover img {
+    transform: scale(1.1); /* Subtle zoom for focus */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Additional depth */
+}
+
+/* Team Name Styling */
+.card h5 {
+    font-size: 0.85rem;
+    font-weight: 600; /* Bold for emphasis */
+    text-align: center;
+    color: #333; /* Neutral dark tone */
+    margin: 10px 0;
+    transition: color 0.3s ease; /* Smooth hover effect */
+}
+
+.card:hover h5 {
+    color: #007bff; /* Highlight text on hover */
+}
+
+/* Button Styling */
+.card-footer .btn {
+    font-size: 0.8rem; /* Compact size */
+    padding: 8px 12px;
+    background-color: #007bff; /* Bright and engaging */
+    color: white;
+    border-radius: 6px; /* Modern rounded style */
+    text-transform: uppercase; /* Consistent and professional look */
+    transition: all 0.3s ease; /* Smooth interaction */
+}
+
+.card-footer .btn:hover {
+    background-color: #0056b3; /* Darker blue for hover */
+    transform: translateY(-3px); /* Slight lift */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Add depth */
+}
+
+/* Responsive Adjustments */
+@media (max-width: 1024px) {
+
+    .card {
+        width: calc(100% / 4 - 15px); /* Fit 4 cards per row */
+    }
+}
+
+@media (max-width: 768px) {
+    .card {
+        width: calc(100% / 3 - 15px); /* Fit 3 cards per row */
+    }
+    .card img {
+        width: 60px;
+        height: 50px; /* Adjust for smaller screens */
+    }
+    .card h5 {
+        font-size: 0.8rem; /* Adjust font size */
+    }
+}
+
+@media (max-width: 576px) {
+    .card {
+        width: calc(100% / 2 - 15px); /* Fit 2 cards per row */
+    }
+    .card img {
+        width: 50px;
+        height: 40px; /* Further reduce logo size */
+    }
+    .card h5 {
+        font-size: 0.75rem; /* Adjust font size */
+    }
+}
+
+/* Team Section End */
+/* Team Section End */
+
+</style>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <center>
+    <h1 style="color : #fff; font-family: Arial, sans-serif;" > Opponent  Landing Page</h1>
+    </center>
+    <br>
+  
+
+
+    <!-- Container for single game performance  end-->
+
+
+<div id="teamSection" class="container-fluid" style="padding: 5px;  position: relative; ">
+    <section id="teamsSection" class="py-5" style="border-radius: 5px;  padding: 10px 10px 10px 10px; padding-top: 0px; ">
+        <div class="container-fluid px-4 px-lg-5 mt-2" >
+            <div class="row g-2 row-cols-3 row-cols-md-4 row-cols-lg-6 justify-content-center" style="background-color:transparent; max-height: 80vh;">
+                {% for team in opponents %}
+                   
+                        <div class="col mb-5">
+                            <div class="card h-100" style="width: 100%; height: auto; justify-content: space-evenly; ">
+                                <!-- Team image -->
+                                <a href="">
+                                   <img class="card-img-top" src="" alt="" id="team-logo" />
+                                </a>
+                                <!-- Team details -->
+                                <div class="text-center" style="height: auto;">
+                                    <!-- Team name -->
+                                    <a href="" style="color: transparent;">
+                                        <h5 class="fw-bolder" style="margin-top: -5px; color: black;"></h5>
+                                    </a>
+                                </div>
+                                <!-- Team actions -->
+                                {% if user.is_authenticated %}
+                                <div class="card-footer p-4 pt-0 border-top-0" style="height:60px; background-color:transparent;">
+                                    <div class="d-flex justify-content-center" style="width: 100%; height: 50px; margin-top: 5px;">
+                                        <a href="" class="btn btn-outline-primary btn-sm mx-1" style="margin-bottom: 3px;">Update Team</a>
+                                        {% if user.is_superuser %}
+                                        <a href="" onclick="return confirmDelete();" class="btn btn-outline-danger btn-sm mx-1" style="margin-bottom: 3px;">Delete Team</a>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                 
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+</div>
+
+
+<script>
+function confirmDelete() {
+        return confirm("Are you certain you want to delete this team?");
+}
+
+</script>
+    
+</body>
+
+{% endblock %}
+

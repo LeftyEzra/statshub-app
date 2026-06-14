@@ -1,0 +1,76 @@
+
+    /* Merged Quarterly Scores Styling */
+    .quarters-section {
+        background: #0f172a;
+        padding: 20px;
+        border-radius: 12px;
+        border: 1px solid #334155;
+        margin-top: 2rem;
+    }
+
+    .quarters-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+    }
+
+    .score-column {
+        background: #1e293b;
+        padding: 15px;
+        border-radius: 8px;
+        border: 1px solid #475569;
+    }
+
+    .column-header {
+        text-align: center;
+        font-size: 1.1em;
+        font-weight: 700;
+        margin-bottom: 15px;
+        padding-bottom: 8px;
+        border-bottom: 1px solid #334155;
+    }
+
+    .team-header { color: #a5b4fc; }
+    .opponent-header { color: #fb7185; }
+
+    .quarter-group {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+
+    .quarter-group label {
+        font-size: 0.9em;
+        color: #94a3b8;
+    }
+
+   .quarter-group input {
+        width: 70px; /* Slightly wider for better padding */
+        background: #1e293b; /* Lighter than the outer section */
+        border: 1px solid #64748b; /* Lighter, more visible border */
+        color: #ffffff !important; /* Force bright white text */
+        text-align: center;
+        border-radius: 6px;
+        padding: 6px;
+        font-weight: 100;
+        font-size: 1rem;
+        transition: all 0.2s ease-in-out;
+    }
+
+    /* This makes the box "glow" when you click into it */
+    .quarter-group input:focus {
+        outline: none;
+        background: #334155;
+        border-color: #a5b4fc;
+        box-shadow: 0 0 0 3px rgba(165, 180, 252, 0.3);
+    }
+
+    /* Change the color of the numbers to a light blue/indigo */
+    .quarter-group input {
+        color: #a5b4fc;
+    }
+    
+    @media (max-width: 768px) {
+        .quarters-grid { grid-template-columns: 1fr; }
+    }

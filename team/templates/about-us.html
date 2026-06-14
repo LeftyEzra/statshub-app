@@ -1,0 +1,606 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block extra_head %}
+ 
+{% endblock %}
+{% block content %}
+
+     
+  
+<section class="section section-lg context-dark bg-dark text-center" style="background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1546519638-68e109498ffc?q=80&w=2090') no-repeat center center / cover;">
+    <div class="container">
+        <h1 class="font-weight-bold">Elite Performance & Technical Innovation</h1>
+        <p class="lead text-uppercase">Where Basketball Statistics Meet Modern Web Development</p>
+    </div>
+</section>
+
+<section class="section section-sm" style="padding: 10px;">
+    <div class="container">
+        <div class="row row-50 justify-content-center">
+            <div class="col-lg-10 p-4 p-md-5" style="background: rgba(0, 0, 0, 0.03); border-radius: 20px;">
+                <div class="row row-30">
+                    <div class="col-md-6">
+                        <h4 class="text-uppercase font-weight-bold border-left border-primary pl-3">Our Mission</h4>
+                        <p class="mt-3">We are dedicated to revolutionizing the way athletes interact with their data. By combining professional-grade basketball insights with cutting-edge Django development, we provide a platform where performance isn't just measured—it's visualized and optimized.</p>
+                    </div>
+                    <div class="col-md-6">
+                        <h4 class="text-uppercase font-weight-bold border-left border-primary pl-3">The Technology</h4>
+                        <p class="mt-3">Built on Python and Django, our ecosystem supports dynamic player tracking, real-time game reporting, and an integrated sports marketplace. We believe in high-performance code for high-performance athletes.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section section-sm">
+    <div class="container">
+        <div class="row text-center row-40">
+            <div class="col-md-4">
+                <div class="p-4 border-0 shadow-sm" style="background: rgba(0,0,0,0.02); border-radius: 15px;">
+                    <div class="icon text-primary mb-3"><i class="fas fa-chart-line fa-2x"></i></div>
+                    <h5 class="font-weight-bold">Data Analytics</h5>
+                    <p class="small">Interactive Chart.js visualizations for scoring patterns and player efficiency ratings.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="p-4 border-0 shadow-sm" style="background: rgba(0,0,0,0.02); border-radius: 15px;">
+                    <div class="icon text-primary mb-3"><i class="fas fa-basketball-ball fa-2x"></i></div>
+                    <h5 class="font-weight-bold">League Management</h5>
+                    <p class="small">A centralized hub for team registrations, game summaries, and professional coaching archives.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="p-4 border-0 shadow-sm" style="background: rgba(0,0,0,0.02); border-radius: 15px;">
+                    <div class="icon text-primary mb-3"><i class="fas fa-shopping-cart fa-2x"></i></div>
+                    <h5 class="font-weight-bold">Sports Commerce</h5>
+                    <p class="small">Our integrated Store App provides a seamless bridge between statistics and the gear you need.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section section-sm text-center">
+    <div class="container">
+        <div class="p-5" style="background: #a26202; border-radius: 20px;">
+            <h3 class="text-white font-weight-bold">Ready to Step into the Lab?</h3>
+            <p class="text-white">Join the elite ranks of players tracking their journey with data.</p>
+            <a href="{% url 'register-user' %}" class="btn btn-dark btn-lg mt-3">Register Now</a>
+        </div>
+    </div>
+</section>
+
+      <section class="section section-md bg-gray-100">
+        <div class="container">
+          <div class="row">
+            <div class="col-12">
+              <!-- Heading Component-->
+              <article class="heading-component">
+                <div class="heading-component-inner">
+                  <h5 class="heading-component-title">Our History
+                  </h5>
+                </div>
+              </article>
+              <div class="tabs-custom tabs-horizontal tabs-corporate tabs-corporate-boxed" id="tabs-1" data-nav="true">
+                <div class="nav-wrap">
+                  <button class="button button-nav button-prev" data-nav-prev=""><span class="icon mdi mdi-chevron-left"></span></button>
+                  <!-- Nav tabs-->
+                  <ul class="nav nav-tabs" role="tablist">
+                    <li class="nav-item" role="presentation"><a class="nav-link show active" href="#tabs-1-1" data-bs-toggle="tab" aria-selected="true" role="tab"><span>2012-2024</span></a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link" href="#tabs-1-2" data-bs-toggle="tab" aria-selected="false" role="tab" tabindex="-1"><span> 2001-2012</span></a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link" href="#tabs-1-3" data-bs-toggle="tab" aria-selected="false" role="tab" tabindex="-1"><span> 1997-2001</span></a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link" href="#tabs-1-4" data-bs-toggle="tab" aria-selected="false" role="tab" tabindex="-1"><span> 1994-1997</span></a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link" href="#tabs-1-5" data-bs-toggle="tab" aria-selected="false" role="tab" tabindex="-1"><span> 1988-1994</span></a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link" href="#tabs-1-6" data-bs-toggle="tab" aria-selected="false" role="tab" tabindex="-1"><span> 1970-1988</span></a></li>
+                  </ul>
+                  <button class="button button-nav button-next" data-nav-next=""><span class="icon mdi mdi-chevron-right"></span></button>
+                </div>
+                <!-- Tab panes-->
+                <div class="tab-content">
+                  <!-- Tab 1-->
+                  <div class="tab-pane fade active show" id="tabs-1-1" role="tabpanel">
+                    <div class="tab-content-main">
+                      <div class="row row-30">
+                        <div class="col-lg-6">
+                          <h2>2012-2024</h2>
+                          <h4>Our basketball team continues to conquer the world championships</h4>
+                          <p>Atletico had some success in friendlies in 2012 and 2013. The  team won 1–0 in Italy on February 29, 2012, the team's first ever win over Italy. On June 2, 2013, the U.S. played a friendly against Germany at a sold out RFK Stadium.</p>
+                          <p>For the 2014 World Cup, the team was drawn into Group G, along with Ghana, Germany, and Portugal. We took revenge on the Ghanaians, winning 2–1. Then we tied our second group game against Portugal 2–2. In the final game of the group stage, Atletico fell to Germany 1–0, but moved on to the knockout stage on goal difference. We still continue improving our soccer techniques today.</p>
+                        </div>
+                        <div class="col-lg-6">
+                          <!-- Owl Carousel-->
+                          <div class="owl-carousel owl-carousel-dots-modern owl-loaded" data-items="1" data-dots="true" data-nav="false" data-stage-padding="0" data-loop="false" data-margin="0" data-mouse-drag="false">
+                          <div class="owl-stage-outer">
+                            <div class="owl-stage" style="transform: translate3d(0px, 0px, 0px); transition: all; width: 1917px;">
+                              <div class="owl-item active" style="width: 638.667px;">
+                            <img src="Images_me/about-us-1-529x350.jpg" alt="about-us-1" width="529" height="350">
+                          </div>
+                          <div class="owl-item" style="width: 638.667px;">
+                            <img src="Images_me/about-us-2-529x350.jpg" alt="about-us-2" width="529" height="350">
+                          </div>
+                          <div class="owl-item" style="width: 638.667px;">
+                            <img src="Images_me/about-us-3-529x350.jpg" alt="about-us-3" width="529" height="350">
+                          </div>
+                        </div>
+                      </div>
+                      <div class="owl-nav ">
+                        <button type="button" role="presentation" class="owl-prev"></button>
+                        <button type="button" role="presentation" class="owl-next"></button>
+                      </div>
+                      <div class="owl-dots">
+                        <button role="button" class="owl-dot active">
+                          <span></span>
+                        </button>
+                        <button role="button" class="owl-dot">
+                          <span></span>
+                        </button>
+                        <button role="button" class="owl-dot">
+                          <span></span>
+                        </button>
+                      </div>
+                    </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="block-thumbnail-minimal">
+                      <div class="row row-30">
+                         <div class="col-6 col-md-3">
+                          <div class="thumbnail-minimal">
+                            <div class="thumbnail-minimal-figure">
+                              <img src="Images_me/thumbnail-minimal-2-68x126.png" alt="" width="68" height="126">
+                            </div>
+                            <div class="thumbnail-minimal-title">
+                              <p>Basketball Africa League</p>
+                            </div>
+                            <div class="thumbnail-minimal-counter">
+                              <h2>1</h2>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-6 col-md-3">
+                          <div class="thumbnail-minimal">
+                            <div class="thumbnail-minimal-figure">
+                              <img src="Images_me/thumbnail-minimal-1-67x147.png" alt="" width="67" height="147">
+                            </div>
+                            <div class="thumbnail-minimal-title">
+                              <p>European Cups</p>
+                            </div>
+                            <div class="thumbnail-minimal-counter">
+                              <h2>2</h2>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-6 col-md-3">
+                          <div class="thumbnail-minimal">
+                            <div class="thumbnail-minimal-figure">
+                              <img src="Images_me/thumbnail-minimal-2-68x126.png" alt="" width="68" height="126">
+                            </div>
+                            <div class="thumbnail-minimal-title">
+                              <p>FIBA World Cups</p>
+                            </div>
+                            <div class="thumbnail-minimal-counter">
+                              <h2>1</h2>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-6 col-md-3">
+                          <div class="thumbnail-minimal">
+                            <div class="thumbnail-minimal-figure"><img src="Images_me/thumbnail-minimal-3-73x135.png" alt="" width="73" height="135">
+                            </div>
+                            <div class="thumbnail-minimal-title">
+                              <p>American Cups</p>
+                            </div>
+                            <div class="thumbnail-minimal-counter">
+                              <h2>3</h2>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-6 col-md-3">
+                          <div class="thumbnail-minimal">
+                            <div class="thumbnail-minimal-figure"><img src="Images_me/thumbnail-minimal-4-68x126.png" alt="" width="68" height="126">
+                            </div>
+                            <div class="thumbnail-minimal-title">
+                              <p>International Cups</p>
+                            </div>
+                            <div class="thumbnail-minimal-counter">
+                              <h2>1</h2>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Tab 2-->
+                  <div class="tab-pane fade" id="tabs-1-2" role="tabpanel">
+                    <div class="tab-content-main">
+                      <div class="row row-30">
+                        <div class="col-lg-6">
+                          <h2>2001-2012</h2>
+                          <h4>StatsHub starts a new era of world cup tournaments</h4>
+                          <p>In the 2002 World Cup under Bruce Arena, we reached the quarterfinals, our best finish in a World Cup since 1980. The team reached the knockout stage after a 1–1–1 record in the group stage. It started with a 3–2 upset win over Portugal.</p>
+                          <p>In the 2006 World Cup, after finishing top of the CONCACAF qualification tournament, our team was drawn into Group E along with the Czech Republic, Italy, and Ghana. Atletico opened its tournament with a 3–0 loss to the Czech Republic. The team then tied 1–1 against Italy, who went on to win the World Cup. We tried to achieve even more during the next decade.</p>
+                        </div>
+                        <div class="col-lg-6">
+                          <!-- Owl Carousel-->
+                          <div class="owl-carousel owl-carousel-dots-modern owl-loaded" data-items="1" data-dots="true" data-nav="false" data-stage-padding="0" data-loop="false" data-margin="0" data-mouse-drag="false">
+                          <div class="owl-stage-outer"><div class="owl-stage" style="transform: translate3d(0px, 0px, 0px); transition: all; width: 1917px;"><div class="owl-item active" style="width: 638.667px;"><img src="Images_me/about-us-1-529x350.jpg" alt="" width="529" height="350"></div><div class="owl-item" style="width: 638.667px;"><img src="Images_me/about-us-2-529x350.jpg" alt="" width="529" height="350"></div><div class="owl-item" style="width: 638.667px;"><img src="Images_me/about-us-3-529x350.jpg" alt="" width="529" height="350"></div></div></div><div class="owl-nav disabled"><button type="button" role="presentation" class="owl-prev"></button><button type="button" role="presentation" class="owl-next"></button></div><div class="owl-dots"><button role="button" class="owl-dot active"><span></span></button><button role="button" class="owl-dot"><span></span></button><button role="button" class="owl-dot"><span></span></button></div></div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="block-thumbnail-minimal">
+                      <div class="row row-30">
+                        <div class="col-6 col-md-3">
+                          <div class="thumbnail-minimal">
+                            <div class="thumbnail-minimal-figure">
+                              <img src="Images_me/thumbnail-minimal-1-67x147.png" alt="" width="67" height="147">
+                            </div>
+                            <div class="thumbnail-minimal-title">
+                              <p>European Cups</p>
+                            </div>
+                            <div class="thumbnail-minimal-counter">
+                              <h2>2</h2>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-6 col-md-3">
+                          <div class="thumbnail-minimal">
+                            <div class="thumbnail-minimal-figure">
+                              <img src="Images_me/thumbnail-minimal-2-68x126.png" alt="" width="68" height="126">
+                            </div>
+                            <div class="thumbnail-minimal-title">
+                              <p>FIBA World Cups</p>
+                            </div>
+                            <div class="thumbnail-minimal-counter">
+                              <h2>1</h2>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-6 col-md-3">
+                          <div class="thumbnail-minimal">
+                            <div class="thumbnail-minimal-figure">
+                              <img src="Images_me/thumbnail-minimal-3-73x135.png" alt="" width="73" height="135">
+                            </div>
+                            <div class="thumbnail-minimal-title">
+                              <p>American Cups</p>
+                            </div>
+                            <div class="thumbnail-minimal-counter">
+                              <h2>3</h2>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-6 col-md-3">
+                          <div class="thumbnail-minimal">
+                            <div class="thumbnail-minimal-figure">
+                              <img src="Images_me/thumbnail-minimal-4-68x126.png" alt="" width="68" height="126">
+                            </div>
+                            <div class="thumbnail-minimal-title">
+                              <p>International Cups</p>
+                            </div>
+                            <div class="thumbnail-minimal-counter">
+                              <h2>1</h2>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Tab 3-->
+                  <div class="tab-pane fade" id="tabs-1-3" role="tabpanel">
+                    <div class="tab-content-main">
+                      <div class="row row-30">
+                        <div class="col-lg-6">
+                          <h2>1997-2001</h2>
+                          <h4>Debuting in the world cup tournament and first major victory</h4>
+                          <p>After qualifying automatically as the leading team of the 1997 World Cup under Bora Milutinović, Atletico opened its tournament schedule with a 1–1 tie against Switzerland in the Pontiac Silverdome in the suburbs of Detroit.</p>
+                          <p>In its second game, the team faced Colombia, then ranked fourth in the world, at the Rose Bowl. Aided by an own goal from Andrés Escobar, we won 2–1. Despite a 1–0 loss to Romania in its final group game, Atletico made it to the knockout round for the first time since 1930. Unfortunately, in the round of 16, we lost 1–0 to the eventual champion Real Madrid.</p>
+                        </div>
+                        <div class="col-lg-6">
+                          <!-- Owl Carousel-->
+                          <div class="owl-carousel owl-carousel-dots-modern owl-loaded" data-items="1" data-dots="true" data-nav="false" data-stage-padding="0" data-loop="false" data-margin="0" data-mouse-drag="false">
+                          <div class="owl-stage-outer"><div class="owl-stage" style="transform: translate3d(0px, 0px, 0px); transition: all; width: 1917px;"><div class="owl-item active" style="width: 638.667px;"><img src="Images_me/about-us-1-529x350.jpg" alt="" width="529" height="350"></div><div class="owl-item" style="width: 638.667px;"><img src="Images_me/about-us-2-529x350.jpg" alt="" width="529" height="350"></div><div class="owl-item" style="width: 638.667px;"><img src="Images_me/about-us-3-529x350.jpg" alt="" width="529" height="350"></div></div></div><div class="owl-nav disabled"><button type="button" role="presentation" class="owl-prev"></button><button type="button" role="presentation" class="owl-next"></button></div><div class="owl-dots"><button role="button" class="owl-dot active"><span></span></button><button role="button" class="owl-dot"><span></span></button><button role="button" class="owl-dot"><span></span></button></div></div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="block-thumbnail-minimal">
+                      <div class="row row-30">
+                        <div class="col-6 col-md-3">
+                          <div class="thumbnail-minimal">
+                            <div class="thumbnail-minimal-figure"><img src="Images_me/thumbnail-minimal-1-67x147.png" alt="" width="67" height="147">
+                            </div>
+                            <div class="thumbnail-minimal-title">
+                              <p>European Cups</p>
+                            </div>
+                            <div class="thumbnail-minimal-counter">
+                              <h2>2</h2>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-6 col-md-3">
+                          <div class="thumbnail-minimal">
+                            <div class="thumbnail-minimal-figure">
+                              <img src="Images_me/thumbnail-minimal-2-68x126.png" alt="" width="68" height="126">
+                            </div>
+                            <div class="thumbnail-minimal-title">
+                              <p>FIBA World Cups</p>
+                            </div>
+                            <div class="thumbnail-minimal-counter">
+                              <h2>1</h2>
+                            </div>
+                          </div>
+                        </div>
+                         <div class="col-6 col-md-3">
+                          <div class="thumbnail-minimal">
+                            <div class="thumbnail-minimal-figure">
+                              <img src="Images_me/thumbnail-minimal-2-68x126.png" alt="" width="68" height="126">
+                            </div>
+                            <div class="thumbnail-minimal-title">
+                              <p>Basketball Africa League</p>
+                            </div>
+                            <div class="thumbnail-minimal-counter">
+                              <h2>1</h2>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-6 col-md-3">
+                          <div class="thumbnail-minimal">
+                            <div class="thumbnail-minimal-figure">
+                              <img src="Images_me/thumbnail-minimal-3-73x135.png" alt="" width="73" height="135">
+                            </div>
+                            <div class="thumbnail-minimal-title">
+                              <p>American Cups</p>
+                            </div>
+                            <div class="thumbnail-minimal-counter">
+                              <h2>3</h2>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-6 col-md-3">
+                          <div class="thumbnail-minimal">
+                            <div class="thumbnail-minimal-figure">
+                              <img src="Images_me/thumbnail-minimal-4-68x126.png" alt="" width="68" height="126">
+                            </div>
+                            <div class="thumbnail-minimal-title">
+                              <p>International Cups</p>
+                            </div>
+                            <div class="thumbnail-minimal-counter">
+                              <h2>1</h2>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Tab 4-->
+                  <div class="tab-pane fade" id="tabs-1-4" role="tabpanel">
+                    <div class="tab-content-main">
+                      <div class="row row-30">
+                        <div class="col-lg-6">
+                          <h2>1994-1997</h2>
+                          <h4>A new coach and training professional players for future tournaments</h4>
+                          <p>Atletico had some success in friendlies in 2012 and 2013. The  team won 1–0 in Italy on February 29, 2012, the team's first ever win over Italy. On June 2, 2013, the U.S. played a friendly against Germany at a sold out RFK Stadium.</p>
+                          <p>For the 2014 World Cup, the team was drawn into Group G, along with Ghana, Germany, and Portugal. We took revenge on the Ghanaians, winning 2–1. Then we tied our second group game against Portugal 2–2. In the final game of the group stage, Atletico fell to Germany 1–0, but moved on to the knockout stage on goal difference. We still continue improving our soccer techniques today.</p>
+                        </div>
+                        <div class="col-lg-6">
+                          <!-- Owl Carousel-->
+                          <div class="owl-carousel owl-carousel-dots-modern owl-loaded" data-items="1" data-dots="true" data-nav="false" data-stage-padding="0" data-loop="false" data-margin="0" data-mouse-drag="false">
+                          <div class="owl-stage-outer"><div class="owl-stage" style="transform: translate3d(0px, 0px, 0px); transition: all; width: 1917px;"><div class="owl-item active" style="width: 638.667px;"><img src="Images_me/about-us-1-529x350.jpg" alt="" width="529" height="350"></div><div class="owl-item" style="width: 638.667px;"><img src="Images_me/about-us-2-529x350.jpg" alt="" width="529" height="350"></div><div class="owl-item" style="width: 638.667px;"><img src="Images_me/about-us-3-529x350.jpg" alt="" width="529" height="350"></div></div></div><div class="owl-nav disabled"><button type="button" role="presentation" class="owl-prev"></button><button type="button" role="presentation" class="owl-next"></button></div><div class="owl-dots"><button role="button" class="owl-dot active"><span></span></button><button role="button" class="owl-dot"><span></span></button><button role="button" class="owl-dot"><span></span></button></div></div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="block-thumbnail-minimal">
+                      <div class="row row-30">
+                        <div class="col-6 col-md-3">
+                          <div class="thumbnail-minimal">
+                            <div class="thumbnail-minimal-figure">
+                              <img src="Images_me/thumbnail-minimal-1-67x147.png" alt="" width="67" height="147">
+                            </div>
+                            <div class="thumbnail-minimal-title">
+                              <p>European Cups</p>
+                            </div>
+                            <div class="thumbnail-minimal-counter">
+                              <h2>2</h2>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-6 col-md-3">
+                          <div class="thumbnail-minimal">
+                            <div class="thumbnail-minimal-figure">
+                              <img src="Images_me/thumbnail-minimal-2-68x126.png" alt="" width="68" height="126">
+                            </div>
+                            <div class="thumbnail-minimal-title">
+                              <p>FIFA World Cups</p>
+                            </div>
+                            <div class="thumbnail-minimal-counter">
+                              <h2>1</h2>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-6 col-md-3">
+                          <div class="thumbnail-minimal">
+                            <div class="thumbnail-minimal-figure">
+                              <img src="Images_me/thumbnail-minimal-3-73x135.png" alt="" width="73" height="135">
+                            </div>
+                            <div class="thumbnail-minimal-title">
+                              <p>American Cups</p>
+                            </div>
+                            <div class="thumbnail-minimal-counter">
+                              <h2>3</h2>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-6 col-md-3">
+                          <div class="thumbnail-minimal">
+                            <div class="thumbnail-minimal-figure">
+                              <img src="Images_me/thumbnail-minimal-4-68x126.png" alt="" width="68" height="126">
+                            </div>
+                            <div class="thumbnail-minimal-title">
+                              <p>International Cups</p>
+                            </div>
+                            <div class="thumbnail-minimal-counter">
+                              <h2>1</h2>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Tab 5-->
+                  <div class="tab-pane fade" id="tabs-1-5" role="tabpanel">
+                    <div class="tab-content-main">
+                      <div class="row row-30">
+                        <div class="col-lg-6">
+                          <h2>1988-1994</h2>
+                          <h4>Atletico gets officially recognized as the #1 soccer team in the USA</h4>
+                          <p>In the 1992 World Cup under Bruce Arena, we reached the quarterfinals, our best finish in a World Cup since 1980. The team reached the knockout stage after a 1–1–1 record in the group stage. It started with a 3–2 upset win over Portugal.</p>
+                          <p>In the 1989 World Cup, after finishing top of the CONCACAF qualification tournament, our team was drawn into Group E along with the Czech Republic, Italy, and Ghana. Atletico opened its tournament with a 3–0 loss to the Czech Republic. The team then tied 1–1 against Italy, who went on to win the World Cup. We tried to achieve even more during the next decade.</p>
+                        </div>
+                        <div class="col-lg-6">
+                          <!-- Owl Carousel-->
+                          <div class="owl-carousel owl-carousel-dots-modern owl-loaded" data-items="1" data-dots="true" data-nav="false" data-stage-padding="0" data-loop="false" data-margin="0" data-mouse-drag="false">
+                          <div class="owl-stage-outer">
+                            <div class="owl-stage" style="transform: translate3d(0px, 0px, 0px); transition: all; width: 1917px;"><div class="owl-item active" style="width: 638.667px;"><img src="Images_me/about-us-1-529x350.jpg" alt="" width="529" height="350"></div><div class="owl-item" style="width: 638.667px;"><img src="Images_me/about-us-2-529x350.jpg" alt="" width="529" height="350"></div><div class="owl-item" style="width: 638.667px;"><img src="Images_me/about-us-3-529x350.jpg" alt="" width="529" height="350"></div></div></div><div class="owl-nav disabled"><button type="button" role="presentation" class="owl-prev"></button><button type="button" role="presentation" class="owl-next"></button></div><div class="owl-dots"><button role="button" class="owl-dot active"><span></span></button><button role="button" class="owl-dot"><span></span></button><button role="button" class="owl-dot"><span></span></button></div></div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="block-thumbnail-minimal">
+                      <div class="row row-30">
+                        <div class="col-6 col-md-3">
+                          <div class="thumbnail-minimal">
+                            <div class="thumbnail-minimal-figure">
+                              <img src="Images_me/thumbnail-minimal-1-67x147.png" alt="" width="67" height="147">
+                            </div>
+                            <div class="thumbnail-minimal-title">
+                              <p>European Cups</p>
+                            </div>
+                            <div class="thumbnail-minimal-counter">
+                              <h2>2</h2>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-6 col-md-3">
+                          <div class="thumbnail-minimal">
+                            <div class="thumbnail-minimal-figure">
+                              <img src="Images_me/thumbnail-minimal-2-68x126.png" alt="" width="68" height="126">
+                            </div>
+                            <div class="thumbnail-minimal-title">
+                              <p>FIFA World Cups</p>
+                            </div>
+                            <div class="thumbnail-minimal-counter">
+                              <h2>1</h2>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-6 col-md-3">
+                          <div class="thumbnail-minimal">
+                            <div class="thumbnail-minimal-figure">
+                              <img src="Images_me/thumbnail-minimal-3-73x135.png" alt="" width="73" height="135">
+                            </div>
+                            <div class="thumbnail-minimal-title">
+                              <p>American Cups</p>
+                            </div>
+                            <div class="thumbnail-minimal-counter">
+                              <h2>3</h2>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-6 col-md-3">
+                          <div class="thumbnail-minimal">
+                            <div class="thumbnail-minimal-figure">
+                              <img src="Images_me/thumbnail-minimal-4-68x126.png" alt="" width="68" height="126">
+                            </div>
+                            <div class="thumbnail-minimal-title">
+                              <p>International Cups</p>
+                            </div>
+                            <div class="thumbnail-minimal-counter">
+                              <h2>1</h2>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Tab 6-->
+                  <div class="tab-pane fade" id="tabs-1-6" role="tabpanel">
+                    <div class="tab-content-main">
+                      <div class="row row-30">
+                        <div class="col-lg-6">
+                          <h2>1970-1988</h2>
+                          <h4>Establishment and initial development of Atletico soccer team</h4>
+                          <p>After qualifying automatically as the leading team of the 1986 World Cup under Bora Milutinović, Atletico opened its tournament schedule with a 1–1 tie against Switzerland in the Pontiac Silverdome in the suburbs of Detroit.</p>
+                          <p>In its second game, the team faced Colombia, then ranked fourth in the world, at the Rose Bowl. Aided by an own goal from Andrés Escobar, we won 2–1. Despite a 1–0 loss to Romania in its final group game, Atletico made it to the knockout round for the first time since 1930. Unfortunately, in the round of 16, we lost 1–0 to the eventual champion Real Madrid.</p>
+                        </div>
+                        <div class="col-lg-6">
+                          <!-- Owl Carousel-->
+                          <div class="owl-carousel owl-carousel-dots-modern owl-loaded" data-items="1" data-dots="true" data-nav="false" data-stage-padding="0" data-loop="false" data-margin="0" data-mouse-drag="false">
+                          <div class="owl-stage-outer"><div class="owl-stage" style="transform: translate3d(0px, 0px, 0px); transition: all; width: 1917px;"><div class="owl-item active" style="width: 638.667px;"><img src="Images_me/about-us-1-529x350.jpg" alt="" width="529" height="350"></div><div class="owl-item" style="width: 638.667px;"><img src="Images_me/about-us-2-529x350.jpg" alt="" width="529" height="350"></div><div class="owl-item" style="width: 638.667px;"><img src="Images_me/about-us-3-529x350.jpg" alt="" width="529" height="350"></div></div></div><div class="owl-nav disabled"><button type="button" role="presentation" class="owl-prev"></button><button type="button" role="presentation" class="owl-next"></button></div><div class="owl-dots"><button role="button" class="owl-dot active"><span></span></button><button role="button" class="owl-dot"><span></span></button><button role="button" class="owl-dot"><span></span></button></div></div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="block-thumbnail-minimal">
+                      <div class="row row-30">
+                        <div class="col-6 col-md-3">
+                          <div class="thumbnail-minimal">
+                            <div class="thumbnail-minimal-figure"><img src="Images_me/thumbnail-minimal-1-67x147.png" alt="" width="67" height="147">
+                            </div>
+                            <div class="thumbnail-minimal-title">
+                              <p>European Cups</p>
+                            </div>
+                            <div class="thumbnail-minimal-counter">
+                              <h2>2</h2>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-6 col-md-3">
+                          <div class="thumbnail-minimal">
+                            <div class="thumbnail-minimal-figure"><img src="Images_me/thumbnail-minimal-2-68x126.png" alt="" width="68" height="126">
+                            </div>
+                            <div class="thumbnail-minimal-title">
+                              <p>FIFA World Cups</p>
+                            </div>
+                            <div class="thumbnail-minimal-counter">
+                              <h2>1</h2>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-6 col-md-3">
+                          <div class="thumbnail-minimal">
+                            <div class="thumbnail-minimal-figure"><img src="Images_me/thumbnail-minimal-3-73x135.png" alt="" width="73" height="135">
+                            </div>
+                            <div class="thumbnail-minimal-title">
+                              <p>American Cups</p>
+                            </div>
+                            <div class="thumbnail-minimal-counter">
+                              <h2>3</h2>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-6 col-md-3">
+                          <div class="thumbnail-minimal">
+                            <div class="thumbnail-minimal-figure"><img src="Images_me/thumbnail-minimal-4-68x126.png" alt="" width="68" height="126">
+                            </div>
+                            <div class="thumbnail-minimal-title">
+                              <p>International Cups</p>
+                            </div>
+                            <div class="thumbnail-minimal-counter">
+                              <h2>1</h2>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+{% endblock %}
+

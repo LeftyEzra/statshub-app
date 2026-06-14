@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block extra_head %}
+
+{% endblock %}
+{% block content %}
+
+
+
+<!-- Section Breadcrumbs-->
+<section class="section parallax-container breadcrumbs-wrap" data-parallax-img="{% static 'img/bg-breadcrumbs-1-1920x726.jpg' %}">
+    <div class="material-parallax parallax">
+        <img src="{% static 'img/ball_court.png' %}" alt="" style="transform: translate3d(-50%, 61px, 0px); display: block;"></div>
+    <div class="parallax-content breadcrumbs-custom context-dark">
+        <div class="container">
+        <h3 class="breadcrumbs-custom-title">Awards Museum</h3>
+        <ul class="breadcrumbs-custom-path">
+            <li><a href="{% url 'home' %}">Home</a></li>
+            <li class="active">All Awards</li>
+        </ul>
+        </div>
+    </div>
+</section>
+
+
+<section class="section section-md bg-gray-100">
+    <div class="container">
+        <article class="heading-component">
+            <div class="heading-component-inner">
+                <h5 class="heading-component-title">Awards Museum</h5>
+                <a class="button button-xs button-primary" href="{% url 'home' %}">Back to Home</a>
+            </div>
+        </article>
+
+        <div class="row row-30">
+            {% for award in awards %}
+            <div class="col-sm-6 col-lg-4">
+                <article class="post-creative" style="cursor: pointer;">
+                    <div class="post-creative-figure">
+                        <img src="{{ award.image.url }}" alt="" width="370" height="350" 
+                             style="object-fit: cover; height: 350px; width: 100%;"/>
+                    </div>
+                    <div class="post-creative-content">
+                        <div class="post-creative-header">  
+                            <div class="post-future-time">
+                                <span class="icon mdi mdi-clock"></span>
+                                <time datetime="2020">{{ award.date }}</time>
+                              </div>
+                            <h6 class="post-future-title">
+                              <a href="#">{{ award.name }}</a>
+                            </h6>    
+                        </div>
+                       
+                      {% if user.is_authenticated and user.is_superuser %}
+                        <div class="post-creative-footer mt-3 d-flex justify-content-between">
+                            <a href="{% url 'update-award'  award.pk %}" class="btn btn-sm btn-outline-info">
+                                <span class="icon mdi mdi-pencil"></span> Edit
+                            </a>
+                        </div>
+                       {% if endif %} 
+                    </div>
+                </article>
+            </div>
+            {% empty %}
+            <div class="col-12 text-center">
+                <p>No awards available at the moment. Check back soon!</p>
+            </div>
+            {% endfor %}
+        </div>
+
+        {% if is_paginated %}
+        <div class="pagination-wrap"></div>
+        {% endif %}
+    </div>
+</section>
+
+
+
+{% endblock %}

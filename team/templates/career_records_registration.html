@@ -1,0 +1,172 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+{% block extra_head %}
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+{% endblock %}
+{% block content %}
+
+<style>
+    /* Force labels to behave as blocks to prevent overlapping */
+    .custom-label {
+        display: block !important;
+        margin-bottom: 0.5rem !important;
+        color: #94a3b8 !important;
+        font-size: 0.875rem !important;
+        font-weight: 600 !important;
+    }
+
+    /* Keep background dark and text white at all times */
+    .form-control, .form-select, .form-control:focus, .form-select:focus {
+        background-color: #0f172a !important; /* Deep dark background */
+        color: #ffffff !important;           /* Pure white text */
+        border-color: #334155 !important;    /* Slate-700 border */
+        outline: none !important;
+        box-shadow: none !important;         /* Remove Bootstrap glow */
+    }
+
+    /* Style for placeholders to differentiate from typed text */
+    .form-control::placeholder {
+        color: #475569 !important;
+        opacity: 1;
+    }
+
+    /* Optional: Highlight border on focus */
+    .form-control:focus {
+        border-color: #6366f1 !important; 
+    }
+
+
+    #submitBtn:hover {
+    background-color: #4338ca !important;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+    }
+
+    #submitBtn:active {
+        transform: translateY(0);
+    }
+</style>
+
+<section class="section parallax-container breadcrumbs-wrap" data-parallax-img="{% static 'img/bg-breadcrumbs-1-1920x726.jpg' %}">
+    <div class="material-parallax parallax">
+        <img src="{% static 'img/bg-breadcrumbs-1-1920x726.jpg' %}" alt="" style="transform: translate3d(-50%, 82px, 0px); display: block;">
+    </div>
+    <div class="parallax-content breadcrumbs-custom context-dark">
+        <div class="container">
+            <h2 class="breadcrumbs-custom-title">Career Records</h2>
+            <ul class="breadcrumbs-custom-path">
+                <li><a href="{% url 'home' %}">Home</a></li>
+                {% if user.is_superuser %}
+                <li><a href="{% url 'record-list' competition.id %}">Career Records</a></li>
+                {% endif %}
+                <li class="active">Records</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+
+
+
+<div class="container my-5" style="max-width: 950px;">
+    <div class="p-4 p-md-5 rounded-3 shadow-lg" style="background-color: #1e293b;">
+        <h2 class="text-3xl font-bold text-center mb-5" style="color: #a5b4fc;">
+            Player Career Records
+        </h2>
+
+        <form method="POST">
+            {% csrf_token %}
+
+            <div class="mb-5">
+                <label class="custom-label">Select Player</label>
+                {% render_field form.player class="form-select bg-slate-900 text-white border-slate-700 py-2" %}
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-4">
+                    <label class="custom-label">Points Record</label>
+                    {% render_field form.points_rec class="form-control bg-slate-900 text-white border-slate-700 py-2" rows="2" placeholder="e.g., 50 pts vs Team X" %}
+                </div>
+
+                <div class="col-md-6 mb-4">
+                    <label class="custom-label">Rebounds Record</label>
+                    {% render_field form.rebounds_rec class="form-control bg-slate-900 text-white border-slate-700 py-2" rows="2" placeholder="e.g., 20 reb vs Team Y" %}
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-4">
+                    <label class="custom-label">Assists Record</label>
+                    {% render_field form.assists_rec class="form-control bg-slate-900 text-white border-slate-700 py-2" rows="2" placeholder="e.g., 15 ast vs Team Z" %}
+                </div>
+
+                <div class="col-md-6 mb-4">
+                    <label class="custom-label">Steals Record</label>
+                    {% render_field form.steals_rec class="form-control bg-slate-900 text-white border-slate-700 py-2" rows="2" placeholder="e.g., 8 stl in 2024 Season" %}
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-4">
+                    <label class="custom-label">Blocks Record</label>
+                    {% render_field form.blocks_rec class="form-control bg-slate-900 text-white border-slate-700 py-2" rows="2" placeholder="e.g., 10 blk Career High" %}
+                </div>
+
+                <div class="col-md-6 mb-4">
+                    <label class="custom-label">Efficiency Record</label>
+                    {% render_field form.efficiency_rec class="form-control bg-slate-900 text-white border-slate-700 py-2" rows="2" placeholder="e.g., +45 Efficiency Rating" %}
+                </div>
+            </div>
+            
+            <div class="text-center mt-5">
+                <button type="submit" id="submitBtn" class="btn btn-lg w-100 font-weight-bold d-flex align-items-center justify-content-center" 
+                        style="background-color: #4f46e5; color: white; border: none; transition: 0.3s; height: 55px;">
+                    <span id="btnText">Save Career Records</span>
+                    <div id="btnSpinner" class="spinner-border spinner-border-sm ml-2 d-none" role="status"></div>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<script>
+    document.querySelector('form').addEventListener('submit', function(e) {
+        const btn = document.getElementById('submitBtn');
+        const text = document.getElementById('btnText');
+        const spinner = document.getElementById('btnSpinner');
+
+        // 1. Start Loading Animation
+        btn.disabled = true;
+        text.innerText = "Saving...";
+        spinner.classList.remove('d-none');
+
+        // Note: If you want the animation to show BEFORE the page redirects/reloads:
+        // we can prevent default, show alert, then submit.
+        e.preventDefault();
+
+        // Simulate a small delay for the "Save" feel
+        setTimeout(() => {
+            Swal.fire({
+                title: 'Success!',
+                text: 'Career records have been updated.',
+                icon: 'success',
+                background: '#1e293b',
+                color: '#a5b4fc',
+                confirmButtonColor: '#4f46e5',
+                showConfirmButton: false,
+                timer: 2000,
+                willClose: () => {
+                    // 2. Submit the actual form after animation
+                    e.target.submit();
+                }
+            });
+        }, 800);
+    });
+</script>
+
+<br><br>
+{% endblock %}

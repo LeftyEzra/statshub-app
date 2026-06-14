@@ -1,0 +1,188 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block extra_head %}
+    <link rel="stylesheet" href="{% static 'css/team_registration.css' %}">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+
+<section class="section parallax-container breadcrumbs-wrap" data-parallax-img="{% static 'img/bg-breadcrumbs-1-1920x726.jpg' %}">
+    <div class="material-parallax parallax">
+        <img src="{% static 'img/bg-breadcrumbs-1-1920x726.jpg' %}" alt="" style="transform: translate3d(-50%, 82px, 0px); display: block;">
+    </div>
+    <div class="parallax-content breadcrumbs-custom context-dark">
+        <div class="container">
+            <h2 class="breadcrumbs-custom-title">Team Registration</h2>
+            <ul class="breadcrumbs-custom-path">
+                <li><a href="{% url 'home' %}">Home</a></li>
+                <li><a href="{% url 'team-list' competition.id %}">View Team</a></li>
+                <li class="active">Team Registration</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<div class="container max-w-4xl mx-auto mt-5">
+    <div class="form-container bg-gray-800 p-8 rounded-xl shadow-2xl">
+        <h2 class="text-3xl font-bold text-center mb-8 text-indigo-400">Register New Team</h2>
+        
+        <form action="" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6">
+                
+                {# NON-FIELD ERRORS - Correctly placed at the top #}
+                {% for error in form.non_field_errors %}
+                    <div class="col-span-full text-red-400 p-3 mb-4 border border-red-500 rounded-lg">{{ error }}</div>
+                {% endfor %}
+
+                <h3 class="section-title">Core Team Details</h3>
+
+                {# Name Field #}
+                <div class="col-span-1"><div class="form-floating">
+                    {{ form.name.as_widget }}
+                    {{ form.name.label_tag }}
+                    <small class="text-red-400 text-sm mt-1">{{ form.name.errors }}</small>
+                </div></div>
+
+                {# Abbreviation Field #}
+                <div class="col-span-1"><div class="form-floating">
+                    {{ form.abbreviation.as_widget }}
+                    {{ form.abbreviation.label_tag }}
+                    <small class="text-red-400 text-sm mt-1">{{ form.abbreviation.errors }}</small>
+                </div></div>
+
+                {# City Field #}
+                <div class="col-span-1"><div class="form-floating">
+                    {{ form.city.as_widget }}
+                    {{ form.city.label_tag }}
+                    <small class="text-red-400 text-sm mt-1">{{ form.city.errors }}</small>
+                </div></div>
+                
+                {# Established Year Field #}
+                <div class="col-span-1" style="min-width: 250px;"><div class="form-floating">
+                    {{ form.established_year.as_widget }}
+                    <label for="{{ form.established_year.id_for_label }}">Year</label>
+                    <small class="text-red-400 text-sm mt-1">{{ form.established_year.errors }}</small>
+                </div></div>
+
+                {# Team Logo Field (File Input) #}
+                <div class="col-span-1" ><div class="file-input-group"  >
+                    <label for="{{ form.team_logo.id_for_label }}">Team Logo</label>
+                    {{ form.team_logo.as_widget }}
+                    <div class="text-red-400 text-sm mt-1">{{ form.team_logo.errors }}</div>
+                </div></div>
+                
+                {# Competition Field (Select) #}
+                <div class="col-span-1">
+                    <div class="form-group">
+                        {{ form.competitions.label_tag }}
+                        
+                        <select 
+                            name="{{ form.competitions.name }}" 
+                            id="{{ form.competitions.id_for_label }}"
+                            class="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white focus:ring-indigo-500 focus:border-indigo-500 transition duration-150"
+                            required>
+                            
+                            <option value="">Select a Competition</option>
+                            
+                            {% for competition in form.competitions.field.queryset %}
+                                <option 
+                                    value="{{ competition.pk }}"
+                                    {% if competition.pk|stringformat:"s" == form.competitions.value|stringformat:"s" %}
+                                        selected 
+                                    {% endif %}>
+                                    {{ competition.name }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                        
+                        <div class="text-red-400 text-sm mt-1">{{ form.competitions.errors }}</div>
+                    </div>
+                </div>
+                
+                <h3 class="section-title">Jersey Colors</h3>
+
+                {# Home Color Field - Matches home_color_ui in forms.py #}
+                <div class="col-span-1">
+                    <div class="color-input-group">
+                        <label for="home_color_ui">Home Jersey Color (Required)</label>
+                        <div class="color-input-wrapper">
+                            <input type="color" name="home_color_ui" id="home_color_ui" 
+                                value="{{ form.home_color_ui.value|default:'#6366f1' }}" required>
+                            
+                            {{ form.home_color_ui.as_widget }} 
+                            </div>
+                        <div class="text-red-400 text-sm mt-1">{{ form.home_color_ui.errors }}</div>
+                        
+                        {# 🛑 CRITICAL CHECK: Hidden error for the model field #}
+                        <div class="text-red-400 text-sm mt-1">{{ form.home_jersey_color.errors }}</div>
+                    </div>
+                </div>
+
+                {# Away Color Field - Matches away_color_ui in forms.py #}
+                <div class="col-span-1">
+                    <div class="color-input-group">
+                        <label for="away_color_ui">Away Jersey Color (Optional)</label>
+                        <div class="color-input-wrapper">
+                            <input type="color" name="away_color_ui" id="away_color_ui" 
+                                value="{{ form.away_color_ui.value|default:'#f8fafc' }}">
+                            
+                            {{ form.away_color_ui.as_widget }}
+                        </div>
+                        <div class="text-red-400 text-sm mt-1">{{ form.away_color_ui.errors }}</div>
+                        
+                        {# 🛑 CRITICAL CHECK: Hidden error for the model field #}
+                        <div class="text-red-400 text-sm mt-1">{{ form.away_jersey_color.errors }}</div>
+                    </div>
+                </div>
+
+                <h3 class="section-title">Social Media Links</h3>
+
+                {# Facebook Link Field #}
+                <div class="col-span-1"><div class="form-floating">
+                    {{ form.facebook_link.as_widget }}
+                    {{ form.facebook_link.label_tag }}
+                    <small class="text-red-400 text-sm mt-1">{{ form.facebook_link.errors }}</small>
+                </div></div>
+
+                {# Twitter Link Field #}
+                <div class="col-span-1"><div class="form-floating">
+                    {{ form.twitter_link.as_widget }}
+                    {{ form.twitter_link.label_tag }}
+                    <small class="text-red-400 text-sm mt-1">{{ form.twitter_link.errors }}</small>
+                </div></div>
+                
+                {# Instagram Link Field #}
+                <div class="col-span-1"><div class="form-floating">
+                    {{ form.instagram_link.as_widget }}
+                    {{ form.instagram_link.label_tag }}
+                    <small class="text-red-400 text-sm mt-1">{{ form.instagram_link.errors }}</small>
+                </div></div>
+
+                {# Youtube Link Field #}
+                <div class="col-span-1"><div class="form-floating">
+                    {{ form.youtube_link.as_widget }}
+                    {{ form.youtube_link.label_tag }}
+                    <small class="text-red-400 text-sm mt-1">{{ form.youtube_link.errors }}</small>
+                </div></div>
+
+                {# TikTok Link Field #}
+                <div class="col-span-1"><div class="form-floating">
+                    {{ form.tiktok_link.as_widget }}
+                    {{ form.tiktok_link.label_tag }}
+                    <small class="text-red-400 text-sm mt-1">{{ form.tiktok_link.errors }}</small>
+                </div></div>
+                
+                <div class="col-span-full mb-4"></div> 
+                <div class="col-span-full text-center">
+                    <button id="submitBtn" class="w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg shadow-md transition duration-200" type="submit">Register Team </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<br><br>
+
+{% endblock %}

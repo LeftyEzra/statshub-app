@@ -1,0 +1,154 @@
+
+
+/* 1. LAYOUT FIX: CRITICAL FIX FOR VOID SPACE BELOW NAVBAR */
+.breadcrumbs-wrap {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+}
+
+/* 2. WRAPPER CONTAINER */
+#competition-form-wrap {
+    max-width: 700px; 
+    margin: 0 auto;
+    padding: 30px;
+    background-color: #303437;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.7);
+}
+
+/* 3. FIELD GROUP WRAPPER (For manual rendering) */
+.form-group-custom {
+    margin-bottom: 25px;
+}
+
+/* 4. LABELS */
+#competition-form-wrap label {
+    display: block;
+    color: #f0f0f0;
+    font-weight: bold;
+    margin-bottom: 8px;
+    font-size: 1.1em;
+}
+
+/* 5. INPUT, DATE, TEXTAREA, AND NUMBER FIELD BASICS */
+#competition-form-wrap input[type="text"],
+#competition-form-wrap input[type="date"],
+#competition-form-wrap input[type="number"],
+#competition-form-wrap textarea,
+/* Target raw select element (Select2 target) */
+#competition-form-wrap select { 
+    height: 40px; 
+    padding: 8px 15px;
+    box-sizing: border-box; 
+    width: 100%; 
+    /* !important is used here to override any remaining base theme conflicts */
+    background-color: #44494c !important; 
+    color: #ffffff !important; /* Ensure input text is white */
+    border: 1px solid #777; 
+    border-radius: 5px; 
+    transition: border-color 0.3s;
+}
+
+/* Special sizing for textarea */
+#competition-form-wrap textarea {
+    height: 100px; 
+    resize: vertical;
+    padding-top: 10px;
+}
+
+/* 6. BOOLEAN FIELD STYLES */
+.form-group-custom.boolean-field {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.form-group-custom.boolean-field input[type="checkbox"] {
+    width: auto !important; 
+    height: 18px !important;
+    margin: 0;
+    padding: 0;
+    background-color: transparent !important;
+    border: 1px solid #777 !important;
+    border-radius: 3px !important;
+    -webkit-appearance: checkbox !important; 
+    -moz-appearance: checkbox !important;
+    appearance: checkbox !important;
+    accent-color: #28a745;
+}
+.form-group-custom.boolean-field label {
+    display: inline;
+    font-size: 1em;
+    font-weight: normal;
+    margin-bottom: 0;
+    cursor: pointer;
+}
+
+/* ---------------------------------------------------- */
+/* 🔑 CRITICAL FIX: SELECT2 STYLES */
+/* ---------------------------------------------------- */
+
+/* Targets the main visible box (the wrapper for the text and arrow) */
+#competition-form-wrap .select2-selection { 
+    height: 40px !important;
+    background-color: #44494c !important; /* Form field background */
+    border: 1px solid #777 !important;
+    border-radius: 5px !important;
+    box-sizing: border-box !important;
+}
+
+/* Targets the element that holds the selected text/value */
+#competition-form-wrap .select2-selection__rendered {
+    line-height: 22px !important; 
+    padding-left: 15px !important;
+    color: #ffffff !important; /* Selected text color */
+}
+
+/* Style for the Selected 'Opponents' Tags (Multi-select chips) */
+#competition-form-wrap .select2-selection__choice {
+    background-color: #28a745 !important; /* Green tag background */
+    color: #ffffff !important;
+    border: 1px solid #1e7e34 !important;
+    border-radius: 4px !important;
+    padding: 0 8px !important;
+    margin-top: 6px !important;
+    margin-right: 5px !important;
+}
+
+/* Dropdown Panel */
+.select2-dropdown {
+    background-color: #303437 !important; /* Dark background for dropdown menu */
+    border: 1px solid #28a745 !important;
+    border-top: none !important;
+}
+
+/* Dropdown Options */
+.select2-results__option {
+    color: #f0f0f0 !important; /* White text for options */
+}
+/* Highlighted (hovered) options */
+.select2-results__option--highlighted {
+    background-color: #28a745 !important; /* Highlight color */
+    color: #ffffff !important;
+}
+/* Search input inside dropdown */
+.select2-search__field {
+    background-color: #44494c !important;
+    color: #ffffff !important;
+    border: 1px solid #777 !important;
+}
+/* Placeholder text color in search field */
+.select2-search__field::placeholder {
+    color: #aaaaaa !important;
+}
+
+/* 7. FOCUS STATE - Target the active/focused container */
+#competition-form-wrap input:focus,
+#competition-form-wrap textarea:focus,
+#competition-form-wrap .select2-container--open .select2-selection {
+    border-color: #28a745 !important;
+    box-shadow: 0 0 5px rgba(40, 167, 69, 0.75) !important;
+    outline: none !important;
+}
+
+/* 8. DATE FIX */
+#competition-form-wrap input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(1); }

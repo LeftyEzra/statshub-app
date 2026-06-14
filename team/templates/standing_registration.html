@@ -1,0 +1,123 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block extra_head %}
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+{% endblock %}
+
+{% block content %}
+<style>
+    select.form-select {
+        background-color: #1e293b !important;
+        color: #94a3b8;
+        border-color: #334155;
+    }
+    .form-control, .form-control:focus {
+        color: #ffffff !important;
+        background-color: #0f172a !important;
+        border-color: #334155 !important;
+    }
+    .form-control::placeholder {
+        color: #475569 !important;
+    }
+    label {
+        color: #94a3b8;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        display: block;
+    }
+</style>
+
+<section class="section parallax-container breadcrumbs-wrap" data-parallax-img="{% static 'img/bg-breadcrumbs-1-1920x726.jpg' %}">
+    <div class="material-parallax parallax">
+        <img src="{% static 'img/bg-breadcrumbs-1-1920x726.jpg' %}" alt="">
+    </div>
+    <div class="parallax-content breadcrumbs-custom context-dark">
+        <div class="container">
+            <h2 class="breadcrumbs-custom-title">Standing Management</h2>
+            <ul class="breadcrumbs-custom-path">
+                <li><a href="{% url 'home' %}">Home</a></li>
+                <li class="active">Update Standings</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<div class="container my-5" style="max-width: 900px;">
+    <div class="p-4 p-md-5 rounded-3 shadow-lg" style="background-color: #1e293b;">
+        <h2 class="text-3xl font-bold text-center mb-5" style="color: #a5b4fc;">
+            League Standing Entry
+        </h2>
+
+        <form method="POST">
+            {% csrf_token %}
+
+            <div class="row border-b border-slate-700 pb-4 mb-5">
+                <div class="col-md-6 mb-3">
+                    <label>Main Team</label>
+                    {% render_field form.team class="form-select w-100 py-2 px-3 rounded" %}
+                    <small class="text-slate-500 italic">Select if updating your main team</small>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label>Opponent Team</label>
+                    {% render_field form.opponent class="form-select w-100 py-2 px-3 rounded" %}
+                    <small class="text-slate-500 italic">Select if updating an opponent</small>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-4">
+                    <label>Wins (W)</label>
+                    {% render_field form.w class="form-control py-3" placeholder="0" %}
+                </div>
+                <div class="col-md-6 mb-4">
+                    <label>Losses (L)</label>
+                    {% render_field form.l class="form-control py-3" placeholder="0" %}
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-4">
+                    <label>Home Record</label>
+                    {% render_field form.home_record class="form-control py-3" placeholder="0-0" %}
+                </div>
+                <div class="col-md-6 mb-4">
+                    <label>Away Record</label>
+                    {% render_field form.away_record class="form-control py-3" placeholder="0-0" %}
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-4">
+                    <label>Points Per Game (PPG)</label>
+                    {% render_field form.ppg class="form-control py-3" placeholder="0.0" %}
+                </div>
+                <div class="col-md-6 mb-4">
+                    <label>Opponent PPG</label>
+                    {% render_field form.opp_ppg class="form-control py-3" placeholder="0.0" %}
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-4">
+                    <label>Current Streak</label>
+                    {% render_field form.strk class="form-control py-3" placeholder="W1" %}
+                </div>
+                <div class="col-md-6 mb-4">
+                    <label>Last 5 Games</label>
+                    {% render_field form.last_5 class="form-control py-3" placeholder="0-0" %}
+                </div>
+            </div>
+
+            <div class="text-center mt-5">
+                <button type="submit" class="btn btn-lg w-100 font-weight-bold" 
+                        style="background-color: #4f46e5; color: white; border: none; padding: 15px;">
+                    Save Standing Data
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
