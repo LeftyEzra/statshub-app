@@ -505,7 +505,7 @@
                                           <li class="rd-dropdown-item"><a class="rd-dropdown-link" href="{% url 'season-create' %}">Season Form</a></li>
                                           <li class="rd-dropdown-item"><a class="rd-dropdown-link" href="{% url 'competition-create' %}">Competition Form</a></li>
                                           <li class="rd-dropdown-item"><a class="rd-dropdown-link" href="{% url 'create-opponent' %}">Opponent Form</a></li>
-                                          <li class="rd-dropdown-item"><a class="rd-dropdown-link" href="{% url 'create-game' competition.id %}">Game Form</a></li>
+                                          <li class="rd-dropdown-item"><a class="rd-dropdown-link" href="{% url 'create-game' competition.slug %}">Game Form</a></li>
                                       </div>
 
                                       <div class="col-md-4">
@@ -513,12 +513,12 @@
                                           <li class="rd-dropdown-item"><a class="rd-dropdown-link" href="{% url 'team-create' %}">Team Form</a></li>
                                           <li class="rd-dropdown-item"><a class="rd-dropdown-link" href="{% url 'create-player' %}">Players Form</a></li>
                                           <li class="rd-dropdown-item"><a class="rd-dropdown-link" href="{% url 'create-staff' %}">Staff Form</a></li>
-                                          <li class="rd-dropdown-item"><a class="rd-dropdown-link" href="{% url 'create-records' competition.id %}">Career Records</a></li>
+                                          <li class="rd-dropdown-item"><a class="rd-dropdown-link" href="{% url 'create-records' competition.slug %}">Career Records</a></li>
                                       </div>
 
                                       <div class="col-md-4">
                                           <p style="font-weight: bold; border-bottom: 1px solid #eee; padding-bottom: 5px; margin-bottom: 10px; font-size: 12px; color: #e20e0e;">MEDIA & NEWS</p>
-                                          <li class="rd-dropdown-item"><a class="rd-dropdown-link" href="{% url 'create-news' competition.id %}">News Form</a></li>
+                                          <li class="rd-dropdown-item"><a class="rd-dropdown-link" href="{% url 'create-news' competition.slug %}">News Form</a></li>
                                           <li class="rd-dropdown-item"><a class="rd-dropdown-link" href="{% url 'create-award' %}">Award Form</a></li>
                                           <li class="rd-dropdown-item"><a class="rd-dropdown-link" href="{% url 'create-image' %}">Gallery Form</a></li>
                                           <li class="rd-dropdown-item"><a class="rd-dropdown-link" href="#">Sponsor Form</a></li>
