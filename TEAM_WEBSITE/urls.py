@@ -25,19 +25,13 @@ admin.site.index_title = "Welcome To The StatsHub Admin Area..."
 
 
 # At the very bottom of your urls.py file
-
 from django.contrib.auth import get_user_model
 
 try:
     User = get_user_model()
-    # This automatically grabs the first superuser account it finds in your database
-    user = User.objects.filter(is_superuser=True).first()
-    
-    if user:
-        user.set_password('YourNewSecretPasswordHere!')  # <-- Keep the quotes and put your password here
-        user.save()
-        print(f"PASSWORD RESET SUCCESSFUL! Your username is: {user.username}")
-    else:
-        print("No superuser account found in the database.")
+    # Check if our new temporary master admin already exists
+    if not User.objects.filter(username='masteradmin').exists():
+        # This creates a brand new administrator from scratch
+        User.objects.create_superuser('masteradmin', 'admin@statshub.com', 'SolomonStats2026!')
 except Exception as e:
-    print("Password reset error:", e)
+    pass
