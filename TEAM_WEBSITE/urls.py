@@ -30,10 +30,14 @@ from django.contrib.auth import get_user_model
 
 try:
     User = get_user_model()
-    # Find your account by your username
-    user = User.objects.get(username='admin')  # <-- Change 'admin' to your username if it's different
-    user.set_password('MyNewSecurePassword123!')  # <-- Put the new password you want here
-    user.save()
-    print("PASSWORD RESET SUCCESSFULLY!")
+    # This automatically grabs the first superuser account it finds in your database
+    user = User.objects.filter(is_superuser=True).first()
+    
+    if user:
+        user.set_password('YourNewSecretPasswordHere!')  # <-- Keep the quotes and put your password here
+        user.save()
+        print(f"PASSWORD RESET SUCCESSFUL! Your username is: {user.username}")
+    else:
+        print("No superuser account found in the database.")
 except Exception as e:
     print("Password reset error:", e)
