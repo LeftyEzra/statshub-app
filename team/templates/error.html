@@ -64,11 +64,11 @@
         
         <h2 class="error-title">
             {% if exception_code == 404 %}
-                Page Not Found
+                <p>Page Not Found 😔</p>
             {% elif exception_code == 403 %}
-                Page Not Found 😔 
+                <p>Access Denied 😔</p>
             {% elif exception_code == 400 %}
-                Bad Request
+                <p>Bad Request 😔</p>
             {% else %}
                 Something Went Wrong
             {% endif %}
@@ -77,7 +77,6 @@
         <p class="error-detail">
             {% if exception_code == 403 %}
                 Sorry this page does not exist.
-                
             {% elif exception_code == 404 %}
                 We couldn't find the page you were looking for. The link may be broken or the page may have been removed.
             {% else %}
@@ -85,7 +84,6 @@
                 Try navigating back or refreshing the page.
             {% endif %}
         </p>
-
         <a href="{% url 'home' %}" class="back-button">Go to Homepage</a>
         
         
