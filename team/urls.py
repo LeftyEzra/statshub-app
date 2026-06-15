@@ -151,5 +151,9 @@ urlpatterns = [
     path('edit image/<int:pk>/', views.update_image, name='update-image'),
     path('delete image/<int:pk>/', views.delete_image, name='delete-image'),
 
+
+
+
     
 ]
+

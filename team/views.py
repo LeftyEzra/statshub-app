@@ -3583,3 +3583,10 @@ def delete_chart(request, slug):
     delete_chart = get_object_or_404(ShotCharts, slug=slug)
     delete_chart.delete()
     return redirect('charts')
+
+
+
+
+
+
+

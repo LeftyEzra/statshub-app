@@ -15,11 +15,12 @@ SECRET_KEY = config("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config("DEBUG", cast=bool)
-WHITENOISE_MANIFEST_STRICT = False
+
 
 # settings.py
 
-ALLOWED_HOSTS = config("ALLOWED_HOSTS").split(",")
+# This splits by comma AND strips away any accidental spaces!
+ALLOWED_HOSTS = [host.strip() for host in config("ALLOWED_HOSTS").split(",")]
 
 
 # Application definition
@@ -148,15 +149,20 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 
 
-
 STORAGES = {
     "default": {
         "BACKEND": "django.core.files.storage.FileSystemStorage",
     },
     "staticfiles": {
-        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+        # DEVELOPMENT: Use this for local development (ignores missing files)
+        "BACKEND": "whitenoise.storage.CompressedStaticFilesStorage",
+        
+  
     },
 }
+
+
+
 
 MEDIA_URL = 'media/' #Path that serves files like photos, videos, mp3 and the likes...
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media') # This is the filesystem path to the directory conveying the media.

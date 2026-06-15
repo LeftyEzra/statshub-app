@@ -28,5 +28,8 @@ def global_competition_and_team(request):
     # Return the dictionary with both objects for global use in templates
     return {
         'competition': competition, 
-        'current_team': current_team
+        'current_team': current_team,
+        'SITE_VERSION': '1.0'  
     }
+
+
