@@ -57,7 +57,7 @@ urlpatterns = [
     # CBV Path for Team creation, listing, update and delete.
     path('team create/', TeamCreateView.as_view(), name='team-create'),
     path('competition/<slug:competition_slug>/team_list/', TeamListView.as_view(), name='team-list'),
-    path('competition/<slug:competition_slug>/roster/', views.team_roster, name='team-roster'),
+    path('competition/<slug:competition_slug>/<slug:team_slug>/roster/', views.team_roster, name='team-roster'),
     path('competition/<slug:competition_slug>/team/', TeamDetailView.as_view(), name='team-id'),
     path('competition/<slug:competition_slug>/last-5-games-charts/', views.team_shot_chart, name='team-charts'),
   

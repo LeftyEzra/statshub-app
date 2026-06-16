@@ -148,21 +148,40 @@ class CompetitionSeasonAdmin(admin.ModelAdmin):
 class PlayerAdmin(admin.ModelAdmin):
     inlines = [GalleryImagesInline]
     list_display = ('jersey_number', 'player_name', 'player_image', 'get_teams', 'get_opponents', 'position', 'date_of_birth', 
-                    'height_cm', 'weight_kg',  'country',  'biography','career_awards', 'award_year', 'experience', 'draft_info', 'active_status', 'is_starter',
+                    'height_cm', 'weight_kg',  'country',  'get_biography','career_awards', 'award_year', 'experience', 'draft_info', 'active_status', 'is_starter',
                     'twitter_link', 'facebook_link', 'instagram_link','youtube_link', 'tiktok_link',)
     ordering = ('jersey_number',)
     search_fields = ('player_name', 'position',)
 
     def get_teams(self, obj):
-        return obj.team.name if obj.team else ""
+        # Safely fetches obj.team, and returns None if it's empty or missing
+        team_instance = getattr(obj, 'team', None)
+        if team_instance:
+            return team_instance.name
+        return "—"  # Clean placeholder in the table for opponent players
     get_teams.short_description = 'Teams'
 
     def get_opponents(self, obj):
-        return obj.opponent.name if obj.opponent else ""
+        # Safely fetches obj.opponent, and returns None if it's empty or missing
+        opponent_instance = getattr(obj, 'opponent', None)
+        if opponent_instance:
+            return opponent_instance.name
+        return "—"  # Clean placeholder in the table for your home team players
     get_opponents.short_description = 'Opponents'
 
     def get_players_images(self, obj):
         return ", ".join([image.title for image in obj.player_pictures.all()])
+
+
+    # 2. Add this safe truncation method:
+    def get_biography(self, obj):
+        if obj.biography:
+            # Adjust '70' to whatever character length looks best on your screen
+            if len(obj.biography) > 50:
+                return f"{obj.biography[:50]}..."
+            return obj.biography
+        return "No biography available"
+    get_biography.short_description = 'Biography'    
      
 
 

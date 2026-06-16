@@ -373,23 +373,22 @@
                   <li ><a href="">Statistics</a></li>
                   {% endif %}
 
-                  {% if competition.slug %}
-                  <li ><a href="{% url 'team-roster' competition.slug %}">Team</a></li>
+                  {% if competition.slug and team.slug %}
+                      <a class="rd-dropdown-link" href="{% url 'team-roster' competition.slug team.slug %}">Roster</a>
+                  {% elif competition.slug and team_details.slug %}
+                      <a class="rd-dropdown-link" href="{% url 'team-roster' competition.slug team_details.slug %}">Roster</a>
                   {% else %}
-                  <li ><a href="">Team</a></li>
+                      <a class="rd-dropdown-link" href="#">Roster</a>
                   {% endif %}
 
                   {% if competition.slug %}
                   <li ><a href="{% url 'news-list' competition.slug   %}">News</a></li>
                   {% else %}
-                  <li ><a href="">Statistics</a></li>
+                  <li ><a href="">News</a></li>
                   {% endif %}
 
-                  {% if competition.slug %}
                   <li ><a href="{% url 'grid-shop' %}">Shop</a></li>
-                  {% else %}
-                  <li ><a href="">Statistics</a></li>
-                  {% endif %}
+                 
                   
                 </ul>
               </nav>

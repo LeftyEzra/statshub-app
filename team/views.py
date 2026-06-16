@@ -919,11 +919,17 @@ def team_shot_chart(request, competition_slug):
 ##############################################################################
 # FUNCTION VIEW TEAM ROSTER
 
-def team_roster(request, competition_slug):
+def team_roster(request, competition_slug, team_slug):
     competition = get_object_or_404(Competition, slug=competition_slug)
-    team = competition.team
-    team_details = team
+    team = Team.objects.filter(slug=team_slug, competitions=competition).first()
+    #Stop right here if the team isn't found in this competition
+    if team is None:
+        from django.http import Http404
+        raise Http404(f"Team '{team_slug}' does not exist in this competition.")
+        
+    team_details = team   
     players = team_details.players.all()  # Using the foreign key Team related_name 'players'
+    
     # Get the player's statistics
     staff = TeamStaff.objects.filter(team=team_details)
     tournament_stats = PlayerStatLine.objects.filter(player_name__in=players)
