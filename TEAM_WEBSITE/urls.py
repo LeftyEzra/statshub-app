@@ -4,9 +4,13 @@ from django.urls import path, include
 # To use the media declared in the settings.py file
 from . import settings
 from django.conf.urls.static import static
+from decouple import config
+
+# This reads ADMIN_URL from your env, and defaults to 'admin/'
+ADMIN_PATH = config('ADMIN_URL', default='admin/')
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path(ADMIN_PATH, admin.site.urls),
     path('', include('team.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
     path('members/', include('members.urls')),
