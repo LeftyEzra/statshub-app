@@ -198,3 +198,18 @@ BANK_DETAILS = {
 
 # This will force Django to show the exact live connection result
 # send_mail('Statshub Test', 'Testing live SMTP delivery.', settings.EMAIL_HOST_USER, ['ase25lefty@gmail.com'], fail_silently=False)
+
+
+JAZZMIN_SETTINGS = {
+    "site_title": "StatsHub Admin",
+    # Links to put along the top menu
+    "topmenu_links": [
+        # App with dropdown menu to all its models pages (Permissions checked against models)
+        {"app": "TEAM_WEBSITE"},
+    ],
+
+     # Copyright on the footer
+    "copyright": "STATSHUB",
+
+    "show_ui_builder": True,  # <-- Add this line
+}
