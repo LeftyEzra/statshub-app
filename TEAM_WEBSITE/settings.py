@@ -205,7 +205,6 @@ JAZZMIN_SETTINGS = {
     # Links to put along the top menu
     "topmenu_links": [
         # App with dropdown menu to all its models pages (Permissions checked against models)
-        # You can stack multiple apps right here:
         {"app": "team"}, 
         {"app": "store"},
         {"app": "services"},
@@ -216,4 +215,10 @@ JAZZMIN_SETTINGS = {
     "copyright": "STATSHUB",
 
     "show_ui_builder": True,  # <-- Add this line
+}
+
+
+JAZZMIN_UI_TWEAKS = {
+    "theme": "darkly",           # Pick your favorite: darkly, slate, cyborg, flatly, cosmo
+    "default_theme_mode": "dark" # Enforces dark mode globally
 }
