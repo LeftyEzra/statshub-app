@@ -205,7 +205,11 @@ JAZZMIN_SETTINGS = {
     # Links to put along the top menu
     "topmenu_links": [
         # App with dropdown menu to all its models pages (Permissions checked against models)
-        {"app": "TEAM_WEBSITE"},
+        # You can stack multiple apps right here:
+        {"app": "team"}, 
+        {"app": "store"},
+        {"app": "services"},
+       
     ],
 
      # Copyright on the footer
