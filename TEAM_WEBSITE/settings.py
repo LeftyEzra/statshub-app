@@ -26,7 +26,7 @@ ALLOWED_HOSTS = [host.strip() for host in config("ALLOWED_HOSTS").split(",")]
 # Application definition
 
 INSTALLED_APPS = [
-    'jazzmin',
+   
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -200,25 +200,3 @@ BANK_DETAILS = {
 # send_mail('Statshub Test', 'Testing live SMTP delivery.', settings.EMAIL_HOST_USER, ['ase25lefty@gmail.com'], fail_silently=False)
 
 
-JAZZMIN_SETTINGS = {
-    "site_title": "StatsHub Admin",
-    # Links to put along the top menu
-    "topmenu_links": [
-        # App with dropdown menu to all its models pages (Permissions checked against models)
-        {"app": "team"}, 
-        {"app": "store"},
-        {"app": "services"},
-       
-    ],
-
-     # Copyright on the footer
-    "copyright": "STATSHUB",
-
-    "show_ui_builder": True,  # <-- Add this line
-}
-
-
-JAZZMIN_UI_TWEAKS = {
-    "theme": "darkly",           # Pick your favorite: darkly, slate, cyborg, flatly, cosmo
-    "default_theme_mode": "dark" # Enforces dark mode globally
-}
