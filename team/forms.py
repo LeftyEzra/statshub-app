@@ -65,7 +65,7 @@ class CompetitionForm(forms.ModelForm):
         labels = {
             'year': 'Year',
             'name': 'Competition Name',
-            'type': 'Competition Type',
+            'competition_type': 'Competition Type',
             'team': 'Team',
             'opponents': 'Opponents',
             'start_date': 'Starting Date',
@@ -77,7 +77,7 @@ class CompetitionForm(forms.ModelForm):
             # Fix: Use Select widget for ForeignKey
             'year': forms.Select(attrs={'class': 'form-control'}),
             'name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Competition Name'}),
-            'type': forms.Select(attrs={'class': 'form-control'}),
+            'tcompetition_type': forms.Select(attrs={'class': 'form-control'}),
             # Keep SelectMultiple for ManyToManyField
             'team': forms.Select(attrs={'class': 'form-control'}),
             'opponents': forms.SelectMultiple(attrs={'class': 'form-control'}),

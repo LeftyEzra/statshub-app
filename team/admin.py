@@ -73,9 +73,9 @@ class SeasonAdmin(admin.ModelAdmin):
 #Register Competition in the Admin area
 @admin.register(Competition)
 class CompetitionAdmin(admin.ModelAdmin):
-    list_display = ('name','type', 'is_current_competition', 'year','start_date', 'end_date', 'team',  'description','created_at' )
-    search_fields = ('name', 'type', 'year')
-    list_filter = ('name', 'type', 'year')
+    list_display = ('name','competition_type', 'is_current_competition', 'year','start_date', 'end_date', 'team',  'description','created_at' )
+    search_fields = ('name', 'competition_type', 'year')
+    list_filter = ('name', 'competition_type', 'year')
     ordering = ('name',)
     inlines = [CompetitionSeasonInline]  # Includes inline editing for teams in the competition admin panel
     

@@ -76,9 +76,9 @@ COMPETITION_CHOICES = [
 class Competition(AutoSlugModel):
     year = models.ForeignKey('Season', on_delete=models.CASCADE, null=True,blank=True)
     name = models.CharField(max_length=255)
-    type = models.CharField(max_length=2, choices=COMPETITION_CHOICES,default='LE' )
+    competition_type = models.CharField(max_length=2, choices=COMPETITION_CHOICES,default='LE' )
     team = models.ForeignKey('Team', on_delete=models.CASCADE,  null=True, blank=True,  related_name='team',)
-    opponents = models.ManyToManyField('Opponent')
+    opponents = models.ManyToManyField('Opponent', blank=True)
     start_date = models.DateField(blank=True, null=True)
     end_date = models.DateField(blank=True, null=True)
     description = models.TextField(blank=True, null=True)
