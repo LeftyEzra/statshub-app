@@ -354,7 +354,7 @@ class TeamCreateView(SuperuserRequiredMixin, View):
             # 🚀 FIX: Only return the form object, not the non-existent 'team' object
             return render(request, 'team_registration.html', {"form": form})
 #  Class Base View For Opponent List
-class TeamListView(APIView):
+class TeamListView(View):
     def get(self, request, competition_slug, ): 
         
         competition = get_object_or_404(Competition, slug=competition_slug)
