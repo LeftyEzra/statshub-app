@@ -237,21 +237,21 @@ def delete_season(request, slug):
 class CompetitionCreateView(View):
     def get(self, request):
         form = CompetitionForm()
-        
-        submitted = 'submitted' in request.GET
-        return render(request, 'competition_registration.html', {"form": form,  'submitted': submitted})
+        return render(request, 'competition_registration.html', {"form": form,})
 
     def post(self, request):
         form = CompetitionForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
             messages.success(request, "Competition Added Successfully :)")
-            return HttpResponseRedirect('/competition-create?submitted=True')
+            
+            # This safely looks up your path name 'competition-create' dynamically
+            return HttpResponseRedirect(reverse('competition-create'))
+            
         else:
             messages.error(request, "There were errors in the form. Please correct them and try again.")
         
-        # REMOVED "competition": competition because it doesn't exist yet!
-        return render(request, 'competition_registration.html', {"form": form, 'submitted': False})
+        return render(request, 'competition_registration.html', {"form": form})
 
 
 #Season List View
