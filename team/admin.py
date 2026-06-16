@@ -100,13 +100,20 @@ class TeamAdmin(admin.ModelAdmin):
     search_fields = ('name', 'abbreviation',)
 
     def get_players(self, obj):
-        return ", ".join([player.player_name for player in obj.team.players.all()])
+        try:
+            return ", ".join([player.player_name for player in obj.players.all()])
+        except AttributeError:
+            return "No Players"
     get_players.short_description = 'Players'
 
     def get_staff(self, obj):
-        return ", ".join([staff.full_name  for staff in obj.team_staff.all()])
+        try:
+            return ", ".join([staff.full_name for staff in obj.team_staff.all()])
+        except AttributeError:
+            return "No Staff"
     get_staff.short_description = 'Team Staff'
 
+    
 
 #Register Team Staff in the Admin area
 @admin.register(TeamStaff)
