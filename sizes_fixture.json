@@ -1,0 +1,212 @@
+[
+{
+    "model": "store.sizes",
+    "pk": 1,
+    "fields": {
+        "sizes": "S"
+    }
+},
+{
+    "model": "store.sizes",
+    "pk": 2,
+    "fields": {
+        "sizes": "M"
+    }
+},
+{
+    "model": "store.sizes",
+    "pk": 3,
+    "fields": {
+        "sizes": "L"
+    }
+},
+{
+    "model": "store.sizes",
+    "pk": 4,
+    "fields": {
+        "sizes": "XL"
+    }
+},
+{
+    "model": "store.sizes",
+    "pk": 5,
+    "fields": {
+        "sizes": "XXL"
+    }
+},
+{
+    "model": "store.sizes",
+    "pk": 6,
+    "fields": {
+        "sizes": "3XL"
+    }
+},
+{
+    "model": "store.sizes",
+    "pk": 7,
+    "fields": {
+        "sizes": "28"
+    }
+},
+{
+    "model": "store.sizes",
+    "pk": 8,
+    "fields": {
+        "sizes": "30"
+    }
+},
+{
+    "model": "store.sizes",
+    "pk": 9,
+    "fields": {
+        "sizes": "32"
+    }
+},
+{
+    "model": "store.sizes",
+    "pk": 10,
+    "fields": {
+        "sizes": "34"
+    }
+},
+{
+    "model": "store.sizes",
+    "pk": 11,
+    "fields": {
+        "sizes": "36"
+    }
+},
+{
+    "model": "store.sizes",
+    "pk": 12,
+    "fields": {
+        "sizes": "38"
+    }
+},
+{
+    "model": "store.sizes",
+    "pk": 13,
+    "fields": {
+        "sizes": "40"
+    }
+},
+{
+    "model": "store.sizes",
+    "pk": 14,
+    "fields": {
+        "sizes": "42"
+    }
+},
+{
+    "model": "store.sizes",
+    "pk": 15,
+    "fields": {
+        "sizes": "45"
+    }
+},
+{
+    "model": "store.sizes",
+    "pk": 16,
+    "fields": {
+        "sizes": "45.5"
+    }
+},
+{
+    "model": "store.sizes",
+    "pk": 17,
+    "fields": {
+        "sizes": "46"
+    }
+},
+{
+    "model": "store.sizes",
+    "pk": 18,
+    "fields": {
+        "sizes": "46.5"
+    }
+},
+{
+    "model": "store.sizes",
+    "pk": 19,
+    "fields": {
+        "sizes": "47"
+    }
+},
+{
+    "model": "store.sizes",
+    "pk": 20,
+    "fields": {
+        "sizes": "47.5"
+    }
+},
+{
+    "model": "store.sizes",
+    "pk": 21,
+    "fields": {
+        "sizes": "48"
+    }
+},
+{
+    "model": "store.sizes",
+    "pk": 22,
+    "fields": {
+        "sizes": "48.5"
+    }
+},
+{
+    "model": "store.sizes",
+    "pk": 23,
+    "fields": {
+        "sizes": "49"
+    }
+},
+{
+    "model": "store.sizes",
+    "pk": 24,
+    "fields": {
+        "sizes": "49.5"
+    }
+},
+{
+    "model": "store.sizes",
+    "pk": 25,
+    "fields": {
+        "sizes": "50"
+    }
+},
+{
+    "model": "store.sizes",
+    "pk": 26,
+    "fields": {
+        "sizes": "US12"
+    }
+},
+{
+    "model": "store.sizes",
+    "pk": 27,
+    "fields": {
+        "sizes": "US13"
+    }
+},
+{
+    "model": "store.sizes",
+    "pk": 28,
+    "fields": {
+        "sizes": "US14"
+    }
+},
+{
+    "model": "store.sizes",
+    "pk": 29,
+    "fields": {
+        "sizes": "US15"
+    }
+},
+{
+    "model": "store.sizes",
+    "pk": 30,
+    "fields": {
+        "sizes": "US16"
+    }
+}
+]

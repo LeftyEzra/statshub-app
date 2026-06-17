@@ -101,8 +101,7 @@ class Sizes(models.Model):
     class Meta:
         verbose_name_plural = 'Sizes'         
 
-CURRENT_CONDITION = (
-    ('Select', 'Select Condition'),    
+CURRENT_CONDITION = (    
     ('New', 'Brand New'),
     ('Hot', 'Trending'),
     ('Acube', 'Grade A Used'), # Keeps 'Acube' in DB, but shows premium text to users Grade A Used (Pristine Condition)'
@@ -125,12 +124,12 @@ class Product(AutoSlugModel):
     sizes        = models.ManyToManyField('Sizes', blank=True)
     colors       = models.ManyToManyField('Colors', blank=True)
     gender_type  = models.CharField(max_length=6, choices=GENDER_CHOICES, default='Unisex', blank=True,null=True )
-    brand_type   = models.CharField(max_length=7, choices=CURRENT_CONDITION, default='Select', blank=True,null=True )
+    brand_type   = models.CharField(max_length=7, choices=CURRENT_CONDITION, default='', blank=True,null=True )
     description  = models.TextField(max_length=10000, default='',blank=True,null=True)
     image        = models.ImageField(upload_to='uploads/product/',blank=True,null=True)
     # Add Sales Stuff
     is_sales   = models.BooleanField(default=False)
-    sale_price = models.DecimalField(default=0, decimal_places=2, max_digits=6, blank=True,null=True)
+    sales_price = models.DecimalField(default=0, decimal_places=2, max_digits=6, blank=True,null=True)
     pieces = models.PositiveIntegerField(default=1, blank=True, null=True)
     featured_player = models.ForeignKey(Player, on_delete=models.SET_NULL, null=True, blank=True, related_name='merchandise')
 

@@ -120,6 +120,18 @@
                     {% render_field form.efficiency_rec class="form-control bg-slate-900 text-white border-slate-700 py-2" rows="2" placeholder="e.g., +45 Efficiency Rating" %}
                 </div>
             </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-4">
+                    <label class="custom-label">Career Award</label>
+                    {% render_field form.career_awards class="form-control bg-slate-900 text-white border-slate-700 py-2" rows="2" placeholder="e.g., Career Awards" %}
+                </div>
+
+                <div class="col-md-6 mb-4">
+                    <label class="custom-label">Award Year</label>
+                    {% render_field form.award_year class="form-control bg-slate-900 text-white border-slate-700 py-2" rows="2" placeholder="e.g., Award Year" %}
+                </div>
+            </div>
             
             <div class="text-center mt-5">
                 <button type="submit" id="submitBtn" class="btn btn-lg w-100 font-weight-bold d-flex align-items-center justify-content-center" 

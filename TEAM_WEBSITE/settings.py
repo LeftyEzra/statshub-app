@@ -155,7 +155,7 @@ STORAGES = {
         "BACKEND": "django.core.files.storage.FileSystemStorage",
     },
     "staticfiles": {
-        # DEVELOPMENT: Use this for local development (ignores missing files)
+        
         "BACKEND": "whitenoise.storage.CompressedStaticFilesStorage",
         
   
@@ -191,12 +191,4 @@ BANK_DETAILS = {
     'ACCOUNT_NUMBER': config('BANK_ACCOUNT_NUMBER'),
     'ACCOUNT_NAME': config('BANK_ACCOUNT_NAME'),
 }
-
-
-#from django.core.mail import send_mail
-#from django.conf import settings
-
-# This will force Django to show the exact live connection result
-# send_mail('Statshub Test', 'Testing live SMTP delivery.', settings.EMAIL_HOST_USER, ['ase25lefty@gmail.com'], fail_silently=False)
-
 

@@ -49,8 +49,8 @@ def cart_summary(request):
 
         # Calculate subtotal
         if product.is_sales:
-            subtotal = product.sale_price * item['qty']
-            price = product.sale_price
+            subtotal = product.sales_price * item['qty']
+            price = product.sales_price
         else:
             subtotal = product.price * item['qty']
             price = product.price
@@ -58,11 +58,11 @@ def cart_summary(request):
         grand_total += subtotal
 
         cart_items.append({
-            'id': product.id,
+            'id': product.slug,
             'name': product.name,
             'image': product.image.url,
             'price': product.price,
-            'sale_price': product.sale_price,
+            'sale_price': product.sales_price,
             'is_sales': product.is_sales,
             'qty': item['qty'],
             'color': item['color'],

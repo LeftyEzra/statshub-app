@@ -53,7 +53,7 @@ def checkout(request):
         try:
             product = Product.objects.get(id=int(item['id']))
             qty = int(item['qty'])
-            price = product.sale_price if product.is_sales else product.price
+            price = product.sales_price if product.is_sales else product.price
             subtotal = price * qty
             grand_total += subtotal
 
@@ -64,7 +64,7 @@ def checkout(request):
                 'name': product.name,
                 'image': product.image.url if product.image else '',
                 'price': product.price,
-                'sale_price': product.sale_price,
+                'sale_price': product.sales_price,
                 'is_sales': product.is_sales,
                 'qty': qty,
                 'color': item.get('color', 'Default'),
@@ -473,14 +473,15 @@ def admin_dashboard(request):
             current_time = datetime.datetime.now()
             
             if status == 'true':
-                order_query.update( shipped=True,  payment_status=True,  date_shipped=current_time, date_delivered=current_time)
+                # Added delivered=True explicitly to the database update parameters
+                order_query.update(delivered=True, shipped=True, payment_status=True, date_shipped=current_time, date_delivered=current_time)
                 messages.success(request, "Order Marked as Delivered successfully.")
-            else:# Reverting back to basic pending states
-                order_query.update(shipped=False, payment_status=False, date_delivered=None) # Clears out delivery timestamp safely
+            else:
+                # This explicitly reset state variables back to pending
+                order_query.update(delivered=False, shipped=False, payment_status=False, date_delivered=None) 
                 messages.success(request, "Order delivery status reverted to pending.")
 
             return redirect('admin-dashboard')
-
     
     
     # ==========================================

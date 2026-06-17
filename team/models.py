@@ -257,8 +257,7 @@ class Player(AutoSlugModel):
     country = models.CharField(max_length=50, blank=True)
     player_image = models.ImageField(upload_to='uploads/Players_Photos/',blank=True, null=True)
     biography = models.TextField(blank=True,)
-    career_awards = models.CharField(max_length=100, default='', blank=True, null=True,)
-    award_year = models.CharField(max_length=4, default='2026', blank=True, null=True,)
+    
     experience = models.PositiveIntegerField(blank=True, null=True,)
     draft_info = models.CharField(max_length=50, blank=True, null=True, default='2025: Rd 1, Pk 1 (PYT)')
     active_status = models.BooleanField(default=True,)
@@ -328,6 +327,8 @@ class CareerRecords(models.Model):
     blocks_rec = models.TextField(blank=True,)
     steals_rec = models.TextField(blank=True,)
     efficiency_rec = models.TextField(blank=True,)
+    career_awards = models.CharField(max_length=100, default='', blank=True, null=True,)
+    award_year = models.CharField(max_length=4, default='2026', blank=True, null=True,)
     
     
     def __str__(self):

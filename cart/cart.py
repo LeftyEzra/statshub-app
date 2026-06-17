@@ -181,7 +181,7 @@ class Cart:
         for item in self.cart.values():
             product = Product.objects.get(id=item['id'])
             if product.is_sales:
-                total += product.sale_price * item['qty']
+                total += product.sales_price * item['qty']
             else:
                 total += product.price * item['qty']
         return total

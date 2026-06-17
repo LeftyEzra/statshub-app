@@ -1,0 +1,164 @@
+[
+{
+    "model": "store.colors",
+    "pk": 1,
+    "fields": {
+        "slug": "black",
+        "name": "Black",
+        "hex_code": "#000000"
+    }
+},
+{
+    "model": "store.colors",
+    "pk": 2,
+    "fields": {
+        "slug": "white",
+        "name": "White",
+        "hex_code": "#FFFFFF"
+    }
+},
+{
+    "model": "store.colors",
+    "pk": 3,
+    "fields": {
+        "slug": "charcoal",
+        "name": "Charcoal",
+        "hex_code": "#1E293B"
+    }
+},
+{
+    "model": "store.colors",
+    "pk": 4,
+    "fields": {
+        "slug": "gray",
+        "name": "Gray",
+        "hex_code": "#6B7280"
+    }
+},
+{
+    "model": "store.colors",
+    "pk": 6,
+    "fields": {
+        "slug": "blue",
+        "name": "Blue",
+        "hex_code": "#1D4ED8"
+    }
+},
+{
+    "model": "store.colors",
+    "pk": 7,
+    "fields": {
+        "slug": "indigo",
+        "name": "Indigo",
+        "hex_code": "#4F46E5"
+    }
+},
+{
+    "model": "store.colors",
+    "pk": 8,
+    "fields": {
+        "slug": "green",
+        "name": "Green",
+        "hex_code": "#10B981"
+    }
+},
+{
+    "model": "store.colors",
+    "pk": 9,
+    "fields": {
+        "slug": "ef4444",
+        "name": "Red",
+        "hex_code": "#EF4444"
+    }
+},
+{
+    "model": "store.colors",
+    "pk": 10,
+    "fields": {
+        "slug": "navy",
+        "name": "Navy",
+        "hex_code": "#1E3A8A"
+    }
+},
+{
+    "model": "store.colors",
+    "pk": 11,
+    "fields": {
+        "slug": "lime",
+        "name": "Lime",
+        "hex_code": "#84CC16"
+    }
+},
+{
+    "model": "store.colors",
+    "pk": 12,
+    "fields": {
+        "slug": "crimson",
+        "name": "Crimson",
+        "hex_code": "#991B1B"
+    }
+},
+{
+    "model": "store.colors",
+    "pk": 13,
+    "fields": {
+        "slug": "orange",
+        "name": "Orange",
+        "hex_code": "#EA580C"
+    }
+},
+{
+    "model": "store.colors",
+    "pk": 14,
+    "fields": {
+        "slug": "brown",
+        "name": "Brown",
+        "hex_code": "#78350F"
+    }
+},
+{
+    "model": "store.colors",
+    "pk": 15,
+    "fields": {
+        "slug": "yellow",
+        "name": "Yellow",
+        "hex_code": "#FDE047"
+    }
+},
+{
+    "model": "store.colors",
+    "pk": 16,
+    "fields": {
+        "slug": "purple",
+        "name": "Purple",
+        "hex_code": "#581C87"
+    }
+},
+{
+    "model": "store.colors",
+    "pk": 17,
+    "fields": {
+        "slug": "coral",
+        "name": "Coral",
+        "hex_code": "#FF4500"
+    }
+},
+{
+    "model": "store.colors",
+    "pk": 18,
+    "fields": {
+        "slug": "cyan",
+        "name": "Cyan",
+        "hex_code": "#06B6D4"
+    }
+},
+{
+    "model": "store.colors",
+    "pk": 19,
+    "fields": {
+        "slug": "off-white",
+        "name": "Off White",
+        "hex_code": "#F5F5F4"
+    }
+}
+]

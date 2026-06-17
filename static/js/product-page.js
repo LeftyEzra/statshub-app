@@ -1,32 +1,41 @@
 
     //Check if button pressed
     // Using ajax  to send something to the page without refreshing the page
-$(document).on('click', '.add-cart-btn', function(e) {
+
+ $(document).on('click', '.add-cart-btn', function(e) {
     e.preventDefault(); 
     
-    // $(this) ensures we ONLY grab data from the exact button that was clicked!
     var currentButton = $(this);
     var targetProductId = currentButton.attr('value'); 
+    var product_qty = $("#product-qty").val() || 1;
 
     var selectedColor = $("input[name='input-radio-color']:checked").val();
     var selectedSize = $("input[name='input-radio-size']:checked").val() || "Standard";
 
-    // Safety check if no color is selected or available
     if (!selectedColor) {
-        selectedColor = "Default";
+       selectedColor = "Default";
     }
+
+    console.log({
+              product_id: targetProductId,
+              product_qty: product_qty,
+              product_color: selectedColor,
+              product_size: selectedSize
+              });
+
 
     $.ajax({
         type: 'POST',
         url: "{% url 'add-to-cart' %}",
         data: {
             product_id: targetProductId,
-            product_qty: $("#product-qty").val() || 1, // Fallback to 1 if quantity box doesn't exist
-            product_color: selectedColor,  // Passed dynamically
-            product_size: selectedSize,    // Passed dynamically
+            product_qty: product_qty,
+            product_color: selectedColor,  
+            product_size: selectedSize,  
             csrfmiddlewaretoken: '{{ csrf_token }}',
             action: 'post'
         },
+        // For the cart icon in the navbar
         success: function(json) {
             if (json.qty !== undefined) {
                 if (document.getElementById("cart_quantity")) {
@@ -35,19 +44,14 @@ $(document).on('click', '.add-cart-btn', function(e) {
                 if (document.getElementById("cart_header_qty")) {
                     document.getElementById("cart_header_qty").textContent = json.qty;
                 }
-
             }
-
-            // Show a clean success confirmation message
-            alert("Success! Added " + product_qty + " x " + selectedColor + " item(s) to your cart.");
+           alert("Success! Added " + product_qty + " x " + selectedColor + " item(s) to your cart."); 
         },
-
         error: function(xhr, errmsg, err) {
             console.error('AJAX request failed:', errmsg);
         }
     });
 });
-
 
 
 
@@ -85,7 +89,7 @@ $(document).ready(function() {
             // Run the Cart Session Update
             $.ajax({
                 type: 'POST',
-                url: '{% url "update-cart" %}', 
+                url: '{% url "update-cart-item" %}', 
                 data: {
                     product_id: productId,
                     product_qty: newVal,
@@ -128,6 +132,7 @@ $(document).ready(function() {
 
 
 
+
 // Instagram button
 $(document).on('click', '#copy-ig-link', function(e) {
     e.preventDefault();
@@ -144,3 +149,4 @@ $(document).on('click', '#copy-ig-link', function(e) {
     // Flash a quick success confirmation text next to the icons
     $('#share-toast').fadeIn().delay(2500).fadeOut();
 });
+

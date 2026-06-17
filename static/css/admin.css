@@ -63,3 +63,87 @@ body { background-color: #f4f7f6; }
   font-size: 0.7rem; /* smaller badge text */
 }
 
+
+
+
+/* ==========================================================================
+   ADMIN DASHBOARD METRICS: PERFECT EQUAL CARD HEIGHTS ONLY
+   ========================================================================== */
+@media (max-width: 768px) {
+    
+    /* 1. Reset row behavior to handle wrapping line elements uniformly */
+    .row-20 {
+        display: flex !important;
+        flex-wrap: wrap !important;
+        align-items: stretch !important; 
+    }
+    
+    /* 2. Force every column container to match baseline heights across wraps */
+    .row-20 > div {
+        display: flex !important;
+        flex-direction: column !important;
+        /* Evaluates both items on the line dynamically to share spacing rules */
+        flex: 1 0 45% !important; 
+    }
+    
+    /* 3. Force the actual colored cards to fill 100% of that stretched column height */
+    .row-20 .card {
+        width: 100% !important;
+        height: 100% !important; 
+        flex-grow: 1 !important; /* Forces the smaller box to stretch out completely */
+        display: flex !important;
+        flex-direction: column !important;
+    }
+    
+    /* 4. Align card contents nicely so text and badges sit cleanly */
+    .row-20 .card-body {
+        flex: 1 1 auto !important;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: space-between !important; 
+        padding: 12px !important; 
+    }
+
+    /* 5. Dynamically shrink font sizes for huge currency strings */
+    .row-20 .card-body h3 {
+        font-size: 1.15rem !important; 
+        line-height: 1.3 !important;
+        margin-bottom: 4px !important;
+        word-break: break-all !important; 
+    }
+    
+    .row-20 .card-body h6 {
+        font-size: 0.75rem !important;
+        margin-bottom: 6px !important;
+    }
+}
+
+
+
+/* ==========================================================================
+   ORDER MANAGEMENT TABLE ONLY - WORKFLOW ACTIONS FIX
+   ========================================================================== */
+@media (max-width: 768px) {
+    
+    /* 1. Find the card that contains our specific header and align its cells */
+    .card:has(h5:contains("Order Management Command Center")) .table td {
+        vertical-align: middle !important;
+    }
+
+    /* 2. Target ONLY the flex workflow cell inside this specific card */
+    .card:has(h5:contains("Order Management Command Center")) .table td[style*="display: flex"] {
+        display: flex !important;
+        flex-direction: row !important; /* Forces details and verify to stay side-by-side */
+        gap: 8px !important;            /* Clean spacing between the buttons */
+        align-items: center !important;
+    }
+
+    /* 3. Keep buttons crisp and stop text wrapping ONLY inside this table */
+    .card:has(h5:contains("Order Management Command Center")) .table td .btn-sm,
+    .card:has(h5:contains("Order Management Command Center")) .table td button,
+    .card:has(h5:contains("Order Management Command Center")) .table td form {
+        white-space: nowrap !important;
+        margin: 0 !important; 
+        display: inline-block !important;
+    }
+}

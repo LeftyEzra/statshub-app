@@ -53,10 +53,10 @@
     <form method="POST" enctype="multipart/form-data">
       {% csrf_token %}
 
-       <!-- Color Name -->
+       <!-- Sizes -->
       <div class="mb-3">
-        <label for="{{ form.size.id_for_label }}" class="form-label">Size</label>
-        {% render_field form.size class="form-control bg-dark text-white border-light" placeholder="Enter product size" %}
+        <label for="{{ form.sizes.id_for_label }}" class="form-label">Size</label>
+        {% render_field form.sizes class="form-control bg-dark text-white border-light" placeholder="Enter product size" %}
       </div>
 
     
@@ -64,7 +64,7 @@
     
       <!-- Submit Button -->
       <div class="text-center mt-4">
-        <button type="submit" class="btn btn-lg w-100 h-80 font-weight-bold" 
+        <button type="submit" class="btn btn-lg w-100 h-15 font-weight-bold" 
                 style="background-color: #4f46e5; color: white; border: none;">
           Add Size
         </button>

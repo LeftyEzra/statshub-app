@@ -41,7 +41,7 @@ if (lineElem) {
     yaxis: {
         labels: {
             formatter: function (val) {
-                return "$" + (val ? val.toFixed(2) : "0.00");
+                return "₦" + (val ? val.toFixed(2) : "0.00");
             },
             style: { colors: '#f4f0f0' }
         }
@@ -143,7 +143,7 @@ if (sportElem) {
             theme: 'dark',
             y: {
                 formatter: function (val) {
-                    return "$" + val.toFixed(2);
+                    return "₦" + val.toFixed(2);
                 }
             }
         }

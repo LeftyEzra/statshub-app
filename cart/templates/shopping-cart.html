@@ -79,7 +79,7 @@
               <table class="table-custom table-product">
                 <thead >
                   <tr  >
-                    <th id="sticky-col-1" style="background-color: #35ad79;">Product name</th>
+                    <th >Product name</th>
                     <th>Color</th>
                     <th>Size</th>
                     <th>Quantity</th>
@@ -134,20 +134,20 @@
                         <!-- Price -->
                         <td class="product-cart-price">
                             {% if item.is_sales %}
-                            <del style="color: red;">$ {{ item.price }}</del><br>
+                            <del style="color: red;">$ {{ item.price }}</del><br><br>
                             <span class="active-price" data-price="{{ item.sale_price }}">
-                                $ {{ item.sale_price }}
+                                ₦ {{ item.sales_price }}
                             </span>
                             {% else %}
                             <span class="active-price" data-price="{{ item.price }}">
-                                $ {{ item.price }}
+                                ₦ {{ item.price }}
                             </span>
                             {% endif %}
                         </td>
 
                         <!-- Subtotal -->
                         <td class="product-cart-subtotal">
-                            $<span class="row-total" id="subtotal-{{ item.id }}">
+                            ₦<span class="row-total" id="subtotal-{{ item.id }}">
                             {{ item.subtotal }}
                             </span>
                         </td>
@@ -178,7 +178,7 @@
               <div class="product-cart-total">
                 <span>Total</span>
                 <span class="product-cart-total-price">
-                  <span class="sup">$</span>
+                  <span class="sup">₦</span>
                   <span id="grand-total-val">
                     {% if grand_totals %}
                         {{ grand_totals }}

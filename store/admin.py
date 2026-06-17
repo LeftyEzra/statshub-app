@@ -21,8 +21,8 @@ admin.site.register(Sizes)
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
     list_display = ('name', 'price', 'category', 'sports', 'gender_type',
-                    'brand_type', 'description', 'image', 'is_sales', 'sale_price', 'pieces', 'featured_player',)
-    search_fields = ('name', 'price', 'category', 'brand_type', 'is_sales', 'sale_price', 'gender_type', 'featured_player')    
+                    'brand_type', 'description', 'image', 'is_sales', 'sales_price', 'pieces', 'featured_player',)
+    search_fields = ('name', 'price', 'category', 'brand_type', 'is_sales', 'sales_price', 'gender_type', 'featured_player')    
     ordering = ('name', )
     earch_help_text = ('name',)
     filter_horizontal = ('colors', 'sizes',)

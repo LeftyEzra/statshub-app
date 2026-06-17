@@ -28,7 +28,7 @@
               </div>
             </div>
           </div>
-          <div class="swiper-slide" data-slide-bg="{% static 'img/players_backdrop.png' %}">
+          <div class="swiper-slide" data-slide-bg="{% static 'img/6fts8pandas.png' %}">
             <div class="container">
               <div class="row justify-content-end">
                 <div class="col-xl-5">
@@ -41,7 +41,7 @@
               </div>
             </div>
           </div>
-          <div class="swiper-slide" data-slide-bg="{% static 'img/6fts8pandas.png' %}">
+          <div class="swiper-slide" data-slide-bg="{% static 'img/VMUL1365.JPG' %}">
             <div class="container">
               <div class="row">
                 <div class="col-xl-5">
@@ -1042,7 +1042,7 @@
                               {% endif %}
                               
                               <div class="product-figure">
-                                <a href="{% url 'product-id' product.pk %}">
+                                <a href="{% url 'product-id' product.slug %}">
                                   <img src="{{ product.image.url }}" alt="{{ product.name }}" style="object-fit: contain;">
                                 </a>
                               </div>
@@ -1061,20 +1061,20 @@
                                       Link copied! Paste to your IG bio or story.
                                   </span>
                                 </div>
-                                <a class="product-button fl-bigmug-line-shopping202" href="{% url 'product-id' product.pk %}" style="font-size: 26px"></a>
+                                <a class="product-button fl-bigmug-line-shopping202" href="{% url 'product-id' product.slug %}" style="font-size: 26px"></a>
                                 <a class="product-button fl-bigmug-line-zoom60" href="{{ product.image.url }}" data-lightgallery="item" style="font-size: 25px"></a>
                               </div>
                             </header>
                             <footer class="product-content">
                               <h6 class="product-title">
-                                <a href="{% url 'product-id' product.pk %}">{{ product.name }}</a>
+                                <a href="{% url 'product-id' product.slug %}">{{ product.name }}</a>
                               </h6>
                               <div class="product-price">
                                 {% if product.is_sales %}
-                                  <span class="product-price-old">${{ product.price }}</span>
-                                  <span class="heading-6 product-price-new">${{ product.sale_price }}</span>
+                                  <span class="product-price-old">₦{{ product.price }}</span>
+                                  <span class="heading-6 product-price-new">₦{{ product.sale_price }}</span>
                                 {% else %}
-                                  <span class="heading-6 product-price-new">${{ product.price }}</span>
+                                  <span class="heading-6 product-price-new">₦{{ product.price }}</span>
                                 {% endif %}
                               </div>
                               <ul class="product-rating">

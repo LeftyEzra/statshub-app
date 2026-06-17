@@ -111,7 +111,7 @@ def colorCreate(request):
         if form.is_valid():
             form.save() 
             messages.success(request, "Color Added Successfully ):)")
-            return redirect('add-product-color')
+            return redirect('add-product-colors')
             
         else:
             pass
@@ -207,21 +207,18 @@ class ProductCreateView(SuperuserRequiredMixin, APIView):
         form = ProductForm()
         return render(request, 'product-registration.html', {"form": form, })
 
-    def post(self, request,):
+    def post(self, request):
         form = ProductForm(request.POST, request.FILES) 
         if form.is_valid():
-            # SUCCESS PATH
             product = form.save()    
             messages.success(request, "Product Added Successfully :)")
-            # Redirect to GET endpoint to clear the form data
             return redirect('add-product')
         else:
-            # FAILURE PATH
-            messages.error(request, "There were errors in the form. Please correct them and try again.")
+            # 💡 Print errors directly to terminal window to track missing required model elements
+            print("Form Errors:", form.errors.as_data())
             
-            # 🚀 FIX: Only return the form object, not the non-existent 'team' object
+            messages.error(request, "There were errors in the form. Please correct them and try again.")
             return render(request, 'product-registration.html', {"form": form,})
-
 # Product view page
 
 

@@ -48,8 +48,8 @@
                 <div class="card border-0 shadow bg-success text-white h-100">
                     <div class="card-body">
                         <h6 class="text-white-50 small">Total Revenue</h6>
-                        <h3 class="fw-bold " style="font-size:x-large;">#{{total_revenue|floatformat:2}}</h3>
-                        <h3 class="fw-bold"  style="font-size:x-large;">${{total_revenue_in_dollars|floatformat:2}}</h3>
+                        <h3 class="fw-bold " style="font-size:x-large;">₦ {{total_revenue|floatformat:2}}</h3>
+                        <h3 class="fw-bold"  style="font-size:x-large;">$ {{total_revenue_in_dollars|floatformat:2}}</h3>
                         <small>+12%</small>
                     </div>
                 </div>
@@ -124,7 +124,7 @@
                                 <td class="text-nowrap"><code class="text-primary fw-bold">#{{ order.order_id|stringformat:".8s" }}</code></td>
                                 <td class="text-nowrap">{{order.user.first_name}} {{order.user.last_name}}</td>
                                 <td class="text-nowrap">{{ order.total_quantity }} Products</td>
-                                <td class="text-nowrap fw-bold">${{ order.amount_paid }}</td>
+                                <td class="text-nowrap fw-bold">₦{{ order.amount_paid }}</td>
                                 
                                 <td>
                                     {% if order.payment_status or order.shipped or order.delivered %}
@@ -166,8 +166,7 @@
                                 
 
                                 <td class="text-nowrap" style="display: flex;">
-                                    {# data-bs-toggle="modal" data-bs-target="#orderModal{{  }} #}
-                                    <a href="{% url 'order-details' order.order_id %}"class="btn btn-sm btn-light border">Details</a>
+                                    <a href="{% url 'order-details' order.order_id %}"class="btn btn-sm btn-light border">Details</a>&nbsp;&nbsp;
                                     {% if not order.payment_status %}
                                     <form method="POST">
                                         {% csrf_token %}
@@ -205,7 +204,7 @@
                                 </td>
 
                                 <td class="text-center text-nowrap">
-                                    {% if not order.date_delivered %}
+                                    {% if not order.delivered %}
                                         <form method="POST">
                                             {% csrf_token %}
                                             <input type="hidden" name="delivery-status" value="true">

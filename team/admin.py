@@ -148,7 +148,7 @@ class CompetitionSeasonAdmin(admin.ModelAdmin):
 class PlayerAdmin(admin.ModelAdmin):
     inlines = [GalleryImagesInline]
     list_display = ('jersey_number', 'player_name', 'player_image', 'get_teams', 'get_opponents', 'position', 'date_of_birth', 
-                    'height_cm', 'weight_kg',  'country',  'get_biography','career_awards', 'award_year', 'experience', 'draft_info', 'active_status', 'is_starter',
+                    'height_cm', 'weight_kg',  'country',  'get_biography', 'experience', 'draft_info', 'active_status', 'is_starter',
                     'twitter_link', 'facebook_link', 'instagram_link','youtube_link', 'tiktok_link',)
     ordering = ('jersey_number',)
     search_fields = ('player_name', 'position',)
@@ -252,7 +252,7 @@ class AwardsAdmin(admin.ModelAdmin):
 @admin.register(CareerRecords)
 class CareerRecordsAdmin(admin.ModelAdmin):
     list_display = ('player', 'points_rec', 'rebounds_rec', 'assists_rec', 'blocks_rec', 
-                    'steals_rec', 'efficiency_rec')
+                    'steals_rec', 'efficiency_rec', 'career_awards', 'award_year')
                     
 
 

@@ -61,7 +61,7 @@
                           <div class="cart-inline-inner">
                             <div class="cart-inline-header">
                               <h5 class="cart-inline-title">In cart:<span id="cart_header_qty">{{ cart|length }}</span> products</h5>
-                              <p class="cart-inline-subtitle">total price: ${{totals}}</p>
+                              <p class="cart-inline-subtitle">total price: ₦{{totals}}</p>
                             </div>
                             <div class="cart-inline-main">
                                     <!-- Product inline-->
@@ -69,25 +69,25 @@
                                       {% for product in cart_products %}
                                     <article class="product-inline">
                                       <div class="product-inline-aside">
-                                        <a class="product-inline-figure" href="{% url 'product-id' product.pk %}">
+                                        <a class="product-inline-figure" href="{% url 'product-id' product.slug %}">
                                           <img class="product-inline-image" src="{{ product.image.url }}" alt="" width="67" height="30"/>
                                         </a>
                                       </div>
                                       <div class="product-inline-main">
                                         <p class="heading-7 product-inline-title">
-                                          <a href="{% url 'product-id' product.pk %}">{{ product.name }}</a>
+                                          <a href="{% url 'product-id' product.slug %}">{{ product.name }}</a>
                                         </p>
                                         <ul class="product-inline-meta">
                                         
                                           <li>
                                                {% if product.is_sales %}
-                                                    <del style="color: red;">$ {{ product.price }}</del> 
+                                                    <del style="color: red;">₦ {{ product.price }}</del> 
                                                     <p class="product-inline-price"> 
-                                                        $ {{ product.sale_price }}
+                                                        $ {{ product.sales_price }}
                                                     </p>
                                                 {% else %}
                                                     <p class="product-inline-price"> 
-                                                        $ {{ product.price }}
+                                                        ₦ {{ product.price }}
                                                     </p>
                                                 {% endif %}
                                           </li>
