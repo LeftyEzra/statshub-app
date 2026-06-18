@@ -180,26 +180,13 @@
 
                 <div class="player-image-container">
                     <div class="player-number" >{{ player.jersey_number }}</div>
-                   <a href="{% url 'players-id' competition.slug player.slug %}">
-    {% if player.player_image %}
-        <img src="{{ player.player_image.url }}" alt="{{ player.player_name }}" class="player-photo">
-    {% else %}
-        {# Fallback: Use the full Cloudinary URL for consistency #}
-        <img src="https://res.cloudinary.com/dgznffguu/image/upload/v1/uploads/Team_Logos/python.PNG" 
-             alt="{{ player.player_name }}" 
-             class="player-photo">
-    {% endif %}
-</a>  
-
-<a href="{% url 'players-id' competition.slug player.slug %}">
-        {% if player.player_image %}
-            <img src="{{ player.player_image.url }}" alt="{{ player.player_name }}" class="player-photo">
-        {% else %}
-            <img src="https://res.cloudinary.com/dgznffguu/image/upload/v1/uploads/Team_Logos/python.PNG" alt="Default" class="player-photo">
-        {% endif %}
-    </a>
-
-
+                    <a href="{% url 'players-id' competition.slug player.slug %}">
+                        {% if player.player_image %}
+                            <img src="{{ player.player_image.url }}" alt="{{ player.player_name }}" class="player-photo">
+                        {% else %}
+                            <img src="https://res.cloudinary.com/dgznffguu/image/upload/v1/uploads/Team_Logos/python.PNG" alt="Default" class="player-photo">
+                        {% endif %}
+                    </a>  
                 </div>
             </div>
         

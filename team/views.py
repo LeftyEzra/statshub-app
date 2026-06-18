@@ -960,7 +960,9 @@ def team_roster(request, competition_slug, team_slug):
                             )[['points', 'total_rebounds','assists',]].mean().round(1).sort_values('points',ascending=False).reset_index())
         
         
-                        
+        # Add this temporarily to your view
+        print("DEBUG: Player Image Path =", players[0].player_image)      
+        
         return render(request, 'roster.html', {'competition':competition, #'tournament_stats':tournament_stats,
                                                     'team_details': team_details, 
                                                     'players': players, 
@@ -968,7 +970,8 @@ def team_roster(request, competition_slug, team_slug):
                                                     'players_mean_stats': players_mean_stats.to_dict('records'),
                                                     })
     else:
-     
+        # Add this temporarily to your view
+        print("DEBUG: Player Image Path =", players[0].player_image)
         
         return render(request, 'roster.html', {'competition':competition, #'tournament_stats':tournament_stats,
                                                     'team_details': team_details, 
