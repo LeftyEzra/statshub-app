@@ -192,3 +192,16 @@ BANK_DETAILS = {
     'ACCOUNT_NAME': config('BANK_ACCOUNT_NAME'),
 }
 
+
+# Cloudinary Configuration
+
+
+# Django will look for an environment variable named 'CLOUDINARY_API_KEY'
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': config('CLOUDINARY_CLOUD_NAME'),
+    'API_KEY': config('CLOUDINARY_API_KEY'),
+    'API_SECRET': config('CLOUDINARY_API_SECRET'),
+}
+
+# Direct uploaded files (Media) to use Cloudinary
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
