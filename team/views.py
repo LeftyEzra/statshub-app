@@ -77,7 +77,7 @@ from reportlab.lib import colors
 import io
 
 
-
+from django.core.files.storage import default_storage
 
 
 
@@ -958,10 +958,29 @@ def team_roster(request, competition_slug, team_slug):
                                 ["player_id","player_name__player_name",'player_name__jersey_number','player_name__player_image', 'player_name__position', 'game_schedule__game_type', 'game_schedule__competition__year__year',
                                 'player_name__active_status', 'player_name__experience','player_name__height_cm', 'player_name__weight_kg', 'player_name__country', 'player_name__date_of_birth', ]
                             )[['points', 'total_rebounds','assists',]].mean().round(1).sort_values('points',ascending=False).reset_index())
-        
-        
-        # Add this temporarily to your view
-        print("DEBUG: Player Image Path =", players[0].player_image)      
+
+        """
+        # Convert to list of dicts
+        stats_list = players_mean_stats.to_dict('records')
+
+        # Add the proper full URL to each record
+        for player in stats_list:
+            image_path = player.get('player_name__player_image')
+            # This automatically uses your Cloudinary backend to generate the URL
+            player['final_image_url'] = default_storage.url(image_path) if image_path else None
+
+
+        {% for player in players_mean_stats %}
+            <a href="{% url 'players-id' competition.slug player.player_name__slug %}">
+                {% if player.final_image_url %}
+                    <img src="{{ player.final_image_url }}" alt="{{ player.player_name__player_name }}" class="player-photo">
+                {% else %}
+                    <img src="https://res.cloudinary.com/dgznffguu/image/upload/v1/uploads/Team_Logos/python.PNG" alt="Default" class="player-photo">
+                {% endif %}
+            </a>
+        {% endfor %}    
+
+        """
         
         return render(request, 'roster.html', {'competition':competition, #'tournament_stats':tournament_stats,
                                                     'team_details': team_details, 
@@ -970,8 +989,7 @@ def team_roster(request, competition_slug, team_slug):
                                                     'players_mean_stats': players_mean_stats.to_dict('records'),
                                                     })
     else:
-        # Add this temporarily to your view
-        print("DEBUG: Player Image Path =", players[0].player_image)
+       
         
         return render(request, 'roster.html', {'competition':competition, #'tournament_stats':tournament_stats,
                                                     'team_details': team_details, 
