@@ -2,6 +2,7 @@ from pathlib import Path
 import os
 import dj_database_url
 from decouple import config
+import cloudinary
 import cloudinary_storage
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -153,23 +154,33 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 
 
+#
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': config('CLOUDINARY_CLOUD_NAME'),
+    'API_KEY': config('CLOUDINARY_API_KEY'),
+    'API_SECRET': config('CLOUDINARY_API_SECRET'),
+}
+
+# 2. Modern Storage (Keep this, it replaces DEFAULT_FILE_STORAGE)
 STORAGES = {
     "default": {
-        "BACKEND": "django.core.files.storage.FileSystemStorage",
+        "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
     },
     "staticfiles": {
-        
         "BACKEND": "whitenoise.storage.CompressedStaticFilesStorage",
-        
-  
     },
 }
 
+# 3. DELETE these two lines (They conflict with the Cloudinary setup)
+# DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+# MEDIA_URL = 'media/' 
+# MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
 
-MEDIA_URL = 'media/' #Path that serves files like photos, videos, mp3 and the likes...
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media') # This is the filesystem path to the directory conveying the media.
+
+#MEDIA_URL = 'media/' #Path that serves files like photos, videos, mp3 and the likes...
+#MEDIA_ROOT = os.path.join(BASE_DIR, 'media') # This is the filesystem path to the directory conveying the media.
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
@@ -199,12 +210,3 @@ BANK_DETAILS = {
 # Cloudinary Configuration
 
 
-# Django will look for an environment variable named 'CLOUDINARY_API_KEY'
-CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': config('CLOUDINARY_CLOUD_NAME'),
-    'API_KEY': config('CLOUDINARY_API_KEY'),
-    'API_SECRET': config('CLOUDINARY_API_SECRET'),
-}
-
-DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
-   

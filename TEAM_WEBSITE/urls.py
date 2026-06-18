@@ -19,7 +19,7 @@ urlpatterns = [
     path('payment/', include('payment.urls')),
     path('teamAPI/', include('teamAPI.urls')),
     path('services/', include('services.urls')),
-]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) # Include the media files and Urls here.
+]#+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) # Include the media files and Urls here.
 
 
 # Configure admin titles
