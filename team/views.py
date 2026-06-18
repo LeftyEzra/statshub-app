@@ -1878,21 +1878,11 @@ def player_shot_chart(request, player_slug):
 # UPDATE PLAYER
 
 class PlayerUpdateView(SuperuserRequiredMixin, View):
-    """def get(self, request, player_slug, competition_slug,):
-        competition = get_object_or_404(Competition, slug=competition_slug)
-        player = get_object_or_404(Player, slug=player_slug, team=competition.team)
-        form = PlayerForm(request.POST or None, instance=player)
-        return render(request, 'players_update.html', {'form': form, 'player': player, 'competition': competition})
-    """
     def get(self, request, player_slug, competition_slug):
         competition = get_object_or_404(Competition, slug=competition_slug)
         player = Player.objects.filter(slug=player_slug).first()
         form = PlayerForm(request.POST or None, instance=player)     
-        return render(request, 'players_update.html', {
-            'form': form, 
-            'player': player, 
-            'competition': competition
-        })    
+        return render(request, 'players_update.html', {'form': form, 'player': player, 'competition': competition})    
 
     def post(self, request, player_slug, competition_slug):
         competition = get_object_or_404(Competition, slug=competition_slug)
