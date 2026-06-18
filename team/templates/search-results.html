@@ -59,7 +59,7 @@
       {% for player in searched_players %}
         <li>
           <img src="{{ player.player_image.url }}" alt="{{ player.player_name }}" class="player-photo" width="40" height="40">
-          <a href="{% url 'players-id' competition.id player.pk %}">{{ player.player_name }}</a>
+          <a href="{% url 'players-id' competition.slug player.slug %}">{{ player.player_name }}</a>
           ({{ player.get_position_display }}) - Team: {{ player.team.name }}
         </li>
       {% endfor %}

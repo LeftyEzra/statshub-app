@@ -109,7 +109,11 @@
         {% render_field form.biography class="form-control bg-dark text-white border-light" rows="4" placeholder="Write a short biography..." %}
       </div>
 
-    
+      <!-- Draft info -->
+      <div class="mb-3">
+        <label for="{{ form.draft_info.id_for_label }}">Draft Info</label>
+        {% render_field form.draft_info class="form-control bg-dark text-white border-light" placeholder="2025: Rd 1, Pk 1 (PYT)" %}
+      </div>
 
       <!-- Years Of Experience -->
       <div class="mb-3">
