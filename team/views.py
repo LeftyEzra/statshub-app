@@ -971,14 +971,14 @@ def team_roster(request, competition_slug, team_slug):
 
 
         {% for player in players_mean_stats %}
-            <a href="{% url 'players-id' competition.slug player.player_name__slug %}">
-                {% if player.final_image_url %}
-                    <img src="{{ player.final_image_url }}" alt="{{ player.player_name__player_name }}" class="player-photo">
-                {% else %}
-                    <img src="https://res.cloudinary.com/dgznffguu/image/upload/v1/uploads/Team_Logos/python.PNG" alt="Default" class="player-photo">
-                {% endif %}
-            </a>
-        {% endfor %}    
+        <a href="{% url 'players-id' competition.slug player.player_name__slug %}">
+            {% if player.final_image_url %}
+                <img src="{{ player.final_image_url }}" alt="{{ player.player_name__player_name }}" class="player-photo">
+            {% else %}
+                <img src="https://res.cloudinary.com/dgznffguu/image/upload/v1/uploads/Team_Logos/python.PNG" alt="Default" class="player-photo">
+            {% endif %}
+        </a>
+    {% endfor %}    
 
         """
         
@@ -1069,6 +1069,7 @@ class PlayerDetailView(APIView):
             competition = get_object_or_404(Competition, slug=competition_slug)
             if competition.is_current_competition:
                 team = competition.team
+                print(f"Team: {team}.upper()")
                 player_details = get_object_or_404(Player, slug=slug, team=team)
                 
                 other_players = Player.objects.exclude(slug=slug).order_by('player_name')
@@ -1282,6 +1283,7 @@ class PlayerDetailView(APIView):
                 
                     # Pass them to the context
                     context = {
+                        'team': team,
                         'player_details': player_details,
                         'others_players_mean_stats': others_players_mean_stats.to_dict('records'),
                         'career_records': career_records,
@@ -1329,6 +1331,7 @@ class PlayerDetailView(APIView):
                         'player_images': GalleryImages.objects.filter(player_pictures=player_details),
                         # Player Product
                         'player_merchandise': player_merchandise_obj,
+                        'team': team,
                     }
 
                     return render(request, 'player-page.html', context)
@@ -1873,21 +1876,32 @@ def player_shot_chart(request, player_slug):
 ##############################################################################
 
 # UPDATE PLAYER
+
 class PlayerUpdateView(SuperuserRequiredMixin, View):
-    def get(self, request, slug, competition_slug,):
+    """def get(self, request, player_slug, competition_slug,):
         competition = get_object_or_404(Competition, slug=competition_slug)
-        player = get_object_or_404(Player, slug=slug, team=competition.team)
+        player = get_object_or_404(Player, slug=player_slug, team=competition.team)
         form = PlayerForm(request.POST or None, instance=player)
         return render(request, 'players_update.html', {'form': form, 'player': player, 'competition': competition})
-
-    def post(self, request, slug, competition_slug):
+    """
+    def get(self, request, player_slug, competition_slug):
         competition = get_object_or_404(Competition, slug=competition_slug)
-        update_player = get_object_or_404(Player, slug=slug, team=competition.team)
+        player = Player.objects.filter(slug=player_slug).first()
+        form = PlayerForm(request.POST or None, instance=player)     
+        return render(request, 'players_update.html', {
+            'form': form, 
+            'player': player, 
+            'competition': competition
+        })    
+
+    def post(self, request, player_slug, competition_slug):
+        competition = get_object_or_404(Competition, slug=competition_slug)
+        update_player = get_object_or_404(Player, slug=player_slug, team=competition.team)
         form = PlayerForm(request.POST, request.FILES, instance=update_player)
         if form.is_valid():
             form.save()
             messages.success(request, "Player Updated Successfully :)")
-            return redirect('players-id',  slug=slug, competition_slug=competition_slug)
+            return redirect('players-id', competition_slug=competition_slug, slug=player_slug)
 
         return render(request, 'players_update.html', {'form': form, 'update_players': update_player, 'competition': competition})
 
@@ -1897,12 +1911,12 @@ class PlayerUpdateView(SuperuserRequiredMixin, View):
 # Player Delete Function
 @user_passes_test(is_superuser, login_url='/')
 def delete_player(request, slug, competition_slug):
-        competition = get_object_or_404(Competition, slug=competition_slug)
-        player = get_object_or_404(Player, slug=slug, team=competition.team)
-        player.delete()
-        messages.success(request, "Player deleted successfully.")
-        return redirect('team-roster', competition_id=competition_id)
-
+    competition = get_object_or_404(Competition, slug=competition_slug)
+    team = competition.team 
+    player = get_object_or_404(Player, slug=slug, team=team)
+    player.delete()
+    messages.success(request, "Player deleted successfully.")
+    return redirect('team-roster', competition_slug=competition_slug, team_slug=team.slug)
 
 
       

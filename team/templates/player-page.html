@@ -31,7 +31,7 @@
             <div class="breadcrumbs-custom mb-3 text-start">
                 <ul class="breadcrumbs-custom-path list-inline" style="font-size: 12px;"> 
                     <li><a href="{% url 'home' %}">Home</a></li>
-                    <li><a href="{% url 'team-roster' competition.id %}">Roster</a></li>
+                    <li><a href="{% url 'team-roster' competition_slug=competition.slug team_slug=team.slug %}">Roster</a></li>
                     <li class="active">{{ player_details.player_name }}</li>
                 </ul>
             </div>

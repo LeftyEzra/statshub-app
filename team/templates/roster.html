@@ -83,21 +83,17 @@
 
                 <div class="player-image-container">
                     <div class="player-number" >{{ player.player_name__jersey_number }}</div>
-              
-  
-    <a href="{% url 'players-id' competition.slug player.player_name__slug %}">
-        {% if player.player_name__player_image %}
-            <img src="https://res.cloudinary.com/dgznffguu/image/upload/v1/{{ player.player_name__player_image }}" 
-                 alt="{{ player.player_name__player_name }}" 
-                 class="player-photo">
-        {% else %}
-            <img src="https://res.cloudinary.com/dgznffguu/image/upload/v1/uploads/Team_Logos/python.PNG" 
-                 alt="Default" 
-                 class="player-photo">
-        {% endif %}
-    </a>
-
-  
+                        <a href="{% url 'players-id' competition.slug player.player_name__slug %}">
+                            {% if player.player_name__player_image %}
+                                <img src="https://res.cloudinary.com/dgznffguu/image/upload/v1/{{ player.player_name__player_image }}" 
+                                    alt="{{ player.player_name__player_name }}" 
+                                    class="player-photo">
+                            {% else %}
+                                <img src="https://res.cloudinary.com/dgznffguu/image/upload/v1/uploads/Team_Logos/python.PNG" 
+                                    alt="Default" 
+                                    class="player-photo">
+                            {% endif %}
+                        </a>
                 </div>
             </div>
         
@@ -120,6 +116,9 @@
                 </div>
             
                 <div class="stat-row footer-stat">
+                    <a href="{% url 'players-id' competition_slug=competition.slug slug=player.slug %}">
+                        View Player
+                    </a>
                     <a href="{% url 'players-id' competition.id player.player_name__slug  %}" class="stat-label full-width">View Full Career Stats</a>
                 </div>
             </div>
@@ -127,8 +126,8 @@
             {% if user.is_authenticated %}
             {% if user.is_superuser %}
                 <div class="card-footer">
-                    <a href="{% url 'update-player' competition.id player..player_name__slug  %}" class="footer-link footer-update">Update</a>
-                    <a href="{% url 'delete-player' competition.id player..player_name__slug  %}" class="footer-link footer-delete">Delete</a>
+                    <a href="{% url 'update-player' competition.slug player.player_name__slug  %}" class="footer-link footer-update">Update</a>
+                    <a href="{% url 'delete-player' competition.slug player..player_name__slug  %}" class="footer-link footer-delete">Delete</a>
                 </div>
                 {% endif %}  
             {% endif %}
