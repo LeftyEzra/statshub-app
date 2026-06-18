@@ -629,9 +629,11 @@ class TeamDetailView(APIView):
         players = team.players.all()
         news = TeamNews.objects.filter(competition=competition)
         t_images = GalleryImages.objects.filter(team=team)
+        # Use a field that exists in your GalleryImages model
+
         
         # Set up pagination
-        p = Paginator(GalleryImages.objects.all(), 6) 
+        p = Paginator(GalleryImages.objects.all().order_by('-id'), 6)
         page = request.GET.get('page')
         team_images = p.get_page(page)
         nums = "a" * team_images.paginator.num_pages
