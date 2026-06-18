@@ -1852,7 +1852,7 @@ def player_shot_chart(request, player_slug):
 ##############################################################################
 
 # UPDATE PLAYER
-class PlayerUpdateView(SuperuserRequiredMixin, APIView):
+class PlayerUpdateView(SuperuserRequiredMixin, View):
     def get(self, request, slug, competition_slug,):
         competition = get_object_or_404(Competition, slug=competition_slug)
         player = get_object_or_404(Player, slug=slug, team=competition.team)
