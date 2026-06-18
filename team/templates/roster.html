@@ -83,13 +83,13 @@
 
                 <div class="player-image-container">
                     <div class="player-number" >{{ player.player_name__jersey_number }}</div>
-                    <a href="{% url 'players-id' competition.slug player.player_name__slug  %}">
+                   <a href="{% url 'players-id' competition.slug player.player_name__slug %}">
                         {% if player.player_name__player_image %}
-                        <img src="/media/{{ player.player_name__player_image }}" alt="{{ player.player_name }}" class="player-photo">
+                            <img src="https://res.cloudinary.com/dgznffguu/image/upload/{{ player.player_name__player_image }}" alt="{{ player.player_name }}" class="player-photo">
                         {% else %}
-                        <img src="/media/uploads/Team_Logos/python.PNG" alt="{{ player.player_name }}" class="player-photo">
+                            <img src="https://res.cloudinary.com/dgznffguu/image/upload/uploads/Team_Logos/python.PNG" alt="{{ player.player_name }}" class="player-photo">
                         {% endif %}
-                    </a>  
+                    </a> 
                 </div>
             </div>
         
