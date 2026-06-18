@@ -84,14 +84,14 @@
                 <div class="player-image-container">
                     <div class="player-number" >{{ player.player_name__jersey_number }}</div>
                   <a href="/competition/open-source-league/player/6fts8pandas/">
-    {% if player.player_name__player_image %}
-        {# Let Django generate the URL automatically #}
-        <img src="{{ player.player_name__player_image.url }}" alt="{{ player.player_name }}" class="player-photo">
-    {% else %}
-        {# For the fallback, it is fine to keep a static URL, but use a cleaner format #}
-        <img src="https://res.cloudinary.com/dgznffguu/image/upload/v1/uploads/Team_Logos/python.PNG" alt="{{ player.player_name }}" class="player-photo">
-    {% endif %}
-</a>
+                        {% if player.player_name__player_image %}
+                            {# Let Django generate the URL automatically #}
+                            <img src="{{ player.player_name__player_image.url }}" alt="{{ player.player_name }}" class="player-photo">
+                        {% else %}
+                            {# For the fallback, it is fine to keep a static URL, but use a cleaner format #}
+                            <img src="https://res.cloudinary.com/dgznffguu/image/upload/v1/uploads/Team_Logos/python.PNG" alt="{{ player.player_name }}" class="player-photo">
+                        {% endif %}
+                    </a>
                 </div>
             </div>
         
@@ -176,9 +176,9 @@
                     <div class="player-number" >{{ player.jersey_number }}</div>
                     <a href="{% url 'players-id' competition.slug player.slug  %}">
                         {% if player.player_image %}
-                        <img src="/media/{{ player.player_image }}" alt="{{ player.player_name }}" class="player-photo">
+                        <img src="{{ player.player_image }}" alt="{{ player.player_name }}" class="player-photo">
                         {% else %}
-                        <img src="/media/uploads/Team_Logos/python.PNG" alt="{{ player.player_name }}" class="player-photo">
+                        <img src="" alt="{{ player.player_name }}" class="player-photo">
                         {% endif %}
                     </a>  
                 </div>
