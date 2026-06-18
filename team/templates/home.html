@@ -977,14 +977,17 @@
                       <article class="gallery" data-lightgallery="group">
                         <div class="row row-10 row-narrow">
                           {% for image in team_images %}
+                            {% if image.images and image.images.name %}
                           <div class="col-6 col-sm-4 col-md-6 col-lg-4">
                             <a class="thumbnail-creative" data-lightgallery="item" href="{{image.images.url}}">
                               <img src="{{image.images.url}}" alt="" />
                               <div class="thumbnail-creative-overlay"></div>
                             </a>
                           </div>
+                            {% else %}
+                            {# 2. Optional: handle the blank case (e.g., skip it or show a placeholder) #}
+                            {% endif %}
                           {% endfor %}
-                      
                         </div>
                       </article>
 
@@ -1103,7 +1106,8 @@
         <div class="owl-carousel owl-carousel-mystic owl-loaded" data-items="1" data-sm-items="2" data-lg-items="3" data-xl-items="4" data-autoplay="true" data-autoplay-speed="6750" data-dots="false" data-nav="true" data-stage-padding="0" data-loop="true" data-margin="30" data-mouse-drag="false" data-lightgallery="group-owl">
             <div class="owl-stage-outer">
                 <div class="owl-stage" style="transform: translate3d(-1286px, 0px, 0px); transition: 0.25s; width: 3430px;">
-                  {% for image in team_images %}  
+                  {% for image in team_images %} 
+                    {% if image.images %}  
                   <div class="owl-item " style="width: 398.667px; margin-right: 30px;">
                         <a class="thumbnail-alice" href="{{image.images.url}}" data-lightgallery="item">
                             <figure class="thumbnail-alice-figure">
@@ -1111,6 +1115,7 @@
                             </figure>
                         </a>
                     </div>
+                    {% endif %}
                   {% endfor %}
 
                  
@@ -1131,6 +1136,7 @@
             </div>
         {% endif %}
       </section>
+
 
 <script>
   function scrollG(distance) {
