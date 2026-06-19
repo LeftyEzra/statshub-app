@@ -26,15 +26,18 @@
 
     $.ajax({
         type: 'POST',
-        url: "{% url 'add-to-cart' %}",
+        url: currentButton.data('url'), // This uses the data-url we added earlier
         data: {
             product_id: targetProductId,
-            product_qty: product_qty,
-            product_color: selectedColor,  
-            product_size: selectedSize,  
-            csrfmiddlewaretoken: '{{ csrf_token }}',
+            product_qty: $('#product-qty').val(),
+            product_color: $("input[name='input-radio-color']:checked").val(),
+            product_size: $("input[name='input-radio-size']:checked").val(),
+            // This line grabs the value from the hidden input we added to the HTML
+            csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
             action: 'post'
         },
+    
+
         // For the cart icon in the navbar
         success: function(json) {
             if (json.qty !== undefined) {

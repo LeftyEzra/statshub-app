@@ -835,14 +835,16 @@
                   <article class="gallery" data-lightgallery="group">
                     <div class="row row-10 row-narrow">
                       {% for image in team_images %}
-                      <div class="col-6 col-sm-4 col-md-6 col-lg-4">
-                        <a class="thumbnail-creative" data-lightgallery="item" href="{{image.images.url}}">
-                          <img src="{{image.images.url}}" alt="">
-                          <div class="thumbnail-creative-overlay"></div>
-                        </a>
-                      </div>
+                         {% if image.image_url %} 
+                          <div class="col-6 col-sm-4 col-md-6 col-lg-4">
+                            <a class="thumbnail-creative" style="width: 100%; height: 150px; object-fit: cover; object-position: center;" data-lightgallery="item" href="{{image.images.url}}">
+                              <img src="{{image.images.url}}" alt="">
+                              <div class="thumbnail-creative-overlay"></div>
+                            </a>
+                          </div>
+                        {% endif %}
                       {% endfor %}
-                    </div>
+                     </div>
                   </article>
                   <br>
               

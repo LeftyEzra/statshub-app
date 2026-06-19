@@ -1036,23 +1036,21 @@ class TeamUpdateView(SuperuserRequiredMixin, APIView):
 # Class Base View Creating Opponents
 
 class PlayerCreateView(SuperuserRequiredMixin, View):
-    def get(self, request):
+    def get(self, request, competition_slug, team_slug):
         form = PlayerForm()
-        return render(request, 'players-registration.html', {"form": form,})
+        return render(request, 'players-registration.html', {"form": form, "competition": competition, "team_details": team})
 
-    def post(self, request):
+    def post(self, request, competition_slug, team_slug):
         form = PlayerForm(request.POST, request.FILES)
-        
         if form.is_valid():
             player = form.save()
-            
             messages.success(request, f"Player '{player.player_name}' Added Successfully :)")
-            return HttpResponseRedirect('/player create?')
+            return redirect('team-roster', competition_slug=competition_slug, team_slug=team_slug)
         else:
             messages.error(request, "There were errors in the form. Please correct them and try again.")
             print("Player Form Errors:", form.errors)  # Debug: Print team form errors
             
-        return render(request, 'players-registration.html', {"form": form})
+        return render(request, 'players-registration.html', {"form": form, "competition": competition, "team_details": team})
 
 
 #  Class Base View For Opponent List
@@ -1881,22 +1879,20 @@ def player_shot_chart(request, player_slug):
 
 class PlayerUpdateView(SuperuserRequiredMixin, View):
     def get(self, request, player_slug, competition_slug):
-        competition = get_object_or_404(Competition, slug=competition_slug)
-        player = Player.objects.filter(slug=player_slug).first()
-        form = PlayerForm(request.POST or None, instance=player)     
-        return render(request, 'players_update.html', {'form': form, 'player': player, 'competition': competition})    
+        player = get_object_or_404(Player, slug=player_slug)
+        form = PlayerForm(instance=player)
+        
+        return render(request, 'players_update.html', {'form': form, 'player': player})
 
     def post(self, request, player_slug, competition_slug):
-        competition = get_object_or_404(Competition, slug=competition_slug)
-        update_player = get_object_or_404(Player, slug=player_slug, team=competition.team)
-        form = PlayerForm(request.POST, request.FILES, instance=update_player)
+        player = get_object_or_404(Player, slug=player_slug)
+        form = PlayerForm(request.POST, request.FILES, instance=player)
         if form.is_valid():
             form.save()
             messages.success(request, "Player Updated Successfully :)")
             return redirect('players-id', competition_slug=competition_slug, slug=player_slug)
 
-        return render(request, 'players_update.html', {'form': form, 'update_players': update_player, 'competition': competition})
-
+        return render(request, 'players_update.html', {'form': form, 'player': player})
 
 
 
@@ -2178,7 +2174,7 @@ class GameScheduleView(APIView):
         ).select_related('team', 'opponent',)
 
         #SEt up pagination
-        paginator = Paginator(GalleryImages.objects.all(), 6) 
+        paginator = Paginator(GalleryImages.objects.all().order_by('-id'), 6)
         page_number = request.GET.get('page')
         images = paginator.get_page(page_number)
         ######################################################

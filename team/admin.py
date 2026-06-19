@@ -73,7 +73,7 @@ class SeasonAdmin(admin.ModelAdmin):
 #Register Competition in the Admin area
 @admin.register(Competition)
 class CompetitionAdmin(admin.ModelAdmin):
-    list_display = ('name','competition_type', 'is_current_competition', 'year','start_date', 'end_date', 'team',  'description','created_at' )
+    list_display = ('name','competition_type', 'is_current_competition', 'year','start_date', 'end_date', 'team',  'get_description','created_at' )
     search_fields = ('name', 'competition_type', 'year')
     list_filter = ('name', 'competition_type', 'year')
     ordering = ('name',)
@@ -85,6 +85,16 @@ class CompetitionAdmin(admin.ModelAdmin):
             return ", ".join([team.name for team in obj.opponents.all()])
         return "No teams"
     get_opponents.short_description = 'Opponents'
+
+    # 2. Add this safe truncation method:
+    def get_description(self, obj):
+        if obj.description:
+            # If the characters appears more than 50
+            if len(obj.description) > 50:
+                return f"{obj.description[:50]}..."
+            return obj.description
+        return "No description available"
+    get_description.short_description = 'Description' 
 
 
 

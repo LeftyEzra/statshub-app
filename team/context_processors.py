@@ -3,33 +3,28 @@ from .models import Competition, Team
 
 def global_competition_and_team(request):
     """
-    Provides the currently active competition and its associated team 
-    to the template context globally.
+    Globally makeing 'competition' and 'team' available in all templates.
     """
-    competition = None
-    current_team = None
+    # 1. Extract slugs from the URL (if the current page has them)
+    kwargs = request.resolver_match.kwargs
+    comp_slug = kwargs.get('competition_slug')
+    team_slug = kwargs.get('team_slug')
 
-    # Safely finding the current competition
-    try:
-        # Fetch the competition marked as current
-        competition = Competition.objects.get(is_current_competition=True)
-    except Competition.DoesNotExist:
-        # If none exist, keep competition as None
-        pass 
-    except Competition.MultipleObjectsReturned:
-        # If multiple are marked, take the first one found
-        competition = Competition.objects.filter(is_current_competition=True).first()
-
-    # 2. If a competition was found, fetch the linked team
-    if competition and competition.team:
-        # Access the Team object directly via the Foreign Key attribute
-        current_team = competition.team
+    # 2. Try to fetch from URL first (Priority: Specific page context)
+    competition = Competition.objects.filter(slug=comp_slug).first() if comp_slug else None
     
-    # Return the dictionary with both objects for global use in templates
+    # FIX: Use 'competitions' (plural) to match your model's field name
+    current_team = Team.objects.filter(slug=team_slug, competitions=competition).first() if team_slug else None
+
+    # 3. Fallback: If no URL slugs found, use the 'is_current' database flag
+    if not competition or not current_team:
+        competition = Competition.objects.filter(is_current_competition=True).first()
+        # Access the team via the competition model (ensure this matches your model)
+        current_team = competition.team if competition and hasattr(competition, 'team') else None
+
+    # Return the dictionary to be injected into the template context
     return {
-        'competition': competition, 
-        'current_team': current_team,
-        'SITE_VERSION': '1.0'  
+        'competition': competition,
+        'team': current_team,
+        'SITE_VERSION': '1.0' 
     }
-
-

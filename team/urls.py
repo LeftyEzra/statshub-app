@@ -68,7 +68,8 @@ urlpatterns = [
 
 
     #Players Urls
-    path('player create/',PlayerCreateView.as_view(), name='create-player'),
+    #path('player create/',PlayerCreateView.as_view(), name='create-player'),
+    path('competition/<slug:competition_slug>/team/<slug:team_slug>/player-create/', PlayerCreateView.as_view(),  name='player-create'),
     path('competition/<slug:competition_slug>/player/<slug:slug>/', PlayerDetailView.as_view(), name='players-id'),
     path('player update/<slug:competition_slug>/player/<slug:player_slug>/', PlayerUpdateView.as_view(), name='update-player'),
     #path('delete player/<slug:slug>/player/<int:pk>', PlayerDeleteView.as_view(), name='delete-player'),

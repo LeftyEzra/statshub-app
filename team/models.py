@@ -471,8 +471,15 @@ class GalleryImages(models.Model):
     team = models.ForeignKey(Team, related_name='team_pictures', on_delete=models.CASCADE, blank=True, null=True)
     player_pictures = models.ForeignKey(Player, related_name='player_pictures', on_delete=models.CASCADE, blank=True, null=True)
     
+    @property
+    def image_url(self):
+        """Safely returns the URL only if the image exists."""
+        if self.images and hasattr(self.images, 'url'):
+            return self.images.url
+        return None  # Or return a default 'placeholder.jpg' URL
+
     def __str__(self):
-        return str(self.title)
+        return self.title if self.title else f"Image {self.id}"
 
     class Meta:
         verbose_name_plural = 'Image Gallery'

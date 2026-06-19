@@ -55,6 +55,7 @@
         <div class="container">
           <!-- Product - single build-->
           <article class="product-single">
+            <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
             <div class="product-single-figure">
               {% if product_images %}
                 <!-- Owl Carousel -->
@@ -179,13 +180,12 @@
                 </li>
               </ul>
               <ul class="product-list-buttons">
-              
-              </li>
-                <li><button type="button" value="{{ product_details.id }}" class="button button-secondary button-icon button-icon-left add-cart-btn">
+                <li>
+                  <button type="button" value="{{ product_details.id }}" data-url="{% url 'add-to-cart' %}" class="button button-secondary button-icon button-icon-left add-cart-btn">
                       <span class="icon fl-bigmug-line-shopping202"></span>
                       <span>Add to cart</span>
                   </button>
-              </li>
+                </li>
                 <li>
                   <div class="product-list-share focus-toggle-parent">
                     <span class="product-list-share-btn focus-toggle fl-bigmug-line-share27"></span>

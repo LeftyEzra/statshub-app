@@ -1,4 +1,10 @@
     {% load static%}
+    <style>
+    /* Force the navbar wrapper to expand to fit its contents */
+    .rd-navbar-wrap {
+        height: auto !important;
+    }
+</style>
       <!-- Page Header-->
       <header class="section page-header rd-navbar-dark">
         
@@ -414,17 +420,9 @@
                           <a class="rd-nav-link" href="#">Team</a>
                           <span class="rd-navbar-submenu-toggle" style="display: none;"></span>
                             <ul class="rd-menu rd-navbar-dropdown">
+                              <li class="rd-dropdown-item"><a class="rd-dropdown-link" href="{% url 'team-roster' competition.slug team.slug %}">ROSTER</a></li>
                                 <li class="rd-dropdown-item">
-                                    {% if competition.slug and team.slug %}
-                                        <a class="rd-dropdown-link" href="{% url 'team-roster' competition.slug team.slug %}">Roster</a>
-                                    {% elif competition.slug and team_details.slug %}
-                                        <a class="rd-dropdown-link" href="{% url 'team-roster' competition.slug team_details.slug %}">Roster</a>
-                                    {% else %}
-                                        <a class="rd-dropdown-link" href="#">Roster</a>
-                                    {% endif %}
-                                </li>
-                                <li class="rd-dropdown-item">
-                                  {% if competition.slug %}
+                                  {% if competition %}
                                     <a class="rd-dropdown-link" href="{% url 'view-standing' competition.slug %}">Standings</a>
                                   {% else %}
                                     <a class="rd-dropdown-link" href="">Standings</a>
@@ -432,7 +430,7 @@
                                 </li>
                                
                                 <li class="rd-dropdown-item">
-                                  {% if competition.slug %}
+                                  {% if competition %}
                                     <a class="rd-dropdown-link" href="{% url 'game-schedule' competition.slug %}">Game schedule</a>
                                   {% else %}
                                     <a class="rd-dropdown-link" href="">Game schedule</a>
@@ -440,7 +438,7 @@
                                 </li>
 
                                  <li class="rd-dropdown-item">
-                                    {% if competition.slug %}
+                                    {% if competition %}
                                       <a class="rd-dropdown-link" href="{% url 'team-charts' competition.slug %}">Last 5 Games</a>
                                     {% else %}
                                       <a class="rd-dropdown-link" href="">Last 5 Games</a>
@@ -507,7 +505,7 @@
                                           <li class="rd-dropdown-item"><a class="rd-dropdown-link" href="{% url 'season-create' %}">Season Form</a></li>
                                           <li class="rd-dropdown-item"><a class="rd-dropdown-link" href="{% url 'competition-create' %}">Competition Form</a></li>
                                           <li class="rd-dropdown-item"><a class="rd-dropdown-link" href="{% url 'create-opponent' %}">Opponent Form</a></li>
-                                          {% if competition and competition.slug %}
+                                          {% if competition %}
                                           <li class="rd-dropdown-item"><a class="rd-dropdown-link" href="{% url 'create-game' competition.slug %}">Game Form</a></li>
                                           {% else %}
                                             <li class="rd-dropdown-item"><a class="rd-dropdown-link" href="">Create Competition First</a></li>
@@ -517,9 +515,9 @@
                                       <div class="col-md-4">
                                           <p style="font-weight: bold; border-bottom: 1px solid #eee; padding-bottom: 5px; margin-bottom: 10px; font-size: 12px; color: #e20e0e;">TEAMS & PLAYERS</p>
                                           <li class="rd-dropdown-item"><a class="rd-dropdown-link" href="{% url 'team-create' %}">Team Form</a></li>
-                                          <li class="rd-dropdown-item"><a class="rd-dropdown-link" href="{% url 'create-player' %}">Players Form</a></li>
+                                          <li class="rd-dropdown-item"><a class="rd-dropdown-link" href="{% url 'player-create' competition.slug team.slug %}">Players Form</a></li>
                                           <li class="rd-dropdown-item"><a class="rd-dropdown-link" href="{% url 'create-staff' %}">Staff Form</a></li>
-                                          {% if competition and competition.slug %}
+                                          {% if competition %}
                                           <li class="rd-dropdown-item"><a class="rd-dropdown-link" href="{% url 'create-records' competition.slug %}">Career Records</a></li>
                                           {% else %}
                                           <li class="rd-dropdown-item"><a class="rd-dropdown-link" href="">Create Game First</a></li>
@@ -528,7 +526,7 @@
 
                                       <div class="col-md-4">
                                           <p style="font-weight: bold; border-bottom: 1px solid #eee; padding-bottom: 5px; margin-bottom: 10px; font-size: 12px; color: #e20e0e;">MEDIA & NEWS</p>
-                                          {% if competition and competition.slug %}
+                                          {% if competition  %}
                                           <li class="rd-dropdown-item"><a class="rd-dropdown-link" href="{% url 'create-news' competition.slug %}">News Form</a></li>
                                           {% else %}
                                           <li class="rd-dropdown-item"><a class="rd-dropdown-link" href="">Create Game First</a></li>
