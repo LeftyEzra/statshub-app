@@ -1038,7 +1038,7 @@ class TeamUpdateView(SuperuserRequiredMixin, APIView):
 class PlayerCreateView(SuperuserRequiredMixin, View):
     def get(self, request, competition_slug, team_slug):
         form = PlayerForm()
-        return render(request, 'players-registration.html', {"form": form, "competition": competition, "team_details": team})
+        return render(request, 'players-registration.html', {"form": form})
 
     def post(self, request, competition_slug, team_slug):
         form = PlayerForm(request.POST, request.FILES)
@@ -1050,7 +1050,7 @@ class PlayerCreateView(SuperuserRequiredMixin, View):
             messages.error(request, "There were errors in the form. Please correct them and try again.")
             print("Player Form Errors:", form.errors)  # Debug: Print team form errors
             
-        return render(request, 'players-registration.html', {"form": form, "competition": competition, "team_details": team})
+        return render(request, 'players-registration.html', {"form": form})
 
 
 #  Class Base View For Opponent List
