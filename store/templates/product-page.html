@@ -94,10 +94,10 @@
                   <li>
                     <ul class="list-inline"> 
                       {% if product_details.is_sales %}
-                      <li class="product-single-price-old"><span>${{ product_details.price}}</span></li>
-                      <li class="product-single-price-new heading-4"><span>${{ product_details.sales_price}}</span></li>
+                      <li class="product-single-price-old"><span>₦{{ product_details.price}}</span></li>
+                      <li class="product-single-price-new heading-4"><span>₦{{ product_details.sales_price}}</span></li>
                       {% else %}
-                        <li class="product-single-price-new heading-4"><span>${{ product_details.price}}</span></li>
+                        <li class="product-single-price-new heading-4"><span>₦{{ product_details.price}}</span></li>
                       {% endif %}
                     </ul>
                   </li>
