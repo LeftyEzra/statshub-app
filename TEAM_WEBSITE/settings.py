@@ -79,7 +79,7 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
 
                  # ---NEWLY ADDED CONTEXT PROCESSOR HERE ---
-                'team.context_processors.global_competition_and_team',
+                'team.context_processors.global_site_context',
                 'cart.context_processors.cart',
             ],
         },

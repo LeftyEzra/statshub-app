@@ -1,7 +1,8 @@
 from .models import Competition, Team 
+import os
 
 
-def global_competition_and_team(request):
+def global_site_context(request):
     """
     Globally makeing 'competition' and 'team' available in all templates.
     """
@@ -26,5 +27,8 @@ def global_competition_and_team(request):
     return {
         'competition': competition,
         'team': current_team,
-        'SITE_VERSION': '1.0' 
+        'SITE_VERSION': '1.0',
+        'SUPPORT_EMAIL': os.getenv('SUPPORT_EMAIL'),
+        'WHATSAPP_NUMBER': os.getenv('WHATSAPP_NUMBER'),
+        'PHONE_NUMBER': os.getenv('PHONE_NUMBER'), 
     }

@@ -104,7 +104,7 @@ class Sizes(models.Model):
 CURRENT_CONDITION = (    
     ('New', 'Brand New'),
     ('Hot', 'Trending'),
-    ('Acube', 'Grade A Used'), # Keeps 'Acube' in DB, but shows premium text to users Grade A Used (Pristine Condition)'
+    ('Acube', 'Pristine'), # Keeps 'Acube' in DB, but shows premium text to users Grade A Used (Pristine Condition)'
 )
 
 GENDER_CHOICES =  (

@@ -467,23 +467,31 @@
 
             <div class="mt-4 text-center">
               {% if grand_totals > 0 %} 
-              <div class="alert alert-warning mx-auto mb-4 p-3 text-start" style="max-width: 550px; border-radius: 6px; background-color: #fff9e6; border: 1px solid #ffe0b3;">
-                <h6 class="text-warning mb-1" style="font-weight: 700; color: #f76f46 !important;">
-                  <i class="fas fa-exclamation-triangle " style="font-size: 14px;"></i>
-                  <span class="icon fl-bigmug-line-lock12 me-1"></span> Security Safeguard Notice
-                </h6>
-                <p class="mb-0 text-dark" style="font-size: 13px; line-height: 1.5;">
-                  Please safeguard your credentials. <strong>Statshub</strong> or <strong>Elite Store</strong> representatives will <strong>never</strong> contact you via phone, email, or text to request your card PIN, password, or authentication codes. Do not disclose sensitive financial details to anyone.
-                </p>
-              </div>
-              <button type="submit" class="button button-lg button-primary">
-                Place Order
-              </button> 
+                <div class="alert alert-warning mx-auto mb-4 p-3 text-start" style="max-width: 550px; border-radius: 6px; background-color: #fff9e6; border: 1px solid #ffe0b3;">
+                  <h6 class="text-warning mb-1" style="font-weight: 700; color: #f76f46 !important;">
+                    <i class="fas fa-exclamation-triangle"></i> Security Safeguard Notice
+                  </h6>
+                  <p class="mb-0 text-dark" style="font-size: 13px; line-height: 1.5;">
+                    Please safeguard your credentials. <strong>Statshub</strong> or <strong>Elite Store</strong> representatives will <strong>never</strong> request your card PIN or password.
+                  </p>
+                </div>
+
+                <div class="form-check mx-auto mb-3 text-start" style="max-width: 550px;">
+                  <input type="checkbox" class="form-check-input" id="terms" required>
+                  <label class="form-check-label" for="terms" style="font-size: 13px;">
+                    I agree to the <a href="{% url 'terms-and-conditions' %}" target="_blank">Terms and Conditions</a>
+                  </label>
+                </div>
+                
+                <button type="submit" class="button button-lg button-primary">
+                  Place Order
+                </button> 
+
               {% else %} 
-              <div class="text-muted">
-                Your cart is empty. Add some gears to place an order!
-              </div> 
-              <a href="{% url 'grid-shop' %}"  class="button button-lg button-info">Go to Shop</a>
+                <div class="text-muted">
+                  Your cart is empty. Add some gears to place an order!
+                </div> 
+                <a href="{% url 'grid-shop' %}" class="button button-lg button-info">Go to Shop</a>
               {% endif %}
             </div>
 

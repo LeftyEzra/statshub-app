@@ -6,6 +6,28 @@
 {% endblock %}
 {% block content %}
 
+
+<style>
+/* The container must be relative so the badge stays inside it */
+.product-roster-content {
+    position: relative;
+    display: inline-block; /* Helps the container wrap the image tightly */
+}
+
+/* The badge is removed from the normal layout flow */
+.badge-shop {
+    position: absolute;
+    top: 10px;      /* Distance from the top */
+    left: 10px;     /* Distance from the left */
+    z-index: 10;    /* Ensures it sits ON TOP of the image */
+    padding: 5px 10px;
+    background-color: #f76f46; 
+    color: white;
+    border-radius: 4px;
+    font-weight: bold;
+}
+
+</style>
       <!-- Section Breadcrumbs-->
       <section class="section parallax-container breadcrumbs-wrap" data-parallax-img="{% static 'img/breadcrumb-shop.PNG' %}">
         <div class="material-parallax parallax">
@@ -168,27 +190,34 @@
         </div>
         <!--PRODUCT GRID -->
         <div class="product-roster-grid">
-          
             {% for product in products %}
                 <div class="product-roster-item">
                     <a href="{% url 'product-id' product.slug %}" class="product-roster-link">
                         <div class="product-roster-content">
-                          <!-- Badge-->
-                      
-                            
+                            <!--Product Condition -->
+                            {% if product.brand_type == 'New' %}
+                                <div class="badge badge-shop" style="background-color: #28a745;">New</div>
+                            {% elif product.brand_type == 'Hot' %}
+                                <div class="badge badge-shop" style="background-color: #dc3545;">Trending</div>
+                            {% elif product.brand_type == 'Acube' %}
+                                <div class="badge badge-shop" style="background-color: #6a64f1;">Pristine</div>
+                            {% endif %}
+                            <!--Product Image -->
                             {% if product.image %}
                                 <img class="product-roster-image" src="{{ product.image.url }}" alt="{{ product.name }}">
                             {% else %}
                                 <img class="product-roster-image" src="" alt="{{ product.name }}">
                             {% endif %}
+
                             <div class="product-roster-info">
                                 <h3 class="product-roster-name">{{ product.name }}</h3>
                                 {% if product.is_sales %}
                                   <p class="product-roster-position">
-                                      <span style="text-decoration: line-through; color: #999;">${{ product.price }}</span> &rarr; ${{ product.sale_price }}
+                                      <span style="text-decoration: line-through; color: #999;">₦ {{ product.price }}</span> 
+                                      &rarr; ₦ {{ product.sales_price }}
                                   </p>
                                 {% else %}
-                                  <span class="product-roster-position">${{ product.price }}</span>
+                                  <span class="product-roster-position">₦ {{ product.price }}</span>
                                 {% endif %}
                             </div>
                             
@@ -205,18 +234,16 @@
                     {% if user.is_authenticated and user.is_superuser %}
                       <div class="product-roster-footer">
                         <div class="product-btn-action-group">
-                            <a href="{% url 'update-product' product.slug %}" class="btn btn-outline-primary btn-sm">Update Product</a>
-                            <a  href="javascript:void(0)" class="btn btn-outline-danger btn-sm"
-                                onclick="openDeleteModal('{% url 'delete-product'  product.slug  %}')">
-                                <i class="badge-red"></i> Delete Product
+                            <a href="{% url 'update-product' product.slug %}" class="btn btn-outline-primary btn-sm">Update</a>
+                            <a href="javascript:void(0)" class="btn btn-outline-danger btn-sm"
+                                onclick="openDeleteModal('{% url 'delete-product' product.slug %}')">
+                                Delete
                             </a>
-
                         </div>
                       </div>
                     {% endif %}
                 </div>
             {% endfor %}
-            
         </div>
         <!--PAGINATION NAV-->
         <nav aria-label="Product Pagination">

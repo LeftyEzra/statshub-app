@@ -32,6 +32,7 @@ urlpatterns = [
     path('about', views.about, name='about'),
     path('help-and-support/', views.help_and_support, name='help-and-suppport'),
     path('privacy-policy/', views.privacy_policy, name='privacy-policy'),
+    path('terms_and_condition/', views.terms_and_conditions, name='terms-and-conditions'),
     
 
     path('search/', views.search, name='search-result'),

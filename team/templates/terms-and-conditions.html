@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<style>
+    .terms-title { color: #07074d; font-weight: 700; }
+    .terms-heading { color: #07074d; font-weight: 700; margin-bottom: 15px; }
+    .terms-subheading { color: #35ad79; font-weight: 600; margin-top: 20px; }
+    .terms-body { color: #536387; line-height: 1.6; }
+</style>
+
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <h1 class="text-center mb-4 terms-title">Terms & Conditions of Service</h1>
+            <p class="text-center text-muted">Last Updated: June 19, 2026</p>
+            <hr class="mb-5">
+
+            <section class="mb-5">
+                <h2 class="terms-heading">1. Acceptance of Terms</h2>
+                <p class="terms-body">By accessing the <strong>Elite Store</strong> platform and placing an order, you ("The Customer") agree to be bound by these Terms and Conditions. We reserve the right to update these terms at any time; the version in effect at the time of your purchase will govern that transaction.</p>
+            </section>
+
+            <section class="mb-5">
+                <h2 class="terms-heading">2. Orders and Products</h2>
+                <h5 class="terms-subheading">2.1 Product Accuracy</h5>
+                <p class="terms-body">We strive to display our products—including sports gear and apparel—as accurately as possible. However, colors and designs may appear slightly different depending on your screen settings.</p>
+                <h5 class="terms-subheading">2.2 Order Acceptance</h5>
+                <p class="terms-body">All orders are subject to product availability and payment verification. Elite Store reserves the right to cancel any order due to pricing errors or stock discrepancies.</p>
+            </section>
+
+            <section class="mb-5">
+                <h2 class="terms-heading">3. Payments and Security</h2>
+                <h5 class="terms-subheading">3.1 Payment Processing</h5>
+                <p class="terms-body">Payment is required in full at the time of checkout. We utilize secure payment gateways to process your transactions.</p>
+                <h5 class="terms-subheading">3.2 Security Safeguard</h5>
+                <p class="terms-body">Elite Store representatives will <strong>never</strong> contact you to request your card PIN, password, or authentication codes. You are responsible for safeguarding your login credentials.</p>
+            </section>
+
+            <section class="mb-5">
+                <h2 class="terms-heading">4. Shipping and Returns</h2>
+                <h5 class="terms-subheading">4.1 Shipping</h5>
+                <p class="terms-body">We aim to process and dispatch orders within 48–72 hours. Delivery timelines are estimates provided by our courier partners; Elite Store is not liable for delays caused by third-party logistics.</p>
+                <h5 class="terms-subheading">4.2 Returns and Exchanges</h5>
+                <p class="terms-body">To be eligible for a return or exchange, items must be in original, unused condition with all tags attached. Return requests must be initiated within 7 days of delivery.</p>
+            </section>
+            
+            <section class="mb-5">
+                <h2 class="terms-heading">5. Limitation of Liability and Governing Law</h2>
+                <h5 class="terms-subheading">5.1 Liability</h5>
+                <p class="terms-body">Elite Store is not liable for any indirect or consequential damages arising from the use of our products. Our total liability is limited to the purchase price of the item in question.</p>
+                <h5 class="terms-subheading">5.2 Governing Law</h5>
+                <p class="terms-body">These terms shall be governed by the laws of <strong>The Federal Republic of Nigeria</strong>. Any disputes shall be resolved through negotiation or, failing that, in the competent courts of <strong>Lagos State, Nigeria</strong>.</p>
+            </section>
+
+            <p class="mt-5 text-center terms-body">For questions regarding your order, please visit our <a href="{% url 'contact' %}" style="color: #6a64f1;">Contact Page</a>.</p>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

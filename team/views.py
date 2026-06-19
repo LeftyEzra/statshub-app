@@ -324,7 +324,11 @@ def help_and_support(request):
 ### Privacy Policy
 def privacy_policy(request):
     return render(request, 'privacy-policy.html', {})    
+
     
+### Privacy Policy
+def terms_and_conditions(request):
+    return render(request, 'terms-and-conditions.html', {})     
               
 ####################################################################################
 # Team View

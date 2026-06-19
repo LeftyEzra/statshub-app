@@ -30,9 +30,9 @@
 <div class="container my-5">
     <div class="row justify-content-center">
         <div class="col-lg-10">
-            <h1 class="text-center mb-4 text-warning">Customer Support & Help Center</h1>
+            <h1 class="text-center mb-4 text-warning">Elite Store Support & Help Center</h1>
             <p class="text-center lead mb-5">
-                Find answers to common questions or contact our team for project inquiries, technical assistance, or billing support.
+                Have questions about your order, our gear, or professional services? We’re here to help.
             </p>
 
             <hr class="mb-5">
@@ -42,47 +42,50 @@
                 
                 <div class="accordion" id="faqAccordion">
                     
+                    <!-- FAQ 1: Ordering -->
                     <div class="card mb-3 border-secondary">
                         <div class="card-header bg-light" id="headingOne">
                             <h5 class="mb-0">
                                 <button class="btn btn-link text-left" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                    How do I request a quote for a product on line?
+                                    How do I place an order or request a custom service?
                                 </button>
                             </h5>
                         </div>
                         <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#faqAccordion">
                             <div class="card-body">
-                                To receive an accurate quote, please use our dedicated **<a href="">Contact Form</a>** and provide details including: project dimensions, required materials (e.g., Carbon Steel, Stainless Steel), location, and any relevant blueprints or specifications. We typically respond within 24-48 hours.
+                                Simply browse our <a href="{% url 'grid-shop' %}">Elite Store</a>, add items to your cart, and proceed to checkout. For custom requests or specialized services, please reach out via our <a href="{% url 'contact' %}">Contact Form</a>.
                             </div>
                         </div>
                     </div>
 
+                    <!-- FAQ 2: Shipping/Returns -->
                     <div class="card mb-3 border-secondary">
                         <div class="card-header bg-light" id="headingTwo">
                             <h5 class="mb-0">
                                 <button class="btn btn-link text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                    What types of materials and welding processes do you specialize in?
+                                    What is your return and exchange policy?
                                 </button>
                             </h5>
                         </div>
                         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#faqAccordion">
                             <div class="card-body">
-                                We specialize in structural fabrication, piping, and maintenance services. Our expertise includes working with Carbon Steel, Stainless Steel, and Aluminum, utilizing processes such as SMAW, TIG, and MIG welding.
+                                We accept returns on unused items with original tags within 7 days of delivery. For more details, please review our <a href="{% url 'terms-and-conditions' %}">Terms & Conditions</a> page.
                             </div>
                         </div>
                     </div>
 
+                    <!-- FAQ 3: Security -->
                     <div class="card mb-3 border-secondary">
                         <div class="card-header bg-light" id="headingThree">
                             <h5 class="mb-0">
                                 <button class="btn btn-link text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                                    Do you offer a warranty on your fabrication work?
+                                    How secure is my purchase?
                                 </button>
                             </h5>
                         </div>
                         <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#faqAccordion">
                             <div class="card-body">
-                                Yes, we guarantee our workmanship. Please refer to our <a href="">Terms & Conditions</a> page, Section 4.1, for specific details regarding the duration and scope of our guarantee against structural defects.
+                                Elite Store uses secure payment processing. Please remember: our representatives will <strong>never</strong> ask for your PIN, password, or authentication codes via phone, text or email.
                             </div>
                         </div>
                     </div>
@@ -93,25 +96,24 @@
             <hr class="my-4">
 
             <section class="mb-5 text-center">
-                <h2 class="text-primary mb-4">2. Direct Contact</h2>
-                <p class="lead">If you cannot find the answer in our FAQs, please contact the appropriate department below:</p>
+                <h2 class="text-primary mb-4">2. Need Further Assistance?</h2>
+                <p class="lead">Connect with our support team for order tracking, billing, or platform inquiries:</p>
                 
                 <div class="row mt-4">
                     <div class="col-md-6 mb-3">
                         <div class="p-3 border rounded h-100 bg-light">
-                            <h4 class="text-success">General Inquiries & Quotes</h4>
-                            <p class="mb-1">For new projects, general questions, or site consultations.</p>
-                            <i class="fa fa-envelope mr-2"></i> Email: <a href="mailto:info@statshub.com">info@statshub.com</a>
+                            <h4 class="text-success">Customer Service</h4>
+                            <p class="mb-1">For order status, returns, and product questions.</p>
+                            <i class="fa fa-envelope mr-2"></i> Email: <a href="mailto:{{ SUPPORT_EMAIL }}">{{ SUPPORT_EMAIL }}</a>
                         </div>
                     </div>
                     <div class="col-md-6 mb-3">
                         <div class="p-3 border rounded h-100 bg-light">
-                            <h4 class="text-success">Urgent  Support & Billing</h4>
-                            <p class="mb-1">For urgent need, active product issues, or billing inquiries.</p>
-                            <i class="fa fa-phone mr-2"></i> Whats App: [+234 8125363010]
-                            <i class="fa fa-phone mr-2"></i> Phone: [+234 9053509607]
+                            <h4 class="text-success">Billing & Support</h4>
+                            <p class="mb-1">Available Monday - Saturday, 9:00 AM - 5:00 PM (WAT).</p>
+                            <i class="fa fa-whatsapp mr-2"></i> WhatsApp: {{ WHATSAPP_NUMBER }}
                             <br>
-                            <i class="fa fa-clock mr-2"></i> Hours: Monday - Saturday, 9:00 AM - 5:00 PM (WAT)
+                            <i class="fa fa-phone mr-2"></i> Phone: {{ PHONE_NUMBER }}
                         </div>
                     </div>
                 </div>
