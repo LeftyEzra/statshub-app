@@ -193,7 +193,8 @@
                       <li><span>Share</span></li>
                       <li><a class="icon icon-xs fa fa-facebook" href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri|urlencode }}" target="_blank" title="Share on Facebook"></a></li>
                       <li><a class="icon icon-xs fa fa-instagram"   href="#"  id="copy-ig-link"  data-url="{{ request.build_absolute_uri }}"  title="Copy Link for Instagram"></a></li>
-                      <li ><a class="icon icon-xs fa fa-twitter"  href="https://twitter.com/intent/tweet?url={{ request.build_absolute_uri|urlencode }}&text=Check+out+this+gear!+🔥"   target="_blank"  title="Share on X"> </a></li>
+                      <li><a class="icon icon-xs fa fa-twitter"  href="https://twitter.com/intent/tweet?url={{ request.build_absolute_uri|urlencode }}&text=Check+out+this+gear!+🔥"   target="_blank"  title="Share on X"> </a></li>
+                      <li><a class="icon icon-xs fa fa-whatsapp"  href="https://api.whatsapp.com/send?text=Check+this+product+out:+{{ request.build_absolute_uri|urlencode }}"  target="_blank"></a></li>
                     </ul>
                     <span id="share-toast" style="display: none; color: #35ad79; font-size: 12px; margin-left: 10px; font-weight: bold;">
                         Link copied! Paste to your IG bio or story.
