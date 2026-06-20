@@ -1,19 +1,10 @@
 from django.urls import path
 from . import views
-#from .APIViews import CompetitionCreateView, CompetitionListView, CompetitionDetailView, CompetitionUpdateView, CompetitionDeleteView
-#from .APIViews import TeamCreateView, TeamListView, TeamDetailView, TeamUpdateView, TeamDeleteView  
-#from .APIViews import StaffCreateView, StaffDetailView, StaffDeleteView 
-#from .APIViews import OpponentCreateView, OpponentListView, OpponentDetailView, OpponentUpdateView, OpponentDeleteView 
-#from .APIViews import GameCreateView, GameListView, GameDetailView, GameUpdateView, GameDeleteView
-#from .APIViews import PlayerCreateView, PlayerListView, PlayerDetailView, PlayerUpdateView, PlayerDeleteView
-#from .APIViews import PlayerStatsLineCreateView, PlayerStatsLineListView, PlayerStatsLineDetailView, PlayerStatsLineUpdateView, PlayerStatsLineDeleteView        
-#from .APIViews import , QuarterlyScoresListView, QuarterlyScoresDetailView, QuarterlyScoresUpdateView, QuarterlyScoresDeleteView
 
 from .views import OpponentCreateView,  OpponentListView, OpponentDetailView, OpponentUpdateView
 from .views import SeasonCreateView,  SeasonCompetitionListView, SeasonDetailView, SeasonUpdateView
 from .views import CompetitionCreateView,  CompetitionUpdateView, CompetitionDeleteView
 from .views import TeamCreateView,  TeamListView, TeamDetailView, TeamUpdateView
-from .views import StaffCreateView,  StaffDetailView, StaffUpdateView, StaffDeleteView
 from .views import PlayerCreateView,  PlayerDetailView, PlayerUpdateView#, PlayerDeleteView
 from .views import GameCreateView, GameListView, GameScheduleView, GameDetailView, GameUpdateView
 from .views import StandingCreateView, StandingListView
@@ -87,14 +78,8 @@ urlpatterns = [
     path('competition/<slug:slug>/record list/', views.careerRecordList, name='record-list'),
     path('competition/<slug:slug>/update record/<int:pk>/', views.careerRecordUpdate, name='update-record'),
     path('delete/record/<slug:slug>/delete/record/<int:pk>/', views.delete_record, name='delete-record'),
-    #Staff Urls
-    path('staff_create/',StaffCreateView.as_view(), name='create-staff'),
-    path('competition/<slug:competition_slug>/staff/<slug:slug>/', StaffDetailView.as_view(), name='staff-id'),
-    path('staff update/<slug:competition_slug>/staff/<slug:slug>/', StaffUpdateView.as_view(), name='update-staff'),
-    path('delete staff/<slug:competition_slug>/', StaffDeleteView.as_view(), name='delete-staff'),
 
-
-    #Staff Urls
+    #SOppoent
     path('opponent create/',OpponentCreateView.as_view(), name='create-opponent'),
     path('opponent list/', OpponentListView.as_view(), name='opponent-list'),
     path('opponent detail/<slug:slug>/', OpponentDetailView.as_view(), name='opponent-id'),

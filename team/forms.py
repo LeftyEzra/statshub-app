@@ -181,11 +181,6 @@ class TeamForm(forms.ModelForm):
         return cleaned_data
 
 
-#Team Staff
-class TeamStaffForm(forms.ModelForm):
-    class Meta:
-        model = TeamStaff
-        fields = '__all__'
 
 
 class PlayerForm(forms.ModelForm):

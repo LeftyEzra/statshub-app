@@ -10,7 +10,7 @@ from rest_framework import mixins
 from team.models import Season, Competition, Team, TeamStaff, Game, Player, PlayerStatLine, QuarterlyScores, Opponent, CareerRecords, Standing, TeamNews, GalleryImages, Awards
 from team.models import Contact, NewsletterSubscriber, ShotCharts
 from store.models import Product
-from .forms import SeasonForm, OpponentForm, CompetitionForm, TeamForm, TeamStaffForm, PlayerForm, GameForm, QuarterlyScoresForm, PlayerStatLineForm, StandingForm, TeamNewsForm
+from .forms import SeasonForm, OpponentForm, CompetitionForm, TeamForm, PlayerForm, GameForm, QuarterlyScoresForm, PlayerStatLineForm, StandingForm, TeamNewsForm
 from .forms import SponsorForm, CareerRecordsForm, AwardsForm, ContactForm, NewsletterSubscriberForm, GalleryImagesForm, ShotChartForm
 
 from datetime import datetime, timedelta # Module to represent the difference between two dates
@@ -1921,70 +1921,12 @@ def delete_player(request, slug, competition_slug):
 # Team Staff
 ####################################################################################
 ####################################################################################
-@method_decorator(user_passes_test(is_superuser, login_url='/'), name='dispatch')
-class StaffCreateView(APIView):
-    def get(self, request):
-        form = TeamStaffForm()
-        
-        submitted = 'submitted' in request.GET
-        return render(request, 'staff_registration.html', {"form": form,  'submitted': submitted})
-
-    def post(self, request):
-        form = TeamStaffForm(request.POST, request.FILES)
-        
-        if form.is_valid():
-            team = form.save()
-            
-            messages.success(request, "Staff Added Successfully :)")
-            return HttpResponseRedirect('/staff_create?submitted=True')
-        else:
-            messages.error(request, "There were errors in the form. Please correct them and try again.")
-            print("staff Form Errors:", form.errors)  # Debug: Print team form errors
-            
-        return render(request, 'staff_registration.html', {"form": form, "team": team, 'submitted': False})
-
-
-# Class Base View For Team Details
-class StaffDetailView(APIView):
-    def get(self, request, pk):
-        staff_details = get_object_or_404(TeamStaff, slug=slug)
-       
-
-        context = { }
-        return render(request, 'staff_details.html', context)
-
-
-
-# UPDATE STAFF
-@method_decorator(user_passes_test(is_superuser, login_url='/'), name='dispatch')
-class StaffUpdateView(View):
-    def get(self, request, competition_slug, staff_slug):
-        competition = get_object_or_404(Competition, slug=competition_slug)
-        staff = get_object_or_404(TeamStaff, slug=staff_slug, team=competition.team)
-        form = TeamStaffForm(request.POST or None, instance=staff)
-        return render(request, 'staff_update.html', {'form': form, 'staff': staff, 'staff': staff, 'competition': competition})
-
-    def post(self, request,  competition_slug, staff_slug):
-        competition = get_object_or_404(Competition,  slug=competition_slug)
-        staff = get_object_or_404(TeamStaff, slug=staff_slug, team=competition.team)
-
-        form = TeamStaffForm(request.POST or None, instance=staff)
-        if form.is_valid():
-            form.save()
-
-            return redirect('team-roster', competition_slug=competition.slug )    
-
-
-        return render(request, 'staff_update.html', {'form': form, 'staff': staff, 'staff': staff, 'competition': competition})
 
 
 
 
 
-# Player Delete Function
-@method_decorator(user_passes_test(is_superuser, login_url='/'), name='dispatch')
-class StaffDeleteView(APIView): 
-    pass       
+
 
 
 
