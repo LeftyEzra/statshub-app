@@ -4,4 +4,5 @@ statics_do_not_delete/
 *.sqlite3
 .env
 __pycache__/
+team/viewss.py
 
