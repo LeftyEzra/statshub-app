@@ -422,12 +422,12 @@
                             <ul class="rd-menu rd-navbar-dropdown">
                               
                               <li class="rd-dropdown-item">
-                                {% if competition.slug and team.slug %}
-                                   <a class="rd-dropdown-link" href="{% url 'team-roster' competition.slug team.slug %}">ROSTER</a>
-                              {% else %}
-                              ROSTER
-                              {% endif %}
-                              </li>
+                               {% if competition and team %}
+                                    {% if competition.slug and team.slug %}
+                                        <a href="{% url 'team-roster' competition.slug team.slug %}">ROSTER</a>
+                                    {% endif %}
+                                {% endif %}
+                                                              </li>
                                 <li class="rd-dropdown-item">
                                   {% if competition %}
                                     <a class="rd-dropdown-link" href="{% url 'view-standing' competition.slug %}">Standings</a>
