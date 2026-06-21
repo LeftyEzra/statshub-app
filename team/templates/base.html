@@ -363,34 +363,6 @@
                   <a href="">StatsHub</a>
                 </span>
               </p>
-              <nav class="nav-minimal">
-                <ul class="nav-minimal-list">
-                  <li class="active"><a href="{% url 'home' %}">Home</a></li>
-                  <li  class=" disabled"><a href="#">Features</a></li>
-                  {% if competition.slug %}
-                  <li ><a href="{% url 'team-charts' competition.slug %}">Statistics</a></li>
-                  {% else %}
-                  <li ><a href="">Statistics</a></li>
-                  {% endif %}
-
-                  {% if competition.slug and team.team %}
-                      <a class="rd-dropdown-link" href="{% url 'team-roster' competition.slug team.slug %}">Roster</a>
-                  {% else %}
-                      <a class="rd-dropdown-link" href="">Register a competition and team first</a>
-                  {% endif %}
-
-   
-                  {% if competition.slug %}
-                  <li ><a href="{% url 'news-list' competition.slug   %}">News</a></li>
-                  {% else %}
-                  <li ><a href="">News</a></li>
-                  {% endif %}
-
-                  <li ><a href="{% url 'grid-shop' %}">Shop</a></li>
-                 
-                  
-                </ul>
-              </nav>
             </div>
           </div>
         </div>
