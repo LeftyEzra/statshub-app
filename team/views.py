@@ -2091,8 +2091,7 @@ class GameListView(APIView):
         all_competition = Competition.objects.all()
         
         # Using the 'quarterly_scores' name here!
-        games = competition.competition.all().prefetch_related('quarterly_scores').order_by('-date')
-        
+        games = competition.games.all().prefetch_related('quarterly_scores').order_by('-date')
         other_games = Game.objects.exclude(competition=competition).prefetch_related('quarterly_scores')
         
         return render(request, 'game_list.html', {
