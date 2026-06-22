@@ -2553,15 +2553,15 @@ def game_stats_pdf(request, slug):
 
 
 # Game Detail View          
-class GameDetailView(APIView):
-    def get(self, request, pk, competition_id=None):
-        if competition_id:
-            competition = get_object_or_404(Competition, pk=competition_id)
+class GameDetailView(View):
+    def get(self, request, game_slug, competition_slug=None):
+        if competition_slug:
+            competition = get_object_or_404(Competition, slug=competition_slug)
             if competition.is_current_competition:
                 team = competition.team
                 opponent = competition.opponents
 
-                game_details = get_object_or_404(Game, pk=pk, team=team)
+                game_details = get_object_or_404(Game, slug=game_slug, team=team)
                 game_date = game_details.date.strftime(f"%Y-%m-%d")
                 readable_date = game_details.date.strftime(f"%B %d, %Y")
                 #opponent_game_details = get_object_or_404(Game, pk=pk, opponent=opponent)
@@ -2569,14 +2569,14 @@ class GameDetailView(APIView):
                 
                 players = team.players.all()
                 stats = PlayerStatLine.objects.filter(game_schedule=game_details) # Get the player's statistics of this game
-                all_games = competition.competition.all().prefetch_related('quarterly_scores')
+                all_games = competition.games.all().prefetch_related('quarterly_scores')
                 #  Returns only the stats for the games in this competition.
                 all_game_stats = PlayerStatLine.objects.filter(game_schedule__in=all_games)
 
                 # Fetch standings and the related game type
                 tournament_standing = Standing.objects.filter(competition=competition).select_related('team', 'opponent',)
                 quarterly_scores = get_object_or_404(QuarterlyScores, game=game_details)  
-                other_games = Game.objects.exclude(pk=pk).order_by('date')
+                other_games = Game.objects.exclude(slug=game_slug).order_by('date')
 
                 # Team players: where the team matches the game's home team
                 #team_players = PlayerStatLine.objects.filter(team=game_details.team, game_schedule=game_details).order_by('-points')
@@ -2619,7 +2619,7 @@ class GameDetailView(APIView):
                 all_game_stats_df = pd.DataFrame(
                             all_game_stats.values('game_schedule__date','player_name__player_name', 'team__name', 
                                                   'offensive_rebs', 'defensive_rebs', 'assists', 'game_schedule__game_type'))
-                                                        
+                print(all_game_stats_df)                                        
                 # Filtering the stats by games
                 regular_season_games_played_df = all_game_stats_df[all_game_stats_df['game_schedule__game_type'].isin(["regular"])].copy()                                  
                 regular_season_games_played_df['total_rebounds'] = regular_season_games_played_df['offensive_rebs'] + regular_season_games_played_df['defensive_rebs']
@@ -2887,7 +2887,7 @@ class GameDetailView(APIView):
 
 PlayerStatsFormSet = inlineformset_factory(Game, PlayerStatLine, form=PlayerStatLineForm, fk_name='game_schedule', extra=0,can_delete=False)
 
-class GameUpdateView(SuperuserRequiredMixin, APIView):
+class GameUpdateView(SuperuserRequiredMixin, View):
     def get(self, request, competition_slug, game_slug):
         competition = get_object_or_404(Competition, slug=competition_slug)
         update_game = get_object_or_404(Game, slug=game_slug, competition=competition)

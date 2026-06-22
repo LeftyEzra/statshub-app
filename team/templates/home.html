@@ -94,7 +94,7 @@
                     {% for game in games %}
                     <div class="col-lg-4 col-md-6 col-12"> 
                       <article class="game-result game-result-classic">
-                            <a href="{% url 'game-overview' competition.competition_slug game.slug %}" class="btn-modern btn-edit">
+                            <a href="{% url 'game-overview' competition.slug game.slug %}" class="btn-modern btn-edit">
                             <div class="game-result-main">
                               
                               <div class="game-result-team game-result-team-first">
