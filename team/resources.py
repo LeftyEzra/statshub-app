@@ -85,7 +85,7 @@ class GameStatsResource(resources.ModelResource):
             # 2. Inject the OBJECTS into the row, not the slugs
             # django-import-export will handle the ForeignKey conversion
             row['player_name'] = player_obj.id 
-            row['team'] = team_obj.slug  # Because you set to_field='slug'
+            row['team'] = team_obj.id  # Because you set to_field='slug'
             row['opponent'] = opponent_obj.id
 
 
