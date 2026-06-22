@@ -279,7 +279,7 @@ class Player(AutoSlugModel):
 # PlayerStatLine Model
 class PlayerStatLine(models.Model):
     player_name = models.ForeignKey('Player', on_delete=models.CASCADE, blank=True, null=True)
-    team = models.ForeignKey('Team', on_delete=models.CASCADE, blank=True, null=True)
+    team = models.ForeignKey('Team', on_delete=models.CASCADE,to_field='slug', blank=True, null=True)
     opponent = models.ForeignKey('Opponent', on_delete=models.CASCADE, related_name='opponents', blank=True, null=True)
     game_schedule = models.ForeignKey('Game', on_delete=models.SET_NULL, related_name='game_stats', null=True, default=1)
     minutes = models.DecimalField(max_digits=5, decimal_places=2, default=0.00)

@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'services',
     'cloudinary',
     'cloudinary_storage',
+    'import_export',
     
 
 ]

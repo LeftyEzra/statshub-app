@@ -21,6 +21,10 @@ from .models import Contact
 from .models import NewsletterSubscriber
 
 
+from import_export.admin import ImportExportModelAdmin
+from .resources import GameStatsResource
+
+
 
 # Register your models here.
 class PlayerInline(admin.TabularInline):
@@ -155,7 +159,7 @@ class CompetitionSeasonAdmin(admin.ModelAdmin):
 
 #Register Players in the Admin area    
 @admin.register(Player)
-class PlayerAdmin(admin.ModelAdmin):
+class PlayerAdmin(ImportExportModelAdmin):
     inlines = [GalleryImagesInline]
     list_display = ('jersey_number', 'player_name', 'player_image', 'get_teams', 'get_opponents', 'position', 'date_of_birth', 
                     'height_cm', 'weight_kg',  'country',  'get_biography', 'experience', 'draft_info', 'active_status', 'is_starter',
@@ -198,19 +202,24 @@ class PlayerAdmin(admin.ModelAdmin):
 
 
 
-#Register Players Stats in the Admin area
+# Register Player Stat Line in the Admin area
 @admin.register(PlayerStatLine)
-class PlayerStatLineAdmin(admin.ModelAdmin):
-    list_display = ( 'game_schedule','player_name','team','opponent','minutes', 'starter','points','field_goal_attempts',
-                    'field_goal_made','point_3_attempts','point_3_made',
-                    'point_2_attempts','point_2_made','ft_attempts','ft_made',
-                    'offensive_rebs','defensive_rebs','blocks', 'assists',
-                    'steals','turnovers','personal_fouls',
-                    )
-    #list_filter = ('event_date', 'venue')
+class PlayerStatLineAdmin(ImportExportModelAdmin): # Inherit from ImportExportModelAdmin
+    # 1. Add your display and search configuration
+    list_display = (
+        'game_schedule', 'player_name', 'team', 'opponent', 'minutes', 
+        'starter', 'points', 'field_goal_attempts', 'field_goal_made',
+        'point_3_attempts', 'point_3_made', 'point_2_attempts', 'point_2_made',
+        'ft_attempts', 'ft_made', 'offensive_rebs', 'defensive_rebs', 
+        'blocks', 'assists', 'steals', 'turnovers', 'personal_fouls'
+    )
     ordering = ('game_schedule', )
-    search_fields = ('player_name','jersey_numbers','team')
-    search_help_text = ('player_name',)
+    search_fields = ('player_name', 'team')
+    search_help_text = 'Search by player name or team'
+
+    # 2. Add the Import-Export resource
+    resource_class = GameStatsResource
+
 
 
 #Register Games  in the Admin area
