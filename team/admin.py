@@ -21,8 +21,11 @@ from .models import Contact
 from .models import NewsletterSubscriber
 
 
+from django.contrib import admin
+from import_export import resources, fields
 from import_export.admin import ImportExportModelAdmin
-from .resources import GameStatsResource
+from import_export.widgets import ForeignKeyWidget
+
 
 
 
@@ -202,23 +205,74 @@ class PlayerAdmin(ImportExportModelAdmin):
 
 
 
-# Register Player Stat Line in the Admin area
+# 1. Define the Resource class
+class GameStatsResource(resources.ModelResource):
+    # Mapping Foreign Keys: translates slug/text to database ID
+    team = fields.Field(
+        column_name='player_team', 
+        attribute='team',
+        widget=ForeignKeyWidget(Team, 'slug')
+    )
+    opponent = fields.Field(
+        column_name='opponent', 
+        attribute='opponent',
+        widget=ForeignKeyWidget(Opponent, 'slug')
+    )
+    player_name = fields.Field(
+        column_name='Player', 
+        attribute='player_name',
+        widget=ForeignKeyWidget(Player, 'player_name')
+    )
+
+    game_schedule = fields.Field(
+        column_name='game_schedule', 
+        attribute='game_schedule',
+        widget=ForeignKeyWidget(Game, 'date') 
+    )
+
+    # Map all your statistics fields
+    minutes = fields.Field(column_name='MIN', attribute='minutes')
+    points = fields.Field(column_name='PTS', attribute='points')
+    assists = fields.Field(column_name='AST', attribute='assists')
+    field_goal_made = fields.Field(column_name='FGM', attribute='field_goal_made')
+    field_goal_attempts = fields.Field(column_name='FGA', attribute='field_goal_attempts')
+    point_3_made = fields.Field(column_name='3PM', attribute='point_3_made')
+    point_3_attempts = fields.Field(column_name='3PA', attribute='point_3_attempts')
+    ft_made = fields.Field(column_name='FTM', attribute='ft_made')
+    ft_attempts = fields.Field(column_name='FTA', attribute='ft_attempts')
+    offensive_rebs = fields.Field(column_name='OREB', attribute='offensive_rebs')
+    defensive_rebs = fields.Field(column_name='DREB', attribute='defensive_rebs')
+    steals = fields.Field(column_name='STL', attribute='steals')
+    blocks = fields.Field(column_name='BLK', attribute='blocks')
+    turnovers = fields.Field(column_name='TOV', attribute='turnovers')
+    personal_fouls = fields.Field(column_name='PF', attribute='personal_fouls')
+
+    class Meta:
+        model = PlayerStatLine
+        import_id_fields = ('game_schedule', 'player_name')
+        fields = (
+            'game_schedule', 'player_name', 'team', 'opponent', 'minutes', 
+            'starter', 'points', 'field_goal_made', 'field_goal_attempts', 
+            'point_3_made', 'point_3_attempts', 'ft_made', 'ft_attempts', 
+            'offensive_rebs', 'defensive_rebs', 'blocks', 'assists', 
+            'steals', 'turnovers', 'personal_fouls'
+        )
+
+# 2. Register the Admin
 @admin.register(PlayerStatLine)
-class PlayerStatLineAdmin(ImportExportModelAdmin): # Inherit from ImportExportModelAdmin
-    # 1. Add your display and search configuration
+class PlayerStatLineAdmin(ImportExportModelAdmin):
+    resource_class = GameStatsResource
+    
     list_display = (
         'game_schedule', 'player_name', 'team', 'opponent', 'minutes', 
         'starter', 'points', 'field_goal_attempts', 'field_goal_made',
-        'point_3_attempts', 'point_3_made', 'point_2_attempts', 'point_2_made',
-        'ft_attempts', 'ft_made', 'offensive_rebs', 'defensive_rebs', 
-        'blocks', 'assists', 'steals', 'turnovers', 'personal_fouls'
+        'point_3_attempts', 'point_3_made', 'ft_attempts', 'ft_made', 
+        'offensive_rebs', 'defensive_rebs', 'blocks', 'assists', 
+        'steals', 'turnovers', 'personal_fouls'
     )
     ordering = ('game_schedule', )
-    search_fields = ('player_name', 'team')
+    search_fields = ('player_name__player_name', 'team__name')
     search_help_text = 'Search by player name or team'
-
-    # 2. Add the Import-Export resource
-    resource_class = GameStatsResource
 
 
 

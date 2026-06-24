@@ -675,8 +675,8 @@
                     
                         <!-- The button logic is now inside this new centering container -->
                         {% if user.is_authenticated %}
-                            {% if game_details and game_details.pk %}
-                                <a href="{% url 'game-stats-pdf' game_pk=game_details.pk %}" class="btn btn-success me-2">
+                            {% if game_details and game_details.slug %}
+                                <a href="{% url 'game-stats-pdf' slug=game_details.slug %}" class="btn btn-success me-2">
                                   <h5 >Download PDF</h5>
                                 </a>
                             {% else %}
