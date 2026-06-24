@@ -514,15 +514,143 @@
                           </div>
 
 
-                          <!-- Swiper Pagination-->
+                         
+                      </div>
+                       <!-- Swiper Pagination-->
                           <br><br>
                           <div class="swiper-pagination"></div>
                           <!-- Swiper Navigation-->
                           <div class="swiper-button-prev"></div>
                           <div class="swiper-button-next"></div>
-                      </div>
                     </div>
                     <!-- Leader Swiper End-->
+
+
+
+                    <!-- Sample Leader -->  
+                     <div class="col-md-12">
+    <!-- Team Leaders Heading -->
+    <div class="heading-component" style="text-align:center; margin-bottom:20px;">
+        <h3 class="heading-component-title" style="font-size:28px; text-transform:uppercase; letter-spacing:1px;">TEAM LEADERS</h3>
+    </div>
+
+    <!-- Swiper Container -->
+    <div class="swiper-container swiper-slider post-slider" data-loop="false" data-autoplay="false" 
+         style="background: linear-gradient(135deg, #0f2027, #203a43, #2c5364); border-radius: 5px; padding: 20px;">
+        
+        <div class="swiper-wrapper">
+            
+            <!-- Slide 1: Points & Rebounds -->
+            <div class="swiper-slide">
+                <div class="row row-30">
+                    <div class="col-sm-6">{% include 'templates/partials/leader_card.html' with title="POINTS" data=pts_per_game stat_key="points" %}</div>
+                    <div class="col-sm-6">{% include 'templates/partials/leader_card.html' with title="REBOUNDS" data=reb_per_game stat_key="total_rebounds" %}</div>
+                </div>
+            </div>
+
+            <!-- Slide 2: Assists & Blocks -->
+            <div class="swiper-slide">
+                <div class="row row-30">
+                    <div class="col-sm-6">{% include 'templates/partials/leader_card.html' with title="ASSISTS" data=ast_per_game stat_key="assists" %}</div>
+                    <div class="col-sm-6">{% include 'templates/partials/leader_card.html' with title="BLOCKS" data=blk_per_game stat_key="blocks" %}</div>
+                </div>
+            </div>
+
+            <!-- Slide 3: Steals & Efficiency -->
+            <div class="swiper-slide">
+                <div class="row row-30">
+                    <div class="col-sm-6">{% include 'templates/partials/leader_card.html' with title="STEALS" data=stl_per_game stat_key="steals" %}</div>
+                    <div class="col-sm-6">{% include 'templates/partials/leader_card.html' with title="EFFICIENCY" data=eff_per_game stat_key="efficiency" %}</div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Pagination & Navigation -->
+        <div class="swiper-pagination" style="bottom: 0px;"></div>
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-button-next"></div>
+    </div>
+</div>
+<script>
+  var swiper = new Swiper('.swiper-container', {
+    pagination: { el: '.swiper-pagination' },
+    navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+    },
+});
+</script>
+
+                    <!-- Sample Leader End-->
+
+<div class="col-12">
+  <!-- Team Leaders Heading -->
+  <div class="text-center mb-4">
+    <h3 class="fw-bold text-uppercase" style="font-size:28px; letter-spacing:1px;">
+      Team Leaders
+    </h3>
+  </div>
+
+  <div class="row g-4">
+    <!-- Points -->
+    <div class="col-12 col-md-4">
+      <div class="card h-100 shadow-sm border-0" style="background:#1c1c1c; color:#fff;">
+        <div class="card-header text-center fw-bold">Points</div>
+        <div class="card-body">
+          {% for ppg in pts_per_game %}
+          <div class="d-flex align-items-center mb-3">
+            <img src="/media/{{ ppg.player_name__player_image }}" alt="{{ ppg.player_name__player_name }}" class="rounded-circle me-3" width="64" height="64">
+            <div>
+              <h6 class="mb-0">{{ ppg.player_name__player_name }}</h6>
+              <span class="fw-bold text-success">{{ ppg.points|floatformat:1 }}</span>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+    <!-- Rebounds -->
+    <div class="col-12 col-md-4">
+      <div class="card h-100 shadow-sm border-0" style="background:#1c1c1c; color:#fff;">
+        <div class="card-header text-center fw-bold">Rebounds</div>
+        <div class="card-body">
+          {% for rpg in reb_per_game %}
+          <div class="d-flex align-items-center mb-3">
+            <img src="/media/{{ rpg.player_name__player_image }}" alt="{{ rpg.player_name__player_name }}" class="rounded-circle me-3" width="64" height="64">
+            <div>
+              <h6 class="mb-0">{{ rpg.player_name__player_name }}</h6>
+              <span class="fw-bold text-success">{{ rpg.total_rebounds|floatformat:1 }}</span>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+    <!-- Assists -->
+    <div class="col-12 col-md-4">
+      <div class="card h-100 shadow-sm border-0" style="background:#1c1c1c; color:#fff;">
+        <div class="card-header text-center fw-bold">Assists</div>
+        <div class="card-body">
+          {% for apg in ast_per_game %}
+          <div class="d-flex align-items-center mb-3">
+            <img src="/media/{{ apg.player_name__player_image }}" alt="{{ apg.player_name__player_name }}" class="rounded-circle me-3" width="64" height="64">
+            <div>
+              <h6 class="mb-0">{{ apg.player_name__player_name }}</h6>
+              <span class="fw-bold text-success">{{ apg.assists|floatformat:1 }}</span>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
 
 
                     </div>

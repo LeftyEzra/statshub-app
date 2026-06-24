@@ -1,0 +1,25 @@
+<!-- partials/leader_card.html -->
+<article class="heading-component">
+    <div class="heading-component-inner"><h5 class="heading-component-title" style="color: #ffffff;">{{ title }}</h5></div>
+</article>
+
+{% for item in data %}
+<article class="post-classic" style="background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); margin-bottom: 10px;">
+    <div class="post-classic-aside">
+        <a href="{% url 'players-id' competition.id item.player_id %}">
+            <img src="/media/{{ item.player_name__player_image }}" width="60" height="60">
+        </a>
+    </div>
+    <div class="post-classic-main">
+        <p class="post-classic-title"><a style="color: #ffffff;" href="{% url 'players-id' competition.id item.player_id %}">{{ item.player_name__player_name }}</a></p>
+        <div style="font-size: 18px; font-weight: bold; color: #35ad79;">
+            {% if stat_key == 'points' %}{{ item.points|floatformat:1 }}{% endif %}
+            {% if stat_key == 'total_rebounds' %}{{ item.total_rebounds|floatformat:1 }}{% endif %}
+            {% if stat_key == 'assists' %}{{ item.assists|floatformat:1 }}{% endif %}
+            {% if stat_key == 'blocks' %}{{ item.blocks|floatformat:1 }}{% endif %}
+            {% if stat_key == 'steals' %}{{ item.steals|floatformat:1 }}{% endif %}
+            {% if stat_key == 'efficiency' %}{{ item.efficiency|floatformat:1 }}{% endif %}
+        </div>
+    </div>
+</article>
+{% endfor %}
