@@ -30,9 +30,6 @@
     </div>
 </div>
 </section>
-{% for player in players_mean_stats %}
-{{ player.player_name__player_name}}
-{% endfor%}
 
 <div class="main-container" style=" background: linear-gradient(135deg, #0f172a, #1e293b); ">
       <br><br><br>
@@ -116,10 +113,7 @@
                 </div>
             
                 <div class="stat-row footer-stat">
-                    <a href="{% url 'players-id' competition_slug=competition.slug slug=player.slug %}">
-                        View Player
-                    </a>
-                    <a href="{% url 'players-id' competition.id player.player_name__slug  %}" class="stat-label full-width">View Full Career Stats</a>
+                    <a href="{% url 'players-id' competition.slug player.player_name__slug  %}" class="stat-label full-width">View Full Career Stats</a>
                 </div>
             </div>
 
@@ -127,7 +121,7 @@
             {% if user.is_superuser %}
                 <div class="card-footer">
                     <a href="{% url 'update-player' competition.slug player.player_name__slug  %}" class="footer-link footer-update">Update</a>
-                    <a href="{% url 'delete-player' competition.slug player..player_name__slug  %}" class="footer-link footer-delete">Delete</a>
+                    <a href="{% url 'delete-player' competition.slug player.player_name__slug  %}" class="footer-link footer-delete">Delete</a>
                 </div>
                 {% endif %}  
             {% endif %}

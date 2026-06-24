@@ -962,7 +962,7 @@ def team_roster(request, competition_slug, team_slug):
     # Trying to get othr players mean values
     if tournament_stats.exists():
         players_df = pd.DataFrame(
-                        tournament_stats.values('player_name__id', 'slug', 'player_name__jersey_number','player_name__player_name', 'player_name__jersey_number', 'player_name__active_status', 'player_name__experience',
+                        tournament_stats.values('player_name__id', 'player_name__slug', 'player_name__jersey_number','player_name__player_name', 'player_name__jersey_number', 'player_name__active_status', 'player_name__experience',
                                 'player_name__player_image', 'player_name__position', 'player_name__height_cm', 'player_name__weight_kg', 'player_name__country', 'player_name__date_of_birth',
                                 'points', 'assists', 'player_name__position', 'game_schedule__game_type', 'game_schedule__team_win_loss',
                                     'offensive_rebs', 'defensive_rebs', 'game_schedule__competition__year__year'))
@@ -971,7 +971,7 @@ def team_roster(request, competition_slug, team_slug):
         players_df['total_rebounds'] = players_df['offensive_rebs'] + players_df['defensive_rebs']
         
         players_mean_stats = (players_df.groupby(
-                                ["player_id","player_name__player_name",'player_name__jersey_number','player_name__player_image', 'player_name__position', 'game_schedule__game_type', 'game_schedule__competition__year__year',
+                                ["player_id",'player_name__slug', "player_name__player_name",'player_name__jersey_number','player_name__player_image', 'player_name__position', 'game_schedule__game_type', 'game_schedule__competition__year__year',
                                 'player_name__active_status', 'player_name__experience','player_name__height_cm', 'player_name__weight_kg', 'player_name__country', 'player_name__date_of_birth', ]
                             )[['points', 'total_rebounds','assists',]].mean().round(1).sort_values('points',ascending=False).reset_index())
 
