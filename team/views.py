@@ -599,7 +599,7 @@ class TeamDetailView(APIView):
         return render(request, 'home.html', context)
 """
 
-class TeamDetailView(APIView):
+class TeamDetailView(View):
     def get(self, request, competition_slug=None, team_slug=None): 
         
         # HANDLE SPECIFIC TEAM/COMPETITION (Dynamic URL)
@@ -699,8 +699,7 @@ class TeamDetailView(APIView):
             #regular_season = all_game_stats_df[all_game_stats_df['team__name'].isin(["Python"])]
             regular_season = team_players_df[team_players_df['game_schedule__game_type'].isin(["regular"])]
             regular_season = regular_season[~regular_season['game_schedule__team_scores'].isin([0])]
-            print("Regular Season")
-            print(regular_season)
+            
 
             # Function to get per game stats leaders
             def stats_leaders_per_game(stat):
@@ -739,6 +738,16 @@ class TeamDetailView(APIView):
                 
                 ft_attempts_sum = regular_season['ft_attempts'].sum()
                 team_ft_pct = ((regular_season['ft_made'].sum() / ft_attempts_sum) * 100).round(1) if ft_attempts_sum > 0 else 0.0
+
+                print("Regular Season Toal Percents")
+                print(regular_season[['player_name__player_name',  'point_3_attempts', 'point_3_made', 'field_goal_attempts', 'field_goal_made', 
+                    'ft_attempts', 'ft_made',]])
+                print(f"Total FIeld Goals Sum : {regular_season[['field_goal_attempts', 'field_goal_made']].sum()}")
+                print(f"Total 3 PTS %:  {team_3p_pct}")
+                print(f"Total FT%: {team_ft_pct}")    
+                print(f"Total FG% : {team_fg_pct}")
+                print(f"Total 3 PTS %:  {team_3p_pct}")
+                print(f"Total FT%: {team_ft_pct}")
             else:
                 mean_opp_points = mean_points = mean_rebounds = mean_assists = 0.0
                 team_fg_pct = team_3p_pct = team_ft_pct = 0.0
@@ -1070,7 +1079,7 @@ class PlayerCreateView(SuperuserRequiredMixin, View):
 
 
 #  Class Base View For Opponent List
-class PlayerListView(APIView):
+class PlayerListView(View):
     def get(self, request, slug):
         teams_details = get_object_or_404(Team, slug=slug)
         players = teams_details.players.all() 
@@ -1079,7 +1088,7 @@ class PlayerListView(APIView):
 
 
 
-class PlayerDetailView(APIView):
+class PlayerDetailView(View):
     def get(self, request, slug, competition_slug=None):
         if competition_slug:
             competition = get_object_or_404(Competition, slug=competition_slug)
