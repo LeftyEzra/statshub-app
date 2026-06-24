@@ -44,23 +44,25 @@
     }
 }
 
-
-/* Mobile View (keep it similar if you want 1 card there too) */
+/* Mobile View */
 @media (max-width: 767px) {
     .game-scroll-row {
-        gap: 0 !important; /* Removes the gap between cards */
+        flex-wrap: nowrap !important; /* Ensures they stay in a line */
+        gap: 10px; /* Adds space between cards */
         margin-left: 0 !important;
         margin-right: 0 !important;
     }
 
-    .game-scroll-row .col-md-4, 
     .game-scroll-row [class*="col-"] {
-      
-        flex: 0 0 85% !important; 
-        width: 100% !important;
-        margin-right: 10px;
+        flex: 0 0 90% !important; /* Sets the card to take up 90% of the screen width */
+        width: 95% !important;    /* Forces the width to match the flex basis */
+        margin-right: 0px !important;
+        padding-left: 5px !important;
+        padding-right: 5px !important;
     }
 }
+
+
 
 /* Navigation Arrows Styling */
 .heading-component-inner {
