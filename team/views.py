@@ -659,7 +659,7 @@ class TeamDetailView(View):
             # All Game Statistics
             all_game_stats_df = pd.DataFrame(
                 all_game_stats.values(
-                    'player_name__id',  'game_schedule__date', 'player_name__player_image', 'player_name__player_name', 
+                    'player_name__id', 'player_name__slug', 'game_schedule__date', 'player_name__player_image', 'player_name__player_name', 
                     'team__name', 'points', 'assists', 'blocks', 'steals', 'offensive_rebs', 'defensive_rebs', 
                     'game_schedule__game_type', 'game_schedule__team_scores', 'game_schedule__opponent_scores', 
                     'point_3_attempts', 'point_3_made', 'field_goal_attempts', 'field_goal_made', 
@@ -692,8 +692,6 @@ class TeamDetailView(View):
             team_players_df = all_game_stats_df[all_game_stats_df['team__name'] == team.name].copy()
             #opponent_players_df = all_game_stats_df[all_game_stats_df['team__name'] == opponent.name].copy()
 
-            print("Team Players Df")
-            print(team_players_df)
             #opponent_players_df = all_game_stats_df[all_game_stats_df['team__name'] == opponent.name]
 
             #regular_season = all_game_stats_df[all_game_stats_df['team__name'].isin(["Python"])]
@@ -704,10 +702,10 @@ class TeamDetailView(View):
             # Function to get per game stats leaders
             def stats_leaders_per_game(stat):
                 if regular_season.empty:
-                    return pd.DataFrame(columns=["player_id", "player_name__player_name", "player_name__player_image", stat])
+                    return pd.DataFrame(columns=["player_id",'player_name__slug', "player_name__player_name", "player_name__player_image", stat])
                 leaders_per_game = (
                     regular_season.groupby(
-                        ["player_id", "player_name__player_name", 'player_name__player_image']
+                        ["player_id", 'player_name__slug', "player_name__player_name",  'player_name__player_image']
                     )[['points', 'total_rebounds', 'assists', 'blocks', 'steals', 'efficiency', 'def']].mean().sort_values(stat, ascending=False).reset_index()
                 )
                 return leaders_per_game
@@ -739,15 +737,6 @@ class TeamDetailView(View):
                 ft_attempts_sum = regular_season['ft_attempts'].sum()
                 team_ft_pct = ((regular_season['ft_made'].sum() / ft_attempts_sum) * 100).round(1) if ft_attempts_sum > 0 else 0.0
 
-                print("Regular Season Toal Percents")
-                print(regular_season[['player_name__player_name',  'point_3_attempts', 'point_3_made', 'field_goal_attempts', 'field_goal_made', 
-                    'ft_attempts', 'ft_made',]])
-                print(f"Total FIeld Goals Sum : {regular_season[['field_goal_attempts', 'field_goal_made']].sum()}")
-                print(f"Total 3 PTS %:  {team_3p_pct}")
-                print(f"Total FT%: {team_ft_pct}")    
-                print(f"Total FG% : {team_fg_pct}")
-                print(f"Total 3 PTS %:  {team_3p_pct}")
-                print(f"Total FT%: {team_ft_pct}")
             else:
                 mean_opp_points = mean_points = mean_rebounds = mean_assists = 0.0
                 team_fg_pct = team_3p_pct = team_ft_pct = 0.0
@@ -1117,7 +1106,7 @@ class PlayerDetailView(View):
                 pd.set_option("display.max_rows", None)
                 if tournament_stats.exists():
                     player_stats_df = pd.DataFrame(
-                                tournament_stats.values('player_name__id', 'player_name__slug', 'game_schedule__id','player_name__jersey_number','player_name__player_name', 
+                                tournament_stats.values('player_name__id', 'player_name__slug', 'game_schedule__id', 'game_schedule__slug','player_name__jersey_number','player_name__player_name', 
                                             'player_name__player_image','points', 'assists', 
                                             'field_goal_attempts', 'field_goal_made', 'ft_attempts', 'ft_made',
                                             'point_3_attempts', 'point_3_made',
@@ -1128,7 +1117,7 @@ class PlayerDetailView(View):
                                             'game_schedule__indicator', 'game_schedule__competition__name', 'game_schedule__game_type',
                                             'game_schedule__competition__year__year','game_schedule__team_scores', 'game_schedule__opponent_scores'))
 
-                    player_stats_df = player_stats_df.rename(columns={'player_name__id':'player_id', 'game_schedule__id':'game_id' }) 
+                    player_stats_df = player_stats_df.rename(columns={'player_name__id':'player_id', 'game_schedule__id':'game_id',  'game_schedule__slug':'game_slug',}) 
                     player_stats_df['total_rebounds'] = player_stats_df['offensive_rebs'] + player_stats_df['defensive_rebs']
                     player_stats_df['fg_percent'] = (((player_stats_df['field_goal_made'] / player_stats_df['field_goal_attempts']) * 100).round(1)).fillna(0)
                     player_stats_df['point_3_percent'] = (((player_stats_df['point_3_made'] / player_stats_df['point_3_attempts']) * 100).round(1)).fillna(0)
@@ -1286,7 +1275,7 @@ class PlayerDetailView(View):
                 
                     
                     others_players_mean_stats = (other_players_df.groupby(
-                                            ["player_id","player_name__player_name",'player_name__jersey_number','player_name__player_image', 'player_name__position', 'game_schedule__game_type',]
+                                            ["player_id", 'player_name__slug', "player_name__player_name",'player_name__jersey_number','player_name__player_image', 'player_name__position', 'game_schedule__game_type',]
                                         )[['points', 'total_rebounds','assists',]].mean().sort_values('points',ascending=False).reset_index())
                                     
                     ###################################################################################################

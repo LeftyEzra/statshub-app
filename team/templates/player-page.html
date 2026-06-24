@@ -1235,14 +1235,15 @@
             </div>
 
             <div class="thumbnail-minimal-figure">
-              <a href="{% url 'players-id' competition.slug player.player_slug %}">
+                
+              <a href="{% url 'players-id' competition.slug player.player_name__slug  %}">
                 <img src="/media/{{ player.player_name__player_image }}" alt="{{ player.player_name__player_name }}" class="player-img-fixed">
               </a>
             </div>
 
             <div class="player-info">
               <h6 class="player-name-link">
-                  <a href="{% url 'players-id' competition.slug player.player_slug %}">{{ player.player_name__player_name }}</a>
+                  <a href="{% url 'players-id' competition.slug player.player_name__slug  %}">{{ player.player_name__player_name }}</a>
               </h6>
               
               <div class="stat-badges">

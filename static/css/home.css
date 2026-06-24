@@ -247,6 +247,11 @@
 /* ==========================================================================
    MOBILE UI OPTIMIZATIONS (SWIPER SLIDER, CARDS, & TABLES)
    ========================================================================== */
+
+
+
+
+  
 /* Force the background to stay centered within the container */
 .swiper-slide {
     background-position: center center !important;
@@ -254,14 +259,28 @@
     background-repeat: no-repeat !important;
 }
 
+
+
 /* Ensure the container doesn't force a width that bleeds off the screen */
 .swiper-wrapper {
     width: 100% !important;
 }
+
+
 /* For mobile devices, you might want to adjust the height of the slider 
    so the text doesn't take up too much space and crowd the image */
 @media (max-width: 767px) {
     .swiper-container {
         height: 300px; /* Set a fixed height for mobile to keep images consistent */
+    }
+}
+
+@media (max-width: 767px) {
+    .swiper-container.post-slider {
+        height: 800px !important;
+    }
+
+    .swiper-container.post-slider .swiper-slide {
+        height: 800px !important;
     }
 }

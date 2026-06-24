@@ -187,12 +187,12 @@
                         <!-- Post Future-->
                         
                         <article class="post-future">
-                          <a class="post-future-figure" href="{% url 'news-list' competition.id   %}">
+                          <a class="post-future-figure" href="{% url 'news-list' competition.slug   %}">
                               <img src="{{ news.image.url }}" alt="" width="368" height="287"/>
                           </a>
                           <div class="post-future-main">
                             <h4 class="post-future-title">
-                              <a href="{% url 'news-list' competition.id   %}">{{ news.heading }}</a>
+                              <a href="{% url 'news-list' competition.slug   %}">{{ news.heading }}</a>
                             </h4>
                             <div class="post-future-meta">
                               <!-- Badge-->
@@ -208,7 +208,7 @@
                               <p>{{news.intro }}</p>
                             </div>
                             <div class="post-future-footer group-flex group-flex-xs">
-                              <a class="button button-gray-outline" href="{% url 'news-list' competition.id %}">Read more</a>
+                              <a class="button button-gray-outline" href="{% url 'news-list' competition.slug %}">Read more</a>
                               <div class="post-future-share">
                                 <div class="inline-toggle-parent">
                                   <div class="inline-toggle icon material-icons-share"></div>
@@ -241,7 +241,7 @@
                       <div class="col-md-12" >
                         <!-- Post Future-->
                         <article class="post-future post-future-horizontal">
-                          <a class="post-future-figure" href="{% url 'news-list' competition.id   %}">
+                          <a class="post-future-figure" href="{% url 'news-list' competition.slug   %}">
                             <img src="{{ hot_news.image.url  }}" alt="" width="370" height="325"/>
                           </a>
                           <div class="post-future-main">
@@ -269,12 +269,12 @@
                       <div class="col-md-12">
                         <!-- Post Future-->
                         <article class="post-future post-future-horizontal">
-                          <a class="post-future-figure" href="{% url 'news-list' competition.id   %}">
+                          <a class="post-future-figure" href="{% url 'news-list' competition.slug   %}">
                             <img src="{{ news.image.url }}" alt="" style="max-width: fit-content; height:325px; object-fit: cover;" />
                           </a>
                           <div class="post-future-main">
                             <h4 class="post-future-title">
-                              <a href="{% url 'news-list' competition.id   %}">{{ news.heading }}</a>
+                              <a href="{% url 'news-list' competition.slug   %}">{{ news.heading }}</a>
                             </h4>
                             <div class="post-future-meta">
                               <!-- Badge-->
@@ -311,7 +311,7 @@
                         <div class="swiper-container swiper-slider post-slider"
                               data-loop="false" data-autoplay="false" data-simulate-touch="false"
                               style="background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-                                      border-radius: 5px;
+                                      border-radius: 5px; 
                                       box-shadow: 0 2px 5px rgba(0,0,0,0.6);">
 
                               
@@ -334,12 +334,12 @@
                                             {% for ppg in pts_per_game %}
                                             <article class="post-classic" style="background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); box-shadow: 0 4px 10px rgba(0,0,0,0.3);">
                                                 <div class="post-classic-aside">
-                                                    <a class="post-classic-figure" href="{% url 'players-id' competition.id ppg.player_id %}">
-                                                      <img src="/media/{{ ppg.player_name__player_image }}" alt="{{ ppg.player_name__player_name }} Image" width="94" height="94">
+                                                    <a class="post-classic-figure" href="{% url 'players-id' competition.slug ppg.player_name__slug %}">
+                                                      <img src="https://res.cloudinary.com/dgznffguu/image/upload/v1/{{ ppg.player_name__player_image }}" alt="{{ ppg.player_name__player_name }} Image" width="94" height="94">
                                                     </a>
                                                 </div>
                                                 <div class="post-classic-main">
-                                                    <p class="post-classic-title" ><a style=" color: #ffffff; " href="{% url 'players-id' competition.id ppg.player_id %}">{{ ppg.player_name__player_name }}</a></p>
+                                                    <p class="post-classic-title" ><a style=" color: #ffffff; " href="{% url 'players-id' competition.slug ppg.player_name__slug %}">{{ ppg.player_name__player_name }}</a></p>
                                                     <div class="post-classic-time" style="font-size: 20px; font-weight: bold; color: #35ad79;">
                                                         {{ ppg.points|floatformat:1 }}
                                                     </div>
@@ -358,12 +358,12 @@
                                             {% for rpg in reb_per_game %}
                                             <article class="post-classic" style="background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); box-shadow: 0 4px 10px rgba(0,0,0,0.3);">
                                                 <div class="post-classic-aside">
-                                                    <a class="post-classic-figure" href="{% url 'players-id' competition.id rpg.player_id %}">
-                                                      <img src="/media/{{ rpg.player_name__player_image }}" alt="{{ rpg.player_name__player_name }} Image" width="94" height="94">
+                                                    <a class="post-classic-figure" href="{% url 'players-id' competition.id rpg.player_name__slug %}">
+                                                      <img src="https://res.cloudinary.com/dgznffguu/image/upload/v1/{{ rpg.player_name__player_image }}" alt="{{ rpg.player_name__player_name }} Image" width="94" height="94">
                                                     </a>
                                                 </div>
                                                 <div class="post-classic-main">
-                                                    <p class="post-classic-title"><a style=" color: #ffffff; " href="{% url 'players-id' competition.id rpg.player_id %}">{{ rpg.player_name__player_name }}</a></p>
+                                                    <p class="post-classic-title"><a style=" color: #ffffff; " href="{% url 'players-id' competition.id rpg.player_name__slug %}">{{ rpg.player_name__player_name }}</a></p>
                                                     <div class="post-classic-time" style="font-size: 20px; font-weight: bold; color: #35ad79;">
                                                         {{ rpg.total_rebounds|floatformat:1 }}
                                                     </div>
@@ -383,60 +383,56 @@
                                 <article class="group-sm group-flex">
                                   
                                     <div class="container">
-                                <div class="row row-30">
-                                
-                                <div class="col-sm-6">
-                                    <article class="heading-component">
-                                        <div class="heading-component-inner">
-                                            <h5 class="heading-component-title" style=" color: #ffffff;" >ASSISTS</h5>
-                                        </div>
-                                    </article>
-                                    
-                                    {% for apg in ast_per_game %}
-                                    <article class="post-classic" style="background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); box-shadow: 0 4px 10px rgba(0,0,0,0.3);">
-                                        <div class="post-classic-aside">
-                                            <a class="post-classic-figure" href="{% url 'players-id' competition.id apg.player_id %}">
-                                              <img src="/media/{{ apg.player_name__player_image }}" alt="{{ apg.player_name__player_name }} Image" width="94" height="94">
-                                            </a>
-                                        </div>
-                                        <div class="post-classic-main">
-                                            <p class="post-classic-title"><a style=" color: #ffffff; " href="{% url 'players-id' competition.id apg.player_id %}">{{ apg.player_name__player_name }}</a></p>
-                                            <div class="post-classic-time" style="font-size: 20px; font-weight: bold; color: #35ad79;">
-                                                {{ apg.assists|floatformat:1 }}
-                                            </div>
-                                        </div>
-                                      </article>
-                                    {% endfor %}
-                                </div>
+                                        <div class="row row-30">
+                                        
+                                              <div class="col-sm-6">
+                                                  <article class="heading-component">
+                                                      <div class="heading-component-inner">
+                                                          <h5 class="heading-component-title" style=" color: #ffffff;" >ASSISTS</h5>
+                                                      </div>
+                                                  </article>
+                                                  
+                                                  {% for apg in ast_per_game %}
+                                                  <article class="post-classic" style="background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); box-shadow: 0 4px 10px rgba(0,0,0,0.3);">
+                                                      <div class="post-classic-aside">
+                                                          <a class="post-classic-figure" href="{% url 'players-id' competition.id apg.player_id %}">
+                                                            <img src="https://res.cloudinary.com/dgznffguu/image/upload/v1/{{ apg.player_name__player_image }}" alt="{{ apg.player_name__player_name }} Image" width="94" height="94">
+                                                          </a>
+                                                      </div>
+                                                      <div class="post-classic-main">
+                                                          <p class="post-classic-title"><a style=" color: #ffffff; " href="{% url 'players-id' competition.id apg.player_id %}">{{ apg.player_name__player_name }}</a></p>
+                                                          <div class="post-classic-time" style="font-size: 20px; font-weight: bold; color: #35ad79;">
+                                                              {{ apg.assists|floatformat:1 }}
+                                                          </div>
+                                                      </div>
+                                                    </article>
+                                                  {% endfor %}
+                                              </div>
 
-                                <div class="col-sm-6">
-                                    <article class="heading-component">
-                                        <div class="heading-component-inner">
-                                            <h5 class="heading-component-title" style=" color: #ffffff;" >BLOCKS</h5>
-                                        </div>
-                                    </article>
+                                              <div class="col-sm-6">
+                                                  <article class="heading-component">
+                                                      <div class="heading-component-inner">
+                                                          <h5 class="heading-component-title" style=" color: #ffffff;" >BLOCKS</h5>
+                                                      </div>
+                                                  </article>
 
-                                    {% for bpg in blk_per_game %}
-                                    <article class="post-classic" style="background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); box-shadow: 0 4px 10px rgba(0,0,0,0.3);">
-                                        <div class="post-classic-aside">
-                                            <a class="post-classic-figure" href="{% url 'players-id' competition.id bpg.player_id %}">
-                                              <img src="/media/{{ bpg.player_name__player_image }}" alt="{{ bpg.player_name__player_name }} Image" width="94" height="94">
-                                            </a>
+                                                  {% for bpg in blk_per_game %}
+                                                  <article class="post-classic" style="background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); box-shadow: 0 4px 10px rgba(0,0,0,0.3);">
+                                                      <div class="post-classic-aside">
+                                                          <a class="post-classic-figure" href="{% url 'players-id' competition.id bpg.player_id %}">
+                                                            <img src="https://res.cloudinary.com/dgznffguu/image/upload/v1/{{ bpg.player_name__player_image }}" alt="{{ bpg.player_name__player_name }} Image" width="94" height="94">
+                                                          </a>
+                                                      </div>
+                                                      <div class="post-classic-main">
+                                                          <p class="post-classic-title"><a style=" color: #ffffff; " href="{% url 'players-id' competition.id bpg.player_id %}">{{ bpg.player_name__player_name }}</a></p>
+                                                          <div class="post-classic-time" style="font-size: 20px; font-weight: bold; color: #35ad79;">
+                                                              {{ bpg.blocks|floatformat:1 }}
+                                                          </div>
+                                                      </div>
+                                                  </article>
+                                                  {% endfor %}
+                                              </div>
                                         </div>
-                                        <div class="post-classic-main">
-                                            <p class="post-classic-title"><a style=" color: #ffffff; " href="{% url 'players-id' competition.id bpg.player_id %}">{{ bpg.player_name__player_name }}</a></p>
-                                            <div class="post-classic-time" style="font-size: 20px; font-weight: bold; color: #35ad79;">
-                                                {{ bpg.blocks|floatformat:1 }}
-                                            </div>
-                                        </div>
-                                    </article>
-                                    {% endfor %}
-
-                                
-                                </div>
-
-                            
-                            </div>
                                     </div>
                                   </article>
                               </div>
@@ -462,7 +458,7 @@
                                             <article class="post-classic" style="background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); box-shadow: 0 4px 10px rgba(0,0,0,0.3);">
                                                 <div class="post-classic-aside">
                                                     <a class="post-classic-figure" href="{% url 'players-id' competition.id spg.player_id %}">
-                                                      <img src="/media/{{ spg.player_name__player_image }}" alt="{{ spg.player_name__player_name }} Image" width="94" height="94">
+                                                      <img src="https://res.cloudinary.com/dgznffguu/image/upload/v1/{{ spg.player_name__player_image }}" alt="{{ spg.player_name__player_name }} Image" width="94" height="94">
                                                     </a>
                                                 </div>
                                                 <div class="post-classic-main">
@@ -488,7 +484,7 @@
                                             <article class="post-classic" style="background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); box-shadow: 0 4px 10px rgba(0,0,0,0.3);">
                                                 <div class="post-classic-aside">
                                                     <a class="post-classic-figure" href="{% url 'players-id' competition.id epg.player_id %}">
-                                                      <img src="/media/{{ epg.player_name__player_image }}" alt="{{ epg.player_name__player_name }} Image" width="94" height="94">
+                                                      <img src="https://res.cloudinary.com/dgznffguu/image/upload/v1/{{ epg.player_name__player_image }}" alt="{{ epg.player_name__player_name }} Image" width="94" height="94">
                                                     </a>
                                                 </div>
                                                 <div class="post-classic-main">
@@ -513,141 +509,21 @@
                               
                           </div>
 
-
-                         
-                      </div>
-                       <!-- Swiper Pagination-->
+                            <!-- Swiper Pagination-->
                           <br><br>
                           <div class="swiper-pagination"></div>
                           <!-- Swiper Navigation-->
                           <div class="swiper-button-prev"></div>
                           <div class="swiper-button-next"></div>
+                         
+                      </div>
+                      
                     </div>
                     <!-- Leader Swiper End-->
 
 
 
-                    <!-- Sample Leader -->  
-                     <div class="col-md-12">
-    <!-- Team Leaders Heading -->
-    <div class="heading-component" style="text-align:center; margin-bottom:20px;">
-        <h3 class="heading-component-title" style="font-size:28px; text-transform:uppercase; letter-spacing:1px;">TEAM LEADERS</h3>
-    </div>
 
-    <!-- Swiper Container -->
-    <div class="swiper-container swiper-slider post-slider" data-loop="false" data-autoplay="false" 
-         style="background: linear-gradient(135deg, #0f2027, #203a43, #2c5364); border-radius: 5px; padding: 20px;">
-        
-        <div class="swiper-wrapper">
-            
-            <!-- Slide 1: Points & Rebounds -->
-            <div class="swiper-slide">
-                <div class="row row-30">
-                    <div class="col-sm-6">{% include 'templates/partials/leader_card.html' with title="POINTS" data=pts_per_game stat_key="points" %}</div>
-                    <div class="col-sm-6">{% include 'templates/partials/leader_card.html' with title="REBOUNDS" data=reb_per_game stat_key="total_rebounds" %}</div>
-                </div>
-            </div>
-
-            <!-- Slide 2: Assists & Blocks -->
-            <div class="swiper-slide">
-                <div class="row row-30">
-                    <div class="col-sm-6">{% include 'templates/partials/leader_card.html' with title="ASSISTS" data=ast_per_game stat_key="assists" %}</div>
-                    <div class="col-sm-6">{% include 'templates/partials/leader_card.html' with title="BLOCKS" data=blk_per_game stat_key="blocks" %}</div>
-                </div>
-            </div>
-
-            <!-- Slide 3: Steals & Efficiency -->
-            <div class="swiper-slide">
-                <div class="row row-30">
-                    <div class="col-sm-6">{% include 'templates/partials/leader_card.html' with title="STEALS" data=stl_per_game stat_key="steals" %}</div>
-                    <div class="col-sm-6">{% include 'templates/partials/leader_card.html' with title="EFFICIENCY" data=eff_per_game stat_key="efficiency" %}</div>
-                </div>
-            </div>
-
-        </div>
-
-        <!-- Pagination & Navigation -->
-        <div class="swiper-pagination" style="bottom: 0px;"></div>
-        <div class="swiper-button-prev"></div>
-        <div class="swiper-button-next"></div>
-    </div>
-</div>
-<script>
-  var swiper = new Swiper('.swiper-container', {
-    pagination: { el: '.swiper-pagination' },
-    navigation: {
-        nextEl: '.swiper-button-next',
-        prevEl: '.swiper-button-prev',
-    },
-});
-</script>
-
-                    <!-- Sample Leader End-->
-
-<div class="col-12">
-  <!-- Team Leaders Heading -->
-  <div class="text-center mb-4">
-    <h3 class="fw-bold text-uppercase" style="font-size:28px; letter-spacing:1px;">
-      Team Leaders
-    </h3>
-  </div>
-
-  <div class="row g-4">
-    <!-- Points -->
-    <div class="col-12 col-md-4">
-      <div class="card h-100 shadow-sm border-0" style="background:#1c1c1c; color:#fff;">
-        <div class="card-header text-center fw-bold">Points</div>
-        <div class="card-body">
-          {% for ppg in pts_per_game %}
-          <div class="d-flex align-items-center mb-3">
-            <img src="/media/{{ ppg.player_name__player_image }}" alt="{{ ppg.player_name__player_name }}" class="rounded-circle me-3" width="64" height="64">
-            <div>
-              <h6 class="mb-0">{{ ppg.player_name__player_name }}</h6>
-              <span class="fw-bold text-success">{{ ppg.points|floatformat:1 }}</span>
-            </div>
-          </div>
-          {% endfor %}
-        </div>
-      </div>
-    </div>
-
-    <!-- Rebounds -->
-    <div class="col-12 col-md-4">
-      <div class="card h-100 shadow-sm border-0" style="background:#1c1c1c; color:#fff;">
-        <div class="card-header text-center fw-bold">Rebounds</div>
-        <div class="card-body">
-          {% for rpg in reb_per_game %}
-          <div class="d-flex align-items-center mb-3">
-            <img src="/media/{{ rpg.player_name__player_image }}" alt="{{ rpg.player_name__player_name }}" class="rounded-circle me-3" width="64" height="64">
-            <div>
-              <h6 class="mb-0">{{ rpg.player_name__player_name }}</h6>
-              <span class="fw-bold text-success">{{ rpg.total_rebounds|floatformat:1 }}</span>
-            </div>
-          </div>
-          {% endfor %}
-        </div>
-      </div>
-    </div>
-
-    <!-- Assists -->
-    <div class="col-12 col-md-4">
-      <div class="card h-100 shadow-sm border-0" style="background:#1c1c1c; color:#fff;">
-        <div class="card-header text-center fw-bold">Assists</div>
-        <div class="card-body">
-          {% for apg in ast_per_game %}
-          <div class="d-flex align-items-center mb-3">
-            <img src="/media/{{ apg.player_name__player_image }}" alt="{{ apg.player_name__player_name }}" class="rounded-circle me-3" width="64" height="64">
-            <div>
-              <h6 class="mb-0">{{ apg.player_name__player_name }}</h6>
-              <span class="fw-bold text-success">{{ apg.assists|floatformat:1 }}</span>
-            </div>
-          </div>
-          {% endfor %}
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
 
 
 
