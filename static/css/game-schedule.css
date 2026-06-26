@@ -28,7 +28,7 @@
     /* Sticky logic for Date and Opponent */
     .sticky-col-1 {
         position: sticky;
-        left: -0; /* Changed from -55 for better stability */
+        left: -5; /* Changed from -55 for better stability */
         top: -0;
         z-index: 10;
         background-color: #fff !important;
@@ -38,7 +38,7 @@
     /* Sticky logic for T-HEADS */
     .sticky-cols{
         position: sticky;
-        top: -0;
+        top: -2;
         z-index: 10;
         min-width: 100px;
 

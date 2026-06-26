@@ -62,7 +62,7 @@
             <ul class="breadcrumbs-custom-path">
               <li><a href="{% url 'home' %}">Home</a></li>
               
-              <li><a href="{% url 'game-schedule' competition.id %}">Games</a></li>
+              <li><a href="{% url 'game-schedule' competition.slug %}">Games</a></li>
               <li class="active">Standings</li>
             </ul>
           </div>
@@ -114,7 +114,7 @@
                                   <td class="sticky-col-2" style="text-align: left;">
                                       <div style="display: flex; align-items: center; gap: 10px;">
                                         {% if row.team__team_logo %}
-                                          <img src="/media/{{ row.team__team_logo }}" alt="" width="30">
+                                          <img src="https://res.cloudinary.com/dgznffguu/image/upload/v1/{{ row.team__team_logo }}" alt="" width="30">
                                          {% else %} 
                                          <img src="" alt="" width="30">
                                          {% endif %}
@@ -229,7 +229,7 @@
               <!-- Game Result Classic-->
                {% for game in all_games %}
               <article class="game-result game-result-classic">
-                <a href="{% url 'game-overview' competition.id game.id %}" class="btn-modern btn-edit">
+                <a href="{% url 'game-overview' competition.slug game.slug %}" class="btn-modern btn-edit">
                 <div class="game-result-main">
                   <div class="game-result-team game-result-team-first">
                     <figure class="game-result-team-figure game-result-team-figure-big">

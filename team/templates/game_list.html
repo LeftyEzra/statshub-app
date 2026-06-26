@@ -143,12 +143,12 @@
         {% if user.is_superuser %}
 
         <div class="game-actions">
-            <a href="{% url 'update-game' competition.id game.pk %}" class="btn-modern btn-edit">
+            <a href="{% url 'update-game' competition.slug game.slug %}" class="btn-modern btn-edit">
                 <i class="fas fa-pencil-alt"></i> Edit Game
             </a>
             <a  href="javascript:void(0)" 
                class="btn-modern btn-delete"
-               onclick="openDeleteModal('{% url 'delete-game' competition.id game.pk  %}')">
+               onclick="openDeleteModal('{% url 'delete-game' competition.slug game.slug  %}')">
                 <i class="fas fa-trash-alt"></i> Delete
             </a>
         </div>
@@ -271,12 +271,12 @@
         {% if user.is_superuser %}
 
         <div class="game-actions">
-            <a href="{% url 'update-game' game.competition.id game.pk %}" class="btn-modern btn-edit">
+            <a href="{% url 'update-game' game.competition.slug game.slug %}" class="btn-modern btn-edit">
                 <i class="fas fa-pencil-alt"></i> Edit Game
             </a>
             <a  href="javascript:void(0)" 
                class="btn-modern btn-delete"
-               onclick="openDeleteModal('{% url 'delete-game' competition.id game.pk  %}')">
+               onclick="openDeleteModal('{% url 'delete-game' competition.slug game.slug  %}')">
                 <i class="fas fa-trash-alt"></i> Delete
             </a>
         </div>

@@ -385,219 +385,6 @@ def calculate_age(birthdate):
     age = today.year - birthdate.year - ((today.month, today.day) < (birthdate.month, birthdate.day))
     return age
 
-"""
-class TeamDetailView(APIView):
-    def get(self, request, competition_id=None, team_id=None): 
-        
-        # HANDLE SPECIFIC TEAM/COMPETITION (Dynamic URL)
-        if competition_id and team_id: 
-            try:
-                competition = get_object_or_404(Competition, pk=competition_id)
-                team_details = get_object_or_404(Team, pk=team_id) 
-            except Http404:
-                # Error rendering uses the designated home.html template
-                return render(request, 'home.html', {'error':'Competition and Team not found.'})
-
-        # HANDLE HOMEPAGE (Default Content )
-        else:
-            # Find the current competition
-            competition = Competition.objects.filter(is_current_competition=True).first()
-            if not competition:
-                return render(request, 'home.html', {'error': 'No current competition set.'})
-
-            # Get the single team object associated with the current competition.
-            team_details = competition.team_competition.all().first()
-            if not team_details:
-                return render(request, 'home.html', {'error': 'No team found for current competition.'})
-
-        # --- CODE RUNNING FOR BOTH CASES (Data Aggregation) ---
-        
-        team = team_details
-        opponents = competition.opponents.all().order_by('name')
-        games = competition.competition.all().order_by('date') 
-        staff = TeamStaff.objects.filter(team=team) 
-        players = team.players.all()
-        news =  TeamNews.objects.filter( competition=competition,)
-        t_images = GalleryImages.objects.filter(team=team)
-        #SEt up pagination
-        p = Paginator(GalleryImages.objects.all(), 6) # Pass the queryset, not the method
-        page = request.GET.get('page')
-        team_images = p.get_page(page)
-        nums = "a" * team_images.paginator.num_pages
-       
-        
-        
-        # Fetch standings and the related game type
-        tournament_standing = Standing.objects.filter( competition=competition,).select_related('team', 'opponent',)
-
-        all_games = competition.competition.all().prefetch_related('quarterly_scores')
-        #  Returns only the stats for the games in this competition.
-        all_game_stats = PlayerStatLine.objects.filter(game_schedule__in=all_games)
-     
-       
-        #######################################################################################################
-        ######################################################################################################
-        #######################################################################################################
-        pd.set_option("display.max_columns", None)
-        pd.set_option("display.max_rows", None)
-        # All Game Statistics
-        all_game_stats_df = pd.DataFrame(
-                        all_game_stats.values('player_name__id', 'game_schedule__date', 'player_name__player_image','player_name__player_name', 'team__name', 'points', 'assists', 'blocks',
-                                              'steals','offensive_rebs', 'defensive_rebs', 'game_schedule__game_type', 'game_schedule__team_scores',
-                                              'game_schedule__opponent_scores', 'point_3_attempts', 'point_3_made',
-                                              'field_goal_attempts', 'field_goal_made', 'ft_attempts', 'ft_made','turnovers'))
-
-        all_game_stats_df = all_game_stats_df.rename(columns={'player_name__id':'player_id', })  
-          
-                                                                          
-        all_game_stats_df['total_rebounds'] = all_game_stats_df['offensive_rebs'] + all_game_stats_df['defensive_rebs']  
-   
-        # Calculation the efficiency of the games
-        all_game_stats_df["efficiency"] = (
-                                    all_game_stats_df["points"]
-                                    + all_game_stats_df["total_rebounds"]
-                                    + all_game_stats_df["assists"]
-                                    + all_game_stats_df["steals"]
-                                    + all_game_stats_df["blocks"]
-                                    - (
-                                        (all_game_stats_df["field_goal_attempts"] - all_game_stats_df["field_goal_made"])
-                                        + (all_game_stats_df["ft_attempts"] - all_game_stats_df["ft_made"])
-                                        + all_game_stats_df["turnovers"]
-                                    )
-                                )
-          
-        # Players Defense Calculation
-        all_game_stats_df['def'] = all_game_stats_df['steals'] * 2 + all_game_stats_df['blocks'] * 2 + all_game_stats_df['defensive_rebs'] * 0.5 
-        # Getting the regular season and playoffs games
-        regular_season = all_game_stats_df[all_game_stats_df['game_schedule__game_type'].isin(["regular"])]
-        regular_season= regular_season[~regular_season['game_schedule__team_scores'].isin([0])]
-
-        # Function to get per game stats leaders
-        def stats_leaders_per_game(stat):
-            leaders_per_game = (
-                regular_season.groupby(
-                    ["player_id","player_name__player_name",'player_name__player_image',]
-                )[['points', 'total_rebounds','assists', 'blocks', 'steals', 'efficiency', 'def',]].mean().sort_values(stat, ascending=False).reset_index()
-            )
-            return leaders_per_game
-        
-        
-        # These lines is to call the function
-        pts_per_game = stats_leaders_per_game('points').head(3)
-        reb_per_game = stats_leaders_per_game('total_rebounds').head(3)
-        ast_per_game = stats_leaders_per_game('assists').head(3) 
-        blk_per_game = stats_leaders_per_game('blocks').head(3)
-        stl_per_game = stats_leaders_per_game('steals').head(3)
-        eff_per_game = stats_leaders_per_game('efficiency').head(3)
-        def_per_game = stats_leaders_per_game('def').head(3)
-        #######################################################################################################
-        ######################################################################################################
-        #######################################################################################################
-        mean_opp_points = regular_season.groupby(['game_schedule__date'])['game_schedule__opponent_scores'].mean().mean().round(1)
-        mean_points = regular_season.groupby(['game_schedule__date'])['points'].sum().mean().round(1)
-        mean_rebounds = regular_season.groupby(['game_schedule__date'])['total_rebounds'].sum().mean().round(1)
-        mean_assists = regular_season.groupby(['game_schedule__date'])['assists'].sum().mean().round(1)                      
-        #######################################################################################################
-        ######################################################################################################
-        #######################################################################################################
-        # 1. Calculate Percents
-        team_fg_pct = ((regular_season['field_goal_made'].sum() / regular_season['field_goal_attempts'].sum()) * 100).round(1)
-        team_3p_pct = ((regular_season['point_3_made'].sum() / regular_season['point_3_attempts'].sum()) * 100).round(1)
-        team_ft_pct = ((regular_season['ft_made'].sum() / regular_season['ft_attempts'].sum()) * 100).round(1)
-        # views.py
-        
-
-        print(team_fg_pct)
-        print(team_3p_pct)
-        print(team_ft_pct)
-        # 2. Logic for League Ranking (Example)
-        # league_avg_3p = 35.0
-        # rank = "1st" if team_3p_pct > 40 else "Top 10"
-        
-     
-        #######################################################################################################
-        ######################################################################################################
-        #######################################################################################################
-
-
-        # 2. Convert to DataFrame
-        standing_df = pd.DataFrame(
-            tournament_standing.values( 'competition__name', 'game_type',
-                'team__name', 'team__team_logo', 
-                'opponent__name', 'opponent__logo',
-                'w', 'l', 'home_record', 'away_record', 
-                'ppg', 'opp_ppg', 'strk', 'last_5', 
-            )
-        ).sort_values('w', ascending=False).reset_index(drop=True)
-
-
-        standing_df['team__name'] = standing_df['team__name'].fillna(standing_df['opponent__name'])
-        standing_df['opponent__name'] = standing_df['opponent__name'].fillna(standing_df['team__name'])
-        standing_df['team__team_logo'] = standing_df['team__team_logo'].fillna(standing_df['opponent__logo'])                             
-        standing_df['opponent__logo'] = standing_df['opponent__logo'].fillna(standing_df['team__team_logo'])
-        #######################################################################################################
-        ######################################################################################################
-        #######################################################################################################
-        
-        # Calculate age for the filtered players
-        for player in players:
-            player.age = calculate_age(player.date_of_birth) 
-
-        # 4. Prepare Context
-        context = {
-            'team_detail': {
-                'pk': team.pk, 
-                'team_logo': team.team_logo.url if team.team_logo else None,
-                'name': team.name,
-                
-            },
-            'competition': competition,
-            'players': players,
-            'opponents': opponents,
-            'staff': staff,
-            'games': games,
-            'team': team,
-            'news': news,
-            'standing_df': standing_df.to_dict('records'),
-            #Top Leaders
-            'pts_per_game': pts_per_game.to_dict('records'),
-            'reb_per_game': reb_per_game.to_dict('records'),
-            'ast_per_game': ast_per_game.to_dict('records'),
-            'blk_per_game': blk_per_game.to_dict('records'),
-            'stl_per_game': stl_per_game.to_dict('records'),
-            'eff_per_game': eff_per_game.to_dict('records'),
-            'def_per_game': def_per_game.to_dict('records'),
-            # Team Average Stats
-            'mean_points': mean_points,
-            'mean_rebounds': mean_rebounds,
-            'mean_assists': mean_assists,
-            'mean_opp_points': mean_opp_points,
-            # Pecent Section
-            'team_fg_pct': team_fg_pct,
-            'team_ft_pct': team_ft_pct,
-            'team_3p_pct': team_3p_pct,
-            # News Section
-            'hot_news': TeamNews.objects.filter(competition=competition, category='Hot').order_by('-published_date')[:1],
-            'team_news': TeamNews.objects.filter(competition=competition, category='Team').order_by('-published_date')[:2],
-            'league_news': TeamNews.objects.filter(competition=competition, category='League')[:1],
-            'spotlight_news': TeamNews.objects.filter(competition=competition, category='Spotlight').order_by('-published_date')[:4],
-            'sidebar_news': TeamNews.objects.filter(competition=competition).order_by('-published_date')[:5],
-            'base_news': TeamNews.objects.filter(competition=competition, category='Base').order_by('-published_date'),
-            # Regular Season Games
-            'regular_season_games_df': Game.objects.filter(competition=competition, game_type='regular').order_by('date'),
-            'international_games': Game.objects.exclude(competition=competition).order_by('date'),
-            # Gallery Images
-            'team_images': team_images,
-            
-            'nums': nums,
-            'awards' : Awards.objects.all().order_by('date'),
-        
-            # All products
-            'products' : Product.objects.all().order_by('name')
-        }
-        # Renders the detailed data using the home.html template
-        return render(request, 'home.html', context)
-"""
 
 class TeamDetailView(View):
     def get(self, request, competition_slug=None, team_slug=None): 
@@ -974,29 +761,9 @@ def team_roster(request, competition_slug, team_slug):
                                 ["player_id",'player_name__slug', "player_name__player_name",'player_name__jersey_number','player_name__player_image', 'player_name__position', 'game_schedule__game_type', 'game_schedule__competition__year__year',
                                 'player_name__active_status', 'player_name__experience','player_name__height_cm', 'player_name__weight_kg', 'player_name__country', 'player_name__date_of_birth', ]
                             )[['points', 'total_rebounds','assists',]].mean().round(1).sort_values('points',ascending=False).reset_index())
+   
 
-        """
-        # Convert to list of dicts
-        stats_list = players_mean_stats.to_dict('records')
-
-        # Add the proper full URL to each record
-        for player in stats_list:
-            image_path = player.get('player_name__player_image')
-            # This automatically uses your Cloudinary backend to generate the URL
-            player['final_image_url'] = default_storage.url(image_path) if image_path else None
-
-
-        {% for player in players_mean_stats %}
-        <a href="{% url 'players-id' competition.slug player.player_name__slug %}">
-            {% if player.final_image_url %}
-                <img src="{{ player.final_image_url }}" alt="{{ player.player_name__player_name }}" class="player-photo">
-            {% else %}
-                <img src="https://res.cloudinary.com/dgznffguu/image/upload/v1/uploads/Team_Logos/python.PNG" alt="Default" class="player-photo">
-            {% endif %}
-        </a>
-    {% endfor %}    
-
-        """
+      
         
         return render(request, 'roster.html', {'competition':competition, #'tournament_stats':tournament_stats,
                                                     'team_details': team_details, 
@@ -1356,230 +1123,6 @@ class PlayerDetailView(View):
         })
 
 # For Chart.js
-"""
-def player_stats_charts(request,  player_slug):
-    player_details = get_object_or_404(Player, slug=player_slug,)
-    other_players = Player.objects.exclude(slug=player_slug).order_by('player_name')
-    competition = player_details.team.competitions
-    
-
-    # Get the player's statistics
-    tournament_stats = PlayerStatLine.objects.filter(player_name=player_details)
-    other_players_stats = PlayerStatLine.objects.filter(player_name__in=other_players)
-
-    
-
-    pd.set_option("display.max_columns", None)
-    pd.set_option("display.max_rows", None)
-                
-    player_stats_df = pd.DataFrame(
-                tournament_stats.values('player_name__id', 'player_name__slug', 'player_name__jersey_number','player_name__player_name', 
-                            'player_name__player_image','points', 'assists', 
-                            'field_goal_attempts', 'field_goal_made', 'ft_attempts', 'ft_made',
-                            'point_3_attempts', 'point_3_made',
-                            'turnovers', 'minutes',  'blocks', 'steals', 'personal_fouls',
-                            'offensive_rebs', 'defensive_rebs',
-                            'team__name', 'game_schedule__opponent__name', 'game_schedule__opponent__abbreviation',
-                            'game_schedule__date', 'game_schedule__team_win_loss',
-                            'game_schedule__indicator', 'game_schedule__competition__name', 'game_schedule__game_type',
-                            'game_schedule__competition__year__year','game_schedule__team_scores', 'game_schedule__opponent_scores'))
-
-
-    player_stats_df = player_stats_df.rename(columns={'player_name__id':'player_id', })          
-    player_stats_df['total_rebounds'] = player_stats_df['offensive_rebs'] + player_stats_df['defensive_rebs']
-    player_stats_df['game_schedule__date'] = (pd.to_datetime(player_stats_df['game_schedule__date'])).dt.strftime('%d/%m/%Y')
-    player_stats_df['fg_percent'] = (((player_stats_df['field_goal_made'] / player_stats_df['field_goal_attempts']) * 100).round(1)).fillna(0)
-    # This lambda is to abbreviate the League Name with the first letter of each words  (e.g., "Programming Languages" becomes "PL")
-    player_stats_df['game_schedule__competition__name'] = player_stats_df['game_schedule__competition__name'].apply(
-                                                lambda x: "".join([word[0].upper() for word in str(x).split()]))
-        
-    # Calculation the efficiency of the games
-    player_stats_df["efficiency"] = (
-                                player_stats_df["points"]
-                                + player_stats_df["total_rebounds"]
-                                + player_stats_df["assists"]
-                                + player_stats_df["steals"]
-                                + player_stats_df["blocks"]
-                                - (
-                                    (player_stats_df["field_goal_attempts"] - player_stats_df["field_goal_made"])
-                                    + (player_stats_df["ft_attempts"] - player_stats_df["ft_made"])
-                                    + player_stats_df["turnovers"]
-                                )
-                            )         
-    # Players Defence Calculation
-    player_stats_df['def'] = player_stats_df['steals'] * 2 + player_stats_df['blocks'] * 2 + player_stats_df['defensive_rebs'] * 0.5 
-    
-    ##################################################################################################
-    ####################################### TEAM TOTALS MATRIX #######################################
-    ##################################################################################################
-    all_games = Game.objects.all().prefetch_related('quarterly_scores')
-    all_game_stats = PlayerStatLine.objects.filter(game_schedule__in=all_games)
-    
-    all_games_values = pd.DataFrame(
-                all_game_stats.values('player_name__id', 'player_name__slug', 'player_name__jersey_number','player_name__player_name', 
-                            'player_name__player_image','points', 'assists', 
-                            'field_goal_attempts', 'field_goal_made','ft_attempts', 'ft_made',
-                            'point_3_attempts', 'point_3_made',
-                            'turnovers', 'minutes',  'blocks', 'steals', 'personal_fouls',
-                            'offensive_rebs', 'defensive_rebs',
-                            'team__name', 'game_schedule__opponent__name','game_schedule__opponent__abbreviation',
-                            'game_schedule__date', 'game_schedule__team_win_loss',
-                            'game_schedule__indicator', 'game_schedule__competition__name', 'game_schedule__game_type',
-                            'game_schedule__competition__year__year','game_schedule__team_scores', 'game_schedule__opponent_scores'))
-
-    # Number Of Games Played and Win or Loss
-    all_games_values = all_games_values.rename(columns={'player_name__id':'player_id', })          
-    all_games_values['total_rebounds'] = all_games_values['offensive_rebs'] + all_games_values['defensive_rebs']
-    all_games_values['game_schedule__date'] = (pd.to_datetime(all_games_values['game_schedule__date'])).dt.strftime('%d/%m/%Y')
-    
-    # This lambda is to abbreviate the League Name with the first letter of each words  (e.g., "Programming Languages" becomes "PL")
-    all_games_values['game_schedule__competition__name'] = all_games_values['game_schedule__competition__name'].apply(
-                                                lambda x: "".join([word[0].upper() for word in str(x).split()]))
-        
-    # Calculation the efficiency of the games
-    all_games_values["efficiency"] = (
-                                all_games_values["points"]
-                                + all_games_values["total_rebounds"]
-                                + all_games_values["assists"]
-                                + all_games_values["steals"]
-                                + all_games_values["blocks"]
-                                - (
-                                    (all_games_values["field_goal_attempts"] - all_games_values["field_goal_made"])
-                                    + (all_games_values["ft_attempts"] - all_games_values["ft_made"])
-                                    + all_games_values["turnovers"]
-                                )
-                            )         
-    # Players Defence Calculation
-    
-    all_games_values['def'] = all_games_values['steals'] * 2 + all_games_values['blocks'] * 2 + all_games_values['defensive_rebs'] * 0.5 
-   
-
-    team_matrix_df = all_games_values[all_games_values['game_schedule__game_type'].isin(["regular"])]
-    team_matrix_df = team_matrix_df[~team_matrix_df['game_schedule__team_scores'].isin([0])]
-    team_matrix_df = team_matrix_df[[ "player_name__player_name", 'points', "total_rebounds",'assists','field_goal_attempts', 'field_goal_made',  'point_3_attempts', 'point_3_made',
-                                                                    'ft_attempts', 'ft_made', 'offensive_rebs', 'defensive_rebs','turnovers',  'blocks', 'steals', 'personal_fouls',
-                                                                          'efficiency', 'def']]
-    team_matrix_df = team_matrix_df.rename(columns={"points":"PTS","total_rebounds":"REB","assists":"AST","field_goal_made":"FGM","field_goal_attempts":"FGA",
-                                                    "point_3_made":"3PM", "point_3_attempts":"3PA", "ft_made": "FTM", "ft_attempts":"FTA", "offensive_rebs":"ORB", "defensive_rebs":"DRB",
-                                                    "turnovers":"TOV","steals":"STL","blocks":"BLK","personal_fouls":"PF","efficiency":"EFF", 'def':'DEF',})                                                                      
-    
-    #Accumulation.sum() and mean()
-    team_sum_matrix_df = team_matrix_df.groupby(["player_name__player_name"])[['PTS','REB','AST','FGM','FGA','3PM','3PA','FTM','FTA','ORB','DRB', 'TOV','STL','BLK','PF','EFF', 'DEF']].sum().sort_values(by='PTS',ascending=True)  
-    team_mean_matrix_df = team_matrix_df.groupby(["player_name__player_name"])[['PTS','REB','AST','FGM','FGA','3PM','3PA','FTM','FTA','ORB','DRB', 'TOV','STL','BLK','PF','EFF', 'DEF']].mean().round(1).sort_values(by='PTS',ascending=True)  
-    
-   
-    ###################################################################################################
-    ##################################################################################################
-    ###################################### INDIVIDUAL SUMMARY ###########################################
-    ##################################################################################################
-    regular_season_games_played_df = player_stats_df[player_stats_df['game_schedule__game_type'].isin(["regular"])]
-    regular_season_games_played_df = regular_season_games_played_df[~regular_season_games_played_df['game_schedule__team_scores'].isin([0])]
-    regular_season_games_played_df = regular_season_games_played_df[['game_schedule__date','game_schedule__indicator','game_schedule__team_win_loss', 'game_schedule__opponent__name', 'game_schedule__opponent__abbreviation',
-                                                                    'points', "total_rebounds",'assists','field_goal_attempts', 'field_goal_made',  'point_3_attempts', 'point_3_made',
-                                                                    'ft_attempts', 'ft_made', 'offensive_rebs', 'defensive_rebs','turnovers',  'blocks', 'steals', 'personal_fouls',
-                                                                          'efficiency', 'def']]
-
-    regular_season_games_played_df['fg_percent'] = (((regular_season_games_played_df['field_goal_made'] / regular_season_games_played_df['field_goal_attempts']) * 100).round(1)).fillna(0)
-    regular_season_games_played_df["vs_opp_win_loss"] =  regular_season_games_played_df['game_schedule__team_win_loss'].replace({'Win':'W', 'Loss':'L'})+'-'+regular_season_games_played_df['game_schedule__indicator']+'-'+ regular_season_games_played_df['game_schedule__opponent__abbreviation'] 
-    regular_season_games_played_df["GM_DAY"] =  regular_season_games_played_df['game_schedule__date']+'-'+regular_season_games_played_df["vs_opp_win_loss"] 
-    
-    # Rename Columns 
-    regular_season_games_played_df = regular_season_games_played_df.rename(columns={"points":"PTS","total_rebounds":"REB","assists":"AST","field_goal_made":"FGM","field_goal_attempts":"FGA", 'fg_percent':'FG%',
-                                                    "point_3_made":"3PM", "point_3_attempts":"3PA", "ft_made": "FTM", "ft_attempts":"FTA", "offensive_rebs":"ORB", "defensive_rebs":"DRB",
-                                                    "turnovers":"TOV","steals":"STL","blocks":"BLK","personal_fouls":"PF","efficiency":"EFF", 'def':'DEF',})  
-    ###################################################################################################
-    # Average Stats Of The Player
-    mean_points = regular_season_games_played_df['PTS'].mean().astype(float).round(1)
-    mean_rebounds = regular_season_games_played_df['REB'].mean().astype(float).round(1)
-    mean_assists = regular_season_games_played_df['AST'].mean().astype(float).round(1)
-    mean_effiency = regular_season_games_played_df['EFF'].mean().astype(float).round(1)
-    ###################################################################################################
-    #BAr Chart to display total stats of the player
-    total_stats = regular_season_games_played_df.sum(numeric_only=True)
-    # FIELD GOALS (Total)
-    fg_made = int(total_stats['FGM']) 
-    fg_missed = int(total_stats['FGA'] - fg_made)
-
-    # THREE POINTERS (Total) 
-    three_p_made = int(total_stats['3PM']) 
-    three_p_missed = int(total_stats['3PA'] - three_p_made)
-
-    # FREE THROWS (Total)
-    ft_made = int(total_stats['FTM'])
-    ft_missed = int(total_stats['FTA'] - ft_made)
-    ###################################################################################################
-    
-    # Last 5 games 
-    last_5_games = regular_season_games_played_df.tail(5)
-    last_5_games['2PM'] = (last_5_games['FGM'] - last_5_games['3PM'])
-    
-    
-    
-    print('L 5 G')
-    print(last_5_games)
-    
-    # Line Chart for all Games Played in the regular Season
-    line_chart_games = regular_season_games_played_df.groupby(["GM_DAY"])[['PTS']].sum()
-    fg_percent_line_chart = regular_season_games_played_df['FG%']
-    
-
-    # Player Total Game Summary
-    player_summary = regular_season_games_played_df.describe()
-    player_summary_heatmap = player_summary.loc[['max', '75%', '50%', '25%', 'min', 'std', 'mean']]
-
-
-                                                 
-    ##################################################################################################
-    ##################################################################################################
-    ##################################################################################################
-
-    context = {
-
-        'player_details': player_details,
-        'competition': competition,
-
-        'mean_points': mean_points,
-        'mean_rebounds': mean_rebounds,
-        'mean_assists': mean_assists,
-        #All Players Summary
-        'sum_x': team_sum_matrix_df.columns.tolist(),
-        'sum_y': team_sum_matrix_df.index.tolist(),
-        'sum_z': team_sum_matrix_df.values.tolist(),
-
-        # Players Mean
-        'mean_x': team_mean_matrix_df.columns.tolist(),
-        'mean_y': team_mean_matrix_df.index.tolist(),
-        'mean_z': team_mean_matrix_df.values.tolist(),
-        
-        # Player Summary
-        'summary_x': player_summary_heatmap.columns.tolist(),
-        'summary_y': player_summary_heatmap.index.tolist(),
-        'summary_z': player_summary_heatmap.values.tolist(), #These are now floats (e.g. 29.333)
-
-        # Line Chart GAmes
-        'gameLabel': line_chart_games.index.tolist(),
-        'gameValues': line_chart_games.values.tolist(),
-        'fg_percentValues': fg_percent_line_chart.values.tolist(),
-
-
-       
-        # Labels for the Bar Chart
-        'bar_labels': ['PTS','REB','AST','FGM','FGA','3PM','3PA','FTM','FTA','ORB','DRB', 'TOV','STL','BLK','PF','EFF', 'DEF'],
-        # The calculated totals for the Bar Chart
-        'bar_data': total_stats[['PTS','REB','AST','FGM','FGA','3PM','3PA','FTM','FTA','ORB','DRB', 'TOV','STL','BLK','PF','EFF', 'DEF']].tolist(),
-        # Doughnut Data: [Made, Missed]
-        # Passing the [Made, Missed] pairs directly to the Doughnuts
-        'fg_stats': [fg_made, fg_missed],
-        'three_p_stats': [three_p_made, three_p_missed],
-        'ft_stats': [ft_made, ft_missed],
-        
-
-    }
-
-    return render(request, 'player-dashboard.html', context)
-"""
-
-
 def player_stats_charts(request, player_slug):
     player_details = get_object_or_404(Player, slug=player_slug)
     other_players = Player.objects.exclude(slug=player_slug).order_by('player_name')
@@ -1912,10 +1455,10 @@ class PlayerUpdateView(SuperuserRequiredMixin, View):
 
 # Player Delete Function
 @user_passes_test(is_superuser, login_url='/')
-def delete_player(request, slug, competition_slug):
+def delete_player(request, player_slug, competition_slug):
     competition = get_object_or_404(Competition, slug=competition_slug)
     team = competition.team 
-    player = get_object_or_404(Player, slug=slug, team=team)
+    player = get_object_or_404(Player, slug=player_slug, team=team)
     player.delete()
     messages.success(request, "Player deleted successfully.")
     return redirect('team-roster', competition_slug=competition_slug, team_slug=team.slug)
@@ -1947,7 +1490,7 @@ def delete_player(request, slug, competition_slug):
 ####################################################################################
 ####################################################################################
 # Class Base View Creating Opponents
-class OpponentCreateView(SuperuserRequiredMixin, APIView):
+class OpponentCreateView(SuperuserRequiredMixin, View):
     def get(self, request):
         form = OpponentForm()
         return render(request, 'opponents_registration.html', {"form": form, })
@@ -1971,18 +1514,18 @@ class OpponentCreateView(SuperuserRequiredMixin, APIView):
 
 
 #  Class Base View For Opponent List
-class OpponentListView(APIView):
+class OpponentListView(View):
     def get(self, request):
         opponents = Opponent.objects.all()
         #players = opponents.opponent_player.all()
         print(opponents)
-        #return Response(serializer.data) 
+         
         return render(request, 'opponents_list.html', {'opponents':opponents})            
 
 
 
 # Class Base View For Team Details
-class OpponentDetailView(APIView):
+class OpponentDetailView(View):
     def get(self, request, slug):
         opponent_details = get_object_or_404(Opponent, slug=slug)
         
@@ -2007,7 +1550,7 @@ class OpponentDetailView(APIView):
 
 
 # Class Base View For Update
-class OpponentUpdateView(APIView):
+class OpponentUpdateView(SuperuserRequiredMixin, View):
     # Handle GET and POST requests to UPDATE team details
     def get(self, request, slug):
         update_opponents = get_object_or_404(Opponent, slug=slug)
@@ -2022,7 +1565,7 @@ class OpponentUpdateView(APIView):
             form.save()
             # Return a valid update message.
             messages.success(request, (" Team Updated Sucessfully ):"))
-            return redirect('opponent-id', pk=pk)
+            return redirect('opponent-id', slug=slug)
         return render(request, 'opponent_update.html', {'form': form, 'update_opponents': update_opponents})         
                        
 
@@ -2054,7 +1597,7 @@ def delete_opponent(request, slug):
 
 gameScoresFormSet = inlineformset_factory(Game, QuarterlyScores, form=QuarterlyScoresForm, extra=1, can_delete=False, max_num=1)
 
-class GameCreateView(SuperuserRequiredMixin, APIView):
+class GameCreateView(SuperuserRequiredMixin, View):
 
     def get(self, request, competition_slug):
         #  Pre-fill the competition field using initial
@@ -2095,7 +1638,7 @@ class GameCreateView(SuperuserRequiredMixin, APIView):
         })
 
 
-class GameListView(APIView):
+class GameListView(View):
    def get(self, request, competition_slug): 
         competition = get_object_or_404(Competition, slug=competition_slug)
         all_competition = Competition.objects.all()
@@ -2114,15 +1657,21 @@ class GameListView(APIView):
 
 
 
-class GameScheduleView(APIView):
+class GameScheduleView(View):
    def get(self, request, competition_slug): 
         competition = get_object_or_404(Competition, slug=competition_slug)
       
         # Using the 'quarterly_scores' name here!
-        games = Game.objects.filter(competition=competition).order_by('-date')
+        #games = Game.objects.filter(competition=competition).order_by('-date')
+        games = Game.objects.filter(competition=competition,team__name="Python").order_by('-date')
+        print("GAMES")
+        print(games)
         other_competitions_games =  Game.objects.exclude(competition=competition)
-        game_stats = PlayerStatLine.objects.filter(game_schedule__in=games)
-        
+        game_stats = PlayerStatLine.objects.filter(game_schedule__in=games,team__name="Python" )
+        print("GAME STATS")
+        print(game_stats)
+        # Using dynamic team.name variable instead of hardcoded string
+        #team_players = stats_df[stats_df['team__name'].isin([team.name])].copy()
         # Fetch standings and the related game type
         tournament_standing = Standing.objects.filter(
             competition=competition,
@@ -2139,20 +1688,25 @@ class GameScheduleView(APIView):
             losses = 0
             games_with_records = []  # Creating a new list to hold the games with their calculated records
 
-            for w_l in games: # Calculating the Win - Loss Records 
+            for w_l in games: 
+                # 1. Calculate Wins/Losses for the running record
                 if w_l.team_win_loss == 'Win':
                     wins += 1
                 elif w_l.team_win_loss == 'Loss':
                     losses += 1
                 w_l.running_record = f"{wins}-{losses}" 
 
-                # Using 'game_stats' related_name to find the highest values fo the stats of each game by using the django aggregate function
-                top_pts = w_l.game_stats.order_by('-points').first()
-                top_reb = w_l.game_stats.annotate(total_rebs=F('offensive_rebs') + F('defensive_rebs')).order_by('-total_rebs').first()
-                top_ast = w_l.game_stats.order_by('-assists').first()
+                #Create a variable that filters stats ONLY for "Python"
+                # This 'team_stats' variable now contains only the team's players for this specific game
+                team_stats = w_l.game_stats.filter(team__name="Python")
 
-                # This is to format the names of the players name 
-                #Points 
+                # Using 'team_stats' for all calculations instead of 'w_l.game_stats'
+                top_pts = team_stats.order_by('-points').first()
+                top_reb = team_stats.annotate(total_rebs=F('offensive_rebs') + F('defensive_rebs')).order_by('-total_rebs').first()
+                top_ast = team_stats.order_by('-assists').first()
+
+                # 4. Now the formatting logic will correctly pull data only for Python players
+                # Points 
                 if top_pts and top_pts.player_name:
                     parts = top_pts.player_name.player_name.split()
                     w_l.leader_pts = f"{parts[0][0]}. {parts[-1]} {top_pts.points}"
@@ -2179,10 +1733,13 @@ class GameScheduleView(APIView):
                     w_l.leader_ast = " "
                     w_l.leader_ast_id = None
 
-                # Adding the modified game object the final list
+                # Add the modified game to the final list
                 games_with_records.append(w_l)
-            else:
-                games_with_records = []   
+
+            
+           
+        else:
+            games_with_records = []   
 
          
         #####################################################
@@ -2194,12 +1751,12 @@ class GameScheduleView(APIView):
         if games.exists():
             # Convert to DataFrame
             all_games_df = pd.DataFrame(
-                        games.values('id', 'slug', 'competition__name','competition__year__year','date','time','team__name', 'team__team_logo', 'team__city','indicator','opponent__name', 'opponent__logo',
+                        games.values('id','competition__name','competition__year__year','date','time','team__name', 'team__team_logo', 'team__city','indicator','opponent__name', 'opponent__logo',
                                         'team_scores', 'opponent_scores', 'opponent__city','team_win_loss', 'game_venue__name', 'game_type',
                                     ))
 
             # Let's convert it to datetime column 
-            stats_df = pd.DataFrame( game_stats.values('game_schedule__date',  'game_schedule_id', 'player_name__id', 'player_name__player_name',
+            stats_df = pd.DataFrame( game_stats.values('game_schedule__date',  'game_schedule_id', 'player_name__id', 'player_name__slug','player_name__player_name',
                                             'points','assists', 'offensive_rebs','defensive_rebs', 'game_schedule__game_type',  ))
             stats_df = stats_df.rename(columns={'game_schedule__date': 'date'}) 
         
@@ -2233,67 +1790,71 @@ class GameScheduleView(APIView):
 
             # Creating the "1-0", "1-1" string column
             regular_season_games_played_df['running_record'] = regular_season_games_played_df['cum_wins'].astype(str) + "-" + regular_season_games_played_df['cum_losses'].astype(str)
-            print('REGULAR SEASON GAMES')   
+            #print('REGULAR SEASON GAMES')   
             #print(regular_season_games_played_df)
             #######################################################################################################
             ######################################################################################################
             #######################################################################################################
             # Convert to DataFrame
             other_competitions_df = pd.DataFrame(
-                        other_competitions_games.values('id', 'slug', 'competition__name','date','time','team__name', 'team__team_logo', 'team__city','indicator','opponent__name', 'opponent__logo',
+                        other_competitions_games.values('id', 'competition__name','date','time','team__name', 'team__team_logo', 'team__city','indicator','opponent__name', 'opponent__logo',
                                         'team_scores', 'opponent_scores', 'opponent__city','team_win_loss', 'game_venue__name', 'game_type'))
             international_games = other_competitions_df[other_competitions_df['game_type'].isin(["international"])].copy()
 
             #######################################################################################################
             ######################################################################################################
             #######################################################################################################
-            def player_of_the_month(month, pts):
-                # Players Stats For Best Performer Of The Month
+            def player_of_the_month(month, stat_col):
+                # Build DataFrame of player stats
                 montly_stats_df = pd.DataFrame(
-                            game_stats.values('player_name__id','player_name__jersey_number','player_name__player_name', 
-                                        'player_name__player_image','points', 'assists', 
-                                    'offensive_rebs', 'defensive_rebs', 'game_schedule__date'))
-                montly_stats_df['total_rebounds'] = montly_stats_df['offensive_rebs'] + montly_stats_df['defensive_rebs']   
-                montly_stats_df['game_date'] = (pd.to_datetime(montly_stats_df['game_schedule__date'])) 
-                montly_stats_df['year']    = pd.DatetimeIndex(montly_stats_df['game_schedule__date']).year
-                montly_stats_df['month']   = pd.DatetimeIndex(montly_stats_df['game_schedule__date']).month
-                                
-                montly_stats_df = montly_stats_df.groupby(['player_name__player_name','player_name__player_image', 'player_name__jersey_number', 'month', 'year',])[['points','total_rebounds','assists']].mean().round(1).reset_index()
-                month_may = montly_stats_df[montly_stats_df['month'] == month ][['player_name__player_name', 'player_name__jersey_number', 'player_name__player_image','points','total_rebounds','assists']].sort_values(by=pts, ascending=False).head(1).iloc[0]      
-                print("Montly Stats")  
-                #print(montly_stats_df)               
-                print()
-                print() 
-                print("May")
-                
-                return month_may     
+                    game_stats.values(
+                        'player_name__id', 'player_name__slug', 'player_name__jersey_number',
+                        'player_name__player_name', 'player_name__player_image',
+                        'points', 'assists', 'offensive_rebs', 'defensive_rebs',
+                        'game_schedule__date'
+                    )
+                )
+
+                # Add derived columns
+                montly_stats_df['total_rebounds'] = montly_stats_df['offensive_rebs'] + montly_stats_df['defensive_rebs']
+                montly_stats_df['game_date'] = pd.to_datetime(montly_stats_df['game_schedule__date'])
+                montly_stats_df['year'] = montly_stats_df['game_date'].dt.year
+                montly_stats_df['month'] = montly_stats_df['game_date'].dt.month
+
+                # Group by player and month, take averages
+                grouped = (
+                    montly_stats_df.groupby(
+                        ['player_name__player_name', 'player_name__player_image', 'player_name__jersey_number', 'month', 'year']
+                    )[["points", "total_rebounds", "assists"]]
+                    .mean()
+                    .round(1)
+                    .reset_index()
+                )
+
+                # Filter for the requested month
+                month_df = grouped[grouped['month'] == month]
+
+                if month_df.empty:
+                    return None  # no games that month
+
+                # Get the top player by the requested stat column
+                top_player = month_df.sort_values(by=stat_col, ascending=False).head(1).iloc[0]
+
+                return top_player
+
+
+            best_month_points = player_of_the_month(6, 'points')
+            best_month_rebounds = player_of_the_month(6, 'total_rebounds')
+            best_month_assists = player_of_the_month(6, 'assists')
+
+            print("BEST POINTS MONTHs")
+            print(best_month_points)
+
+           
                 
                 
                 
             #player_of_the_month(5, 'points')
-
-            """
-            montly_stats_df = pd.DataFrame(
-                            game_stats.values('player_name__id','player_name__jersey_number','player_name__player_name', 
-                                    'player_name__player_image','points', 'assists', 
-                                'offensive_rebs', 'defensive_rebs', 'game_schedule__date'))
-            montly_stats_df['total_rebounds'] = montly_stats_df['offensive_rebs'] + montly_stats_df['defensive_rebs']   
-            montly_stats_df['game_date'] = (pd.to_datetime(montly_stats_df['game_schedule__date'])) 
-            montly_stats_df['year']    = pd.DatetimeIndex(montly_stats_df['game_schedule__date']).year
-            montly_stats_df['month']   = pd.DatetimeIndex(montly_stats_df['game_schedule__date']).month
-                            
-            montly_stats_df = montly_stats_df.groupby(['player_name__player_name','player_name__player_image', 'game_date',  'month', 'year',])[['points','total_rebounds','assists']].sum().reset_index()
-            month_may = montly_stats_df[montly_stats_df['month'] == 5 ][['player_name__player_name', 'player_name__player_image','points','total_rebounds','assists']].sort_values(by='points', ascending=False).head().iloc[0]      
-            print(month_may)
-            print()
-            #montly_stats = montly_stats_df.groupby([ 'month', 'player_name__player_name','player_name__player_image','year'])[[ 'points','total_rebounds','assists']].sum()
-            """
-        
-            
-            
-            
-
-            
             ######################################################################################################
             #####################################################################################################
             # 2. Convert to DataFrame
@@ -2338,7 +1899,7 @@ class GameScheduleView(APIView):
                 #'playoff_games': playoff_games.to_dict('records'),
                 'other_competitions_df': international_games.to_dict('records'),
                 # Player Of The Month
-                'month_may': player_of_the_month(5, 'points'), #[:1],
+                'best_month_player': best_month_points , #[:1],
                 # Gallery Images
                 'team_images': images,
             

@@ -13,7 +13,7 @@
 
 
       <!-- Section Breadcrumbs-->
-      <section class="section parallax-container breadcrumbs-wrap" data-parallax-img="{% static 'img/bg-breadcrumbs-1-1920x726.jpg' %}">
+      <section class="section parallax-container breadcrumbs-wrap" data-parallax-img="{% static 'img/ball_court.png' %}">
         <div class="material-parallax parallax">
           <img src="{% static 'img/ball_court.png' %}" alt="" style="transform: translate3d(-50%, 61px, 0px); display: block;"></div>
         <div class="parallax-content breadcrumbs-custom context-dark">
@@ -117,7 +117,7 @@
                                   </div>
                                   <div class="game-info-middle game-info-middle-vertical">
                                     <time class="time-big" datetime="2024-04-17">
-                                      <a href="{% url 'game-overview' competition.id game.pk %}" class="btn-modern btn-edit">
+                                      <a href="{% url 'game-overview' competition.slug game.slug %}" class="btn-modern btn-edit">
                                       <span class="heading-3">{{ game.date }}</span>
                                       </a>
                                     </time>
@@ -177,7 +177,7 @@
                           {% for game in games %}
                           <tr>
                               <td class="sticky-col-1 font-weight text-align:left;">
-                                  <a href="{% url 'game-overview' competition.id game.id %}" class="btn-link">{{ game.date|date:"M d, y" }}</a>
+                                  <a href="{% url 'game-overview' competition.slug game.slug %}" class="btn-link">{{ game.date|date:"M d, y" }}</a>
                               </td>
                               <td class="record-cell">{{ game.time|time:"H:i" }}</td>
 
@@ -230,7 +230,7 @@
                               <td style="color: #35ad79; text-align: left;">
                                 {% if game.team_scores != 0 %}
                                   {% if game.leader_pts_id %}
-                                  <a href="{% url 'players-id' competition.id game.leader_pts_id %}">{{ game.leader_pts|default:"" }}</a>
+                                  <a href="{% url 'players-id' competition.slug game.leader_pts_id %}">{{ game.leader_pts|default:"" }}</a>
                                   {% else %}
                                   {{ game.leader_pts|default:"" }}
                                   {% endif %}
@@ -241,7 +241,7 @@
                               <td style="color: #35ad79; text-align: left;">
                                 {% if game.team_scores != 0 %}
                                   {% if game.leader_reb_id %}
-                                  <a href="{% url 'players-id' competition.id game.leader_reb_id %}">{{ game.leader_reb|default:"" }}</a>
+                                  <a href="{% url 'players-id' competition.slug game.leader_reb_id %}">{{ game.leader_reb|default:"" }}</a>
                                   {% else %}
                                   {{ game.leader_reb|default:"" }}
                                   {% endif %}
@@ -252,7 +252,7 @@
                               <td style="color: #35ad79; text-align: left;">
                                 {% if game.team_scores != 0 %}
                                   {% if game.leader_ast_id %}
-                                  <a href="{% url 'players-id' competition.id game.leader_ast_id %}">{{ game.leader_ast|default:"" }}</a>
+                                  <a href="{% url 'players-id' competition.slug game.leader_ast_id %}">{{ game.leader_ast|default:"" }}</a>
                                   {% else %}
                                   {{ game.leader_ast|default:"" }}
                                   {% endif %}
@@ -284,14 +284,14 @@
                       <div class="game-info-main">
                         <div class="game-info-team game-info-team-first">
                           <figure>
-                            <img src="/media/{{ game.team__team_logo }}" alt="{{ game.team__name }}" width="75" height="99">
+                            <img src="https://res.cloudinary.com/dgznffguu/image/upload/v1/{{ game.team__team_logo }}" alt="{{ game.team__name }}" width="75" height="99">
                           </figure>
                           <div class="game-result-team-name">{{ game.team__name }}</div>
                           <div class="game-result-team-country">{{ game.team__city }}</div>
                         </div>
                         <div class="game-info-middle game-info-middle-vertical">
                           <time class="time-big" datetime="2024-04-17">
-                            <a href="{% url 'game-overview' competition.id game.id %}" class="btn-modern btn-edit">
+                            <a href="{% url 'game-overview' competition.slug game.slug %}" class="btn-modern btn-edit">
                             <span class="heading-3">{{ game.date }}</span>
                             </a>
                           </time>
@@ -301,10 +301,10 @@
                           <div class="group-sm">
                             <div class="button button-sm button-share-outline">Share
                               <ul class="game-info-share">
-                                <li class="game-info-share-item"><a class="icon fa fa-facebook" href="#"></a></li>
-                                <li class="game-info-share-item"><a class="icon fa fa-twitter" href="#"></a></li>
-                                <li class="game-info-share-item"><a class="icon fa fa-google-plus" href="#"></a></li>
-                                <li class="game-info-share-item"><a class="icon fa fa-instagram" href="#"></a></li>
+                                <li class="game-info-share-item"><a class="icon fa fa-facebook" href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri|urlencode }}" target="_blank" title="Share on Facebook"></a></li>
+                                <li class="game-info-share-item"><a class="icon fa fa-twitter"  href="https://twitter.com/intent/tweet?url={{ request.build_absolute_uri|urlencode }}"   target="_blank"  title="Share on X"> </a></li>
+                                <li class="game-info-share-item"><a class="icon fa fa-instagram"   href="#"  id="copy-ig-link"  data-url="{{ request.build_absolute_uri }}"  title="Copy Link for Instagram"></a></li>
+                                <li class="game-info-share-item"><a class="icon fa fa-whatsapp"  href="https://api.whatsapp.com/send?text=Check+this+out:+{{ request.build_absolute_uri|urlencode }}"  target="_blank"></a></li>
                               </ul>
                             </div>
                             <a class="button button-sm button-primary disabled" href="#">Buy tickets</a>
@@ -312,7 +312,7 @@
                         </div>
                         <div class="game-info-team game-info-team-second">
                           <figure>
-                            <img src="/media/{{ game.opponent__logo }}" alt="{{ game.opponent__name }}" width="78" height="98">
+                            <img src="https://res.cloudinary.com/dgznffguu/image/upload/v1/{{ game.opponent__logo }}" alt="{{ game.opponent__name }}" width="78" height="98">
                           </figure>
                           <div class="game-result-team-name">{{ game.opponent__name }}</div>
                           <div class="game-result-team-country">{{ game.opponent__city }}</div>
@@ -368,7 +368,7 @@
 
                                     <div class="team-figure" style="min-width: 30px;">
                                         {% if game.opponent__logo %}
-                                            <img src="/media/{{ game.opponent__logo }}" alt="{{ game.opponent__name }}" width="30">
+                                            <img src="https://res.cloudinary.com/dgznffguu/image/upload/v1/{{ game.opponent__logo }}" alt="{{ game.opponent__name }}" width="30">
                                         {% else %}
                                             <div style="width: 30px; height: 30px; background: #eee; border-radius: 50%;"></div>
                                         {% endif %}
@@ -463,14 +463,14 @@
                       <div class="game-info-main">
                         <div class="game-info-team game-info-team-first">
                           <figure>
-                            <img src="/media/{{ game.team__team_logo }}" alt="{{ game.team__name }}" width="75" height="99">
+                            <img src="https://res.cloudinary.com/dgznffguu/image/upload/v1/{{ game.team__team_logo }}" alt="{{ game.team__name }}" width="75" height="99">
                           </figure>
                           <div class="game-result-team-name">{{ game.team__name }}</div>
                           <div class="game-result-team-country">{{ game.team__city }}</div>
                         </div>
                         <div class="game-info-middle game-info-middle-vertical">
                           <time class="time-big" datetime="2024-04-17">
-                            <a href="{% url 'game-overview' competition.id game.id %}" class="btn-modern btn-edit">
+                            <a href="{% url 'game-overview' competition.slug game.slug %}" class="btn-modern btn-edit">
                             <span class="heading-3">{{ game.date }}</span>
                             </a>
                           </time>
@@ -491,7 +491,7 @@
                         </div>
                         <div class="game-info-team game-info-team-second">
                           <figure>
-                            <img src="/media/{{ game.opponent__logo}}" alt="" width="78" height="98">
+                            <img src="https://res.cloudinary.com/dgznffguu/image/upload/v1/{{ game.opponent__logo}}" alt="" width="78" height="98">
                           </figure>
                           <div class="game-result-team-name">{{ game.opponent__name }}</div>
                           <div class="game-result-team-country">{{ game.opponent__city }}</div>
@@ -516,14 +516,14 @@
                         <div class="game-info-main">
                           <div class="game-info-team game-info-team-first">
                             <figure>
-                              <img src="/media/{{ game.team__team_logo }}" alt="{{ game.team__name }}" width="75" height="99">
+                              <img src="https://res.cloudinary.com/dgznffguu/image/upload/v1/{{ game.team__team_logo }}" alt="{{ game.team__name }}" width="75" height="99">
                             </figure>
                             <div class="game-result-team-name">{{ game.team__name }}</div>
                             <div class="game-result-team-country">{{ game.team__city }}</div>
                           </div>
                           <div class="game-info-middle game-info-middle-vertical">
                             <time class="time-big" datetime="2024-04-17">
-                              <a href="{% url 'game-overview' competition.id game.id %}" class="btn-modern btn-edit">
+                              <a href="" class="btn-modern btn-edit">
                               <span class="heading-3">{{ game.date }}</span>
                               </a>
                             </time>
@@ -544,7 +544,7 @@
                           </div>
                           <div class="game-info-team game-info-team-second">
                             <figure>
-                              <img src="/media/{{ game.opponent__logo}}" alt="" width="78" height="98">
+                              <img src="https://res.cloudinary.com/dgznffguu/image/upload/v1/{{ game.opponent__logo}}" alt="" width="78" height="98">
                             </figure>
                             <div class="game-result-team-name">{{ game.opponent__name }}</div>
                             <div class="game-result-team-country">{{ game.opponent__city }}</div>
@@ -577,7 +577,7 @@
                                   </div>
                                   <div class="game-info-middle game-info-middle-vertical">
                                     <time class="time-big" datetime="2024-04-17">
-                                      <a href="{% url 'game-overview' competition.id game.pk %}" class="btn-modern btn-edit">
+                                      <a href="" class="btn-modern btn-edit">
                                       <span class="heading-3">{{ game.date }}</span>
                                       </a>
                                     </time>
@@ -620,7 +620,7 @@
                   <article class="heading-component">
                     <div class="heading-component-inner">
                       <h5 class="heading-component-title">Standings
-                      </h5><a class="button button-xs button-gray-outline" href="{% url 'view-standing' competition.id %}">Full Standings</a>
+                      </h5><a class="button button-xs button-gray-outline" href="{% url 'view-standing' competition.slug %}">Full Standings</a>
                     </div>
                   </article>
                   <!-- Table team-->
@@ -643,7 +643,7 @@
                           <td class="team-inline">
                             <div class="team-figure">
                               {% if row.team__team_logo %}
-                              <img src="/media/{{ row.team__team_logo }}" alt="" width="30">
+                              <img src="https://res.cloudinary.com/dgznffguu/image/upload/v1/{{ row.team__team_logo }}" alt="" width="30">
                               {% else %} 
                               <img src="" alt="" width="30">
                               {% endif %}
@@ -678,20 +678,20 @@
                    
                   <div class="player-info-minimal">
                     <div class="player-info-minimal-figure">
-                      <img src="/media/{{ month_may.player_name__player_image }}" alt="" width="229" height="268">
+                      <img src="https://res.cloudinary.com/dgznffguu/image/upload/v1/{{ best_month_player.player_name__player_image }}" alt="" width="229" height="268">
                     </div>
                     <div class="player-info-minimal-number">
-                      <p>{{ month_may.player_name__jersey_number }}</p>
+                      <p>{{ best_month_player.player_name__jersey_number }}</p>
                     </div>
                     <div class="player-info-minimal-content">
                       <div class="player-info-minimal-title">
-                        <h3><span>{{ month_may.player_name__player_name }}</span></h3>
+                        <h3><span>{{ best_month_player.player_name__player_name }}</span></h3>
                       </div>
                       <div class="player-info-minimal-progress">
                         <!-- Linear progress bar-->
                         <article class="progress-linear progress-bar-modern">
                           <div class="progress-header">
-                            <p>PPG</p><span class="value">{{ month_may.points }}</span>
+                            <p>PPG</p><span class="value">{{ best_month_player.points }}</span>
                           </div>
                           <div class="progress-bar-linear-wrap">
                             <div class="progress-bar-linear" style="transition-duration: 1s;"></div>
@@ -700,7 +700,7 @@
                         <!-- Linear progress bar-->
                         <article class="progress-linear progress-bar-modern">
                           <div class="progress-header">
-                            <p>RPG</p><span class="value">{{ month_may.total_rebounds }}</span>
+                            <p>RPG</p><span class="value">{{ best_month_player.total_rebounds }}</span>
                           </div>
                           <div class="progress-bar-linear-wrap">
                             <div class="progress-bar-linear" style="transition-duration: 1s;"></div>
@@ -708,7 +708,7 @@
                         </article>
                          <article class="progress-linear progress-bar-modern">
                           <div class="progress-header">
-                            <p>APG</p><span class="value">{{ month_may.assists }}</span>
+                            <p>APG</p><span class="value">{{ best_month_player.assists }}</span>
                           </div>
                           <div class="progress-bar-linear-wrap">
                             <div class="progress-bar-linear" style="transition-duration: 1s;"></div>

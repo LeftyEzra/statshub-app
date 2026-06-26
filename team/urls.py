@@ -63,9 +63,9 @@ urlpatterns = [
     #path('player create/',PlayerCreateView.as_view(), name='create-player'),
     path('competition/<slug:competition_slug>/team/<slug:team_slug>/player-create/', PlayerCreateView.as_view(),  name='player-create'),
     path('competition/<slug:competition_slug>/player/<slug:slug>/', PlayerDetailView.as_view(), name='players-id'),
-    path('player update/<slug:competition_slug>/player/<slug:player_slug>/', PlayerUpdateView.as_view(), name='update-player'),
+    path('player update/<slug:competition_slug>/<slug:player_slug>/', PlayerUpdateView.as_view(), name='update-player'),
     #path('delete player/<slug:slug>/player/<int:pk>', PlayerDeleteView.as_view(), name='delete-player'),
-    path('delete player/<slug:competition_slug>/delete player/<slug:slug>/', views.delete_player, name='delete-player'),
+    path('delete player/<slug:competition_slug>/<slug:player_slug>/', views.delete_player, name='delete-player'),
     path('dashboard/<slug:player_slug>/statistical-analysis/', views.player_stats_charts, name='player-dashboard'),
 
     path('ceate-chart/', views.chartCreate, name='create-chart'),
@@ -96,7 +96,7 @@ urlpatterns = [
     path('competition/<slug:competition_slug>/game/schedule/', GameScheduleView.as_view(), name='game-schedule'),
     path('competition/<slug:competition_slug>/game/<slug:game_slug>/', GameDetailView.as_view(), name='game-overview'),
     path('competition/<slug:competition_slug>/update game/<slug:game_slug>/', GameUpdateView.as_view(), name='update-game'),
-    path('delete game/<slug:competition_slug>/delete game/<slug:game_slug>/', views.delete_game, name='delete-game'),
+    path('delete game/<slug:competition_slug>/<slug:game_slug>/', views.delete_game, name='delete-game'),
 
     #Game Stats To Pdf url
     path('game stats/<slug:slug>', views.game_stats_pdf, name='game-stats-pdf'),
@@ -108,8 +108,7 @@ urlpatterns = [
 
 
     # News
-    # News
-    # BEFORE: path('competition/<competition_id:pk>/news create/', ... )
+   
     path('competition/<slug:competition_slug>/news create/', views.NewsCreate, name='create-news'),
     path('competition/<slug:competition_slug>/news list/', views.NewsList, name='news-list'),
     path('competition/<slug:competition_slug>/update news/<int:pk>/', views.NewsUpdate, name='update-news'),
