@@ -74,10 +74,10 @@ urlpatterns = [
     path('delete-chart/<slug:player_slug>/', views.delete_chart, name='delete-chart'),
     
     # Career Records
-    path('competition/<slug:slug>/record/create/', views.careerRecordCreate, name='create-records'),
-    path('competition/<slug:slug>/record list/', views.careerRecordList, name='record-list'),
-    path('competition/<slug:slug>/update record/<int:pk>/', views.careerRecordUpdate, name='update-record'),
-    path('delete/record/<slug:slug>/delete/record/<int:pk>/', views.delete_record, name='delete-record'),
+    path('competition/<int:player_id>/record/create/', views.careerRecordCreate, name='create-records'),
+    path('competition/<int:player_id>/record list/', views.careerRecordList, name='record-list'),
+    path('update record/<int:player_id>/<int:pk>/', views.careerRecordUpdate, name='update-record'),
+    path('delete/record/<int:player_id>/<int:pk>/', views.delete_record, name='delete-record'),
 
     #SOppoent
     path('opponent create/',OpponentCreateView.as_view(), name='create-opponent'),
@@ -109,10 +109,10 @@ urlpatterns = [
 
     # News
    
-    path('competition/<slug:competition_slug>/news create/', views.NewsCreate, name='create-news'),
-    path('competition/<slug:competition_slug>/news list/', views.NewsList, name='news-list'),
-    path('competition/<slug:competition_slug>/update news/<int:pk>/', views.NewsUpdate, name='update-news'),
-    path('delete record/<slug:competition_slug>/delete news/<int:pk>/', views.delete_news, name='delete-news'),
+    path('competition/<slug:competition_id>/news create/', views.NewsCreate, name='create-news'),
+    path('competition/<slug:competition_id>/news list/', views.NewsList, name='news-list'),
+    path('competition/<slug:competition_id>/update news/<int:pk>/', views.NewsUpdate, name='update-news'),
+    path('delete record/<slug:competition_id>/delete news/<int:pk>/', views.delete_news, name='delete-news'),
     
     # Awards 
     path('competition /award create/', views.AwardCreate, name='create-award'),

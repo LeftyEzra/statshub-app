@@ -518,7 +518,7 @@
                                           <li class="rd-dropdown-item"><a class="rd-dropdown-link" href="{% url 'team-create' %}">Team Form</a></li>
                                           <li class="rd-dropdown-item"><a class="rd-dropdown-link" href="{% url 'player-create' competition.slug team.slug %}">Players Form</a></li>
                                           {% if competition %}
-                                          <li class="rd-dropdown-item"><a class="rd-dropdown-link" href="{% url 'create-records' competition.slug %}">Career Records</a></li>
+                                          <li class="rd-dropdown-item"><a class="rd-dropdown-link" href="{% url 'create-records' player.pk %}">Career Records</a></li>
                                           {% else %}
                                           <li class="rd-dropdown-item"><a class="rd-dropdown-link" href="">Create Game First</a></li>
                                           {% endif %}
@@ -527,7 +527,7 @@
                                       <div class="col-md-4">
                                           <p style="font-weight: bold; border-bottom: 1px solid #eee; padding-bottom: 5px; margin-bottom: 10px; font-size: 12px; color: #e20e0e;">MEDIA & NEWS</p>
                                           {% if competition  %}
-                                          <li class="rd-dropdown-item"><a class="rd-dropdown-link" href="{% url 'create-news' competition.slug %}">News Form</a></li>
+                                          <li class="rd-dropdown-item"><a class="rd-dropdown-link" href="{% url 'create-news' competition.pk %}">News Form</a></li>
                                           {% else %}
                                           <li class="rd-dropdown-item"><a class="rd-dropdown-link" href="">Create Game First</a></li>
                                           {% endif %}
