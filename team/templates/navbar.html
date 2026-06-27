@@ -518,7 +518,7 @@
                                           <li class="rd-dropdown-item"><a class="rd-dropdown-link" href="{% url 'team-create' %}">Team Form</a></li>
                                           <li class="rd-dropdown-item"><a class="rd-dropdown-link" href="{% url 'player-create' competition.slug team.slug %}">Players Form</a></li>
                                           {% if competition %}
-                                          <li class="rd-dropdown-item"><a class="rd-dropdown-link" href="{% url 'create-records' player.pk %}">Career Records</a></li>
+                                          <li class="rd-dropdown-item"><a class="rd-dropdown-link" href="{% url 'create-records' %}">Career Records</a></li>
                                           {% else %}
                                           <li class="rd-dropdown-item"><a class="rd-dropdown-link" href="">Create Game First</a></li>
                                           {% endif %}

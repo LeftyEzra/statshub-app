@@ -74,10 +74,10 @@ urlpatterns = [
     path('delete-chart/<slug:player_slug>/', views.delete_chart, name='delete-chart'),
     
     # Career Records
-    path('competition/<int:player_id>/record/create/', views.careerRecordCreate, name='create-records'),
-    path('competition/<int:player_id>/record list/', views.careerRecordList, name='record-list'),
-    path('update record/<int:player_id>/<int:pk>/', views.careerRecordUpdate, name='update-record'),
-    path('delete/record/<int:player_id>/<int:pk>/', views.delete_record, name='delete-record'),
+    path('create record/', views.careerRecordCreate, name='create-records'),
+    path('record list/', views.careerRecordList, name='record-list'),
+    path('update record/<int:pk>/', views.careerRecordUpdate, name='update-record'),
+    path('delete/record/<int:pk>/', views.delete_record, name='delete-record'),
 
     #SOppoent
     path('opponent create/',OpponentCreateView.as_view(), name='create-opponent'),

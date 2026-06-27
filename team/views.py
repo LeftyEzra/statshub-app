@@ -2606,15 +2606,13 @@ class StandingListView(APIView):
 ####################################################################################
 ####################################################################################    
 @user_passes_test(is_superuser, login_url='/')
-def careerRecordCreate(request, player_id):
-    player = get_object_or_404(Player, pk=player_id)
+def careerRecordCreate(request):
+   
     if request.method == "POST":
         form = CareerRecordsForm(request.POST, request.FILES)
         if form.is_valid():
-            record = form.save(commit=False)
-            record.player = player
-            record.save
-            messages.success(request, f"{player} Record Added Successfully ):)")
+            form.save()
+            messages.success(request, "Record Added Successfully ):)")
             return redirect('create-records')
             
         else:
@@ -2622,38 +2620,35 @@ def careerRecordCreate(request, player_id):
     else: 
         form = CareerRecordsForm()
 
-    return render(request, 'career_records_registration.html', {"form" : form, "player": player}) 
+    return render(request, 'career_records_registration.html', {"form" : form,}) 
 
 
-def careerRecordList(request, player_id): 
-    player = get_object_or_404(Player, pk=player_id)
+def careerRecordList(request): 
+    
     return render(request, 'career_record_list.html', {
-        'players': player,
+    
       
     })
 
 
   
 @user_passes_test(is_superuser, login_url='/')
-def careerRecordUpdate(request, player_id, pk): 
-    player = get_object_or_404(Player, pk=player_id)
+def careerRecordUpdate(request, pk): 
     update_record = get_object_or_404(CareerRecords, pk=pk)
 
     if request.method == "POST":
         form = CareerRecordsForm(request.POST, request.FILES, instance=update_record)
         if form.is_valid():
-            record = form.save(commit=False)
-            record.player = player
-            record.save
-            messages.success(request, f"{player} Record Added Successfully ):)")
-            return redirect('record-list', player_id=player_id)
+            form.save()
+            messages.success(request, "Record Added Successfully ):)")
+            return redirect('record-list')
     else: 
         # 3. Initialize the form with the existing data
         form = CareerRecordsForm(instance=update_record)
 
     return render(request, 'career_update.html', {
         "form": form, 
-        "plaayer_id": player_id,
+     
         "record": update_record
     })
 
@@ -2661,13 +2656,12 @@ def careerRecordUpdate(request, player_id, pk):
 # Function Base View For Deleting 
 # DELETE COMPETITION
 @user_passes_test(is_superuser, login_url='/')
-def delete_record(request, pk, player_id):
-    player = get_object_or_404(Player, pk=player_id)
+def delete_record(request, pk):
     delete_record = get_object_or_404(CareerRecords, pk=pk,)
     delete_record.delete()
     
     messages.success(request, f"Records for {delete_record} have been deleted.")
-    return redirect('record-list',player_id=player_id)    
+    return redirect('record-list',pk=pk)    
 
     
     
