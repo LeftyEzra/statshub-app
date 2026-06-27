@@ -1026,7 +1026,7 @@
                         {% for reb in top_rebounds_df %}
                         <div class="leader-team team-left">
                           <div class="leader-img">
-                            <a href="{% url 'players-id' competition.slug point.player_name__slug %}">
+                            <a href="{% url 'players-id' competition.slug reb.player_name__slug %}">
                               <img src="https://res.cloudinary.com/dgznffguu/image/upload/v1/{{ reb.player_name__player_image }}" alt="Leader">
                             </a>
                           </div>
@@ -1065,7 +1065,7 @@
                         {% for ast in top_assist_df %}
                         <div class="leader-team team-left">
                           <div class="leader-img">
-                            <a href="{% url 'players-id' competition.slug point.player_name__slug %}">
+                            <a href="{% url 'players-id' competition.slug ast.player_name__slug %}">
                               <img src="https://res.cloudinary.com/dgznffguu/image/upload/v1/{{ ast.player_name__player_image }}" alt="Leader">
                             </a>
                           </div>
