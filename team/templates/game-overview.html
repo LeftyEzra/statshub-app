@@ -1112,7 +1112,7 @@
                   <!-- Game Result Bug-->
                    {% for game in int_games_in_other_games %}
                   <article class="game-result">
-                    <a href="{% url 'game-overview' competition.slug game.game_slug %}" class="btn-modern btn-edit">
+                    <a href="{% url 'game-overview' competition.slug game.slug %}" class="btn-modern btn-edit">
                     <div class="game-info">
                       <p class="game-info-subtitle">{{ game.game_venue__name }} - 
                         <time datetime="08:30"> {{ game.time }}</time>
@@ -1372,10 +1372,10 @@
                   </article>
 
                   <!-- Game 1 Result Classic-->
-                   {% for other_game in other_games|slice:":4"  %}
+                   {% for other_game in other_games|slice:":5"  %}
                     {% if other_game.team_scores > 0 %}
                     <article class="game-result game-result-classic">
-                      <a href="{% url 'game-overview' competition.slug other_game.game_slug %}" class="btn-modern btn-edit">
+                      <a href="{% url 'game-overview' competition.slug other_game.slug %}" class="btn-modern btn-edit">
                       <div class="game-result-main">
                         
                         <div class="game-result-team game-result-team-first">
