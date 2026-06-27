@@ -646,68 +646,7 @@
                 </div>
                 <!-- Game Result End -->
 
-                <!--Boostrap progress Bar -->
-                <div class="container mt-5 px-4"> 
-  
-                  <div class="row align-items-center justify-content-center mb-4"> 
-                    <div class="col-5 px-0" style="max-width: 40%;"> 
-                      <div class="progress" style="height: 30px; transform: rotate(180deg); background-color: #989899; margin-right: 5px;">
-                        <div class="progress-bar progress-bar-striped progress-bar-animated bg-primary" 
-                            role="progressbar" 
-                            style="width: 85%; transform: rotate(180deg);" 
-                            aria-valuenow="85">
-                            <span style="padding: 5px;">85%</span>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="col-1 text-center px-2" style="flex: 0 0 auto; width: auto; min-width: 45px;"> 
-                      <span style="font-weight: bold; font-size: 12px; color: #555;">PTS</span>
-                    </div>
-
-                    <div class="col-5 px-0" style="max-width: 40%;"> 
-                      <div class="progress" style="height: 30px; background-color: #989899; margin-left: 5px;">
-                        <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" 
-                            role="progressbar" 
-                            style="width: 70%" 
-                            aria-valuenow="70">
-                            <span style="font-size: 15px; line-height: 10px; display: block;">70%</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="row align-items-center justify-content-center mb-4">
-                    <div class="col-3 px-0" style="max-width: 30%;">
-                      <div class="progress" style="height: 10px; transform: rotate(180deg); background-color: #e9ecef; margin-right: 5px;">
-                        <div class="progress-bar progress-bar-striped progress-bar-animated bg-primary" 
-                            role="progressbar" 
-                            style="width: 85%; transform: rotate(180deg);" 
-                            aria-valuenow="85">
-                            <span style="font-size: 8px; line-height: 10px; display: block;">85%</span>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="col-1 text-center px-2" style="flex: 0 0 auto; width: auto; min-width: 45px;">
-                      <span style="font-weight: bold; font-size: 12px; color: #555;">REB</span>
-                    </div>
-
-                    <div class="col-3 px-0" style="max-width: 30%;">
-                      <div class="progress" style="height: 10px; background-color: #e9ecef; margin-left: 5px;">
-                        <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" 
-                            role="progressbar" 
-                            style="width: 90%" 
-                            aria-valuenow="90">
-                            <span style="font-size: 8px; line-height: 10px; display: block;">90%</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                </div> 
-                <!--Boostrap progress Bar End-->
-
+              
 
                 <!-- Game Statistics -->  
                 <div class="col-sm-12">
@@ -795,7 +734,7 @@
                             <tr>
                               <td>{{ player.player_name__jersey_number }}</td>
                               <td style="text-align: left;">
-                                <a href="{% url 'players-id' competition.id player.player_id %}">{{ player.player_name }}</a>
+                                <a href="{% url 'players-id' competition.slug player.slug %}">{{ player.player_name }}</a>
                               </td>
                               <td>{{ player.minutes }}</td>
                               <td style=" background-color: #b5f2d6;">{{ player.points }}</td>

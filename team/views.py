@@ -2197,7 +2197,7 @@ class GameDetailView(View):
                     
                     # Players Stats For Best Performer
                     stats_df = pd.DataFrame(
-                                stats.values('player_name__id','player_name__jersey_number','team__name', 'opponent__name','player_name__player_name', 
+                                stats.values('player_name__id','player_name__slug','player_name__jersey_number','team__name', 'opponent__name','player_name__player_name', 
                                             'player_name__player_image','points', 'assists', 
                                             'field_goal_attempts', 'field_goal_made', 'ft_attempts', 'ft_made',
                                             'point_3_attempts', 'point_3_made',
@@ -2278,7 +2278,7 @@ class GameDetailView(View):
                     def team_best_performer(team_opp, stat):
                         performance_df = (
                             team_opp.groupby(
-                                ["player_id","player_name__jersey_number","player_name",
+                                ["player_id", 'player_name__slug', "player_name__jersey_number","player_name",
                                 "player_name__player_image","player_name__team__name", 'opponent__name']
                             )[['points', 'total_rebounds', 'assists', 'field_goal_attempts', 'field_goal_made',  'ft_attempts', 'ft_made',
                             'offensive_rebs', 'defensive_rebs','turnovers', 'minutes',  ]].sum().sort_values(stat, ascending=False).head(1).reset_index()
