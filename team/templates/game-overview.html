@@ -984,8 +984,8 @@
                         <div class="leader-team team-left">
                          
                           <div class="leader-img">
-                            <a href="{% url 'players-id' competition.id point.player_id %}">
-                              <img src="/media/{{ point.player_name__player_image }}" alt="Leader">
+                            <a href="{% url 'players-id' competition.slug point.player__slug %}">
+                              <img src="https://res.cloudinary.com/dgznffguu/image/upload/v1/{{ point.player_name__player_image }}" alt="Leader">
                             </a>
                           </div>
                           <div class="leader-info">
@@ -1016,7 +1016,7 @@
                             <small class="stat-detail">FG: {{point.field_goal_made }}/{{point.field_goal_attempts }} • FT: {{point.ft_made }}/{{point.ft_attempts }}</small>
                           </div>
                           <div class="leader-img">
-                            <img src="/media/{{ point.player_name__player_image }}" alt="Leader">
+                            <img src="https://res.cloudinary.com/dgznffguu/image/upload/v1/{{ point.player_name__player_image }}" alt="Leader">
                           </div>
                         </div>
                         {% endfor %}
@@ -1026,7 +1026,7 @@
                         {% for reb in top_rebounds_df %}
                         <div class="leader-team team-left">
                           <div class="leader-img">
-                            <img src="/media/{{ reb.player_name__player_image }}">
+                            <img src="https://res.cloudinary.com/dgznffguu/image/upload/v1/{{ reb.player_name__player_image }}">
                           </div>
                           <div class="leader-info">
                             <span class="leader-number">#{{ reb.player_name__jersey_number }}</span>
@@ -1053,7 +1053,7 @@
                             <small class="stat-detail">OFF: {{ reb.offensive_rebs }} • DEF: {{ reb.defensive_rebs }}</small>
                           </div>
                           <div class="leader-img">
-                            <img src="/media/{{ reb.player_name__player_image }}">
+                            <img src="https://res.cloudinary.com/dgznffguu/image/upload/v1/{{ reb.player_name__player_image }}">
                           </div>
                         </div>
                         {% endfor %}
@@ -1063,7 +1063,7 @@
                         {% for ast in top_assist_df %}
                         <div class="leader-team team-left">
                           <div class="leader-img">
-                            <img src="/media/{{ ast.player_name__player_image }}">
+                            <img src="https://res.cloudinary.com/dgznffguu/image/upload/v1/{{ ast.player_name__player_image }}">
                           </div>
                           <div class="leader-info">
                             <span class="leader-number">#{{ ast.player_name__jersey_number }}</span>
@@ -1090,7 +1090,7 @@
                             <small class="stat-detail">TO: {{ ast.turnovers }} • MIN: {{ ast.minutes }}</small>
                           </div>
                           <div class="leader-img">
-                            <img src="/media/{{ ast.player_name__player_image }}">
+                            <img src="https://res.cloudinary.com/dgznffguu/image/upload/v1/{{ ast.player_name__player_image }}">
                           </div>
                         </div>
                         {% endfor %}
@@ -1108,7 +1108,7 @@
                   <!-- Game Result Bug-->
                    {% for game in int_games_in_other_games %}
                   <article class="game-result">
-                    <a href="{% url 'game-overview' competition.id game.id %}" class="btn-modern btn-edit">
+                    <a href="{% url 'game-overview' competition.slug game.game_slug %}" class="btn-modern btn-edit">
                     <div class="game-info">
                       <p class="game-info-subtitle">{{ game.game_venue__name }} - 
                         <time datetime="08:30"> {{ game.time }}</time>
@@ -1117,7 +1117,7 @@
                       <div class="game-info-main">
                         <div class="game-info-team game-info-team-first">
                           <figure>
-                            <img src="/media/{{ game.team__team_logo }}" alt="{{ game.team__name }}" width="75" height="99">
+                            <img src="https://res.cloudinary.com/dgznffguu/image/upload/v1/{{ game.team__team_logo }}" alt="{{ game.team__name }}" width="75" height="99">
                           </figure>
                           <div class="game-result-team-name">{{ game.team__name }}</div>
                           <div class="game-result-team-country">{{ game.team__city }}</div>
@@ -1139,7 +1139,7 @@
                         </div>
                         <div class="game-info-team game-info-team-second">
                           <figure>
-                            <img src="/media/{{ game.opponent__logo }}" alt="{{ game.opponent__name }}" width="78" height="98">
+                            <img src="https://res.cloudinary.com/dgznffguu/image/upload/v1/{{ game.opponent__logo }}" alt="{{ game.opponent__name }}" width="78" height="98">
                           </figure>
                           <div class="game-result-team-name">{{ game.opponent__name }}</div>
                           <div class="game-result-team-country">{{ game.opponent__city }}</div>
@@ -1362,7 +1362,7 @@
                    
                     <div class=" col-lg-6 heading-component-inner" style="flex:nowrap;">
                       <h6 class="heading-component-title " style="flex:nowrap;">Other Game results</h6>
-                      <a class="button button-xs button-gray-outline" href="{% url 'game-schedule' competition.id %}">View All</a>
+                      <a class="button button-xs button-gray-outline" href="{% url 'game-schedule' competition.slug %}">View All</a>
                     </div>
                   
                   </article>
@@ -1371,7 +1371,7 @@
                    {% for other_game in other_games|slice:":4"  %}
                     {% if other_game.team_scores > 0 %}
                     <article class="game-result game-result-classic">
-                      <a href="{% url 'game-overview' competition.id other_game.pk %}" class="btn-modern btn-edit">
+                      <a href="{% url 'game-overview' competition.slug other_game.game_slug %}" class="btn-modern btn-edit">
                       <div class="game-result-main">
                         
                         <div class="game-result-team game-result-team-first">
@@ -1452,7 +1452,7 @@
                   <article class="heading-component">
                     <div class="heading-component-inner">
                       <h5 class="heading-component-title">Standings</h5>
-                      <a class="button button-xs button-gray-outline" href="{% url 'view-standing' competition.id %}">Full Standings</a>
+                      <a class="button button-xs button-gray-outline" href="{% url 'view-standing' competition.slug %}">Full Standings</a>
                     </div>
                   </article>
 
@@ -1481,7 +1481,7 @@
                           <td class="team-inline" style="position: sticky; left: 0px; z-index: 5; background-color: #ffffff;">
                             <div class="team-figure">
                               {% if row.team__team_logo %}
-                              <img src="/media/{{ row.team__team_logo }}" alt="" width="30">
+                              <img src="https://res.cloudinary.com/dgznffguu/image/upload/v1/{{ row.team__team_logo }}" alt="" width="30">
                               {% else %} 
                               <img src="" alt="" width="30">
                               {% endif %}
