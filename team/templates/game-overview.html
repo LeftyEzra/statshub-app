@@ -734,7 +734,7 @@
                             <tr>
                               <td>{{ player.player_name__jersey_number }}</td>
                               <td style="text-align: left;">
-                                <a href="{% url 'players-id' competition.slug player.slug %}">{{ player.player_name }}</a>
+                                <a href="{% url 'players-id' competition.slug player.player_name__slug %}">{{ player.player_name }}</a>
                               </td>
                               <td>{{ player.minutes }}</td>
                               <td style=" background-color: #b5f2d6;">{{ player.points }}</td>
