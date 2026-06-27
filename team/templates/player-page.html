@@ -1432,11 +1432,7 @@
         <path d="M4 10h12" stroke="white" stroke-width="2" stroke-linecap="round"/>
       </svg>
     </button>
-    {% if user.is_authenticated and user.is_superuser %}
-    <a href="{% url 'create-records' player.pk %}" class="btn btn-primary mt-3">
-        <i class="fas fa-plus"></i> Add Career Record
-    </a>
-    {% endif %}
+    
   </div>
 </section>
 <!--Career Records Ends-->
