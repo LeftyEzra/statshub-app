@@ -163,6 +163,30 @@
                       </h5>
                     </div>
                   </article>
+                  <div class="basketball-pitch-container">
+    <div class="paint-area"></div>
+    <div class="free-throw-circle"></div>
+
+    <div class="player-node" style="top: 85%; left: 50%;"> <div class="player-avatar" style="background-image: url('player1.jpg');"></div>
+        <span class="player-rating">9.2</span>
+    </div>
+    
+    <div class="player-node" style="top: 60%; left: 20%;"> <div class="player-avatar"></div>
+        <span class="player-rating">8.5</span>
+    </div>
+    
+    <div class="player-node" style="top: 60%; left: 80%;"> <div class="player-avatar"></div>
+        <span class="player-rating">8.8</span>
+    </div>
+
+    <div class="player-node" style="top: 40%; left: 35%;"> <div class="player-avatar"></div>
+        <span class="player-rating">7.9</span>
+    </div>
+
+    <div class="player-node" style="top: 40%; left: 65%;"> <div class="player-avatar"></div>
+        <span class="player-rating">8.1</span>
+    </div>
+</div>
                   <!-- Game Result Bug-->
                   <article class="game-result" style="border-radius: 10px; ">
                     <div class="game-info game-info-classic" >
@@ -1112,7 +1136,8 @@
                   <!-- Game Result Bug-->
                    {% for game in int_games_in_other_games %}
                   <article class="game-result">
-                    <a href="{% url 'game-overview' competition.slug game.slug %}" class="btn-modern btn-edit">
+                   <a href="{% url 'game-overview' game.competition__slug game.game__slug %}" class="btn-modern btn-edit">
+
                     <div class="game-info">
                       <p class="game-info-subtitle">{{ game.game_venue__name }} - 
                         <time datetime="08:30"> {{ game.time }}</time>
