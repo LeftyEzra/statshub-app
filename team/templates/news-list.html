@@ -33,6 +33,7 @@
         </article>
 
         <div class="row row-30">
+            
             {% for news in news_list %}
             <div class="col-sm-6 col-lg-4">
                 <article class="post-creative" 
@@ -46,8 +47,8 @@
                          data-category="{{ news.category }}">
                     
                     <div class="post-creative-figure">
-                        <img src="{{ news.image.url }}" alt="" width="370" height="240" 
-                             style="object-fit: cover; height: 240px; width: 100%;"/>
+
+                        <img src="{{ news.image.url }}" alt="" width="370" height="240" style="object-fit: cover; height: 240px; width: 100%;"/>
                     </div>
                     <div class="post-creative-content">
                         <div class="post-creative-header">
@@ -79,11 +80,11 @@
                         {% if user.is_authenticated %}
                             {% if user.is_superuser %}
                         <div class="post-creative-footer mt-3 d-flex justify-content-between">
-                            <a href="{% url 'update-news' competition.id news.pk %}" class="btn btn-sm btn-outline-info">
+                            <a href="{% url 'update-news' competition.slug news.pk %}" class="btn btn-sm btn-outline-info">
                                 <span class="icon mdi mdi-pencil"></span> Edit
                             </a>
 
-                            <a href="{% url 'delete-news' competition.id news.pk %}" class="btn btn-sm btn-outline-danger">
+                            <a href="{% url 'delete-news' competition.slug news.pk %}" class="btn btn-sm btn-outline-danger">
                                 <span class="icon mdi mdi-delete"></span> Delete
                             </a>
                         </div>

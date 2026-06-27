@@ -304,10 +304,21 @@ class StandingAdmin(admin.ModelAdmin):
 #Register News in the Admin area
 @admin.register(TeamNews)
 class TeamNewsAdmin(admin.ModelAdmin):
-    list_display = ('published_date', 'image', 'heading', 'intro', 'content','category', 'competition')
+    list_display = ('published_date', 'image', 'heading', 'intro', 'get_content','category', 'competition')
     list_filter = ('published_date',)
     search_fields = ('category',)
     ordering = ('published_date',)
+
+    # Truncation method for long words:
+    def get_content(self, obj):
+        if obj.content:
+            # If the characters appears more than 50
+            if len(obj.content) > 70:
+                return f"{obj.content[:70]}..."
+            return obj.content
+        return "No content available"
+    get_content.short_description = 'Content' 
+
     
 
 

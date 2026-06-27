@@ -256,6 +256,14 @@ class CareerRecordsForm(forms.ModelForm):
         model = CareerRecords
         fields = '__all__'
 
+    def __init__(self, *args, **kwargs):
+        # Look for a 'team_name' passed in, defaulting to 'Python'
+        team_name = kwargs.pop('team_name', 'Python')
+        super(CareerRecordsForm, self).__init__(*args, **kwargs)
+        
+        # This filters the dropdown to show only players on the team specified
+        self.fields['player'].queryset = Player.objects.filter(team__name=team_name)        
+
    
 
         

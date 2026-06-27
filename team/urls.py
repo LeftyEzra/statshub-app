@@ -109,10 +109,10 @@ urlpatterns = [
 
     # News
    
-    path('competition/<slug:competition_id>/news create/', views.NewsCreate, name='create-news'),
-    path('competition/<slug:competition_id>/news list/', views.NewsList, name='news-list'),
-    path('competition/<slug:competition_id>/update news/<int:pk>/', views.NewsUpdate, name='update-news'),
-    path('delete record/<slug:competition_id>/delete news/<int:pk>/', views.delete_news, name='delete-news'),
+    path('competition/<slug:competition_slug>/news create/', views.NewsCreate, name='create-news'),
+    path('competition/<slug:competition_slug>/news list/', views.NewsList, name='news-list'),
+    path('competition/<slug:competition_slug>/update news/<int:pk>/', views.NewsUpdate, name='update-news'),
+    path('delete record/<slug:competition_slug>/delete news/<int:pk>/', views.delete_news, name='delete-news'),
     
     # Awards 
     path('competition /award create/', views.AwardCreate, name='create-award'),

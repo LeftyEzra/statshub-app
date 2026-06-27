@@ -1,5 +1,8 @@
 from django.test import TestCase
-from .models import Team, Player, Competition, Venue
+from .models import Team, Player, Competition, , TeamNews
+
+from django.core.files.uploadedfile import SimpleUploadedFile
+
 
 class PlayerModelTest(TestCase):
     def test_create_player_for_team(self):
@@ -33,6 +36,39 @@ class PlayerModelTest(TestCase):
         self.assertTrue(Player.objects.filter(player_name="Solomon").exists())
 
 
+
+
+
+class TeamNewsModelTest(TestCase):
+    def setUp(self):
+        # 1. Create a Competition object (required for the ForeignKey)
+        self.comp = Competition.objects.create(name="June Championship")
+        
+        # 2. Create a dummy image for testing
+        self.small_gif = (
+            b'\x47\x49\x46\x38\x39\x61\x01\x00\x01\x00\x00\x00\x00\x21\xf9\x04'
+            b'\x01\x00\x00\x00\x00\x2c\x00\x00\x00\x00\x01\x00\x01\x00\x00\x02'
+            b'\x02\x44\x01\x00\x3b'
+        )
+        self.uploaded_image = SimpleUploadedFile('test_image.gif', self.small_gif, content_type='image/gif')
+
+    def test_news_creation(self):
+        """Test that a TeamNews object is correctly created and saved."""
+        news = TeamNews.objects.create(
+            category='Team',
+            heading='Python Squad Dominates',
+            intro='A great start to the tournament.',
+            content='Full detailed article text here...',
+            competition=self.comp,
+            image=self.uploaded_image
+        )
+
+        # Verify the data was saved correctly
+        self.assertEqual(news.heading, 'Python Squad Dominates')
+        self.assertEqual(news.category, 'Team')
+        self.assertEqual(news.competition.name, "June Championship")
+        self.assertTrue(news.image.name.endswith('.gif'))
+        self.assertIsNotNone(news.published_date) # Check auto_now_add worked
 
 
 

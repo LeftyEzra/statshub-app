@@ -2607,9 +2607,11 @@ class StandingListView(APIView):
 ####################################################################################    
 @user_passes_test(is_superuser, login_url='/')
 def careerRecordCreate(request):
+
+    MY_TEAM_NAME = "Python"
    
     if request.method == "POST":
-        form = CareerRecordsForm(request.POST, request.FILES)
+        form = CareerRecordsForm(request.POST, request.FILES, team_name=MY_TEAM_NAME)
         if form.is_valid():
             form.save()
             messages.success(request, "Record Added Successfully ):)")
@@ -2618,9 +2620,10 @@ def careerRecordCreate(request):
         else:
             pass
     else: 
-        form = CareerRecordsForm()
+        form = CareerRecordsForm(team_name=MY_TEAM_NAME)
 
     return render(request, 'career_records_registration.html', {"form" : form,}) 
+
 
 
 def careerRecordList(request): 
@@ -2634,17 +2637,18 @@ def careerRecordList(request):
   
 @user_passes_test(is_superuser, login_url='/')
 def careerRecordUpdate(request, pk): 
+    MY_TEAM_NAME = "Python"
     update_record = get_object_or_404(CareerRecords, pk=pk)
 
     if request.method == "POST":
-        form = CareerRecordsForm(request.POST, request.FILES, instance=update_record)
+        form = CareerRecordsForm(request.POST, request.FILES, instance=update_record, team_name=MY_TEAM_NAME)
         if form.is_valid():
             form.save()
             messages.success(request, "Record Added Successfully ):)")
             return redirect('record-list')
     else: 
         # 3. Initialize the form with the existing data
-        form = CareerRecordsForm(instance=update_record)
+        form = CareerRecordsForm(instance=update_record, team_name=MY_TEAM_NAME)
 
     return render(request, 'career_update.html', {
         "form": form, 
@@ -2658,10 +2662,12 @@ def careerRecordUpdate(request, pk):
 @user_passes_test(is_superuser, login_url='/')
 def delete_record(request, pk):
     delete_record = get_object_or_404(CareerRecords, pk=pk,)
+    player_name = record_delete.player.name 
     delete_record.delete()
     
     messages.success(request, f"Records for {delete_record} have been deleted.")
-    return redirect('record-list',pk=pk)    
+    return redirect('record-list')
+     
 
     
     
@@ -2702,8 +2708,8 @@ def NewsList(request, competition_slug):
 
 
 @user_passes_test(is_superuser, login_url='/')
-def NewsUpdate(request, competition_id, pk): 
-    competition = get_object_or_404(Competition, pk=competition_id)
+def NewsUpdate(request, competition_slug, pk): 
+    competition = get_object_or_404(Competition, slug=competition_slug)
     update_news = get_object_or_404(TeamNews, pk=pk)
 
     if request.method == "POST":
@@ -2712,14 +2718,14 @@ def NewsUpdate(request, competition_id, pk):
         if form.is_valid():
             form.save() 
             messages.success(request, "News Updated Successfully! :)")
-            return redirect('news-list', competition_id=competition_id)
+            return redirect('news-list', competition_slug=competition_slug)
     else: 
         # 3. Initialize the form with the existing data
         form = TeamNewsForm(instance=update_news)
 
     return render(request, 'news-update.html', {
         "form": form, 
-        "competition_id": competition_id,
+        "competition_slug": competition_slug,
         "news_update": update_news
     })
 
@@ -2727,13 +2733,13 @@ def NewsUpdate(request, competition_id, pk):
 # Function Base View For Deleting 
 # DELETE COMPETITION
 @user_passes_test(is_superuser, login_url='/')
-def delete_news(request, pk, competition_id):
-    competition = get_object_or_404(Competition, pk=competition_id)
+def delete_news(request, pk, competition_slug):
+    competition = get_object_or_404(Competition, slug=competition_slug)
     delete_news = get_object_or_404(TeamNews, pk=pk,)
     delete_news.delete()
     
     messages.success(request, f"Records for {delete_news} have been deleted.")
-    return redirect('news-list',competition_id=competition_id)    
+    return redirect('news-list',competition_slug=competition_slug)    
 
 ####################################################################################
 ####################################################################################

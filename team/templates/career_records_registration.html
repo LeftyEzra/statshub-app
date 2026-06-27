@@ -60,7 +60,7 @@
             <ul class="breadcrumbs-custom-path">
                 <li><a href="{% url 'home' %}">Home</a></li>
                 {% if user.is_superuser %}
-                <li><a href="{% url 'record-list' competition.id %}">Career Records</a></li>
+                <li><a href="{% url 'record-list' %}">Career Records</a></li>
                 {% endif %}
                 <li class="active">Records</li>
             </ul>
