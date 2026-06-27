@@ -182,7 +182,7 @@
             <h2 class="breadcrumbs-custom-title">Game Update</h2>
             <ul class="breadcrumbs-custom-path">
                 <li><a href="{% url 'home' %}">Home</a></li>
-                <li><a href="{% url 'game-list' competition_id %}">Game lists</a></li>
+                <li><a href="{% url 'game-list' competition.slug %}">Game lists</a></li>
                 <li class="active">Update Game & Stats</li>
             </ul>
         </div>
@@ -369,7 +369,7 @@
                 <button type="submit" class="flex-grow bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-4 rounded-lg shadow-lg">
                     Save All Stats
                 </button>
-                <a href="{% url 'game-list' competition_id %}" class="flex-grow bg-slate-600 hover:bg-slate-700 text-white font-bold py-4 text-center rounded-lg">
+                <a href="{% url 'game-list' competition.slug %}" class="flex-grow bg-slate-600 hover:bg-slate-700 text-white font-bold py-4 text-center rounded-lg">
                     Cancel
                 </a>
             </div>

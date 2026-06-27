@@ -22,7 +22,7 @@
             <ul class="breadcrumbs-custom-path">
                 <li><a href="{% url 'home' %}">Home</a></li>
                 {% if user.is_superuser %}
-                <li><a href="{% url 'create-game' competition.id %}">New Game</a></li>
+                <li><a href="{% url 'create-game' competition.slug %}">New Game</a></li>
                 {% endif %}
                 <li class="active">Games</li>
             </ul>

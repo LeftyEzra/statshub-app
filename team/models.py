@@ -305,6 +305,9 @@ class PlayerStatLine(models.Model):
     steals = models.PositiveIntegerField(default=0)
     turnovers = models.PositiveIntegerField(default=0)
     personal_fouls = models.PositiveIntegerField(default=0)
+
+    # Advance Stats
+    
    
 
     def __str__(self):

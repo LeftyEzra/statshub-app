@@ -246,7 +246,7 @@
                           </a>
                           <div class="post-future-main">
                             <h4 class="post-future-title">
-                              <a href="{% url 'news-list' competition.id   %}">{{ hot_news.heading }}</a>
+                              <a href="{% url 'news-list' competition.slug   %}">{{ hot_news.heading }}</a>
                             </h4>
                             <div class="post-future-meta">
                               <!-- Badge-->
@@ -358,12 +358,12 @@
                                             {% for rpg in reb_per_game %}
                                             <article class="post-classic" style="background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); box-shadow: 0 4px 10px rgba(0,0,0,0.3);">
                                                 <div class="post-classic-aside">
-                                                    <a class="post-classic-figure" href="{% url 'players-id' competition.id rpg.player_name__slug %}">
+                                                    <a class="post-classic-figure" href="{% url 'players-id' competition.slug rpg.player_name__slug %}">
                                                       <img src="https://res.cloudinary.com/dgznffguu/image/upload/v1/{{ rpg.player_name__player_image }}" alt="{{ rpg.player_name__player_name }} Image" width="94" height="94">
                                                     </a>
                                                 </div>
                                                 <div class="post-classic-main">
-                                                    <p class="post-classic-title"><a style=" color: #ffffff; " href="{% url 'players-id' competition.id rpg.player_name__slug %}">{{ rpg.player_name__player_name }}</a></p>
+                                                    <p class="post-classic-title"><a style=" color: #ffffff; " href="{% url 'players-id' competition.slug rpg.player_name__slug %}">{{ rpg.player_name__player_name }}</a></p>
                                                     <div class="post-classic-time" style="font-size: 20px; font-weight: bold; color: #35ad79;">
                                                         {{ rpg.total_rebounds|floatformat:1 }}
                                                     </div>
@@ -395,12 +395,12 @@
                                                   {% for apg in ast_per_game %}
                                                   <article class="post-classic" style="background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); box-shadow: 0 4px 10px rgba(0,0,0,0.3);">
                                                       <div class="post-classic-aside">
-                                                          <a class="post-classic-figure" href="{% url 'players-id' competition.id apg.player_id %}">
+                                                          <a class="post-classic-figure" href="{% url 'players-id' competition.slug apg.player_name__slug %}">
                                                             <img src="https://res.cloudinary.com/dgznffguu/image/upload/v1/{{ apg.player_name__player_image }}" alt="{{ apg.player_name__player_name }} Image" width="94" height="94">
                                                           </a>
                                                       </div>
                                                       <div class="post-classic-main">
-                                                          <p class="post-classic-title"><a style=" color: #ffffff; " href="{% url 'players-id' competition.id apg.player_id %}">{{ apg.player_name__player_name }}</a></p>
+                                                          <p class="post-classic-title"><a style=" color: #ffffff; " href="{% url 'players-id' competition.slug apg.player_name__slug %}">{{ apg.player_name__player_name }}</a></p>
                                                           <div class="post-classic-time" style="font-size: 20px; font-weight: bold; color: #35ad79;">
                                                               {{ apg.assists|floatformat:1 }}
                                                           </div>
@@ -419,12 +419,12 @@
                                                   {% for bpg in blk_per_game %}
                                                   <article class="post-classic" style="background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); box-shadow: 0 4px 10px rgba(0,0,0,0.3);">
                                                       <div class="post-classic-aside">
-                                                          <a class="post-classic-figure" href="{% url 'players-id' competition.id bpg.player_id %}">
+                                                          <a class="post-classic-figure" href="{% url 'players-id' competition.slug bpg.player_name__slug %}">
                                                             <img src="https://res.cloudinary.com/dgznffguu/image/upload/v1/{{ bpg.player_name__player_image }}" alt="{{ bpg.player_name__player_name }} Image" width="94" height="94">
                                                           </a>
                                                       </div>
                                                       <div class="post-classic-main">
-                                                          <p class="post-classic-title"><a style=" color: #ffffff; " href="{% url 'players-id' competition.id bpg.player_id %}">{{ bpg.player_name__player_name }}</a></p>
+                                                          <p class="post-classic-title"><a style=" color: #ffffff; " href="{% url 'players-id' competition.slug bpg.player_name__slug %}">{{ bpg.player_name__player_name }}</a></p>
                                                           <div class="post-classic-time" style="font-size: 20px; font-weight: bold; color: #35ad79;">
                                                               {{ bpg.blocks|floatformat:1 }}
                                                           </div>
@@ -457,12 +457,12 @@
                                           {% for spg in stl_per_game %}
                                             <article class="post-classic" style="background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); box-shadow: 0 4px 10px rgba(0,0,0,0.3);">
                                                 <div class="post-classic-aside">
-                                                    <a class="post-classic-figure" href="{% url 'players-id' competition.id spg.player_id %}">
+                                                    <a class="post-classic-figure" href="{% url 'players-id' competition.slug spg.player_name__slug %}">
                                                       <img src="https://res.cloudinary.com/dgznffguu/image/upload/v1/{{ spg.player_name__player_image }}" alt="{{ spg.player_name__player_name }} Image" width="94" height="94">
                                                     </a>
                                                 </div>
                                                 <div class="post-classic-main">
-                                                    <p class="post-classic-title"><a style=" color: #ffffff; " href="{% url 'players-id' competition.id spg.player_id %}">{{ spg.player_name__player_name }}</a></p>
+                                                    <p class="post-classic-title"><a style=" color: #ffffff; " href="{% url 'players-id' competition.slug spg.player_name__slug %}">{{ spg.player_name__player_name }}</a></p>
                                                     <div class="post-classic-time" style="font-size: 20px; font-weight: bold; color: #35ad79;">
                                                         {{ spg.steals|floatformat:1 }}
                                                     </div>
@@ -483,12 +483,12 @@
                                             {% for epg in eff_per_game %}
                                             <article class="post-classic" style="background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); box-shadow: 0 4px 10px rgba(0,0,0,0.3);">
                                                 <div class="post-classic-aside">
-                                                    <a class="post-classic-figure" href="{% url 'players-id' competition.id epg.player_id %}">
+                                                    <a class="post-classic-figure" href="{% url 'players-id' competition.slug epg.player_name__slug %}">
                                                       <img src="https://res.cloudinary.com/dgznffguu/image/upload/v1/{{ epg.player_name__player_image }}" alt="{{ epg.player_name__player_name }} Image" width="94" height="94">
                                                     </a>
                                                 </div>
                                                 <div class="post-classic-main">
-                                                    <p class="post-classic-title"><a style=" color: #ffffff;" href="{% url 'players-id' competition.id epg.player_id %}">{{ epg.player_name__player_name }}</a></p>
+                                                    <p class="post-classic-title"><a style=" color: #ffffff;" href="{% url 'players-id' competition.slug epg.player_name__slug %}">{{ epg.player_name__player_name }}</a></p>
                                                     <div class="post-classic-time" style="font-size: 20px; font-weight: bold; color: #35ad79;">
                                                         {{ epg.efficiency|floatformat:1 }}
                                                     </div>

@@ -57,7 +57,7 @@
             <h2 class="breadcrumbs-custom-title">Game Registration</h2>
             <ul class="breadcrumbs-custom-path">
                 <li><a href="{% url 'home' %}">Home</a></li>
-                <li><a href="{% url 'game-list' competition_id %}">Game lists</a></li>
+                <li><a href="{% url 'game-list' competition.slug %}">Game lists</a></li>
                 <li class="active">Registration</li>
             </ul>
         </div>

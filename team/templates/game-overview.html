@@ -163,30 +163,7 @@
                       </h5>
                     </div>
                   </article>
-                  <div class="basketball-pitch-container">
-    <div class="paint-area"></div>
-    <div class="free-throw-circle"></div>
-
-    <div class="player-node" style="top: 85%; left: 50%;"> <div class="player-avatar" style="background-image: url('player1.jpg');"></div>
-        <span class="player-rating">9.2</span>
-    </div>
-    
-    <div class="player-node" style="top: 60%; left: 20%;"> <div class="player-avatar"></div>
-        <span class="player-rating">8.5</span>
-    </div>
-    
-    <div class="player-node" style="top: 60%; left: 80%;"> <div class="player-avatar"></div>
-        <span class="player-rating">8.8</span>
-    </div>
-
-    <div class="player-node" style="top: 40%; left: 35%;"> <div class="player-avatar"></div>
-        <span class="player-rating">7.9</span>
-    </div>
-
-    <div class="player-node" style="top: 40%; left: 65%;"> <div class="player-avatar"></div>
-        <span class="player-rating">8.1</span>
-    </div>
-</div>
+   
                   <!-- Game Result Bug-->
                   <article class="game-result" style="border-radius: 10px; ">
                     <div class="game-info game-info-classic" >
@@ -985,40 +962,38 @@
                 </div>
                 <!-- Game Statistics End -->  
 
-
-
-
-
-
                 <!-- Game Performance Leaders Begin --> 
-                <div class="stat-card" style="background-color: (135deg, #1a1a2e, #16213e);">
-                  <div class="col-sm-12 stats-wrapper" style="background-color: (135deg, #1a1a2e, #16213e);">
+                <div class="stat-card">
+                  <div class="col-sm-12 stats-wrapper">
                     <article class="heading-component">
                       <div class="heading-component-inner">
-                        <h5 class="heading-component-title" style=" color:aliceblue;">Game Leaders</h5>
+                        <h5 class="heading-component-title" style="color:aliceblue;">Game Leaders</h5>
                       </div>
                     </article>
+                  
 
-                    
-                    <div class="leaders-grid" style="background-color: (135deg, #1a1a2e, #16213e); color:aliceblue;">
-                     <p class="leader-team-name">{{ game_details.team}}</p>
+                    <div class="leaders-grid" style="color:aliceblue;">
+                      <div class="teams-header">
+                        <div class="team-name home-team">{{ game_details.team|upper }}</div>
+                        <div class="team-name away-team">{{ game_details.opponent|upper }}</div>
+                      </div>
+
+
+
+                      <!-- POINTS -->
                       <div class="leader-row">
-                       
                         {% for point in top_points_df %}
                         <div class="leader-team team-left">
-                         
                           <div class="leader-img">
                             <a href="{% url 'players-id' competition.slug point.player_name__slug %}">
                               <img src="https://res.cloudinary.com/dgznffguu/image/upload/v1/{{ point.player_name__player_image }}" alt="Leader">
                             </a>
                           </div>
                           <div class="leader-info">
-                             <p class="leader-team-name">{{ game_details.team}}</p>
                             <span class="leader-number">#{{ point.player_name__jersey_number }}</span>
-                            <h6 class="leader-name" style=" color:rgb(9, 163, 91);">{{ point.player_name }}</h6>
-                            <p class="leader-team-name">{{ point.player_name__team__name }}</p>
+                            <h6 class="leader-name" style="color:rgb(9, 163, 91);">{{ point.player_name }}</h6>
                             <span class="leader-stat">{{ point.points }} <small>PTS</small></span>
-                            <small class="stat-detail">FG: {{point.field_goal_made }}/{{point.field_goal_attempts }} • FT: {{point.ft_made }}/{{point.ft_attempts }}</small>
+                            <small class="stat-detail">FG: {{ point.field_goal_made }}/{{ point.field_goal_attempts }} • FT: {{ point.ft_made }}/{{ point.ft_attempts }}</small>
                           </div>
                         </div>
                         {% endfor %}
@@ -1026,26 +1001,29 @@
                         <div class="leader-category">
                           <div class="category-pill">
                             <span class="category-icon">🏀</span>
-                            <h6 style=" color:rgb(227, 169, 10);" >Points</h6>
+                            <h6 style="color:rgb(227, 169, 10);">Points</h6>
                           </div>
                         </div>
 
                         {% for point in opp_top_points %}
                         <div class="leader-team team-right">
+                          <div class="leader-img">
+                              <img src="https://res.cloudinary.com/dgznffguu/image/upload/v1/{{ point.player_name__player_image }}" alt="Leader">
+                          </div>
                           <div class="leader-info">
                             <span class="leader-number">#{{ point.player_name__jersey_number }}</span>
-                            <h6 class="leader-name" style=" color:rgb(9, 163, 91);">{{ point.player_name }}</h6>
-                            <p class="leader-team-name">{{ point.player_name__team__name }}</p>
+                            <h6 class="leader-name" style="color:rgb(9, 163, 91);">{{ point.player_name }}</h6>
                             <span class="leader-stat">{{ point.points }} <small>PTS</small></span>
-                            <small class="stat-detail">FG: {{point.field_goal_made }}/{{point.field_goal_attempts }} • FT: {{point.ft_made }}/{{point.ft_attempts }}</small>
-                          </div>
-                          <div class="leader-img">
-                            <img src="https://res.cloudinary.com/dgznffguu/image/upload/v1/{{ point.player_name__player_image }}" alt="Leader">
+                            <small class="stat-detail">FG: {{ point.field_goal_made }}/{{ point.field_goal_attempts }} • FT: {{ point.ft_made }}/{{ point.ft_attempts }}</small>
                           </div>
                         </div>
                         {% endfor %}
+                      
+                      
                       </div>
+                      
 
+                      <!-- REBOUNDS -->
                       <div class="leader-row">
                         {% for reb in top_rebounds_df %}
                         <div class="leader-team team-left">
@@ -1056,7 +1034,7 @@
                           </div>
                           <div class="leader-info">
                             <span class="leader-number">#{{ reb.player_name__jersey_number }}</span>
-                            <h6 class="leader-name" style=" color:rgb(9, 163, 91);">{{ reb.player_name }}</h6>
+                            <h6 class="leader-name" style="color:rgb(9, 163, 91);">{{ reb.player_name }}</h6>
                             <span class="leader-stat">{{ reb.total_rebounds }} <small>REB</small></span>
                             <small class="stat-detail">OFF: {{ reb.offensive_rebs }} • DEF: {{ reb.defensive_rebs }}</small>
                           </div>
@@ -1065,28 +1043,32 @@
 
                         <div class="leader-category">
                           <div class="category-pill">
-                              <span class="category-icon">🏀</span>
-                              <h6 style=" color:rgb(227, 169, 10);" >Rebounds</h6>
+                            <span class="category-icon">🏀</span>
+                            <h6 style="color:rgb(227, 169, 10);">Rebounds</h6>
                           </div>
                         </div>
 
                         {% for reb in opp_top_rebounds %}
                         <div class="leader-team team-right">
+                          <div class="leader-img">
+                        
+                              <img src="https://res.cloudinary.com/dgznffguu/image/upload/v1/{{ reb.player_name__player_image }}" alt="Leader">
+                      
+                          </div>
                           <div class="leader-info">
                             <span class="leader-number">#{{ reb.player_name__jersey_number }}</span>
-                            <h6 class="leader-name" style=" color:rgb(9, 163, 91);" >{{ reb.player_name }}</h6>
+                            <h6 class="leader-name" style="color:rgb(9, 163, 91);">{{ reb.player_name }}</h6>
                             <span class="leader-stat">{{ reb.total_rebounds }} <small>REB</small></span>
                             <small class="stat-detail">OFF: {{ reb.offensive_rebs }} • DEF: {{ reb.defensive_rebs }}</small>
-                          </div>
-                          <div class="leader-img">
-                            <img src="https://res.cloudinary.com/dgznffguu/image/upload/v1/{{ reb.player_name__player_image }}">
                           </div>
                         </div>
                         {% endfor %}
                       </div>
-                      
+
+                      <!-- ASSISTS -->
+
                       <div class="leader-row">
-                        {% for ast in top_assist_df %}
+                        {% for ast in top_assists_df %}
                         <div class="leader-team team-left">
                           <div class="leader-img">
                             <a href="{% url 'players-id' competition.slug ast.player_name__slug %}">
@@ -1095,39 +1077,40 @@
                           </div>
                           <div class="leader-info">
                             <span class="leader-number">#{{ ast.player_name__jersey_number }}</span>
-                            <h6 class="leader-name" style=" color:rgb(9, 163, 91);" >{{ ast.player_name }}</h6>
+                            <h6 class="leader-name" style="color:rgb(9, 163, 91);">{{ ast.player_name }}</h6>
                             <span class="leader-stat">{{ ast.assists }} <small>AST</small></span>
-                            <small class="stat-detail">TO: {{ ast.turnovers }} • MIN: {{ ast.minutes }}</small>
+                            <small class="stat-detail">TO: {{ ast.turnovers }} • MIN: {{ ast.minutes|floatformat:0  }}</small>
                           </div>
                         </div>
                         {% endfor %}
 
                         <div class="leader-category">
                           <div class="category-pill">
-                              <span class="category-icon">🏀</span>
-                              <h6 style=" color:rgb(227, 169, 10);"  >Assists</h6>
+                            <span class="category-icon">🏀</span>
+                            <h6 style="color:rgb(227, 169, 10);">Assists</h6>
                           </div>
                         </div>
 
                         {% for ast in opp_top_assists %}
                         <div class="leader-team team-right">
+                          <div class="leader-img">
+                          
+                              <img src="https://res.cloudinary.com/dgznffguu/image/upload/v1/{{ ast.player_name__player_image }}" alt="Leader">
+                  
+                          </div>
                           <div class="leader-info">
                             <span class="leader-number">#{{ ast.player_name__jersey_number }}</span>
-                            <h6 class="leader-name" style=" color:rgb(9, 163, 91);" >{{ ast.player_name }}</h6>
+                            <h6 class="leader-name" style="color:rgb(9, 163, 91);">{{ ast.player_name }}</h6>
                             <span class="leader-stat">{{ ast.assists }} <small>AST</small></span>
-                            <small class="stat-detail">TO: {{ ast.turnovers }} • MIN: {{ ast.minutes }}</small>
-                          </div>
-                          <div class="leader-img">
-                            <img src="https://res.cloudinary.com/dgznffguu/image/upload/v1/{{ ast.player_name__player_image }}">
+                            <small class="stat-detail">TO: {{ ast.turnovers }} • MIN: {{ ast.minutes|floatformat:0  }}</small>
                           </div>
                         </div>
                         {% endfor %}
                       </div>
-
                     </div>
                   </div>
                 </div>
-                <!-- Game Performance Leaders Ends --> 
+                <!-- Game Performance Leaders Ends -->  
 
 
                 <!-- International Games Begin --> 
@@ -1389,7 +1372,7 @@
                   <!-- Heading Component-->
                   <article class="heading-component">
                    
-                    <div class=" col-lg-6 heading-component-inner" style="flex:nowrap;">
+                    <div class="  heading-component-inner" style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
                       <h6 class="heading-component-title " style="flex:nowrap;">Other Game results</h6>
                       <a class="button button-xs button-gray-outline" href="{% url 'game-schedule' competition.slug %}">View All</a>
                     </div>
@@ -1466,7 +1449,69 @@
                       </a>
                     </article>
                     {% else %}
-                     No Games
+                    <article class="game-result game-result-classic">
+                      <a href="" class="btn-modern btn-edit">
+                      <div class="game-result-main">
+                        
+                        <div class="game-result-team game-result-team-first">
+                          <figure class="game-result-team-figure game-result-team-figure-big">
+                            <img src="{{ other_game.team.team_logo.url }}" alt="{{ other_game.team }}" width="41" height="55">
+                          </figure>
+                          <div class="game-result-team-name">{{ other_game.team }}</div>
+                          <div class="game-result-team-country">{{ other_game.team.city }}</div>
+                        </div>
+
+                        <div class="game-result-middle">
+                          <div class="game-result-score-wrap">
+                            <div class="game-result-score game-result-team-win">0
+                             
+                              <span class="game-result-team-label game-result-team-label-top" style="background-color:transparent;"></span>
+                              
+                            </div>
+                            <div class="game-result-score-divider">
+                              <svg x="0px" y="0px" width="7px" height="21px" viewBox="0 0 7 21" enable-background="new 0 0 7 21" xml:space="preserve">
+                                <g>
+                                  <circle cx="3.5" cy="3.5" r="3"></circle>
+                                  <path d="M3.5,1C4.879,1,6,2.122,6,3.5S4.879,6,3.5,6S1,4.878,1,3.5S2.122,1,3.5,1 M3.5,0C1.567,0,0,1.567,0,3.5S1.567,7,3.5,7      S7,5.433,7,3.5S5.433,0,3.5,0L3.5,0z"></path>
+                                </g>
+                                <g>
+                                  <circle cx="3.695" cy="17.5" r="3"></circle>
+                                  <path d="M3.695,15c1.378,0,2.5,1.122,2.5,2.5S5.073,20,3.695,20s-2.5-1.122-2.5-2.5S2.316,15,3.695,15 M3.695,14      c-1.933,0-3.5,1.567-3.5,3.5s1.567,3.5,3.5,3.5s3.5-1.567,3.5-3.5S5.628,14,3.695,14L3.695,14z"></path>
+                                </g>
+                              </svg>
+                            </div>
+                            <div class="game-result-score">0
+                            </div>
+                          </div>
+                          {% if other_game.indicator == "@" %}    
+                          <div class="game-results-status">AWAY</div>
+                          {% else %}
+                          <div class="game-results-status">HOME</div>
+                          {% endif %}
+                        </div>
+                        <div class="game-result-team game-result-team-second">
+                          <figure class="game-result-team-figure game-result-team-figure-big">
+                            <img src="{{ other_game.opponent.logo.url }}" alt="{{ other_game.opponent }}" width="50" height="50">
+                          </figure>
+                          <div class="game-result-team-name">{{ other_game.opponent }}</div>
+                          <div class="game-result-team-country">{{ other_game.opponent.city }}</div>
+                        </div>
+                      </div>
+                      <div class="game-result-footer">
+                        <ul class="game-result-details">
+                          <li>{{ other_game.game_type }}</li>
+                          <li>{{ other_game.game_venue }}</li>
+                          <li>
+                            <time datetime="{{ other_game.date|date:'Y-m-d' }}">
+                              {{ other_game.date|date:'F d, Y' }}
+                            </time>
+
+                          </li>
+                        </ul>
+                      </div>
+                      </a>
+                    </article>
+                    
                     {% endif %}
                   
                    {% endfor %}

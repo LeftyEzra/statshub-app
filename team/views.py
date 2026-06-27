@@ -1921,16 +1921,29 @@ def game_stats_pdf(request, slug):
     doc = SimpleDocTemplate(
         buf, 
         pagesize=landscape(letter), 
-        topMargin=0.4*inch, 
-        bottomMargin=0.4*inch, 
-        leftMargin=0.4*inch, 
-        rightMargin=0.4*inch
+        topMargin=0.2*inch,    # Tighter margins
+        bottomMargin=0.2*inch, 
+        leftMargin=0.2*inch, 
+        rightMargin=0.2*inch
     )
     elements = []
     styles = getSampleStyleSheet()
 
     # 1. RETRIEVE CORE DATA
     game = get_object_or_404(Game, slug=slug)
+    scores = game.quarterly_scores.first()
+
+    # Fallback if no scores exist for the game
+    if not scores:
+        # Use zeros if no data found
+        q_data = {'t1':0, 't2':0, 't3':0, 't4':0, 'o1':0, 'o2':0, 'o3':0, 'o4':0}
+    else:
+        q_data = {
+            't1': scores.team_quarter_1, 't2': scores.team_quarter_2, 
+            't3': scores.team_quarter_3, 't4': scores.team_quarter_4,
+            'o1': scores.opponent_quarter_1, 'o2': scores.opponent_quarter_2, 
+            'o3': scores.opponent_quarter_3, 'o4': scores.opponent_quarter_4
+        }
     print(game)
 
     # 2. HEADER TITLE BLOCK (FIBA Style PDF Layout)
@@ -1952,10 +1965,11 @@ def game_stats_pdf(request, slug):
 
     # 3. QUARTER PROGRESSION TABLE (Matches your PDF scoring sequence)
     # Note: Replace these strings with your dynamic quarter properties if available in your model
+    # Replace the static score_data section:
     score_data = [
         ['Team', 'Q1', 'Q2', 'Q3', 'Q4', 'Total'],
-        [game.team.name[:15].upper(), '14', '13', '17', '12', str(game.team_scores)],
-        [game.opponent.name[:15].upper(), '12', '8', '7', '9', str(game.opponent_scores)]
+        [game.team.name[:15].upper(), str(q_data['t1']), str(q_data['t2']), str(q_data['t3']), str(q_data['t4']), str(game.team_scores)],
+        [game.opponent.name[:15].upper(), str(q_data['o1']), str(q_data['o2']), str(q_data['o3']), str(q_data['o4']), str(game.opponent_scores)]
     ]
     score_table = Table(score_data, colWidths=[1.8*inch, 0.6*inch, 0.6*inch, 0.6*inch, 0.6*inch, 0.8*inch])
     score_table.setStyle(TableStyle([
@@ -2075,14 +2089,19 @@ def game_stats_pdf(request, slug):
         
         # Exact width display rules mapping across 22 structural table columns
         # --- FIX: Extended col_widths configuration list explicitly to match your 22 headers! ---
+        # 1. REDUCE COL WIDTHS (More aggressive)
+        # Change this section in your generate_team_stat_table function
         col_widths = [
-            0.3*inch, 1.3*inch, 0.4*inch, 0.35*inch, 0.35*inch, 0.35*inch, 0.6*inch, 0.5*inch, 0.6*inch, 0.5*inch, 0.6*inch, 0.5*inch,
-            0.35*inch, 0.35*inch, 0.35*inch, 0.35*inch, 0.35*inch, 0.35*inch, 0.35*inch, 0.3*inch, 0.4*inch, 0.4*inch
+            0.25*inch, 1.8*inch, # INCREASED Name column to 1.8*inch to fit players longer names
+            0.3*inch, 0.3*inch, 0.3*inch, 0.3*inch, 
+            0.5*inch, 0.4*inch, 0.5*inch, 0.4*inch, 0.5*inch, 0.4*inch,
+            0.3*inch, 0.3*inch, 0.3*inch, 0.3*inch, 0.3*inch, 0.3*inch, 0.3*inch, 0.25*inch, 0.35*inch, 0.35*inch
         ]
         
         table = Table(headers + rows, colWidths=col_widths)
         header_bg = colors.HexColor("#35ad79") if primary_theme else colors.HexColor("#333333")
-        
+    
+        #REDUCED FONT AND PADDING
         table.setStyle(TableStyle([
             ('ALIGN', (0, 0), (0, -1), 'CENTER'),
             ('ALIGN', (1, 0), (1, -1), 'LEFT'),
@@ -2090,13 +2109,13 @@ def game_stats_pdf(request, slug):
             ('BACKGROUND', (0, 0), (-1, 0), header_bg),
             ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
             ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
-            ('FONTSIZE', (0, 0), (-1, -1), 7.5), # Dropped slightly for flawless rendering within 0.4 margins
+            ('FONTSIZE', (0, 0), (-1, -1), 6), # Dropped slightly for flawless rendering within 0.4 margins
             ('GRID', (0, 0), (-1, -1), 0.5, colors.grey),
             ('ROWBACKGROUNDS', (0, 1), (-1, -2), [colors.whitesmoke, colors.white]),
             ('BACKGROUND', (0, -1), (-1, -1), colors.HexColor("#e2ede8") if primary_theme else colors.HexColor("#eaeaea")), 
             ('FONTNAME', (0, -1), (-1, -1), 'Helvetica-Bold'),
-            ('TOPPADDING', (0, 0), (-1, -1), 3),
-            ('BOTTOMPADDING', (0, 0), (-1, -1), 3),
+            ('TOPPADDING', (0, 0), (-1, -1), 1),
+            ('BOTTOMPADDING', (0, 0), (-1, -1), 1),
         ]))
         return table
 
@@ -2167,7 +2186,7 @@ class GameDetailView(View):
 
                 # Getting the regular season and playoffs games
                 regular_season = all_games_df[all_games_df['game_type'].isin(["regular"])]
-                other_games = other_games[other_games['game_type'].isin(["regular"])].copy()
+                
                 
                 # International games
                 int_games_in_other_games = international_games[international_games['game_type'].isin(["international"])]
@@ -2388,7 +2407,7 @@ class GameDetailView(View):
                         'home_totals': home_totals,
                         'top_points_df': top_points.to_dict('records'),
                         'top_rebounds_df': top_rebounds.to_dict('records'),
-                        'top_adjust_df': top_assists.to_dict('records'),
+                        'top_assists_df': top_assists.to_dict('records'),
                         'opp_top_points': opp_top_points.to_dict('records'),
                         'opp_top_rebounds': opp_top_rebounds.to_dict('records'),
                         'opp_top_assists': opp_top_assists.to_dict('records'),
@@ -2460,7 +2479,7 @@ class GameUpdateView(SuperuserRequiredMixin, View):
             'formset': score_formset,
             'stats_formset': stats_formset,
             'update_game': update_game,
-            'competition_id': competition_id,
+            'competition_slug': competition_slug,
         })
 
     def post(self, request, competition_slug, game_slug):
@@ -2480,7 +2499,7 @@ class GameUpdateView(SuperuserRequiredMixin, View):
                 stat.opponents = game.opponent
                 stat.save()
             messages.success(request, "Game and player stats updated successfully!")
-            return redirect('game-list', competition_id=competition_id)
+            return redirect('game-list', competition_slug=competition_slug)
 
 
         return render(request, 'game_update.html', {
