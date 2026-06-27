@@ -249,32 +249,72 @@
     -webkit-overflow-scrolling: touch;
 }
 
-.progress-bar-radial {
-  --percent: 0; /* default, overridden inline */
-  width: 120px;
-  margin: 10px;
-  text-align: center;
-  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  cursor: pointer;
+/* Progress Bar*/
+/* Container for the radial charts - makes them wrap nicely on mobile */
+.progress-bar-main {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    padding: 10px;
 }
 
-.progress-circle-fg-new,
-.progress-circle-fg-new-opponent {
-  fill: none;
-  stroke-width: 8;
-  stroke-linecap: round;
-  stroke-dasharray: 440; /* circumference for r=70 */
-  stroke-dashoffset: calc(440 - (440 * var(--percent)) / 100);
-  transform: rotate(-90deg);
-  transform-origin: center;
-  transition: stroke-dashoffset 0.8s ease-out;
+.progress-bar-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 30%; /* Fits 3 side-by-side */
+    min-width: 90px;
 }
 
-.progress-circle-fg-new { stroke: #35ad79; }
-.progress-circle-fg-new-opponent { stroke: #3B7CC0; }
+/* Ensure SVG scales perfectly without overflow */
+.progress-circle-bar {
+    width: 100%;
+    height: auto;
+    max-width: 120px; /* Limits size on large screens */
+}
 
+/* SVG Stroke styling */
 .progress-circle-bg {
-  fill: none;
-  stroke: #e6e6e6;
-  stroke-width: 8;
+    fill: none;
+    stroke: #e6e6e6;
+    stroke-width: 12;
+}
+
+.progress-circle-fg-new {
+    fill: none;
+    stroke: #35ad79;
+    stroke-width: 12;
+    stroke-linecap: round;
+    transition: stroke-dashoffset 0.5s ease-in-out;
+}
+
+.progress-circle-fg-new-opponent {
+    fill: none;
+    stroke: #3B7CC0;
+    stroke-width: 12;
+    stroke-linecap: round;
+    transition: stroke-dashoffset 0.5s ease-in-out;
+}
+
+/* Counter Text */
+.progress-circle-counter {
+    position: absolute;
+    font-weight: bold;
+    font-size: 1rem;
+    color: #333;
+}
+
+.progress-bar-js {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.progress-bar-title {
+    margin-top: 5px;
+    font-size: 0.8rem;
+    font-weight: 600;
 }

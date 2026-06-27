@@ -1322,3 +1322,81 @@ def shop_view(request):
                     </div>
                     </div>
               </form>        
+
+
+
+
+
+
+
+
+
+
+
+
+<style>
+    .progress-circle-fg-new {
+  fill: none;
+  stroke: #35ad79; /* Your Green */
+  stroke-width: 8;
+  stroke-linecap: round;
+  /* Circumference = 2 * pi * 70 (approx 440) */
+  stroke-dasharray: 440; 
+  /* This calculation moves the line based on the --percent variable */
+  stroke-dashoffset: calc(440 - (440 * var(--percent)) / 100);
+  transform: rotate(-90deg);
+  transform-origin: center;
+  transition: stroke-dashoffset 0.8s ease-out;
+}
+
+.progress-circle-fg-new-opponent {
+  fill: none;
+  stroke: #3B7CC0; /* Your Green */
+  stroke-width: 8;
+  stroke-linecap: round;
+  /* Circumference = 2 * pi * 70 (approx 440) */
+  stroke-dasharray: 440; 
+  /* This calculation moves the line based on the --percent variable */
+  stroke-dashoffset: calc(440 - (440 * var(--percent)) / 100);
+  transform: rotate(-90deg);
+  transform-origin: center;
+  transition: stroke-dashoffset 0.8s ease-out;
+}
+
+.progress-circle-bg {
+  fill: none;
+  stroke: #e6e6e6;
+  stroke-width: 8;
+}
+
+
+
+
+
+/* 1. Add a transition to the container for a smooth lift */
+.progress-bar-radial {
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    cursor: pointer;
+}
+
+/* 2. Scale up and brighten on hover */
+.progress-bar-radial:hover {
+    transform: scale(1.1); /* Slight "pop" effect */
+}
+
+/* 3. Make the progress line glow on hover */
+.progress-bar-radial:hover .progress-circle-fg-new {
+    stroke: #42d392; /* A slightly brighter version of your green */
+    filter: drop-shadow(0 0 5px rgba(66, 211, 146, 0.6));
+    stroke-width: 10; /* Make the bar thicker on hover */
+}
+
+/* 4. Optional: Make the percentage text bold on hover */
+.progress-bar-radial:hover .progress-circle-counter {
+    color: #f4f4f4;
+    font-weight: 800;
+    text-shadow: 0px 0px 10px rgba(53, 173, 121, 0.2);
+}
+
+
+</style>              
