@@ -1136,7 +1136,7 @@
                   <!-- Game Result Bug-->
                    {% for game in int_games_in_other_games %}
                   <article class="game-result">
-                   <a href="{% url 'game-overview' game.competition__slug game.game__slug %}" class="btn-modern btn-edit">
+                   <a href="{% url 'game-overview' game.competition__slug game.slug %}" class="btn-modern btn-edit">
 
                     <div class="game-info">
                       <p class="game-info-subtitle">{{ game.game_venue__name }} - 

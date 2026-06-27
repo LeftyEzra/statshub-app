@@ -2162,7 +2162,7 @@ class GameDetailView(View):
                 
                 # Getting the International Games
                 international_games = pd.DataFrame(
-                            other_games.values('id','game__slug', 'competition__slug', 'date','time','team__name', 'team__team_logo','indicator','opponent__name', 
+                            other_games.values('id','slug', 'competition__slug', 'date','time','team__name', 'team__team_logo','indicator','opponent__name', 
                                             'opponent__logo','team_scores', 'opponent_scores', 'team_win_loss', 'game_venue__name', 'game_type'))                            
 
                 # Getting the regular season and playoffs games
