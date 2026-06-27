@@ -8,15 +8,15 @@
 
 
       <!-- Section Breadcrumbs-->
-      <section class="section parallax-container breadcrumbs-wrap" data-parallax-img="{% static 'img/ball_court.png' %}">
+      <section class="section parallax-container breadcrumbs-wrap" data-parallax-img="{% static 'img/players_backdrop.png' %}">
         <div class="material-parallax parallax">
-          <img src="{% static 'img/ball_court.png' %}" alt="" style="display: block; transform: translate3d(-50%, 68px, 0px);"></div>
+          <img src="{% static 'img/players_backdrop.png' %}" alt="" style="display: block; transform: translate3d(-50%, 68px, 0px);"></div>
         <div class="parallax-content breadcrumbs-custom context-dark">
           <div class="container">
             <h3 class="breadcrumbs-custom-title">Game overview</h3>
             <ul class="breadcrumbs-custom-path">
               <li><a href="{% url 'home' %}">Home</a></li>
-              <li><a href="{% url 'game-schedule' competition.id %}">Games</a></li>
+              <li><a href="{% url 'game-schedule' competition.slug %}">Games</a></li>
               <li class="active">Game overview</li>
             </ul>
           </div>
@@ -154,7 +154,6 @@
                   </div>
                 </div>
                 <!-- Quarterly Scores End -->
-
                 <!-- Game Result Begin -->
                 <div class="col-sm-12">
                   <!-- Heading Component-->
@@ -447,8 +446,19 @@
                                 </svg>
                                 <div class="progress-circle-counter">{{ overall_sum_df.fg_percent|floatformat:1 }}</div>
                               </div>
+
+                              <div class="progress-bar-js progress-bar-radial" style="--percent: {{ overall_sum_df.fg_percent|default:0.0 }}">
+  <svg class="progress-circle-bar" viewBox="0 0 150 150">
+    <circle class="progress-circle-bg" cx="75" cy="75" r="70" vector-effect="non-scaling-stroke"></circle>
+    <circle class="progress-circle-fg-new" cx="75" cy="75" r="70" vector-effect="non-scaling-stroke"></circle>
+  </svg>
+  <div class="progress-circle-counter">{{ overall_sum_df.fg_percent|floatformat:1 }}</div>
+  <p class="progress-bar-title">FG%</p>
+</div>
+
                               <p class="progress-bar-title">FG%</p>
                           </div>
+
                          <div class="progress-bar-wrap">
                               <div class="progress-bar-js progress-bar-radial">
                                 <svg class="progress-circle-bar" width="150" height="150" viewBox="0 0 150 150">
@@ -598,6 +608,47 @@
                         </div>
                       </div>
                       {% endif %}
+
+                
+
+                    <!-- Advanced Team Stats -->
+                     <br><br>
+                    <div class="table-game-info-wrap advanced-stats-wrap">
+                      <h6 class="advanced-stats-title">Advanced Statistics</h6>
+                      <div class="table-game-info-main table-custom-responsive">
+                        <table class="table-custom table-game-info">
+                          <tbody>
+                            <tr>
+                              <td class="table-game-info-number">{{ overall_sum_df.fast_break_points|default:"0" }}</td>
+                              <td class="table-game-info-category">FAST BREAK POINTS</td>
+                              <td class="table-game-info-number">{{ opp_total_stats_df.fast_break_points|default:"0" }}</td>
+                            </tr>
+                            <tr>
+                              <td class="table-game-info-number">{{ overall_sum_df.points_in_paint|default:"0" }}</td>
+                              <td class="table-game-info-category">POINTS IN THE PAINT</td>
+                              <td class="table-game-info-number">{{ opp_total_stats_df.points_in_paint|default:"0" }}</td>
+                            </tr>
+                            <tr>
+                              <td class="table-game-info-number">{{ overall_sum_df.second_chance_points|default:"0" }}</td>
+                              <td class="table-game-info-category">SECOND CHANCE POINTS</td>
+                              <td class="table-game-info-number">{{ opp_total_stats_df.second_chance_points|default:"0" }}</td>
+                            </tr>
+                            <tr>
+                              <td class="table-game-info-number">{{ overall_sum_df.bench_points|default:"0" }}</td>
+                              <td class="table-game-info-category">BENCH POINTS</td>
+                              <td class="table-game-info-number">{{ opp_total_stats_df.bench_points|default:"0" }}</td>
+                            </tr>
+                            <tr>
+                              <td class="table-game-info-number">{{ overall_sum_df.points_off_turnovers|default:"0" }}</td>
+                              <td class="table-game-info-category">POINTS OFF TURNOVERS</td>
+                              <td class="table-game-info-number">{{ opp_total_stats_df.points_off_turnovers|default:"0" }}</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+
+
                     </div>
                   </article>
                 </div>
