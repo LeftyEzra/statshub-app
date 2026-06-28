@@ -1563,3 +1563,70 @@ def shop_view(request):
                   </div>
                 </div>
                 <!-- Game Performance Leaders Ends --> 
+
+
+ <style>
+    
+/* General responsive fixes */
+@media (max-width: 768px) {
+  .stat-card .leader-row {
+    display: flex;
+    flex-wrap: nowrap;          /* prevent stacking */
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .stat-card .teams-header {
+    display: flex;
+    justify-content: center;   /* push names to opposite ends */
+    align-items: center;              /* keep them on the same line */
+    gap: 70px; 
+    margin-bottom: 20px;              /* move them backward a bit from stats */
+  }
+
+  .stat-card .leader-team {
+    flex: 1;
+    min-width: 0;               /* allow shrinking */
+  }
+
+  .stat-card .leader-info {
+    white-space: nowrap;        /* keep stats on one line */
+    overflow: visible;
+    text-overflow: ellipsis;
+    font-size: clamp(0.5rem, 2vw, 0.7rem); /* shrink text instead of wrapping */
+  }
+
+  .stat-card .leader-img img {
+    width: clamp(28px, 8vw, 40px);   /* shrink images on mobile */
+    height: auto;
+    flex-shrink: 0;                  /* don’t let image collapse */
+  }
+
+  .stat-card .leader-name,
+  .stat-card .leader-stat,
+  .stat-card .stat-detail {
+    font-size: clamp(0.6rem, 2vw, 0.7rem);
+  }
+
+  .stat-card .leader-category {
+    flex: 0 0 80px;             /* narrower middle column */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;    /* center ball + text vertically */
+    margin: 0 5px;
+  }
+
+  .stat-card .category-icon {
+    font-size: 1.6rem;          /* slightly smaller ball on mobile */
+    margin-bottom: 4px;
+  }
+
+  .stat-card .category-pill h6 {
+    font-size: clamp(0.6rem, 2vw, 0.7rem);
+    margin: 0;
+    text-align: center;
+  }
+}
+
+ </style>               
