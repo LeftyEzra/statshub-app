@@ -2856,7 +2856,7 @@ def contactCreate(request):
     else:
         form = ContactForm()
 
-    return render(request, "contact.html", {"form": form})
+    return render(request, "contact.html", {"form": form, 'bank_info': settings.BANK_DETAILS})
 
 #(python manage.py import_opponent_stats file.csv)
 

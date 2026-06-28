@@ -39,4 +39,5 @@ def global_site_context(request):
         'SUPPORT_EMAIL': os.getenv('SUPPORT_EMAIL'),
         'WHATSAPP_NUMBER': os.getenv('WHATSAPP_NUMBER'),
         'PHONE_NUMBER': os.getenv('PHONE_NUMBER'), 
+        
     }
