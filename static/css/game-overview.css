@@ -268,7 +268,79 @@
 }
 
 
+@media (max-width: 768px) {
+  .stat-card .leader-row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: flex-start; /* Aligned top so images stay aligned */
+    width: 100%;
+    margin-bottom: 15px;
+    gap: 4px; /* Space between team-left, middle, and team-right */
+  }
 
+  .stat-card .leader-team {
+    flex: 1;
+    min-width: 0; 
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    overflow: hidden;
+  }
+
+  .stat-card .leader-img {
+    flex: 0 0 35px;
+    width: 35px;
+    height: 35px;
+  }
+
+  .stat-card .leader-info {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    padding-right: 2px;
+  }
+
+  /* FIX: Name cut-off */
+  .stat-card .leader-name {
+    font-size: 0.7rem !important;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 90%; /* Forces the ellipsis to kick in earlier */
+    margin: 0;
+  }
+
+  /* FIX: Stats cut-off */
+  .stat-card .leader-stat {
+    font-size: 0.75rem !important;
+    font-weight: bold;
+    display: block;
+  }
+
+  .stat-card .stat-detail {
+    font-size: 0.6rem !important;
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; /* Ensures 'OFF: 2 • DEF: 7' doesn't overflow */
+    transform: scale(0.85); /* Tiny scaling trick to fit more text if needed */
+    transform-origin: left;
+  }
+
+  .stat-card .leader-category {
+    flex: 0 0 35px; /* Even narrower to give players more room */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .stat-card .category-icon {
+    font-size: 1.2rem; /* Shrink ball so it doesn't dominate */
+  }
+}
 
 /* Final game winner row highlight */
 @media (max-width: 768px) {
