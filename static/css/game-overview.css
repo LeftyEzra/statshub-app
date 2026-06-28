@@ -269,14 +269,13 @@
 
 
 
-/* Mobile-friendly layout */
-@media (max-width: 768px) {
+/@media (max-width: 768px) {
   .stat-card .leader-row {
     display: flex;
-    flex-wrap: nowrap;             /* no stacking */
+    flex-wrap: nowrap;             /* keep everything on one line */
     justify-content: space-between;
     align-items: center;
-    gap: clamp(4px, 1vw, 10px);    /* responsive gap that shrinks on small screens */
+    gap: clamp(4px, 1vw, 8px);     /* responsive gap */
   }
 
   .stat-card .leader-team {
@@ -286,33 +285,33 @@
 
   .stat-card .leader-info {
     white-space: nowrap;           /* keep stats on one line */
-    overflow: hidden;
-    text-overflow: ellipsis;
-    font-size: clamp(0.55rem, 1.6vw, 0.85rem); /* shrink text dynamically */
+    font-size: clamp(0.55rem, 1.6vw, 0.9rem); /* shrink text dynamically */
+    line-height: 1.2;              /* tighter line spacing */
   }
 
   .stat-card .leader-name,
   .stat-card .leader-stat,
   .stat-card .stat-detail {
-    font-size: clamp(0.55rem, 1.6vw, 0.85rem); /* responsive scaling */
+    font-size: clamp(0.55rem, 1.6vw, 0.9rem); /* responsive scaling */
+    white-space: nowrap;           /* no wrapping */
   }
 
   .stat-card .leader-category {
-    flex: 0 0 clamp(60px, 12vw, 80px); /* responsive width for middle column */
+    flex: 0 0 clamp(60px, 12vw, 80px);
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;       /* center ball + text vertically */
+    justify-content: center;
     margin: 0 clamp(2px, 0.5vw, 6px);
   }
 
   .stat-card .category-icon {
-    font-size: clamp(1.2rem, 3vw, 1.6rem); /* shrink ball on mobile */
+    font-size: clamp(1.2rem, 3vw, 1.6rem);
     margin-bottom: 3px;
   }
 
   .stat-card .category-pill h6 {
-    font-size: clamp(0.6rem, 1.4vw, 0.8rem);
+    font-size: clamp(0.6rem, 1.4vw, 0.85rem);
     margin: 0;
     text-align: center;
   }
