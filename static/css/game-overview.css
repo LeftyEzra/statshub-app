@@ -268,55 +268,70 @@
 }
 
 
-
-/* General responsive fixes */
 @media (max-width: 768px) {
   .stat-card .leader-row {
     display: flex;
-    flex-wrap: nowrap;          /* prevent stacking */
+    flex-wrap: nowrap;
     justify-content: space-between;
     align-items: center;
+    gap: clamp(4px, 1vw, 8px);
   }
 
   .stat-card .leader-team {
+    display: flex;
+    align-items: center;
     flex: 1;
-    min-width: 0;               /* allow shrinking */
+    min-width: 0;
+  }
+
+  .stat-card .leader-img img {
+    width: clamp(28px, 8vw, 40px);   /* shrink images on mobile */
+    height: auto;
+    flex-shrink: 0;                  /* don’t let image collapse */
   }
 
   .stat-card .leader-info {
-    white-space: nowrap;        /* keep stats on one line */
-    overflow: visible;
-    text-overflow: ellipsis;
-    font-size: clamp(0.65rem, 2vw, 0.85rem); /* shrink text instead of wrapping */
+    flex: 1;                         /* take remaining space */
+    min-width: 0;                     /* allow text to shrink */
+    white-space: nowrap;              /* keep stats on one line */
+    overflow: hidden;                 /* truncate only if too long */
+    text-overflow: ellipsis;          /* add … for very long names */
+    font-size: clamp(0.55rem, 1.6vw, 0.85rem);
+    line-height: 1.2;
   }
 
-  .stat-card .leader-name,
+  .stat-card .leader-name {
+    font-weight: 600;
+    display: inline-block;
+    max-width: 100%;                  /* respect container width */
+  }
+
   .stat-card .leader-stat,
   .stat-card .stat-detail {
-    font-size: clamp(0.65rem, 2vw, 0.85rem);
+    font-size: clamp(0.55rem, 1.4vw, 0.85rem);
+    white-space: nowrap;
   }
 
   .stat-card .leader-category {
-    flex: 0 0 80px;             /* narrower middle column */
+    flex: 0 0 clamp(60px, 12vw, 80px);
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;    /* center ball + text vertically */
-    margin: 0 5px;
+    justify-content: center;
+    margin: 0 clamp(2px, 0.5vw, 6px);
   }
 
   .stat-card .category-icon {
-    font-size: 1.6rem;          /* slightly smaller ball on mobile */
-    margin-bottom: 4px;
+    font-size: clamp(1.2rem, 3vw, 1.6rem);
+    margin-bottom: 3px;
   }
 
   .stat-card .category-pill h6 {
-    font-size: clamp(0.7rem, 2vw, 0.85rem);
+    font-size: clamp(0.6rem, 1.4vw, 0.85rem);
     margin: 0;
     text-align: center;
   }
 }
-
 
 
 /* Final game winner row highlight */
