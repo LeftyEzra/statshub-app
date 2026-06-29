@@ -659,14 +659,14 @@
 
                     <!-- Game Chart -->
                     <article class="game-chart-card" style="border-radius: 10px;">
-                      {% if game.chart_image %}
+                      {% if game_details.game_chart %}
                         <div class="game-chart">
                           <figure>
-                            <img src="{{ game.chart_image.url }}" 
-                                alt="Game chart for {{ game.team__name }} vs {{ game.opponent__name }}" 
+                            <img src="{{ game_details.game_chart.url }}" 
+                                alt="Game chart for {{ game.team.name }} vs {{ game_details.opponent.name }}" 
                                 class="img-fluid">
                             <figcaption class="chart-caption">
-                              Chart for {{ game.team__name }} vs {{ game.opponent__name }}
+                              Chart for {{ game_details.team.name }} vs {{ game_details.opponent.name }}
                             </figcaption>
                           </figure>
                         </div>
