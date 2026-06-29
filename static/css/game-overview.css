@@ -250,7 +250,7 @@
   }
 
   .stat-card .leader-img {
-    flex: 0 0 32px;
+    flex: 0 0 60px;
     width: 60px;
     height: 60px;
   }
@@ -392,41 +392,69 @@
 }
 
 
-
-
-
 @media (max-width: 768px) {
-  .game-info-main {
-    display: flex;
-    flex-direction: row;       /* keep side-by-side */
-    justify-content: center;   /* center all children */
-    align-items: center;       /* vertically align logos + text */
-    gap: 12px;                 /* equal spacing between blocks */
-    text-align: center;
-  }
-
-  .game-info-team {
-    flex: 0 1 auto;            /* don’t stretch unevenly */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
   .game-info-middle {
-    flex: 0 1 auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 6px;
+    display: flex !important;
+    flex-direction: column !important;   /* stack neatly */
+    align-items: center !important;
+    gap: 12px !important;                /* spacing between buttons */
   }
 
-  .game-info-team figure img {
-    width: 50px;               /* shrink logos on mobile */
-    height: auto;
+  .button-share-outline,
+  .button-primary {
+    display: inline-flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    width: 100% !important;             /* equal width for both */
+    text-align: center !important;
+    padding: 8px 12px !important;
+    margin: 10 auto !important;
   }
 
-  .game-result-team-name,
-  .game-result-team-country {
-    font-size: clamp(0.7rem, 2vw, 0.9rem);
+  .game-info-share {
+    display: flex !important;
+    justify-content: center !important;
+    gap: 6px !important;
+    margin-top: 6px !important;
+    padding: 0 !important;
+  }
+
+  .game-info-share-item {
+    list-style: none !important;
+  }
+}
+
+
+
+
+/* STANDING */
+@media (max-width: 768px) {
+  .team-inline {
+    display: flex !important;
+    align-items: center !important;   /* logo + text aligned */
+    gap: 8px !important;              /* space between logo and text */
+    white-space: nowrap !important;   /* keep text on one line */
+  }
+
+  .team-figure {
+    flex: 0 0 30px !important;        /* fixed logo size */
+  }
+
+  .team-figure img {
+    width: 30px !important;
+    height: 30px !important;
+    object-fit: cover !important;
+    border-radius: 50% !important;    /* circle logos */
+  }
+
+  .team-title {
+    flex: 1 !important;               /* take remaining space */
+    min-width: 0 !important;          /* allow shrinking */
+   
+  }
+
+  .team-name,
+  .team-country {
+    font-size: clamp(0.7rem, 2vw, 0.9rem) !important;
   }
 }
