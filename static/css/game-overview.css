@@ -241,14 +241,18 @@
 /* Responsive mobile tweaks */
 @media (max-width: 768px) {
   .stat-card .leader-row {
-    gap: 4px;
+    gap: 2px;
     padding: 8px 0;
+  }
+
+  .stat-card .leader-header {
+   gap: 50px;
   }
 
   .stat-card .leader-img {
     flex: 0 0 32px;
-    width: 32px;
-    height: 32px;
+    width: 60px;
+    height: 60px;
   }
 
   .stat-card .leader-name {
@@ -390,3 +394,39 @@
 
 
 
+
+@media (max-width: 768px) {
+  .game-info-main {
+    display: flex;
+    flex-direction: row;       /* keep side-by-side */
+    justify-content: center;   /* center all children */
+    align-items: center;       /* vertically align logos + text */
+    gap: 12px;                 /* equal spacing between blocks */
+    text-align: center;
+  }
+
+  .game-info-team {
+    flex: 0 1 auto;            /* don’t stretch unevenly */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .game-info-middle {
+    flex: 0 1 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .game-info-team figure img {
+    width: 50px;               /* shrink logos on mobile */
+    height: auto;
+  }
+
+  .game-result-team-name,
+  .game-result-team-country {
+    font-size: clamp(0.7rem, 2vw, 0.9rem);
+  }
+}

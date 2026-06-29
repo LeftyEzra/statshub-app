@@ -626,8 +626,8 @@ def team_shot_chart(request, competition_slug):
     # Get the player's statistics
     all_games = Game.objects.filter(competition=competition).prefetch_related('quarterly_scores')
     ##  Returns only the stats for the games in this competition.
-    all_game_stats = PlayerStatLine.objects.filter(game_schedule__in=all_games)
-
+    all_game_stats = PlayerStatLine.objects.filter(game_schedule__in=all_games, team=team_details)
+    print(all_game_stats)
     pd.set_option("display.max_columns", None)
     pd.set_option("display.max_rows", None)
     if all_game_stats.exists():
@@ -681,7 +681,7 @@ def team_shot_chart(request, competition_slug):
         
         # Players Defence Calculation
         team_stats_df = player_stats_df.sort_values(by='game_date', ascending=False)
-    
+        print(team_stats_df)
         last_5_df = team_stats_df[team_stats_df['game_type'].isin(["regular"])].copy()
         last_5_df = last_5_df[~last_5_df['team_score'].isin([0])]
         last_5_df['game_date'] = last_5_df['game_date'].dt.date
