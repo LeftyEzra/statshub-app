@@ -50,7 +50,7 @@
                             <img src="{{ player_details.player_image.url }}" alt="{{ player_details.player_name }}" 
                                  style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; box-shadow: 0 0 20px rgba(0,0,0,0.5);">
                             {% else %}
-                            <img src="/media/uploads/Team_Logos/python.PNG" alt="Player Image"
+                            <img src="https://res.cloudinary.com/dgznffguu/image/upload/v1/uploads/Team_Logos/python.PNG" alt="Player Image"
                                  style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;">
                             {% endif %}
                         </div>
@@ -112,7 +112,7 @@
                     <li class="nav-item" role="presentation"><a class="nav-link" href="#tabs-1-3" data-bs-toggle="tab" aria-selected="false" role="tab" tabindex="-1"> Gamelog</a></li>
                     <li class="nav-item" role="presentation"><a class="nav-link" href="#tabs-1-4" data-bs-toggle="tab" aria-selected="false" role="tab" tabindex="-1">Splits</a></li>
                     <li class="nav-item" role="presentation"><a class="nav-link" href="#tabs-1-5" data-bs-toggle="tab" aria-selected="false" role="tab" tabindex="-1">Biography</a></li>
-                    <li class="nav-item" role="presentation"><a class="nav-link" href="{% url 'player-dashboard'  player_slug=player_details.slug %}" data-bs-toggle="tab" aria-selected="false" role="tab" tabindex="-1">Analytics</a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link" href="" data-bs-toggle="tab" aria-selected="false" role="tab" tabindex="-1">Analytics</a></li>
                   </ul>
                   <button class="button button-nav button-next" data-nav-next=""><span class="icon mdi mdi-chevron-right"></span></button>
                 </div>
@@ -148,7 +148,7 @@
                                                 <span class="h6 fw-bold mb-0 d-block text-truncate">{{ last_game.team__name }}</span>
                                                 <small class="text-muted">{{regular_season_wins}}-{{regular_season_losses}}</small>
                                             </div>
-                                            <img src="/media/{{ last_game.team__team_logo }}" alt="Team" style="height: 30px; width: auto;">
+                                            <img src="https://res.cloudinary.com/dgznffguu/image/upload/v1/{{ last_game.team__team_logo }}" alt="Team" style="height: 30px; width: auto;">
                                         </div>
 
                                         <div class="px-2 text-center" style="flex: 0 0 auto;">
@@ -166,7 +166,7 @@
                                         </div>
 
                                         <div class="d-flex align-items-center" style="flex: 1; min-width: 0;">
-                                            <img src="/media/{{ last_game.game_schedule__opponent__logo }}" alt="Opponent" style="height: 30px; width: auto;">
+                                            <img src="https://res.cloudinary.com/dgznffguu/image/upload/v1/{{ last_game.game_schedule__opponent__logo }}" alt="Opponent" style="height: 30px; width: auto;">
                                             <div class="text-start ps-1" style="flex: 1; min-width: 0;">
                                                 <span class="h6 fw-bold mb-0 d-block text-truncate">{{last_game.game_schedule__opponent__name}}</span>
                                                 <small class="text-muted">2-2</small>
@@ -842,7 +842,7 @@
 
                                                             <div class="team-figure" style="min-width: 20px;">
                                                                 {% if game.game_schedule__opponent__logo %}
-                                                                    <img src="/media/{{ game.game_schedule__opponent__logo }}" alt="{{ game.game_schedule__opponent__abbreviation }}" style="border-radius: 50px;" width="20" height="20">
+                                                                    <img src="https://res.cloudinary.com/dgznffguu/image/upload/v1/{{ game.game_schedule__opponent__logo }}" alt="{{ game.game_schedule__opponent__abbreviation }}" style="border-radius: 50px;" width="20" height="20">
                                                                 {% else %}
                                                                     <div style="width: 30px; height: 30px; background: #eee; border-radius: 50%;"></div>
                                                                 {% endif %}
@@ -1250,7 +1250,7 @@
             <div class="thumbnail-minimal-figure">
                 
               <a href="{% url 'players-id' competition.slug player.player_name__slug  %}">
-                <img src="/media/{{ player.player_name__player_image }}" alt="{{ player.player_name__player_name }}" class="player-img-fixed">
+                <img src="https://res.cloudinary.com/dgznffguu/image/upload/v1/{{ player.player_name__player_image }}" alt="{{ player.player_name__player_name }}" class="player-img-fixed">
               </a>
             </div>
 

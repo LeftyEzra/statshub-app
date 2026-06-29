@@ -622,6 +622,7 @@ def team_shot_chart(request, competition_slug):
     team_details = team
     
     players = team_details.players.all()  # Using the foreign key Team related_name 'players'
+    print(players)
     # Get the player's statistics
     all_games = Game.objects.filter(competition=competition).prefetch_related('quarterly_scores')
     ##  Returns only the stats for the games in this competition.
@@ -689,6 +690,9 @@ def team_shot_chart(request, competition_slug):
                                 'dreb', 'rebs',
                                 'fgm', 'fga','fta', 'ftm',
                                 'p3a', 'p3m']].sum().reset_index()
+        print("LAST 5 GAMES ") 
+        print()                        
+        print(last_5_df)                        
         last_5_games_df = last_5_df.tail()
         #print(last_5_games_df)
     
