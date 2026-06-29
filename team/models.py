@@ -494,7 +494,7 @@ class ShotCharts(models.Model):
     team = models.ForeignKey(Team, related_name='team_charts', on_delete=models.CASCADE, blank=True, null=True)
     player = models.ForeignKey(Player, related_name='player_chart', on_delete=models.CASCADE, blank=True, null=True)
     chart_texts = models.TextField(max_length=20000, default='', blank=True, null=True)
-    
+    game = models.ForeignKey('Game', related_name='game_chart', on_delete=models.CASCADE, blank=True, null=True)
     
 
     def __str__(self):

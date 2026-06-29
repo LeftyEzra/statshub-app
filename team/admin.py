@@ -349,7 +349,7 @@ class GalleryImagesAdmin(admin.ModelAdmin):
 #Register Action Photos in the Admin area
 @admin.register(ShotCharts)
 class ShotChartAdmin(admin.ModelAdmin):
-    list_display = ('chart_title', 'chart_images', 'team', 'player', 'chart_texts')
+    list_display = ('chart_title', 'chart_images', 'team', 'player', 'game', 'chart_texts')
 
 
 

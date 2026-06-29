@@ -392,6 +392,11 @@
 }
 
 
+
+
+
+
+/* Game Schedule for International Game*/
 @media (max-width: 768px) {
   .game-info-middle {
     display: flex !important;
@@ -427,34 +432,3 @@
 
 
 
-/* STANDING */
-@media (max-width: 768px) {
-  .team-inline {
-    display: flex !important;
-    align-items: center !important;   /* logo + text aligned */
-    gap: 8px !important;              /* space between logo and text */
-    white-space: nowrap !important;   /* keep text on one line */
-  }
-
-  .team-figure {
-    flex: 0 0 30px !important;        /* fixed logo size */
-  }
-
-  .team-figure img {
-    width: 30px !important;
-    height: 30px !important;
-    object-fit: cover !important;
-    border-radius: 50% !important;    /* circle logos */
-  }
-
-  .team-title {
-    flex: 1 !important;               /* take remaining space */
-    min-width: 0 !important;          /* allow shrinking */
-   
-  }
-
-  .team-name,
-  .team-country {
-    font-size: clamp(0.7rem, 2vw, 0.9rem) !important;
-  }
-}

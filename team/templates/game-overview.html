@@ -646,7 +646,38 @@
                   </article>
                 </div>
                 <!-- Game Result End -->
+                
 
+                <!-- Game Chart Begin -->
+                 <div class="col-sm-12">
+                    <!-- Heading Component-->
+                    <article class="heading-component">
+                      <div class="heading-component-inner">
+                        <h5 class="heading-component-title">Game Chart</h5>
+                      </div>
+                    </article>
+
+                    <!-- Game Chart -->
+                    <article class="game-chart-card" style="border-radius: 10px;">
+                      {% if game.chart_image %}
+                        <div class="game-chart">
+                          <figure>
+                            <img src="{{ game.chart_image.url }}" 
+                                alt="Game chart for {{ game.team__name }} vs {{ game.opponent__name }}" 
+                                class="img-fluid">
+                            <figcaption class="chart-caption">
+                              Chart for {{ game.team__name }} vs {{ game.opponent__name }}
+                            </figcaption>
+                          </figure>
+                        </div>
+                      {% else %}
+                        <p class="no-chart">No chart uploaded yet for this game.</p>
+                      {% endif %}
+                    </article>
+                  </div>
+
+
+                <!--Game Chart End --> 
               
 
                 <!-- Game Statistics -->  

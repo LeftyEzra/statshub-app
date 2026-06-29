@@ -71,6 +71,11 @@
         {% render_field form.player class="form-select bg-dark text-white border-secondary" %}
       </div>
 
+      <div class="mb-3">
+        <label for="{{ form.game.id_for_label }}" class="form-label">Select game</label>
+        {% render_field form.game class="form-select bg-dark text-white border-secondary" %}
+      </div>
+
       
        <!-- Shot Chart Image -->
       <div class="mb-3">
