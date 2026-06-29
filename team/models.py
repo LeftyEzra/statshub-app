@@ -370,7 +370,8 @@ class Game(AutoSlugModel):
     opponent_scores = models.PositiveIntegerField(blank=True, null=True, default=0)
     team_win_loss = models.CharField(max_length=4, choices=WIN_LOSS_CHOICES, blank=True, null=True, verbose_name='Team Win/Loss')
     game_venue = models.ForeignKey(Venue, related_name='games', on_delete=models.CASCADE, blank=True, null=True)
-
+    game_chart = models.ImageField(upload_to='uploads/Game_Chart/',blank=True, null=True)  # This will automatically create a folder in the project directory.
+    
     # SEPARATE SLUG FUNCTION LOGIC FROM THE CUSTOM CLASS
     def save(self, *args, **kwargs):
         if not self.slug: # Check if a slug doesn't exist yet
@@ -494,7 +495,6 @@ class ShotCharts(models.Model):
     team = models.ForeignKey(Team, related_name='team_charts', on_delete=models.CASCADE, blank=True, null=True)
     player = models.ForeignKey(Player, related_name='player_chart', on_delete=models.CASCADE, blank=True, null=True)
     chart_texts = models.TextField(max_length=20000, default='', blank=True, null=True)
-    game = models.ForeignKey('Game', related_name='game_chart', on_delete=models.CASCADE, blank=True, null=True)
     
 
     def __str__(self):

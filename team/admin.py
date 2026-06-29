@@ -282,7 +282,7 @@ class GameAdmin(admin.ModelAdmin):
     inlines = [QuarterlyScoresInline]
     list_display = ('date','time','competition','game_type', 'team',
                     'indicator', 'opponent', 'team_scores' ,
-                     'opponent_scores', 'team_win_loss', 'game_venue')
+                     'opponent_scores', 'team_win_loss', 'game_venue', 'game_chart')
     ordering = ("-date", 'competition',)
     search_fields = ('date', 'competition', 'game_type')
     search_help_text = ('team', 'game_type')
@@ -349,7 +349,7 @@ class GalleryImagesAdmin(admin.ModelAdmin):
 #Register Action Photos in the Admin area
 @admin.register(ShotCharts)
 class ShotChartAdmin(admin.ModelAdmin):
-    list_display = ('chart_title', 'chart_images', 'team', 'player', 'game', 'chart_texts')
+    list_display = ('chart_title', 'chart_images', 'team', 'player',  'chart_texts')
 
 
 
