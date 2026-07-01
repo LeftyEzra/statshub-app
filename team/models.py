@@ -538,6 +538,10 @@ class Awards(models.Model):
     name = models.CharField(max_length=200, blank=True, null=True) 
     image = models.ImageField(upload_to='uploads/Awards/',blank=True, null=True)
     date = models.DateField(default=timezone.now)
+    player_award = models.ForeignKey('Player', on_delete=models.CASCADE, related_name='career_awards', blank=True, null=True, help_text="The player associated with awards.") 
+    team_award = models.ForeignKey('Team', on_delete=models.CASCADE, related_name='team_trophy', blank=True, null=True,) 
+    career_awards = models.CharField(max_length=100, default='', blank=True, null=True,)
+    award_year = models.CharField(max_length=4, default='2026', blank=True, null=True,)
 
     def __str__(self):
         return self.name

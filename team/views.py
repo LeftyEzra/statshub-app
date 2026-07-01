@@ -857,7 +857,7 @@ class PlayerDetailView(View):
                 print(f"Team: {team}.upper()")
                 player_details = get_object_or_404(Player, slug=slug, team=team)
                 
-                other_players = Player.objects.exclude(slug=slug).order_by('player_name')
+                other_players = Player.objects.exclude(slug=slug, team=team).order_by('player_name')
                 player_details.age = calculate_age(player_details.date_of_birth)  # Calculate the player's age
                 career_records = player_details.career_records.first()
 
@@ -1133,7 +1133,7 @@ def player_stats_charts(request, player_slug):
     competition = player_details.team.competitions
     
     # Get the player's statistics
-    tournament_stats = PlayerStatLine.objects.filter(player_name=player_details)
+    tournament_stats = PlayerStatLine.objects.filter(player_name=player_details, competition=competition)
     
     pd.set_option("display.max_columns", None)
     pd.set_option("display.max_rows", None)

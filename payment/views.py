@@ -130,7 +130,6 @@ def checkout(request):
                     product=item['product'],
                     quantity=item['qty'],
                     price=item['sale_price'] if item['is_sales'] else item['price'],
-                    # Ensure color and size fields are present in your OrderItem Model!
                     color=item['color'],
                     size=item['size']
                 )

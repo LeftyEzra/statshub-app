@@ -112,7 +112,7 @@
                     <li class="nav-item" role="presentation"><a class="nav-link" href="#tabs-1-3" data-bs-toggle="tab" aria-selected="false" role="tab" tabindex="-1"> Gamelog</a></li>
                     <li class="nav-item" role="presentation"><a class="nav-link" href="#tabs-1-4" data-bs-toggle="tab" aria-selected="false" role="tab" tabindex="-1">Splits</a></li>
                     <li class="nav-item" role="presentation"><a class="nav-link" href="#tabs-1-5" data-bs-toggle="tab" aria-selected="false" role="tab" tabindex="-1">Biography</a></li>
-                    <li class="nav-item" role="presentation"><a class="nav-link" href="" data-bs-toggle="tab" aria-selected="false" role="tab" tabindex="-1">Analytics</a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link" href="{% url 'player-dashboard' player_slug=player_details.slug %}" data-bs-toggle="tab" aria-selected="false" role="tab" tabindex="-1">Analytics</a></li>
                   </ul>
                   <button class="button button-nav button-next" data-nav-next=""><span class="icon mdi mdi-chevron-right"></span></button>
                 </div>
@@ -216,7 +216,7 @@
                                     </div>
                                     <!-- Last Game Table-->
                                     <div class="table-responsive border-top">
-                                        <table class="table table-sm mb-0 text-center w-100" style="table-layout: fixed; font-size: 11px;">
+                                        <table class="table table-sm mb-0 text-center w-100" style="overflow-x: auto; font-size: 11px;">
                                             <thead>
                                                 <tr class="text-muted border-bottom" style="background: #fcfcfc;">
                                                     <th class="py-2 text-start ps-3" style="width: 90px;">SPLITS</th>
@@ -776,158 +776,157 @@
                   <!-- Tab 3 Game Log-->
                   
                     <div class="container-fluid p-0 tab-pane fade" id="tabs-1-3" role="tabpanel"  > 
-                       
                          <!-- Last 5 Games Table-->
-                                <div class="game-stat-card mb-4 shadow-sm bg-white border overflow-hidden" style="border-radius: 10px;">
-                                    <div class="table-responsive-last_5 border-top" >
-                                        <table class="table table-hover table-striped table-sm mb-0 text-center w-100" style=" font-size: 12px;">
+                        <div class="game-stat-card mb-4 shadow-sm bg-white border overflow-hidden" style="border-radius: 10px;">
+                            <div class="table-responsive-last_5 border-top" >
+                                <table class="table table-hover table-striped table-sm mb-0 text-center w-100" style=" font-size: 12px;">
+                                
+                                    <thead>
+                                    <tr class="text-light border-bottom bg-success flex-nowrap" data-year="{{ game.date|date:'Y' }}" data-month="{{ game.date|date:'F' }}">
                                         
-                                            <thead>
-                                            <tr class="text-light border-bottom bg-success flex-nowrap" data-year="{{ game.date|date:'Y' }}" data-month="{{ game.date|date:'F' }}">
-                                                
-                                                <th class="sticky-col-1 text-left bg-success"  style="width: 100px; ">DATE</th>
-                                                <th style="text-align: left; width: 100px; ">TIME</th>
-                                                <th style="text-align: left; width: 100px; ">GAME</th>
-                                                <th style="text-align: left; width: 100px; ">RESULTS</th>
-                                                <th class="py-2">MIN</th>
+                                        <th class="sticky-col-1 text-left bg-success"  style="width: 100px; ">DATE</th>
+                                        <th style="text-align: left; width: 100px; ">TIME</th>
+                                        <th style="text-align: left; width: 100px; ">GAME</th>
+                                        <th style="text-align: left; width: 100px; ">RESULTS</th>
+                                        <th class="py-2">MIN</th>
 
-                                                <th class="py-2">+PTS</th>
-                                                <th class="py-2">+REB</th>
-                                                <th class="py-2">+AST</th>
+                                        <th class="py-2">+PTS</th>
+                                        <th class="py-2">+REB</th>
+                                        <th class="py-2">+AST</th>
 
-                                                <th class="py-2">FGM</th>
-                                                <th class="py-2">FGA</th>
-                                                <th class="py-2">FG%</th>
-                                                
-                                                <th class="py-2">3PM</th>
-                                                <th class="py-2">3PA</th>
-                                                <th class="py-2">3P%</th>
+                                        <th class="py-2">FGM</th>
+                                        <th class="py-2">FGA</th>
+                                        <th class="py-2">FG%</th>
+                                        
+                                        <th class="py-2">3PM</th>
+                                        <th class="py-2">3PA</th>
+                                        <th class="py-2">3P%</th>
 
-                                                <th>FTM</th>
-                                                <th>FTA</th>
-                                                <th>FT%</th>
+                                        <th>FTM</th>
+                                        <th>FTA</th>
+                                        <th>FT%</th>
 
-                                                <th>OREB</th>
-                                                <th>DREB</th>
-                                                <th>REB</th>
+                                        <th>OREB</th>
+                                        <th>DREB</th>
+                                        <th>REB</th>
 
-                                                <th>STL</th>
-                                                <th>TOV</th>
-                                                <th>BLK</th>
-                                                <th>PF</th>
-                                                <th>+/-</th>
-                                                <th>EFF</th>
-                                                <th>DEF</th>
+                                        <th>STL</th>
+                                        <th>TOV</th>
+                                        <th>BLK</th>
+                                        <th>PF</th>
+                                        <th>+/-</th>
+                                        <th>EFF</th>
+                                        <th>DEF</th>
 
-                                                
-                                               
-                                            </tr>
+                                        
+                                        
+                                    </tr>
+                                    
+                                    </thead>
+                                    <tbody>
+                                        
+                                    {% for game in game_schedules %}
+                                        
+                                        <tr class="border-bottom">
                                             
-                                            </thead>
-                                            <tbody>
-                                                
-                                            {% for game in game_schedules %}
-                                               
-                                                <tr class="border-bottom">
-                                                    
-                                                    <td class="text-left sticky-col-1 bg-white">
-                                                        <a href="{% url 'game-overview' competition.slug game.game_slug %}" class="btn-link">{{ game.game_schedule__date|date:"M d, Y" }}</a>
-                                                    </td>
-                                                    <td class="text-left " style="text-align: left; min-width: 60px; ">{{ game.game_schedule__time|time:"H:i" }}</td>
-                                                    <td  style="text-align: left; width: 100px;">
-                                                        <div style="display: flex; align-items: center; gap: 10px; min-width: 120px;">
-                                                            <span class="font-weight" style="color: #666; font-size: 1.2em; width: 5px;">
-                                                                {{ game.game_schedule__indicator }}
-                                                            </span>
+                                            <td class="text-left sticky-col-1 bg-white">
+                                                <a href="{% url 'game-overview' competition.slug game.game_slug %}" class="btn-link">{{ game.game_schedule__date|date:"M d, Y" }}</a>
+                                            </td>
+                                            <td class="text-left " style="text-align: left; min-width: 60px; ">{{ game.game_schedule__time|time:"H:i" }}</td>
+                                            <td  style="text-align: left; width: 100px;">
+                                                <div style="display: flex; align-items: center; gap: 10px; min-width: 120px;">
+                                                    <span class="font-weight" style="color: #666; font-size: 1.2em; width: 5px;">
+                                                        {{ game.game_schedule__indicator }}
+                                                    </span>
 
-                                                            <div class="team-figure" style="min-width: 20px;">
-                                                                {% if game.game_schedule__opponent__logo %}
-                                                                    <img src="https://res.cloudinary.com/dgznffguu/image/upload/v1/{{ game.game_schedule__opponent__logo }}" alt="{{ game.game_schedule__opponent__abbreviation }}" style="border-radius: 50px;" width="20" height="20">
-                                                                {% else %}
-                                                                    <div style="width: 30px; height: 30px; background: #eee; border-radius: 50%;"></div>
-                                                                {% endif %}
-                                                            </div>
+                                                    <div class="team-figure" style="min-width: 20px;">
+                                                        {% if game.game_schedule__opponent__logo %}
+                                                            <img src="https://res.cloudinary.com/dgznffguu/image/upload/v1/{{ game.game_schedule__opponent__logo }}" alt="{{ game.game_schedule__opponent__abbreviation }}" style="border-radius: 50px;" width="20" height="20">
+                                                        {% else %}
+                                                            <div style="width: 30px; height: 30px; background: #eee; border-radius: 50%;"></div>
+                                                        {% endif %}
+                                                    </div>
 
-                                                            <div class="team-title" style=" gap: 0px; ">
-                                                                <div class="font-weight" style="white-space: nowrap; gap: 0px;">
-                                                                    <h6 style="margin-left: -13; font-size: smaller;">{{ game.game_schedule__opponent__name }}</h6>
-                                                                </div>
-                                                            </div>
+                                                    <div class="team-title" style=" gap: 0px; ">
+                                                        <div class="font-weight" style="white-space: nowrap; gap: 0px;">
+                                                            <h6 style="margin-left: -13; font-size: smaller;">{{ game.game_schedule__opponent__name }}</h6>
                                                         </div>
-                                                    </td>
+                                                    </div>
+                                                </div>
+                                            </td>
 
-                                                    
-                                                    {% if game.game_schedule__team_scores %}
-                                                            {% if game.game_schedule__team_scores > game.game_schedule__opponent_scores %}
-                                                            <td style="text-align: left; min-width: 80px; ">
-                                                                <span style="color:#35ad79;">{{ game.game_schedule__team_win_loss|slice:":1" }}</span> {{ game.game_schedule__team_scores|floatformat:0 }}-{{ game.game_schedule__opponent_scores|floatformat:0 }}
-                                                            </td>
-                                                            {% else %}
-                                                            <td style="text-align: left;  min-width: 80px;">
-                                                                <span style="color: red;">{{ game.game_schedule__team_win_loss|slice:":1" }}</span> {{ game.game_schedule__team_scores|floatformat:0 }}-{{ game.game_schedule__opponent_scores|floatformat:0 }}
-                                                            </td>
-                                                            {% endif %}
-                                                    {% else %}
-                                                        <td style="text-align: left;  min-width: 80px;">
-                                                        
-                                                        </td>
-                                                    {% endif %}
-                                                    
-                                               
-                                                {% if game.game_schedule__team_scores > 0 %}
-                                                <td >{{ game.minutes|default:"00:00" }}</td>
-
-                                                <td style="background-color: #b5f2d6;">{{ game.points|default:"0" }}</td> 
-                                                <td style=" background-color: #b5f2d6;">{{ game.total_rebounds|default:"0" }}</td>
-                                                <td style="background-color: #b5f2d6;">{{ game.assists|default:"0" }}</td>
-
-                                                <td>{{ game.field_goal_made|default:"0" }}</td> 
-                                                <td>{{ game.field_goal_attempts|default:"0" }}</td>
-                                                <td>{{ game.fg_percent|default:"0.0" }}%</td>
-
-                                                <td>{{ game.point_3_made|default:"0" }}</td> 
-                                                <td>{{ game.point_3_attempts|default:"0" }}</td>
-                                                <td>{{ game.point_3_percent|default:"0.0" }}%</td>
-
-
-                                                <td>{{ game.ft_made|default:"0" }}</td> 
-                                                <td>{{ game.ft_attempts|default:"0" }}</td>
-                                                <td>{{ game.ft_percent|default:"0.0" }}%</td>
-
-                                                <td>{{ game.offensive_rebs|default:"0" }}</td> 
-                                                <td>{{ game.defensive_rebs|default:"0" }}</td>
-                                                <td>{{ game.total_rebounds|default:"0" }}</td>
-
-                                                <td>{{ game.steals|default:"0" }}</td> 
-                                                <td>{{ game.turnovers|default:"0" }}</td>
-                                                <td>{{ game.blocks|default:"0" }}</td>
-                                                <td>{{ game.personal_fouls|default:"0" }}</td>
-                                                <td>{{ game.plus_minus|default:"0"}}</td> 
-                                                <td>{{ game.efficiency|default:"0" }}</td>
-                                                <td>{{ game.def|default:"0" }}</td>
-                                                {% else %}
-                                                <td></td><td style="background-color: #b5f2d6;"></td>
-                                                <td style="background-color: #b5f2d6;"></td>
-                                                <td style="background-color: #b5f2d6;"></td>
-                                                <td></td><td></td>
-                                                <td></td><td></td><td></td><td></td><td></td><td></td>
-                                                <td></td><td></td><td></td><td></td><td></td>
-                                                <td></td><td></td><td></td><td></td><td></td><td></td>
-                                                {% endif %}
-
-                                   
-                                                
-                                                </tr>
-                                                
-                                             
-                                            {% endfor %}
                                             
-                                          
-                                            </tbody>
-                                          
-                                        </table>
-                                    </div>
-                                </div>
+                                            {% if game.game_schedule__team_scores %}
+                                                    {% if game.game_schedule__team_scores > game.game_schedule__opponent_scores %}
+                                                    <td style="text-align: left; min-width: 80px; ">
+                                                        <span style="color:#35ad79;">{{ game.game_schedule__team_win_loss|slice:":1" }}</span> {{ game.game_schedule__team_scores|floatformat:0 }}-{{ game.game_schedule__opponent_scores|floatformat:0 }}
+                                                    </td>
+                                                    {% else %}
+                                                    <td style="text-align: left;  min-width: 80px;">
+                                                        <span style="color: red;">{{ game.game_schedule__team_win_loss|slice:":1" }}</span> {{ game.game_schedule__team_scores|floatformat:0 }}-{{ game.game_schedule__opponent_scores|floatformat:0 }}
+                                                    </td>
+                                                    {% endif %}
+                                            {% else %}
+                                                <td style="text-align: left;  min-width: 80px;">
+                                                
+                                                </td>
+                                            {% endif %}
+                                            
+                                        
+                                        {% if game.game_schedule__team_scores > 0 %}
+                                        <td >{{ game.minutes|default:"00:00" }}</td>
+
+                                        <td style="background-color: #b5f2d6;">{{ game.points|default:"0" }}</td> 
+                                        <td style=" background-color: #b5f2d6;">{{ game.total_rebounds|default:"0" }}</td>
+                                        <td style="background-color: #b5f2d6;">{{ game.assists|default:"0" }}</td>
+
+                                        <td>{{ game.field_goal_made|default:"0" }}</td> 
+                                        <td>{{ game.field_goal_attempts|default:"0" }}</td>
+                                        <td>{{ game.fg_percent|default:"0.0" }}%</td>
+
+                                        <td>{{ game.point_3_made|default:"0" }}</td> 
+                                        <td>{{ game.point_3_attempts|default:"0" }}</td>
+                                        <td>{{ game.point_3_percent|default:"0.0" }}%</td>
+
+
+                                        <td>{{ game.ft_made|default:"0" }}</td> 
+                                        <td>{{ game.ft_attempts|default:"0" }}</td>
+                                        <td>{{ game.ft_percent|default:"0.0" }}%</td>
+
+                                        <td>{{ game.offensive_rebs|default:"0" }}</td> 
+                                        <td>{{ game.defensive_rebs|default:"0" }}</td>
+                                        <td>{{ game.total_rebounds|default:"0" }}</td>
+
+                                        <td>{{ game.steals|default:"0" }}</td> 
+                                        <td>{{ game.turnovers|default:"0" }}</td>
+                                        <td>{{ game.blocks|default:"0" }}</td>
+                                        <td>{{ game.personal_fouls|default:"0" }}</td>
+                                        <td>{{ game.plus_minus|default:"0"}}</td> 
+                                        <td>{{ game.efficiency|default:"0" }}</td>
+                                        <td>{{ game.def|default:"0" }}</td>
+                                        {% else %}
+                                        <td></td><td style="background-color: #b5f2d6;"></td>
+                                        <td style="background-color: #b5f2d6;"></td>
+                                        <td style="background-color: #b5f2d6;"></td>
+                                        <td></td><td></td>
+                                        <td></td><td></td><td></td><td></td><td></td><td></td>
+                                        <td></td><td></td><td></td><td></td><td></td>
+                                        <td></td><td></td><td></td><td></td><td></td><td></td>
+                                        {% endif %}
+
+                            
+                                        
+                                        </tr>
+                                        
+                                        
+                                    {% endfor %}
+                                    
+                                    
+                                    </tbody>
+                                    
+                                </table>
+                            </div>
+                        </div>
                     </div>
                   
 

@@ -71,6 +71,18 @@
         {% render_field form.image class="form-control bg-dark text-white border-light" %}
       </div>
 
+      <!-- Player -->
+      <div class="mb-3">
+        <label for="{{ form.player_award.id_for_label }}" class="form-label">Player</label>
+        {% render_field form.player_award class="form-select bg-dark text-white border-light" placeholder="Select Player" %}
+      </div>
+
+      <!-- Team -->
+      <div class="mb-3">
+        <label for="{{ form.team_award.id_for_label }}" class="form-label">Team</label>
+        {% render_field form.team_award class="form-select bg-dark text-white border-light" %}
+      </div>
+
       
       
     

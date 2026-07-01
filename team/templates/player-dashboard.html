@@ -168,7 +168,7 @@ canvas {
             <h3 class="breadcrumbs-custom-title">{{ player_details.player_name|default:"Name of Player" }} Analytics Dashboard</h3>
             <ul class="breadcrumbs-custom-path">
               <li><a href="{% url 'home' %}">Home</a></li>
-              <li><a href="{% url 'team-roster' competition.id %}">Roster</a></li>
+              <li><a href="{% url 'team-roster' competition.slug team.slug %}">Roster</a></li>
               <li class="active">Dashboard</li>
             </ul>
           </div>
@@ -246,7 +246,7 @@ canvas {
       {% for player in searched_players %}
         <li>
           <img src="{{ player.player_image.url }}" alt="{{ player.player_name }}" class="player-photo" width="40" height="40">
-          <a href="{% url 'players-id' competition.id player.pk %}">{{ player.player_name }}</a>
+          <a href="{% url 'players-id' competition.slug player.slug %}">{{ player.player_name }}</a>
           ({{ player.get_position_display }}) - Team: {{ player.team.name }}
         </li>
       {% endfor %}

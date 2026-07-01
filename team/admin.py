@@ -325,7 +325,7 @@ class TeamNewsAdmin(admin.ModelAdmin):
 #Register News in the Admin area
 @admin.register(Awards)
 class AwardsAdmin(admin.ModelAdmin):
-    list_display = ('date', 'name', 'image',)
+    list_display = ('date', 'name', 'image', 'player_award', 'team_award')
     list_filter = ('date',)
     search_fields = ('name',)
     ordering = ('date',)
