@@ -847,10 +847,32 @@ body{
 
 
 
-    /* Add this to your player-page.css */
-.stat-box-rectangular {
-    min-width: 60px; /* Ensures the box doesn't shrink until it hits 60px */
+    /* Rectangular Shrinking for Stat Boxes */
+    /* 1. General Styles (Applies to all screen sizes) */
+.stat-performance-section .row {
+    display: flex !important;
+    flex-wrap: nowrap !important;
 }
+
+.stat-performance-section .stat-box-rectangular {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100% !important;
+}
+
+/* 2. Mobile-Only Overrides (Only applies to screens < 768px) */
+@media (max-width: 768px) {
+    .stat-performance-section .col {
+        flex: 1 1 0 !important;
+        padding: 0 2px !important;
+    }
+
+    .stat-performance-section .stat-box-rectangular {
+        min-width: 60px !important;
+    }
+}
+
     .game-stat-card .h2 {
         font-weight: 800 !important;
         letter-spacing: -1px;
