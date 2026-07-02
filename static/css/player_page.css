@@ -885,31 +885,40 @@ body{
         -webkit-overflow-scrolling: touch;
     }
 
-@media (max-width: 576px) {
-    /* Force team names to truncate instead of expanding the div */
-    .text-truncate {
-        max-width: 90px !important; 
-        display: inline-block;
-    }
+
+
+
+
     
-    /* Further shrink images on very small devices */
-    .matchup-row img {
-        height: 24px !important;
-    }
-    
-    /* Shrink font sizes to fit score board */
-    .h6 {
-        font-size: 0.9rem !important;
-    }
-    
-    /* Reduce padding further for narrow phones */
-    .matchup-row {
-        padding-left: 2px !important;
-        padding-right: 2px !important;
-    }
+@media (max-width: 768px) {
+  .matchup-row {
+    flex-wrap: nowrap !important;       /* keep children in one row */
+  }
+
+  .matchup-row .h3 {
+    font-size: clamp(0.8rem, 2.5vw, 1.2rem) !important; /* shrink text */
+    white-space: normal !important;     /* allow wrapping if needed */
+  }
+
+  .matchup-row small {
+    font-size: clamp(0.6rem, 2vw, 0.8rem) !important;
+  }
+
+  .matchup-row img {
+    height: 24px !important;            /* shrink logos */
+    width: auto !important;
+  }
+
+  .matchup-row > .col-4 {
+    flex: 1 1 0 !important;             /* allow equal shrink */
+    min-width: 0 !important;            /* prevent overflow */
+  }
+
+  .matchup-row span {
+    overflow: visible !important;       /* no truncation */
+    text-overflow: unset !important;
+  }
 }
-
-
 
 
 
