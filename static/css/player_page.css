@@ -438,11 +438,11 @@ body{
 /* Mobile: switch to grid layout */
 @media (max-width: 768px) {
   .player-scroll-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    grid-auto-rows: auto;
+    display: flex; /* Keep as flex, not grid */
+    flex-wrap: nowrap; /* Force them to stay in one line */
+    overflow-x: auto; /* Allow horizontal scrolling */
     gap: 10px;
-    overflow-x: hidden;       /* no horizontal scroll */
+    padding-bottom: 10px; /* Space for the scrollbar if needed */
   }
   .player-card-col {
     width: 100%;              /* full width inside grid cell */

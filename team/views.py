@@ -1036,8 +1036,9 @@ class PlayerDetailView(View):
                     # Trying to get othr players mean values
                     other_players_df = pd.DataFrame(
                                     other_players_stats.values('player_name__id', 'player_name__slug', 'player_name__jersey_number','player_name__player_name', 'player_name__jersey_number',
-                                            'player_name__player_image','points', 'assists', 'player_name__position', 'game_schedule__game_type', 'game_schedule__team_scores',
+                                            'player_name__player_image','points', 'assists', 'player_name__position', 'team__name', 'game_schedule__game_type', 'game_schedule__team_scores',
                                             'offensive_rebs', 'defensive_rebs',))
+                    other_players_df = other_players_df[other_players_df['team__name'].isin(["Python"])].copy()                        
                     other_players_df = other_players_df[other_players_df['game_schedule__game_type'].isin(["regular"])]
                     other_players_df = other_players_df[~other_players_df['game_schedule__team_scores'].isin([0])]
                     other_players_df = other_players_df.rename(columns={'player_name__id':'player_id', })          
@@ -1133,7 +1134,7 @@ def player_stats_charts(request, player_slug):
     competition = player_details.team.competitions
     
     # Get the player's statistics
-    tournament_stats = PlayerStatLine.objects.filter(player_name=player_details, competition=competition)
+    tournament_stats = PlayerStatLine.objects.filter(player_name=player_details,)
     
     pd.set_option("display.max_columns", None)
     pd.set_option("display.max_rows", None)
@@ -1155,7 +1156,7 @@ def player_stats_charts(request, player_slug):
                 'game_schedule__competition__year__year','game_schedule__team_scores', 'game_schedule__opponent_scores'
             )
         )
-
+        player_stats_df = player_stats_df[player_stats_df['team__name'].isin(["Python"])].copy()
         player_stats_df = player_stats_df.rename(columns={'player_name__id':'player_id'})          
         player_stats_df['total_rebounds'] = player_stats_df['offensive_rebs'] + player_stats_df['defensive_rebs']
         player_stats_df['game_schedule__date'] = (pd.to_datetime(player_stats_df['game_schedule__date'])).dt.strftime('%d/%m/%Y')
@@ -1178,7 +1179,7 @@ def player_stats_charts(request, player_slug):
             )
         )         
         player_stats_df['def'] = player_stats_df['steals'] * 2 + player_stats_df['blocks'] * 2 + player_stats_df['defensive_rebs'] * 0.5 
-        
+       
         # TEAM TOTALS MATRIX
         all_games = Game.objects.all().prefetch_related('quarterly_scores')
         all_game_stats = PlayerStatLine.objects.filter(game_schedule__in=all_games)
@@ -1221,6 +1222,7 @@ def player_stats_charts(request, player_slug):
         all_games_values['def'] = all_games_values['steals'] * 2 + all_games_values['blocks'] * 2 + all_games_values['defensive_rebs'] * 0.5 
 
         team_matrix_df = all_games_values[all_games_values['game_schedule__game_type'].isin(["regular"])]
+        team_matrix_df = all_games_values[all_games_values['team__name'].isin(["Python"])]
         team_matrix_df = team_matrix_df[~team_matrix_df['game_schedule__team_scores'].isin([0])]
         team_matrix_df = team_matrix_df[[ "player_name__player_name", 'points', "total_rebounds",'assists','field_goal_attempts', 'field_goal_made',  'point_3_attempts', 'point_3_made',
                                              'ft_attempts', 'ft_made', 'offensive_rebs', 'defensive_rebs','turnovers',  'blocks', 'steals', 'personal_fouls',
@@ -1360,8 +1362,7 @@ def player_shot_chart(request, player_slug):
 
         # Apply the rename
         player_stats_df.rename(columns=column_mapping, inplace=True)
-
-                
+              
         player_stats_df['rebs'] = player_stats_df['oreb'] + player_stats_df['dreb']
         player_stats_df['game_date'] = (pd.to_datetime(player_stats_df['game_date']))#.dt.strftime('%d/%m/%Y')
         #player_stats_df['fg_%'] = (((player_stats_df['fgm'] / player_stats_df['fga']) * 100).round(1)).fillna(0)

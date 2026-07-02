@@ -76,24 +76,6 @@ def logout_user(request):
     return redirect('login-user')
 
 
-# Create User Form
-"""def register_user(request):
-    if request.method == 'POST':
-        form = ResgisterUserForm(request.POST)
-        if form.is_valid():
-            form.save()
-            username = form.cleaned_data['username']
-            password = form.cleaned_data['password1']
-            user = authenticate(username=username, password=password)
-            login(request, user)
-            messages.success(request, ("Registration Successful! ):") )
-            return redirect("home")
-    else:
-        form = ResgisterUserForm()
-
-    return render(request, 'authentication/register_user.html', {"form":form})"""
-
-
 
 # Create User Form
 def register_user(request):
@@ -134,33 +116,6 @@ def update_user(request):
         return redirect('home')     
 
 
-#Update Password Method 1
-"""def update_password(request):
-    if request.user.is_authenticated:
-        current_user = request.user
-        #Did they fill out the page
-        if request.method == 'POST':
-            form = UpdatePasswordForm(current_user, request.POST)
-            if form.is_valid():
-                form.save()
-                messages.success(request, "Your Password Has Been Updated, Please Log In Again")
-                # Automatic log in
-                login(request, current_user)
-                return redirect('login-user')
-            else:
-                for error in list(form.errors.values()):
-                    messages.error(request, error)
-                    return redirect('update-password')
-
-
-        else:
-            form = UpdatePasswordForm(current_user)
-            return render(request, 'authentication/update-password.html', {'form': form, 'current_user':current_user})
-
-    else:
-        messages.success(request, "You Must Be Logged In...")
-        return redirect('home')"""
-
 #Update Password Method 2
 def update_password(request):
     if request.user.is_authenticated:
@@ -169,6 +124,8 @@ def update_password(request):
             if form.is_valid():
                 user = form.save()
                 update_session_auth_hash(request, user)
+                # Automatic log in
+                #login(request, current_user)
                 messages.success(request, "Your Password Has Been Updated, Please Log In Again")
                 return redirect('login-user')
             else:
