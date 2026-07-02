@@ -847,14 +847,10 @@ body{
 
 
 
-    /* Rectangular Shrinking for Stat Boxes */
-    .stat-box-rectangular {
-        display: flex;
-        flex-direction: column;
-        height: 100%;
-        min-width: 0; /* Allows shrinking */
-    }
-
+    /* Add this to your player-page.css */
+.stat-box-rectangular {
+    min-width: 60px; /* Ensures the box doesn't shrink until it hits 60px */
+}
     .game-stat-card .h2 {
         font-weight: 800 !important;
         letter-spacing: -1px;
