@@ -437,17 +437,25 @@ body{
 
 /* Mobile: switch to grid layout */
 @media (max-width: 768px) {
-  .player-scroll-grid {
-    display: flex; /* Keep as flex, not grid */
-    flex-wrap: nowrap; /* Force them to stay in one line */
-    overflow-x: auto; /* Allow horizontal scrolling */
-    gap: 10px;
-    padding-bottom: 10px; /* Space for the scrollbar if needed */
-  }
-  .player-card-col {
-    width: 100%;              /* full width inside grid cell */
+  /* 1. The Container: Force a 2-row grid */
+.player-scroll-grid {
+    display: grid;
+    /* This creates 2 rows of equal height */
+    grid-template-rows: repeat(2, auto); 
+    /* This creates as many columns as fit */
+    grid-auto-flow: column; 
+    gap: 15px;
+    padding: 10px;
+    
+    /* Allow horizontal scroll if there are more than 2 rows worth of players */
+    overflow-x: auto; 
+}
+
+/* 2. The Card: Ensure a consistent size */
+.player-card-col {
+    width: 180px; /* Adjust this width based on your preference */
     margin-right: 0;
-  }
+}
 }
 
 
