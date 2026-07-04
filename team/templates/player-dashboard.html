@@ -12,7 +12,7 @@
     /* Very compact height for mobile */
     .chart-box {
         position: relative; 
-        height: 85px 
+        height: 85px; 
         width: 100%; 
         margin: 0 auto;
     }
@@ -236,7 +236,7 @@ canvas {
 </section>
 {% endif %}
 
-<!-- This is the block your JS is looking for -->
+<!-- This is the block JS is looking for -->
 <div class="rd-search-results" style="display: none;">
  
 
@@ -266,7 +266,7 @@ canvas {
             <div class="col-lg-6 col-12 mb-4">
                 <div class="card shadow-sm border-0 h-100" style="background: white; border-radius: 12px; padding: 15px;">
                     <h5 class="text-center mb-3" style="font-weight: bold; color: #333; font-size: 1.1rem;">
-                        <i class="fas fa-chart-bar mr-2"></i> {{player_details.player_name }} Season Totals Matrix
+                        <i class="fas fa-chart-bar mr-2"></i> {{player_details.team }} Season Totals 
                     </h5>
                     <div style="height: 350px; width: 100%;">
                         <canvas id="matrixChart"></canvas>
@@ -277,7 +277,7 @@ canvas {
             <div class="col-lg-6 col-12 mb-4">
                 <div class="card shadow-sm border-0 h-100" style="background: white; border-radius: 12px; padding: 15px;">
                     <h5 class="text-center mb-3" style="font-weight: bold; color: #333; font-size: 1.1rem;">
-                        <i class="fas fa-calculator mr-2"></i> {{player_details.player_name }} Average Performance Matrix
+                        <i class="fas fa-calculator mr-2"></i> {{player_details.team }} Average Performance 
                     </h5>
                     <div style="height: 350px; width: 100%;">
                         <canvas id="matrixChartAvg"></canvas>
@@ -321,37 +321,37 @@ canvas {
                         </div>
                     </div>
 
-         <div class="row text-center gx-2 mt-n1">
+                    <div class="row text-center gx-2 mt-n1">
 
-            
-            <div class="col-4">
-                <div class="card shadow-sm border-0 p-1" style="border-radius: 10px; background-color: #e9ecef; height: 100%;">
-                    <h6 style="font-family: 'Arial Black'; color: black; font-size: 9px; margin-bottom: 5px;">FG%</h6>
-                    <div class="chart-box">
-                        <canvas id="fgDoughnut"></canvas>
+                        
+                        <div class="col-4">
+                            <div class="card shadow-sm border-0 p-1" style="border-radius: 10px; background-color: #e9ecef; height: 100%;">
+                                <h6 style="font-family: 'Arial Black'; color: black; font-size: 9px; margin-bottom: 5px;">FG%</h6>
+                                <div class="chart-box">
+                                    <canvas id="fgDoughnut"></canvas>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-4">
+                            <div class="card shadow-sm border-0 p-1" style="border-radius: 10px; background-color: #e9ecef; height: 100%;">
+                                <h6 style="font-family: 'Arial Black'; color: black; font-size: 9px; margin-bottom: 5px;">3PT%</h6>
+                                <div class="chart-box">
+                                    <canvas id="tpDoughnut"></canvas>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-4">
+                            <div class="card shadow-sm border-0 p-1" style="border-radius: 10px; background-color: #e9ecef; height: 100%;">
+                                <h6 style="font-family: 'Arial Black'; color: black; font-size: 9px; margin-bottom: 5px;">FT%</h6>
+                                <div class="chart-box">
+                                    <canvas id="ftDoughnut"></canvas>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
-                </div>
-            </div>
-
-            <div class="col-4">
-                <div class="card shadow-sm border-0 p-1" style="border-radius: 10px; background-color: #e9ecef; height: 100%;">
-                    <h6 style="font-family: 'Arial Black'; color: black; font-size: 9px; margin-bottom: 5px;">3PT%</h6>
-                    <div class="chart-box">
-                        <canvas id="tpDoughnut"></canvas>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-4">
-                <div class="card shadow-sm border-0 p-1" style="border-radius: 10px; background-color: #e9ecef; height: 100%;">
-                    <h6 style="font-family: 'Arial Black'; color: black; font-size: 9px; margin-bottom: 5px;">FT%</h6>
-                    <div class="chart-box">
-                        <canvas id="ftDoughnut"></canvas>
-                    </div>
-                </div>
-            </div>
-
-        </div>
                 </div>
             </div>
 
@@ -418,40 +418,40 @@ canvas {
           </div>
           <div class="card-body p-2" style="background-color: #e9ecef;">
     
-    <div class="mb-4">
-        <h6 class="text-center small font-weight-bold text-muted text-uppercase mb-2" style="letter-spacing: 1px;">Field Goals</h6>
-        <div class="row row-cols-5 g-1 mx-0">
-            <div class="col"><div style="height: 85px"><canvas id="fgBar1"></canvas></div><div style="height: 60px;"><canvas id="fgDonut1"></canvas></div></div>
-            <div class="col"><div style="height: 85px"><canvas id="fgBar2"></canvas></div><div style="height: 60px;"><canvas id="fgDonut2"></canvas></div></div>
-            <div class="col"><div style="height: 85px"><canvas id="fgBar3"></canvas></div><div style="height: 60px;"><canvas id="fgDonut3"></canvas></div></div>
-            <div class="col"><div style="height: 85px"><canvas id="fgBar4"></canvas></div><div style="height: 60px;"><canvas id="fgDonut4"></canvas></div></div>
-            <div class="col"><div style="height: 85px"><canvas id="fgBar5"></canvas></div><div style="height: 60px;"><canvas id="fgDonut5"></canvas></div></div>
-        </div>
-    </div>
+            <div class="mb-4">
+                <h6 class="text-center small font-weight-bold text-muted text-uppercase mb-2" style="letter-spacing: 1px;">Field Goals</h6>
+                <div class="row row-cols-5 g-1 mx-0">
+                    <div class="col"><div style="height: 85px"><canvas id="fgBar1"></canvas></div><div style="height: 60px;"><canvas id="fgDonut1"></canvas></div></div>
+                    <div class="col"><div style="height: 85px"><canvas id="fgBar2"></canvas></div><div style="height: 60px;"><canvas id="fgDonut2"></canvas></div></div>
+                    <div class="col"><div style="height: 85px"><canvas id="fgBar3"></canvas></div><div style="height: 60px;"><canvas id="fgDonut3"></canvas></div></div>
+                    <div class="col"><div style="height: 85px"><canvas id="fgBar4"></canvas></div><div style="height: 60px;"><canvas id="fgDonut4"></canvas></div></div>
+                    <div class="col"><div style="height: 85px"><canvas id="fgBar5"></canvas></div><div style="height: 60px;"><canvas id="fgDonut5"></canvas></div></div>
+                </div>
+            </div>
 
-    <div class="mb-4">
-        <h6 class="text-center small font-weight-bold text-muted text-uppercase mb-2" style="letter-spacing: 1px;">3-Pointers</h6>
-        <div class="row row-cols-5 g-1 mx-0">
-            <div class="col"><div style="height: 85px"><canvas id="tpBar1"></canvas></div><div style="height: 60px;"><canvas id="tpDonut1"></canvas></div></div>
-            <div class="col"><div style="height: 85px"><canvas id="tpBar2"></canvas></div><div style="height: 60px;"><canvas id="tpDonut2"></canvas></div></div>
-            <div class="col"><div style="height: 85px"><canvas id="tpBar3"></canvas></div><div style="height: 60px;"><canvas id="tpDonut3"></canvas></div></div>
-            <div class="col"><div style="height: 85px"><canvas id="tpBar4"></canvas></div><div style="height: 60px;"><canvas id="tpDonut4"></canvas></div></div>
-            <div class="col"><div style="height: 85px"><canvas id="tpBar5"></canvas></div><div style="height: 60px;"><canvas id="tpDonut5"></canvas></div></div>
-        </div>
-    </div>
+            <div class="mb-4">
+                <h6 class="text-center small font-weight-bold text-muted text-uppercase mb-2" style="letter-spacing: 1px;">3-Pointers</h6>
+                <div class="row row-cols-5 g-1 mx-0">
+                    <div class="col"><div style="height: 85px"><canvas id="tpBar1"></canvas></div><div style="height: 60px;"><canvas id="tpDonut1"></canvas></div></div>
+                    <div class="col"><div style="height: 85px"><canvas id="tpBar2"></canvas></div><div style="height: 60px;"><canvas id="tpDonut2"></canvas></div></div>
+                    <div class="col"><div style="height: 85px"><canvas id="tpBar3"></canvas></div><div style="height: 60px;"><canvas id="tpDonut3"></canvas></div></div>
+                    <div class="col"><div style="height: 85px"><canvas id="tpBar4"></canvas></div><div style="height: 60px;"><canvas id="tpDonut4"></canvas></div></div>
+                    <div class="col"><div style="height: 85px"><canvas id="tpBar5"></canvas></div><div style="height: 60px;"><canvas id="tpDonut5"></canvas></div></div>
+                </div>
+            </div>
 
-    <div>
-        <h6 class="text-center small font-weight-bold text-muted text-uppercase mb-2" style="letter-spacing: 1px;">Free Throws</h6>
-        <div class="row row-cols-5 g-1 mx-0">
-            <div class="col"><div style="height: 85px"><canvas id="ftBar1"></canvas></div><div style="height: 60px;"><canvas id="ftDonut1"></canvas></div></div>
-            <div class="col"><div style="height: 85px"><canvas id="ftBar2"></canvas></div><div style="height: 60px;"><canvas id="ftDonut2"></canvas></div></div>
-            <div class="col"><div style="height: 85px"><canvas id="ftBar3"></canvas></div><div style="height: 60px;"><canvas id="ftDonut3"></canvas></div></div>
-            <div class="col"><div style="height: 85px"><canvas id="ftBar4"></canvas></div><div style="height: 60px;"><canvas id="ftDonut4"></canvas></div></div>
-            <div class="col"><div style="height: 85px"><canvas id="ftBar5"></canvas></div><div style="height: 60px;"><canvas id="ftDonut5"></canvas></div></div>
-        </div>
-    </div>
+            <div>
+                <h6 class="text-center small font-weight-bold text-muted text-uppercase mb-2" style="letter-spacing: 1px;">Free Throws</h6>
+                <div class="row row-cols-5 g-1 mx-0">
+                    <div class="col"><div style="height: 85px"><canvas id="ftBar1"></canvas></div><div style="height: 60px;"><canvas id="ftDonut1"></canvas></div></div>
+                    <div class="col"><div style="height: 85px"><canvas id="ftBar2"></canvas></div><div style="height: 60px;"><canvas id="ftDonut2"></canvas></div></div>
+                    <div class="col"><div style="height: 85px"><canvas id="ftBar3"></canvas></div><div style="height: 60px;"><canvas id="ftDonut3"></canvas></div></div>
+                    <div class="col"><div style="height: 85px"><canvas id="ftBar4"></canvas></div><div style="height: 60px;"><canvas id="ftDonut4"></canvas></div></div>
+                    <div class="col"><div style="height: 85px"><canvas id="ftBar5"></canvas></div><div style="height: 60px;"><canvas id="ftDonut5"></canvas></div></div>
+                </div>
+            </div>
 
-</div>
+         </div>
         </div>
       </div>
 
@@ -1092,17 +1092,17 @@ last5Games.forEach((game, index) => {
                     font: { weight: 'bold', size: 9 }, // Slightly smaller to fit label + %
                     textAlign: 'center',
                     formatter: (value, ctx) => {
-                        // 1. Calculate Total
+                        //  Calculate Total
                         let sum = ctx.dataset.data.reduce((a, b) => a + b, 0);
                         if (sum === 0 || value === 0) return ''; // Hide label if 0
 
-                        // 2. Calculate Percentage
+                        // Calculate Percentage
                         let percentage = (value * 100 / sum).toFixed(0) + "%";
 
-                        // 3. Get the Label (FTM, 2PM, or 3PM)
+                        // Get the Label (FTM, 2PM, or 3PM)
                         let label = ctx.chart.data.labels[ctx.dataIndex];
 
-                        // 4. Return Label + Percentage on new lines
+                        // Return Label + Percentage on new lines
                         return `${label}\n${percentage}`;
                     }
                 }

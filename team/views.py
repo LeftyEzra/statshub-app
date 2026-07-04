@@ -1,12 +1,3 @@
-from django.shortcuts import get_object_or_404
-from rest_framework.decorators import api_view
-from django.shortcuts import render, redirect
-from rest_framework.response import Response
-from rest_framework.views import APIView
-from rest_framework import status
-from rest_framework import mixins
-
-
 from team.models import Season, Competition, Team, TeamStaff, Game, Player, PlayerStatLine, QuarterlyScores, Opponent, CareerRecords, Standing, TeamNews, GalleryImages, Awards
 from team.models import Contact, NewsletterSubscriber, ShotCharts
 from store.models import Product
@@ -22,14 +13,12 @@ from datetime import date
 from datetime import datetime
 import datetime as dt
 
-
-from django.views.generic.edit import UpdateView, CreateView, DeleteView
-from django.views.generic import  ListView, DetailView
-from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required, user_passes_test
+from django.views.generic.edit import UpdateView, CreateView, DeleteView
+from django.shortcuts import render, redirect, get_object_or_404
+from django.views.generic import  ListView, DetailView
 from django.core.exceptions import PermissionDenied 
 from django.utils.decorators import method_decorator
-from django.shortcuts import render, redirect
 from django.urls import reverse_lazy, reverse
 from django.views import View
 import csv
@@ -98,17 +87,6 @@ def is_superuser(user):
     # If the user is not authenticated, they will be redirected to settings.LOGIN_URL.
     return user.is_authenticated and user.is_superuser # For the user_passes_test imported
 
-"""
-def is_superuser(user):
-    # Check if the user fails the test
-    if not user.is_authenticated and user.is_superuser:
-        # If the test fails, explicitly raise the 403 exception.
-        # This triggers Django to render error.html template.
-        raise PermissionDenied 
-    # Checks if the user is authenticated AND is a superuser.
-    # If the user is not authenticated, they will be redirected to settings.LOGIN_URL.
-    return user.is_authenticated and user.is_superuser # For the user_passes_test imported
-"""
 
 
 # Define the Custom Mixin to handle 403 response
@@ -163,7 +141,7 @@ class SeasonCreateView(SuperuserRequiredMixin, CreateView):
 
 #Season List View
 
-class SeasonCompetitionListView(APIView):
+class SeasonCompetitionListView(View):
     def get(self, request):
         competitions = Competition.objects.all().order_by('name')
         seasons = Season.objects.all().order_by('year')
@@ -255,14 +233,14 @@ class CompetitionCreateView(View):
 
 
 #Season List View
-class CompetitionListView(APIView):
+class CompetitionListView(View):
     def get(self, request):
         pass
    
 
 
 # Class Base View For Team Details
-class CompetitionDetailView(APIView):
+class CompetitionDetailView(View):
     def get(self, request, slug):
         pass
         #season_details = get_object_or_404(Season, pk=pk)
@@ -303,7 +281,7 @@ class CompetitionUpdateView(SuperuserRequiredMixin, View):
 
 # Function Base View For Deleting 
 # DELETE COMPETITION
-class CompetitionDeleteView(SuperuserRequiredMixin, APIView):
+class CompetitionDeleteView(SuperuserRequiredMixin, View):
     def delete(self, request, slug):
         competition = get_object_or_404(Competition, slug=slug)
         competition.delete()
@@ -767,7 +745,7 @@ def team_roster(request, competition_slug, team_slug):
                             )[['points', 'total_rebounds','assists',]].mean().round(1).sort_values('points',ascending=False).reset_index())
    
 
-      
+        print(players_mean_stats)
         
         return render(request, 'roster.html', {'competition':competition, #'tournament_stats':tournament_stats,
                                                     'team_details': team_details, 
@@ -789,7 +767,7 @@ def team_roster(request, competition_slug, team_slug):
 
 # Class Base View For Update
 
-class TeamUpdateView(SuperuserRequiredMixin, APIView):
+class TeamUpdateView(SuperuserRequiredMixin, View):
     # Handle GET and POST requests to UPDATE team details
     def get(self, request, competition_slug, ): 
         competition = get_object_or_404(Competition, slug=competition_slug)
@@ -2533,7 +2511,7 @@ def delete_game(request, game_slug, competition_slug):
 ####################################################################################
 ####################################################################################
 # Class Base View Creating Opponents
-class StandingCreateView(SuperuserRequiredMixin, APIView):
+class StandingCreateView(SuperuserRequiredMixin, View):
     def get(self, request, competition_slug):
         form = StandingForm(initial={'competition': competition_slug})
         return render(request, 'standing_registration.html', {"form": form, "competition_id": competition_slug })
@@ -2561,7 +2539,7 @@ class StandingCreateView(SuperuserRequiredMixin, APIView):
 
 # Standing List View
 
-class StandingListView(APIView):
+class StandingListView(View):
    def get(self, request, slug): 
         competition = get_object_or_404(Competition, slug=slug)
         all_games = Game.objects.filter(competition=competition).prefetch_related('quarterly_scores')
@@ -2895,8 +2873,6 @@ def delete_contact(request, pk):
 ####################################################################################
 
 
-####################################################################################
-####################################################################################
 def NewsletterSubscriberCreate(request):
     if request.method == "POST":
         print("--- NEWSLETTER TEST: POST SUBMISSION ATTEMPT! ---")
