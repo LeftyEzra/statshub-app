@@ -143,7 +143,7 @@ class SeasonCreateView(SuperuserRequiredMixin, CreateView):
 
 class SeasonCompetitionListView(View):
     def get(self, request):
-        competitions = Competition.objects.all().order_by('name')
+        competitions = Competition.objects.all().order_by('name').select_related('year')
         seasons = Season.objects.all().order_by('year')
         
         return render(request, 'season_competition_list.html', {
@@ -392,18 +392,18 @@ class TeamDetailView(View):
         
         team = team_details
         
-        opponents = competition.opponents.all().order_by('name')
-        games = Game.objects.filter(competition=competition).order_by('date')
+        opponents = competition.opponents.all().order_by('name').select_related('competitions')
+        games = Game.objects.filter(competition=competition).order_by('date').select_related('competition', 'team', 'opponent', 'game_venue')
         #games = competition.competition.all().order_by('date') 
-        staff = TeamStaff.objects.filter(team=team) 
-        players = team.players.all()
-        news = TeamNews.objects.filter(competition=competition)
-        t_images = GalleryImages.objects.filter(team=team)
+        staff = TeamStaff.objects.filter(team=team).select_related('team') 
+        players = team.players.all().select_related('team', 'opponent')
+        news = TeamNews.objects.filter(competition=competition).select_related('competition')
+        t_images = GalleryImages.objects.filter(team=team).select_related('player_pictures', 'team')
         # Use a field that exists in your GalleryImages model
 
         
         # Set up pagination
-        p = Paginator(GalleryImages.objects.all().order_by('-id'), 6)
+        p = Paginator(GalleryImages.objects.all().order_by('-id').select_related('player_pictures', 'team'), 6)
         page = request.GET.get('page')
         team_images = p.get_page(page)
         nums = "a" * team_images.paginator.num_pages
@@ -414,7 +414,7 @@ class TeamDetailView(View):
         all_games = Game.objects.filter(competition=competition).prefetch_related('quarterly_scores')
         
         # Returns only the stats for the games in this competition.
-        all_game_stats = PlayerStatLine.objects.filter(game_schedule__in=all_games)
+        all_game_stats = PlayerStatLine.objects.filter(game_schedule__in=all_games).select_related('game_schedule__team__player_name', 'opponent')
      
         pd.set_option("display.max_columns", None)
         pd.set_option("display.max_rows", None)
@@ -570,12 +570,12 @@ class TeamDetailView(View):
             'team_3p_pct': team_3p_pct,
             
             # News Section
-            'hot_news': TeamNews.objects.filter(competition=competition, category='Hot').order_by('-published_date')[:1],
-            'team_news': TeamNews.objects.filter(competition=competition, category='Team').order_by('-published_date')[:2],
-            'league_news': TeamNews.objects.filter(competition=competition, category='League')[:1],
-            'spotlight_news': TeamNews.objects.filter(competition=competition, category='Spotlight').order_by('-published_date')[:4],
-            'sidebar_news': TeamNews.objects.filter(competition=competition).order_by('-published_date')[:5],
-            'base_news': TeamNews.objects.filter(competition=competition, category='Base').order_by('-published_date'),
+            'hot_news': TeamNews.objects.filter(competition=competition, category='Hot').order_by('-published_date')[:1].select_related('competition'),
+            'team_news': TeamNews.objects.filter(competition=competition, category='Team').order_by('-published_date')[:2].select_related('competition'),
+            'league_news': TeamNews.objects.filter(competition=competition, category='League')[:1].select_related('competition'),
+            'spotlight_news': TeamNews.objects.filter(competition=competition, category='Spotlight').order_by('-published_date')[:4].select_related('competition'),
+            'sidebar_news': TeamNews.objects.filter(competition=competition).order_by('-published_date')[:5].select_related('competition'),
+            'base_news': TeamNews.objects.filter(competition=competition, category='Base').order_by('-published_date').select_related('competition'),
             
             # Regular Season Games
             'regular_season_games_df': Game.objects.filter(competition=competition, game_type='regular').order_by('date'),
@@ -599,12 +599,12 @@ def team_shot_chart(request, competition_slug):
     team = competition.team
     team_details = team
     
-    players = team_details.players.all()  # Using the foreign key Team related_name 'players'
+    players = team_details.players.all().select_related('team')  # Using the foreign key Team related_name 'players'
     print(players)
     # Get the player's statistics
     all_games = Game.objects.filter(competition=competition).prefetch_related('quarterly_scores')
     ##  Returns only the stats for the games in this competition.
-    all_game_stats = PlayerStatLine.objects.filter(game_schedule__in=all_games, team=team_details)
+    all_game_stats = PlayerStatLine.objects.filter(game_schedule__in=all_games, team=team_details).select_related('game_schedule__team__player_name', 'opponent')
     print(all_game_stats)
     pd.set_option("display.max_columns", None)
     pd.set_option("display.max_rows", None)
@@ -713,11 +713,11 @@ def team_roster(request, competition_slug, team_slug):
         raise Http404(f"Team '{team_slug}' does not exist in this competition.")
         
     team_details = team   
-    players = team_details.players.all()  # Using the foreign key Team related_name 'players'
+    players = team_details.players.all().select_related('team')  # Using the foreign key Team related_name 'players'
     
     # Get the player's statistics
-    staff = TeamStaff.objects.filter(team=team_details)
-    tournament_stats = PlayerStatLine.objects.filter(player_name__in=players)
+    staff = TeamStaff.objects.filter(team=team_details).select_related('team')
+    tournament_stats = PlayerStatLine.objects.filter(player_name__in=players).select_related('game_schedule__team__player_name', 'opponent')
     print('Tournament stats')
     print(players)
 
@@ -835,15 +835,15 @@ class PlayerDetailView(View):
                 print(f"Team: {team}.upper()")
                 player_details = get_object_or_404(Player, slug=slug, team=team)
                 
-                other_players = Player.objects.exclude(slug=slug, team=team).order_by('player_name')
+                other_players = Player.objects.exclude(slug=slug, team=team).order_by('player_name').select_related('team')
                 player_details.age = calculate_age(player_details.date_of_birth)  # Calculate the player's age
-                career_records = player_details.career_records.first()
+                career_records = player_details.career_records.first().select_related('player')
 
                 # Get the player's statistics
-                tournament_stats = PlayerStatLine.objects.filter(player_name=player_details).order_by('-game_schedule')
+                tournament_stats = PlayerStatLine.objects.filter(player_name=player_details).order_by('-game_schedule').select_related('game_schedule__team__player_name', 'opponent')
                 other_players_stats = PlayerStatLine.objects.filter(player_name__in=other_players)
 
-                player_merchandise = Product.objects.filter(featured_player=player_details)
+                player_merchandise = Product.objects.filter(featured_player=player_details).select_related('featured_player')
                 # Show 2 products per page
                 paginator = Paginator(player_merchandise, 2) 
                 page_number = request.GET.get('page')
@@ -1081,7 +1081,7 @@ class PlayerDetailView(View):
                         'player_ft_pct': player_ft_pct,
                         
                         # Players Image
-                        'player_images': GalleryImages.objects.filter(player_pictures=player_details),
+                        'player_images': GalleryImages.objects.filter(player_pictures=player_details).select_related('player'),
                         # Player Product
                         'player_merchandise': player_merchandise_obj,
                     }
@@ -1092,7 +1092,7 @@ class PlayerDetailView(View):
                     context = {
                         'player_details': player_details,
                         # Players Image
-                        'player_images': GalleryImages.objects.filter(player_pictures=player_details),
+                        'player_images': GalleryImages.objects.filter(player_pictures=player_details).select_related('player'),
                         # Player Product
                         'player_merchandise': player_merchandise_obj,
                         'team': team,
@@ -1108,11 +1108,11 @@ class PlayerDetailView(View):
 # For Chart.js
 def player_stats_charts(request, player_slug):
     player_details = get_object_or_404(Player, slug=player_slug)
-    other_players = Player.objects.exclude(slug=player_slug).order_by('player_name')
+    other_players = Player.objects.exclude(slug=player_slug).order_by('player_name').select_related('team')
     competition = player_details.team.competitions
     
     # Get the player's statistics
-    tournament_stats = PlayerStatLine.objects.filter(player_name=player_details,)
+    tournament_stats = PlayerStatLine.objects.filter(player_name=player_details,).select_related('game_schedule__team__player_name', 'opponent')
     
     pd.set_option("display.max_columns", None)
     pd.set_option("display.max_rows", None)
@@ -1302,13 +1302,13 @@ def player_stats_charts(request, player_slug):
 # Apex Charts...
 def player_shot_chart(request, player_slug): 
     player_details = get_object_or_404(Player, slug=player_slug,)
-    other_players = Player.objects.exclude(slug=player_slug).order_by('player_name')
+    other_players = Player.objects.exclude(slug=player_slug).order_by('player_name').select_related('team')
     competition = player_details.team.competitions
     
 
     # Get the player's statistics
-    tournament_stats = PlayerStatLine.objects.filter(player_name=player_details)
-    other_players_stats = PlayerStatLine.objects.filter(player_name__in=other_players)
+    tournament_stats = PlayerStatLine.objects.filter(player_name=player_details).select_related('game_schedule__team__player_name', 'opponent')
+    other_players_stats = PlayerStatLine.objects.filter(player_name__in=other_players).select_related('game_schedule__team__player_name', 'opponent')
     #charts = ShotCharts.objects.filter(player=player_details)
     
 
@@ -1499,7 +1499,7 @@ class OpponentCreateView(SuperuserRequiredMixin, View):
 #  Class Base View For Opponent List
 class OpponentListView(View):
     def get(self, request):
-        opponents = Opponent.objects.all()
+        opponents = Opponent.objects.all().select_related('competitions')
         #players = opponents.opponent_player.all()
         print(opponents)
          
@@ -1513,7 +1513,7 @@ class OpponentDetailView(View):
         opponent_details = get_object_or_404(Opponent, slug=slug)
         
         if opponent_details:
-            opp_players = Player.objects.filter(opponent=opponent_details).order_by('-jersey_number')
+            opp_players = Player.objects.filter(opponent=opponent_details).order_by('-jersey_number').select_related('opponent')
         else:
             opp_players = "Non rgistered players for this team."
         
@@ -1624,7 +1624,7 @@ class GameCreateView(SuperuserRequiredMixin, View):
 class GameListView(View):
    def get(self, request, competition_slug): 
         competition = get_object_or_404(Competition, slug=competition_slug)
-        all_competition = Competition.objects.all()
+        all_competition = Competition.objects.all().select_related('year')
         
         # Using the 'quarterly_scores' name here!
         games = competition.games.all().prefetch_related('quarterly_scores').order_by('-date')
@@ -1640,17 +1640,17 @@ class GameListView(View):
 
 
 
-class GameScheduleView(View):
+class GameScheduleView(View):#.select_related('game_schedule__team__player_name', 'opponent')
    def get(self, request, competition_slug): 
         competition = get_object_or_404(Competition, slug=competition_slug)
       
         # Using the 'quarterly_scores' name here!
         #games = Game.objects.filter(competition=competition).order_by('-date')
-        games = Game.objects.filter(competition=competition,team__name="Python").order_by('-date')
+        games = Game.objects.filter(competition=competition,team__name="Python").order_by('-date').prefetch_related('quarterly_scores')
         print("GAMES")
         print(games)
-        other_competitions_games =  Game.objects.exclude(competition=competition)
-        game_stats = PlayerStatLine.objects.filter(game_schedule__in=games,team__name="Python" )
+        other_competitions_games =  Game.objects.exclude(competition=competition).prefetch_related('quarterly_scores')
+        game_stats = PlayerStatLine.objects.filter(game_schedule__in=games,team__name="Python" ).select_related('game_schedule__team__player_name', 'opponent')
         print("GAME STATS")
         print(game_stats)
         # Using dynamic team.name variable instead of hardcoded string
@@ -1661,7 +1661,7 @@ class GameScheduleView(View):
         ).select_related('team', 'opponent',)
 
         #SEt up pagination
-        paginator = Paginator(GalleryImages.objects.all().order_by('-id'), 6)
+        paginator = Paginator(GalleryImages.objects.all().order_by('-id').select_related('team','player'), 6)
         page_number = request.GET.get('page')
         images = paginator.get_page(page_number)
         ######################################################
@@ -2139,17 +2139,17 @@ class GameDetailView(View):
                 game_date = game_details.date.strftime(f"%Y-%m-%d")
                 readable_date = game_details.date.strftime(f"%B %d, %Y")
                 
-                players = team.players.all()
-                stats = PlayerStatLine.objects.filter(game_schedule=game_details) 
+                players = team.players.all().select_related('team', 'opponent')
+                stats = PlayerStatLine.objects.filter(game_schedule=game_details).select_related('game_schedule__team__player_name', 'opponent') 
                 all_games = competition.games.all().prefetch_related('quarterly_scores')
                 
                 # Returns only the stats for the games in this competition.
-                all_game_stats = PlayerStatLine.objects.filter(game_schedule__in=all_games)
+                all_game_stats = PlayerStatLine.objects.filter(game_schedule__in=all_games).select_related('game_schedule__team__player_name', 'opponent')
 
                 # Fetch standings and the related game type
                 tournament_standing = Standing.objects.filter(competition=competition).select_related('team', 'opponent',)
                 quarterly_scores = get_object_or_404(QuarterlyScores, game=game_details)  
-                other_games = Game.objects.exclude(slug=game_slug).order_by('date')
+                other_games = Game.objects.exclude(slug=game_slug).order_by('date').prefetch_related('quarterly_scores')
 
                 ###############################################################################################
                 ###################################Conversion To Pandas DataFrame #####################################
@@ -2545,7 +2545,7 @@ class StandingListView(View):
         all_games = Game.objects.filter(competition=competition).prefetch_related('quarterly_scores')
         
         # Fetch all competitions for the dropdown
-        all_competitions = Competition.objects.all()
+        all_competitions = Competition.objects.all().select_related('year')
         
         
         
@@ -2786,7 +2786,7 @@ def AwardCreate(request):
 
 def AwardList(request): 
     
-    awards =  Awards.objects.all().order_by('date')
+    awards =  Awards.objects.all().order_by('date').select_related('player__team')#.select_related('team_award', 'player_award')
     
     print("Awards")
     print(awards)
@@ -2977,7 +2977,7 @@ def search(request):
         Q(jersey_number__icontains=searched) |
         Q(team__name__icontains=searched) |
         Q(opponent__name__icontains=searched)
-    ).order_by('team__name', 'player_name')
+    ).order_by('team__name', 'player_name').select_related('team', 'opponent')
 
     if not searched_players.exists():
         messages.info(request, f'No players found for "{searched}". Try another search.')
@@ -3011,7 +3011,7 @@ def galleryCreate(request):
 
 def galleryList(request): 
     
-    images =  GalleryImages.objects.all()
+    images =  GalleryImages.objects.all().select_related('team','player_pictures')
     return render(request, 'gallery.html', {
         'images': images,
    

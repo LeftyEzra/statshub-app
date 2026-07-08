@@ -152,6 +152,35 @@
     .signup-link a:hover {
         color: #f9fafb;
     }
+
+
+    .google-button {
+    width: 100%;
+        padding: 14px;
+        background-color: #4ade80;
+        color: #0f172a;
+        border: none;
+        border-radius: 8px;
+        font-size: 1.1em;
+        font-weight: 700;
+        cursor: pointer;
+        transition: background-color 0.3s, transform 0.1s;
+        letter-spacing: 1px;
+}
+
+.google-button img {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+}
+
+.google-button:hover {
+        background-color: #22c55e;
+    }
+
+    .google-button:active {
+        transform: scale(0.99);
+    }
 </style>
 
     <div class="login-page-wrapper">
@@ -179,11 +208,14 @@
                     </div>
 
                     <button type="submit" class="login-button">LOG IN</button>
+                   
+
                 </form>
 
                 <div class="signup-link">
                     Don't have an account? <a href="{% url 'register-user' %}">Sign Up</a>
                 </div>
+                
                 
             </div>
         </div>
