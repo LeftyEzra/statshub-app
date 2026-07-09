@@ -155,22 +155,25 @@ def logout_user(request):
 
 # Updte user info/profile
 def update_user(request):
-    if request.user.is_authenticated:
-        current_user = User.objects.get(id=request.user.id)
-        user_form = UpdateUserForm(request.POST or None, instance=current_user)
+    if not request.user.is_authenticated:
+        messages.warning(request, "You must be logged in to access that page.")
+        return redirect('home')
 
+    current_user = request.user # Optimized: no extra DB query
+
+    if request.method == 'POST':
+        user_form = UpdateUserForm(request.POST, instance=current_user)
         if user_form.is_valid():
             user_form.save()
-
-            # Automatic log in behind the scenes
-            login(request, current_user)
+            # Automatic log in preserves the session if the user changed their own username
+            login(request, current_user) 
             messages.success(request, "Your Profile Has Been Updated...")
             return redirect('home')
-        return render(request, 'authentication/update-user.html', {'user_form':user_form})
-
     else:
-        messages.success(request, "Your Must Be Logged In To Access That Page...")
-        return redirect('home')     
+        # Fixed: render the same template as the POST method
+        user_form = UpdateUserForm(instance=current_user)
+
+    return render(request, 'authentication/update-user.html', {'user_form': user_form}) 
 
 
 #Update Password Method 2
