@@ -7,6 +7,7 @@ from store.models import Profile
 
 
 class SignupUserForm(UserCreationForm):
+    
 
     class Meta:
         model = User # Inheriting from the django Users

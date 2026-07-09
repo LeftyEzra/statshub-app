@@ -19,9 +19,6 @@ from cart.cart import Cart
 # Create User Form
 def register_user(request):
     if request.method == 'POST':
-        #form = SignupUserForm(request.POST)
-        first_name = request.POST.get('first_name')
-        last_name = request.POST.get('last_name') 
         username = request.POST.get('username')
         email = request.POST.get('email')
         password1 = request.POST.get('password1')
