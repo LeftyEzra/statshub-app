@@ -208,6 +208,41 @@
     background-color: #357ae8; /* darker blue on hover */
 }
 
+
+
+
+
+
+/* Make the wrapper the reference point */
+.password-container {
+    position: relative;
+    width: 100%;
+}
+
+/*  Style the input to make room for the icon */
+.input-group input {
+    width: 100%;
+    padding-right: 40px; /* Space on the right so text doesn't hide behind the icon */
+    box-sizing: border-box; /* Ensures padding doesn't increase width */
+}
+
+/* Center the button inside the container */
+.toggle-password {
+    position: absolute;
+    right: 5px; /* Distance from the right edge */
+    top: 50%;
+    transform: translateY(-50%); /* This perfectly centers it vertically */
+    
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
     </style>
 
     <div class="login-page-wrapper">
@@ -267,15 +302,22 @@
                         {% endif %}
                     </div>
 
-                    <div class="input-group">
+                   <div class="input-group">
                         <label for="id_password1">Password</label>
-                        <input 
-                            type="password" 
-                            id="id_password1" 
-                            name="password1" 
-                            placeholder="••••••••" 
-                            required
-                        >
+                        
+                        <div class="password-container">
+                            <input 
+                                type="password" 
+                                id="id_password1" 
+                                name="password1" 
+                                placeholder="••••••••" 
+                                required
+                            >
+                            <button type="button" class="toggle-password" onclick="togglePasswordVisibility('id_password1', this)">
+                                👁️
+                            </button>
+                        </div>
+
                         {% if form.password1.errors %}
                             <ul class="field-error-list">
                                 {% for error in form.password1.errors %}
@@ -287,6 +329,7 @@
 
                     <div class="input-group">
                         <label for="id_password2">Confirm Password</label>
+                        <div class="password-container">
                         <input 
                             type="password" 
                             id="id_password2" 
@@ -294,6 +337,10 @@
                             placeholder="••••••••" 
                             required
                         >
+                        <button type="button" class="toggle-password" onclick="togglePasswordVisibility('id_password2', this)">
+                                👁️
+                        </button>
+                        </div>
                         {% if form.password2.errors %}
                             <ul class="field-error-list">
                                 {% for error in form.password2.errors %}
@@ -354,6 +401,20 @@
             showGeneralErrorModal();
         {% endif %}
     });
+
+
+
+    function togglePasswordVisibility(inputId, buttonElement) {
+    const inputField = document.getElementById(inputId);
+    
+    if (inputField.type === "password") {
+        inputField.type = "text";
+        buttonElement.textContent = "🙈"; // Change icon to hide
+    } else {
+        inputField.type = "password";
+        buttonElement.textContent = "👁️"; // Change icon to show
+    }
+}
 </script>
 
 {% endblock %}

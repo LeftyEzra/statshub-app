@@ -5,9 +5,13 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User 
 from .forms import SignupUserForm, UpdateUserForm, UpdatePasswordForm, UserInfoForm
 from django.contrib.auth import update_session_auth_hash
+from django.core.mail import EmailMessage
+from django.urls import reverse
 from store.models import Profile
+from django.conf import settings
 import json
 from cart.cart import Cart
+from .models import PasswordReset
 
 # Create your views here.
 
@@ -15,7 +19,7 @@ from cart.cart import Cart
 
 
 
-# Create User Form
+
 # Create User Form
 def register_user(request):
     if request.method == 'POST':
@@ -53,8 +57,7 @@ def register_user(request):
         else:
             # Create the user using only the 'password' field
             new_user = User.objects.create_user(
-                first_name=first_name,
-                last_name=last_name,
+              
                 username=username,
                 email=email,
                 password=password1,  # Use 'password' here, not 'password1'
@@ -248,7 +251,7 @@ def forgot_password(request):
             password_reset_url = reverse('reset-password', kwargs={'reset_id': new_password_reset.reset_id})
             full_password_reset_url = f'{request.scheme}://{request.get_host()}{password_reset_url}'
             # email content
-            email_body = f'Reset your password using the link below:\n\n\n{full_password_reset_url}',
+            email_body = f'Reset your password using the link below:\n\n\n{full_password_reset_url}'
 
             email_message = EmailMessage(
                 'Reset your password', # email subject

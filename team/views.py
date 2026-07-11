@@ -414,7 +414,7 @@ class TeamDetailView(View):
         all_games = Game.objects.filter(competition=competition).prefetch_related('quarterly_scores')
         
         # Returns only the stats for the games in this competition.
-        all_game_stats = PlayerStatLine.objects.filter(game_schedule__in=all_games).select_related('game_schedule__team__player_name', 'opponent')
+        all_game_stats = PlayerStatLine.objects.filter(game_schedule__in=all_games).select_related('player_name', 'team', 'opponent', 'game_schedule')
      
         pd.set_option("display.max_columns", None)
         pd.set_option("display.max_rows", None)
@@ -604,7 +604,7 @@ def team_shot_chart(request, competition_slug):
     # Get the player's statistics
     all_games = Game.objects.filter(competition=competition).prefetch_related('quarterly_scores')
     ##  Returns only the stats for the games in this competition.
-    all_game_stats = PlayerStatLine.objects.filter(game_schedule__in=all_games, team=team_details).select_related('game_schedule__team__player_name', 'opponent')
+    all_game_stats = PlayerStatLine.objects.filter(game_schedule__in=all_games, team=team_details).select_related('player_name', 'team', 'opponent', 'game_schedule')
     print(all_game_stats)
     pd.set_option("display.max_columns", None)
     pd.set_option("display.max_rows", None)
@@ -717,7 +717,7 @@ def team_roster(request, competition_slug, team_slug):
     
     # Get the player's statistics
     staff = TeamStaff.objects.filter(team=team_details).select_related('team')
-    tournament_stats = PlayerStatLine.objects.filter(player_name__in=players).select_related('game_schedule__team__player_name', 'opponent')
+    tournament_stats = PlayerStatLine.objects.filter(player_name__in=players).select_related('player_name', 'team', 'opponent', 'game_schedule')
     print('Tournament stats')
     print(players)
 
@@ -837,11 +837,11 @@ class PlayerDetailView(View):
                 
                 other_players = Player.objects.exclude(slug=slug, team=team).order_by('player_name').select_related('team')
                 player_details.age = calculate_age(player_details.date_of_birth)  # Calculate the player's age
-                career_records = player_details.career_records.first().select_related('player')
+                career_records = player_details.career_records.first()
 
                 # Get the player's statistics
-                tournament_stats = PlayerStatLine.objects.filter(player_name=player_details).order_by('-game_schedule').select_related('game_schedule__team__player_name', 'opponent')
-                other_players_stats = PlayerStatLine.objects.filter(player_name__in=other_players)
+                tournament_stats = PlayerStatLine.objects.filter(player_name=player_details).order_by('-game_schedule').select_related('player_name', 'team', 'opponent', 'game_schedule')
+                other_players_stats = PlayerStatLine.objects.filter(player_name__in=other_players).select_related('player_name', 'team', 'opponent', 'game_schedule')
 
                 player_merchandise = Product.objects.filter(featured_player=player_details).select_related('featured_player')
                 # Show 2 products per page
@@ -1081,7 +1081,7 @@ class PlayerDetailView(View):
                         'player_ft_pct': player_ft_pct,
                         
                         # Players Image
-                        'player_images': GalleryImages.objects.filter(player_pictures=player_details).select_related('player'),
+                        'player_images': GalleryImages.objects.filter(player_pictures=player_details).select_related('player_pictures'),
                         # Player Product
                         'player_merchandise': player_merchandise_obj,
                     }
@@ -1307,8 +1307,8 @@ def player_shot_chart(request, player_slug):
     
 
     # Get the player's statistics
-    tournament_stats = PlayerStatLine.objects.filter(player_name=player_details).select_related('game_schedule__team__player_name', 'opponent')
-    other_players_stats = PlayerStatLine.objects.filter(player_name__in=other_players).select_related('game_schedule__team__player_name', 'opponent')
+    tournament_stats = PlayerStatLine.objects.filter(player_name=player_details).select_related('player_name', 'team', 'opponent', 'game_schedule')
+    other_players_stats = PlayerStatLine.objects.filter(player_name__in=other_players).select_related('player_name', 'team', 'opponent', 'game_schedule')
     #charts = ShotCharts.objects.filter(player=player_details)
     
 
@@ -1394,7 +1394,7 @@ def player_shot_chart(request, player_slug):
         context = {
             'player_details': player_details,
             'competition': competition,
-            'charts': ShotCharts.objects.filter(player=player_details),
+            'charts': ShotCharts.objects.filter(player=player_details).select_related('player', 'team'),
             'last_5_games_json': last_5_games_json,
             'last_5_games': last_5_games_list,
         }
@@ -1650,7 +1650,7 @@ class GameScheduleView(View):#.select_related('game_schedule__team__player_name'
         print("GAMES")
         print(games)
         other_competitions_games =  Game.objects.exclude(competition=competition).prefetch_related('quarterly_scores')
-        game_stats = PlayerStatLine.objects.filter(game_schedule__in=games,team__name="Python" ).select_related('game_schedule__team__player_name', 'opponent')
+        game_stats = PlayerStatLine.objects.filter(game_schedule__in=games,team__name="Python" ).select_related('player_name', 'team', 'opponent', 'game_schedule')
         print("GAME STATS")
         print(game_stats)
         # Using dynamic team.name variable instead of hardcoded string
@@ -2140,11 +2140,11 @@ class GameDetailView(View):
                 readable_date = game_details.date.strftime(f"%B %d, %Y")
                 
                 players = team.players.all().select_related('team', 'opponent')
-                stats = PlayerStatLine.objects.filter(game_schedule=game_details).select_related('game_schedule__team__player_name', 'opponent') 
+                stats = PlayerStatLine.objects.filter(game_schedule=game_details).select_related('player_name', 'team', 'opponent', 'game_schedule')
                 all_games = competition.games.all().prefetch_related('quarterly_scores')
                 
                 # Returns only the stats for the games in this competition.
-                all_game_stats = PlayerStatLine.objects.filter(game_schedule__in=all_games).select_related('game_schedule__team__player_name', 'opponent')
+                all_game_stats = PlayerStatLine.objects.filter(game_schedule__in=all_games).select_related('player_name', 'team', 'opponent', 'game_schedule')
 
                 # Fetch standings and the related game type
                 tournament_standing = Standing.objects.filter(competition=competition).select_related('team', 'opponent',)
@@ -2545,7 +2545,7 @@ class StandingListView(View):
         all_games = Game.objects.filter(competition=competition).prefetch_related('quarterly_scores')
         
         # Fetch all competitions for the dropdown
-        all_competitions = Competition.objects.all().select_related('year')
+        all_competitions = Competition.objects.all()
         
         
         
