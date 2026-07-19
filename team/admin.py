@@ -22,7 +22,7 @@ from .models import NewsletterSubscriber
 
 
 from django.contrib import admin
-from import_export import resources, fields
+
 from import_export.admin import ImportExportModelAdmin
 from import_export.widgets import ForeignKeyWidget
 
@@ -135,7 +135,6 @@ class TeamAdmin(admin.ModelAdmin):
 #Register Team Staff in the Admin area
 @admin.register(TeamStaff)
 class TeamStaffAdmin(admin.ModelAdmin):
-    
     list_display = ('full_name','role', 'staff_image', 'team', )
     ordering = ('full_name',)
     search_fields = ('role', 'full_name',)
@@ -152,6 +151,8 @@ class OpponentAdmin(admin.ModelAdmin):
         return ", ".join([player.player_name for player in obj.opponent.players.all()])
     get_players.short_description = 'Players'
 
+
+
 #Register Competition Champions in the Admin area
 @admin.register(CompetitionSeason)
 class CompetitionSeasonAdmin(admin.ModelAdmin):
@@ -159,6 +160,7 @@ class CompetitionSeasonAdmin(admin.ModelAdmin):
     list_filter = ('competition','season', 'champion')
     search_fields = ('competition__name', 'season__name')
     raw_id_fields = ('competition','season', 'champion')
+
 
 #Register Players in the Admin area    
 @admin.register(Player)
@@ -203,7 +205,7 @@ class PlayerAdmin(ImportExportModelAdmin):
 
 
 
-
+from import_export import resources, fields
 
 # 1. Define the Resource class
 class GameStatsResource(resources.ModelResource):

@@ -518,7 +518,9 @@
                                       <div class="col-md-4">
                                           <p style="font-weight: bold; border-bottom: 1px solid #eee; padding-bottom: 5px; margin-bottom: 10px; font-size: 12px; color: #e20e0e;">TEAMS & PLAYERS</p>
                                           <li class="rd-dropdown-item"><a class="rd-dropdown-link" href="{% url 'team-create' %}">Team Form</a></li>
+                                          {% if competition and team %}
                                           <li class="rd-dropdown-item"><a class="rd-dropdown-link" href="{% url 'player-create' competition.slug team.slug %}">Players Form</a></li>
+                                          {% endif %}
                                           {% if competition %}
                                           <li class="rd-dropdown-item"><a class="rd-dropdown-link" href="{% url 'create-records' %}">Career Records</a></li>
                                           {% else %}

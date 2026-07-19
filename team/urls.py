@@ -52,12 +52,7 @@ urlpatterns = [
     path('competition/<slug:competition_slug>/<slug:team_slug>/roster/', views.team_roster, name='team-roster'),
     path('competition/<slug:competition_slug>/team/', TeamDetailView.as_view(), name='team-id'),
     path('competition/<slug:competition_slug>/last-5-games-charts/', views.team_shot_chart, name='team-charts'),
-  
     path('competition/<slug:competition_slug>/update/', TeamUpdateView.as_view(), name='update-team'),
-
-  
-
-
 
     #Players Urls
     #path('player create/',PlayerCreateView.as_view(), name='create-player'),
@@ -87,7 +82,6 @@ urlpatterns = [
     path('delete opponent/<slug:slug>/', views.delete_opponent, name='delete-opponent'),
 
 
-    
     # Teams urls
     # CBV Path for Game creation, listing, update and delete.
     #path('game/create/', GameCreateView.as_view(), name='create-game'),
@@ -106,9 +100,7 @@ urlpatterns = [
     path('competition/<slug:slug>/standings/', StandingListView.as_view(), name='view-standing'),
     #path('update/<slug:slug>/update standing/<int:pk>', StandingUpdateView, name='update-standing'),
 
-
     # News
-   
     path('competition/<slug:competition_slug>/news create/', views.NewsCreate, name='create-news'),
     path('competition/<slug:competition_slug>/news list/', views.NewsList, name='news-list'),
     path('competition/<slug:competition_slug>/update news/<int:pk>/', views.NewsUpdate, name='update-news'),
