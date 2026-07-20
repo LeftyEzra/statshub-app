@@ -31,7 +31,7 @@ urlpatterns = [
 
     # Season Urls
     path('season create/',SeasonCreateView.as_view(), name='season-create'),
-    path('seasoncompetition_list/',SeasonCompetitionListView.as_view(), name='season-competition-list'),
+    path('season_competition_list/',SeasonCompetitionListView.as_view(), name='season-competition-list'),
     path('season_id/<slug:slug>/',SeasonDetailView.as_view(), name='season-id'),
     path('season update/<slug:slug>/',SeasonUpdateView.as_view(), name='update-season'),
     

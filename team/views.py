@@ -122,6 +122,7 @@ class SeasonCreateView(SuperuserRequiredMixin, CreateView):
     form_class = SeasonForm
     template_name = 'season_registration.html'
     success_url = '/season_competition_list/'
+    #success_url = reverse_lazy('season-competition-list')
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['form'] = self.get_form()
