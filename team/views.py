@@ -329,7 +329,7 @@ class TeamCreateView(SuperuserRequiredMixin, View):
             team = form.save()    
             messages.success(request, "Team Added Successfully :)")
             # Redirect to GET endpoint to clear the form data
-            return HttpResponseRedirect('/team_create?')
+            return HttpResponseRedirect('/team create?')
         else:
             # FAILURE PATH
             messages.error(request, "There were errors in the form. Please correct them and try again.")
@@ -828,15 +828,15 @@ class PlayerListView(View):
 
 
 class PlayerDetailView(View):
-    def get(self, request, slug, competition_slug=None):
+    def get(self, request, player_slug, competition_slug=None):
         if competition_slug:
             competition = get_object_or_404(Competition, slug=competition_slug)
             if competition.is_current_competition:
                 team = competition.team
                 print(f"Team: {team}.upper()")
-                player_details = get_object_or_404(Player, slug=slug, team=team)
+                player_details = get_object_or_404(Player, slug=player_slug, team=team)
                 
-                other_players = Player.objects.exclude(slug=slug, team=team).order_by('player_name').select_related('team')
+                other_players = Player.objects.exclude(slug=player_slug, team=team).order_by('player_name').select_related('team')
                 player_details.age = calculate_age(player_details.date_of_birth)  # Calculate the player's age
                 career_records = player_details.career_records.first()
 
@@ -1417,7 +1417,6 @@ def player_shot_chart(request, player_slug):
 ##############################################################################
 
 # UPDATE PLAYER
-
 class PlayerUpdateView(SuperuserRequiredMixin, View):
     def get(self, request, player_slug, competition_slug):
         player = get_object_or_404(Player, slug=player_slug)
@@ -1641,7 +1640,7 @@ class GameListView(View):
 
 
 
-class GameScheduleView(View):#.select_related('game_schedule__team__player_name', 'opponent')
+class GameScheduleView(View):
    def get(self, request, competition_slug): 
         competition = get_object_or_404(Competition, slug=competition_slug)
       
