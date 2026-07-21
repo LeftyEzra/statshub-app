@@ -828,7 +828,7 @@ class PlayerListView(View):
 
 
 class PlayerDetailView(View):
-    def get(self, request, player_slug, competition_slug=None):
+    def get(self, request, player_slug, competition_slug):
         if competition_slug:
             competition = get_object_or_404(Competition, slug=competition_slug)
             if competition.is_current_competition:
