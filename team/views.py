@@ -1093,7 +1093,7 @@ class PlayerDetailView(View):
                     context = {
                         'player_details': player_details,
                         # Players Image
-                        'player_images': GalleryImages.objects.filter(player_pictures=player_details).select_related('player'),
+                        'player_images': GalleryImages.objects.filter(player_pictures=player_details).select_related('player_pictures'),
                         # Player Product
                         'player_merchandise': player_merchandise_obj,
                         'team': team,
