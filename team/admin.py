@@ -204,11 +204,14 @@ class PlayerAdmin(ImportExportModelAdmin):
      
 
 
-
+# Define the Resource class to handle importing/exporting PlayerStatLine data
 from import_export import resources, fields
 
-# 1. Define the Resource class
+# Defining the Resource class
 class GameStatsResource(resources.ModelResource):
+    # Foreign Key Field Mappings 
+    # These map specific columns from CSV to relational fields in the database,
+    # translating text/slug identifiers into actual foreign key objects.
     # Mapping Foreign Keys: translates slug/text to database ID
     team = fields.Field(
         column_name='player_team', 
@@ -232,7 +235,8 @@ class GameStatsResource(resources.ModelResource):
         widget=ForeignKeyWidget(Game, 'date') 
     )
 
-    # Map all your statistics fields
+    # --- Direct Statistical Field Mappings ---
+    # These map standard stat abbreviations in the CSV headers to the model attributes.
     minutes = fields.Field(column_name='MIN', attribute='minutes')
     points = fields.Field(column_name='PTS', attribute='points')
     assists = fields.Field(column_name='AST', attribute='assists')
@@ -251,7 +255,9 @@ class GameStatsResource(resources.ModelResource):
 
     class Meta:
         model = PlayerStatLine
+        # Defines the unique identifiers used to check if a row already exists (prevents duplicates)
         import_id_fields = ('game_schedule', 'player_name')
+        # Limits and orders the fields processed during the import/export cycle
         fields = (
             'game_schedule', 'player_name', 'team', 'opponent', 'minutes', 
             'starter', 'points', 'field_goal_made', 'field_goal_attempts', 
@@ -275,6 +281,10 @@ class PlayerStatLineAdmin(ImportExportModelAdmin):
     ordering = ('game_schedule', )
     search_fields = ('player_name__player_name', 'team__name')
     search_help_text = 'Search by player name or team'
+
+    # --- Add them right here ---
+    list_per_page = 25
+    list_select_related = ('player_name', 'team', 'opponent', 'game_schedule')
 
 
 
