@@ -267,7 +267,7 @@ class Player(AutoSlugModel):
     instagram_link = models.URLField(verbose_name='Instagram URL', blank=True, null=True)
     youtube_link = models.URLField(verbose_name='Youtube URL', blank=True, null=True)
     tiktok_link = models.URLField(verbose_name='TikTok', blank=True, null=True)
-    #https://youtu.be/Ao-MdwTM51Y?si=vtqB7Mw_fWEEZP-h
+    
   
     def __str__(self):
         return self.player_name
