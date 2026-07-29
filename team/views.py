@@ -2180,7 +2180,10 @@ class GameDetailView(View):
                                                   'offensive_rebs', 'defensive_rebs', 'assists', 'game_schedule__game_type'))
                 
                 ###############################################################################################
-                if not all_game_stats_df.empty:   
+                #if not all_game_stats_df.empty:  
+                # Check if stats exist and the dataframe is not empty before processing
+                if stats.exists() and not all_game_stats_df.empty and 'offensive_rebs' in all_game_stats_df.columns:
+      
                     
                     
                     # Filtering the stats by games
