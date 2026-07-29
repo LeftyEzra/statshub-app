@@ -601,3 +601,28 @@ class NewsletterSubscriber(models.Model):
     
     class Meta:
         verbose_name_plural = 'Newsletter Suscriber'          
+
+
+
+
+
+class GameHighlight(models.Model):
+    title = models.CharField(max_length=100, blank=True, null=True)
+    slug = models.SlugField(unique=True, blank=True, null=True, help_text="Auto-generated from title if blank")
+    youtube_url = models.URLField(help_text="Paste the YouTube watch or embed URL")
+    
+    # Relations: A highlight can be tied to a game, a player, or both!
+    game = models.ForeignKey('Game', related_name='highlights', on_delete=models.CASCADE, blank=True, null=True)
+    player = models.ForeignKey('Player', related_name='player_highlights', on_delete=models.CASCADE, blank=True, null=True)
+    date_posted = models.DateTimeField(default=timezone.now)
+    def save(self, *args, **kwargs):
+        if not self.slug and self.title:
+            self.slug = slugify(self.title)
+        super().save(*args, **kwargs)   
+
+    def __str__(self):
+        return self.title if self.title else f"Highlight {self.id}"
+
+    class Meta:
+        verbose_name_plural = 'Game Highlights'
+

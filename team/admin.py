@@ -18,7 +18,7 @@ from .models import CareerRecords
 from .models import Standing
 from .models import Awards
 from .models import Contact
-from .models import NewsletterSubscriber
+from .models import NewsletterSubscriber, GameHighlight
 
 
 from django.contrib import admin
@@ -390,3 +390,13 @@ class NewsletterSubscriberAdmin(admin.ModelAdmin):
     readonly_fields = (  'date_subscribed', )
     list_display = ( 'date_subscribed', 'email','slug',)
     ordering = ('date_subscribed', 'email',)     
+
+
+
+# Gallery Admin
+@admin.register(GameHighlight)
+class GameHighlightAdmin(admin.ModelAdmin):
+    fields = ( 'title', 'youtube_url', 'game', 'player', 'date_posted' )
+    readonly_fields = (  'youtube_url', )
+    list_display = ( 'date_posted','slug', 'youtube_url')
+    ordering = ('date_posted',)  
