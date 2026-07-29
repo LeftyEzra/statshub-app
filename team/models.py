@@ -267,6 +267,7 @@ class Player(AutoSlugModel):
     instagram_link = models.URLField(verbose_name='Instagram URL', blank=True, null=True)
     youtube_link = models.URLField(verbose_name='Youtube URL', blank=True, null=True)
     tiktok_link = models.URLField(verbose_name='TikTok', blank=True, null=True)
+    #https://youtu.be/Ao-MdwTM51Y?si=vtqB7Mw_fWEEZP-h
   
     def __str__(self):
         return self.player_name
@@ -609,7 +610,9 @@ class NewsletterSubscriber(models.Model):
 class GameHighlight(models.Model):
     title = models.CharField(max_length=100, blank=True, null=True)
     slug = models.SlugField(unique=True, blank=True, null=True, help_text="Auto-generated from title if blank")
-    youtube_url = models.URLField(help_text="Paste the YouTube watch or embed URL")
+    youtube_url = models.URLField(verbose_name='Youtube URL', blank=True, null=True)
+
+
     
     # Relations: A highlight can be tied to a game, a player, or both!
     game = models.ForeignKey('Game', related_name='highlights', on_delete=models.CASCADE, blank=True, null=True)
