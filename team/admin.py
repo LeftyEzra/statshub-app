@@ -397,6 +397,5 @@ class NewsletterSubscriberAdmin(admin.ModelAdmin):
 @admin.register(GameHighlight)
 class GameHighlightAdmin(admin.ModelAdmin):
     fields = ( 'title', 'youtube_url', 'game', 'player', 'date_posted' )
-    readonly_fields = (  'youtube_url', )
     list_display = ( 'date_posted','slug', 'youtube_url')
     ordering = ('date_posted',)  
