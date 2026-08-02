@@ -270,10 +270,7 @@ class CareerRecordsForm(forms.ModelForm):
         
 # Gallery Photos
 import os
-from django import forms
 from django.core.exceptions import ValidationError
-from .models import GalleryImages
-
 class GalleryImagesForm(forms.ModelForm):
     class Meta:
         model = GalleryImages
