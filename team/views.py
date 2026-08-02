@@ -2127,6 +2127,8 @@ def game_stats_pdf(request, slug):
 
 
 # Game Detail View          
+from .services import get_game_detail_data
+
 class GameDetailView(View):
     def get(self, request, game_slug, competition_slug=None):
         if competition_slug:
@@ -2136,302 +2138,46 @@ class GameDetailView(View):
                 game_details = get_object_or_404(Game, slug=game_slug)
                 team = game_details.team
                 opponent = game_details.opponent
-                game_date = game_details.date.strftime(f"%Y-%m-%d")
-                readable_date = game_details.date.strftime(f"%B %d, %Y")
+                game_date = game_details.date.strftime("%Y-%m-%d")
+                readable_date = game_details.date.strftime("%B %d, %Y")
                 
                 players = team.players.all().select_related('team', 'opponent')
                 stats = PlayerStatLine.objects.filter(game_schedule=game_details).select_related('player_name', 'team', 'opponent', 'game_schedule')
                 all_games = competition.games.all().prefetch_related('quarterly_scores')
                 
-                # Returns only the stats for the games in this competition.
-                all_game_stats = PlayerStatLine.objects.filter(game_schedule__in=all_games).select_related('player_name', 'team', 'opponent', 'game_schedule')
-
-                # Fetch standings and the related game type
-                tournament_standing = Standing.objects.filter(competition=competition).select_related('team', 'opponent',)
+                # Fetch querysets
+                tournament_standing = Standing.objects.filter(competition=competition).select_related('team', 'opponent')
                 quarterly_scores = get_object_or_404(QuarterlyScores, game=game_details)  
                 other_games = Game.objects.exclude(slug=game_slug).order_by('date').prefetch_related('quarterly_scores')
 
-                ###############################################################################################
-                ###################################Conversion To Pandas DataFrame #####################################
-                ###############################################################################################
-                pd.set_option("display.max_columns", None)
-                pd.set_option("display.max_rows", None)
+                # Pass everything heavy to services.py
+                processed_data = get_game_detail_data(
+                    competition=competition,
+                    game_details=game_details,
+                    team=team,
+                    opponent=opponent,
+                    stats=stats,
+                    all_games=all_games,
+                    other_games=other_games,
+                    tournament_standing=tournament_standing
+                )
 
-                # Convert to DataFrame
-                all_games_df = pd.DataFrame(
-                            all_games.values('date','time','team__name', 'indicator','opponent__name', 
-                                            'team_scores', 'opponent_scores', 'team_win_loss', 'game_venue', 'game_type'))
-                
-                # Getting the International Games
-                international_games = pd.DataFrame(
-                            other_games.values('id','slug', 'competition__slug', 'date','time','team__name', 'team__team_logo','indicator','opponent__name', 
-                                            'opponent__logo','team_scores', 'opponent_scores', 'team_win_loss', 'game_venue__name', 'game_type'))                            
-
-                # Getting the regular season and playoffs games
-                regular_season = all_games_df[all_games_df['game_type'].isin(["regular"])]
-                
-                
-                # International games
-                int_games_in_other_games = international_games[international_games['game_type'].isin(["international"])]
-                
-                # All Game Statistics
-                all_game_stats_df = pd.DataFrame(
-                            all_game_stats.values('game_schedule__date','player_name__player_name', 'team__name', 
-                                                  'offensive_rebs', 'defensive_rebs', 'assists', 'game_schedule__game_type'))
-                
-                ###############################################################################################
-                #if not all_game_stats_df.empty:  
-                # Check if stats exist and the dataframe is not empty before processing
-                if stats.exists() and not all_game_stats_df.empty and 'offensive_rebs' in all_game_stats_df.columns:
-      
-                    
-                    
-                    # Filtering the stats by games
-                    regular_season_games_played_df = all_game_stats_df[all_game_stats_df['game_schedule__game_type'].isin(["regular"])].copy()                                                                                
-                    regular_season_games_played_df['total_rebounds'] = regular_season_games_played_df['offensive_rebs'] + regular_season_games_played_df['defensive_rebs']
-                    regular_season_games_played_df = regular_season_games_played_df[['game_schedule__date', 'player_name__player_name', 'team__name', 
-                                                                                    'offensive_rebs', 'defensive_rebs','total_rebounds', 'assists']]
-                    regular_season_games_played_df = regular_season_games_played_df.groupby('game_schedule__date')[[ 'player_name__player_name', 'team__name', 
-                                                                                    'offensive_rebs', 'defensive_rebs','total_rebounds', 'assists']].sum().reset_index()                                        
-                    regular_season_games_played_df = regular_season_games_played_df.rename(columns={'game_schedule__date': 'date'}) 
-                    
-                    # Merging or concatinating to Calculating the Mean scores of the team scores and the opponent scores
-                    merge_df = regular_season.merge(regular_season_games_played_df, how= 'left',on='date')
-                    merge_df  = merge_df [~merge_df['team_scores'].isin([0])]
-                    mean_merge_df = merge_df[['team_scores', 'opponent_scores','offensive_rebs', 
-                                            'defensive_rebs','total_rebounds', 'assists']].mean().astype(float) 
-                    
-                    # Players Stats For Best Performer
-                    stats_df = pd.DataFrame(
-                                stats.values('player_name__id','player_name__slug','player_name__jersey_number','team__name', 'opponent__name','player_name__player_name', 
-                                            'player_name__player_image','points', 'assists', 
-                                            'field_goal_attempts', 'field_goal_made', 'ft_attempts', 'ft_made',
-                                            'point_3_attempts', 'point_3_made',
-                                            'turnovers', 'minutes',  'blocks', 'steals',
-                                            'personal_fouls',
-                                            'player_name__team__name','offensive_rebs', 'defensive_rebs'))
-
-
-                    stats_df = stats_df.rename(columns={'player_name__id':'player_id', })          
-                    stats_df['total_rebounds'] = stats_df['offensive_rebs'] + stats_df['defensive_rebs']
-                    stats_df['fg_percent'] = ((stats_df['field_goal_made'] / stats_df['field_goal_attempts']) * 100).fillna(0)
-                    stats_df['point_3_percent'] = ((stats_df['point_3_made'] / stats_df['point_3_attempts']) * 100).fillna(0)
-                    stats_df['ft_percent'] = ((stats_df['ft_made'] / stats_df['ft_attempts']) * 100).fillna(0)
-                    stats_df['team__name'] = stats_df['team__name'].fillna(stats_df['opponent__name'])
-                    stats_df['opponent__name'] = stats_df['opponent__name'].fillna(stats_df['team__name'])
-
-                    stats_df["efficiency"] = (
-                                                stats_df["points"]
-                                                + stats_df["total_rebounds"]
-                                                + stats_df["assists"]
-                                                + stats_df["steals"]
-                                                + stats_df["blocks"]
-                                                - (
-                                                    (stats_df["field_goal_attempts"] - stats_df["field_goal_made"])
-                                                    + (stats_df["ft_attempts"] - stats_df["ft_made"])
-                                                    + stats_df["turnovers"]
-                                                )
-                                            )
-                                                
-                    # Calculate the weighted defensive score
-                    stats_df['def'] = stats_df['steals'] * 2 + stats_df['blocks'] * 2 + stats_df['defensive_rebs'] * 0.5 
-                    # Create a helper function that handles any name
-                    
-                    
-                    # Using dynamic team.name variable instead of hardcoded string
-                    team_players = stats_df[stats_df['team__name'].isin([team.name])].copy()
-                   
-                    team_players[['player_name__player_name', 'surname']] = team_players['player_name__player_name'].str.split(" ", n=1, expand=True)
-                    team_players['player_name__player_name'] = team_players['player_name__player_name'].apply(
-                                                                lambda x: "".join([word[0].upper() for word in str(x).split()]))
-                    team_players['player_name'] = team_players['player_name__player_name']+'. '+team_players['surname']
-                   # Temporary Debugging Code
-                    
-
-                    # Properly getting the opponent rows based on team name mismatch
-                    #opponent_players = stats_df[stats_df['opponent__name'] == opponent.name].copy()
-                    opponent_players = stats_df[stats_df['opponent__name'].isin([opponent.name])].copy()
-                    opponent_players[['player_name__player_name', 'surname']] = opponent_players['player_name__player_name'].str.split(" ", n=1, expand=True)
-                    opponent_players['player_name__player_name'] = opponent_players['player_name__player_name'].apply(
-                                                                lambda x: "".join([word[0].upper() for word in str(x).split()]))
-                    opponent_players['player_name'] = opponent_players['player_name__player_name']+'. '+opponent_players['surname']
-                    
-                    print("--- Opponent INFO ---")
-                    print(f"Columns: {opponent_players.columns.tolist()}")
-                    print(opponent_players)
-                    # Opponent Top Point
-                    opp_top_points = opponent_players.groupby(
-                                ["player_id","player_name__jersey_number","player_name",
-                                "player_name__player_image", 'opponent__name']
-                            )[['points', 'total_rebounds', 'assists', 'field_goal_attempts', 'field_goal_made',  'ft_attempts', 'ft_made',
-                            'offensive_rebs', 'defensive_rebs','turnovers', 'minutes',  ]].sum().sort_values("points", ascending=False).head(1).reset_index()
-                    
-                    # Opponent Top Rebound
-                    opp_top_rebounds = opponent_players.groupby(
-                                ["player_id","player_name__jersey_number","player_name",
-                                "player_name__player_image", 'opponent__name']
-                            )[['points', 'total_rebounds', 'assists', 'field_goal_attempts', 'field_goal_made',  'ft_attempts', 'ft_made',
-                            'offensive_rebs', 'defensive_rebs','turnovers', 'minutes',  ]].sum().sort_values("total_rebounds", ascending=False).head(1).reset_index()
-
-                    # Opponent Top Assist
-                    opp_top_assists = opponent_players.groupby(
-                                ["player_id","player_name__jersey_number","player_name",
-                                "player_name__player_image", 'opponent__name']
-                            )[['points', 'total_rebounds', 'assists', 'field_goal_attempts', 'field_goal_made',  'ft_attempts', 'ft_made',
-                            'offensive_rebs', 'defensive_rebs','turnovers', 'minutes',  ]].sum().sort_values("assists", ascending=False).head(1).reset_index()
-                                
-                    # Function to get the best performer of the game
-                    def team_best_performer(team_opp, stat):
-                        performance_df = (
-                            team_opp.groupby(
-                                ["player_id", 'player_name__slug', "player_name__jersey_number","player_name",
-                                "player_name__player_image","player_name__team__name", 'opponent__name']
-                            )[['points', 'total_rebounds', 'assists', 'field_goal_attempts', 'field_goal_made',  'ft_attempts', 'ft_made',
-                            'offensive_rebs', 'defensive_rebs','turnovers', 'minutes',  ]].sum().sort_values(stat, ascending=False).head(1).reset_index()
-                        ) 
-                        return performance_df
-
-                    # These lines is to call the function
-                    top_points = team_best_performer(team_players, 'points')
-                    top_rebounds = team_best_performer(team_players, 'total_rebounds')
-                    top_assists = team_best_performer(team_players, 'assists')
-
-                    #Accumulation.sum() Team
-                    total_stats_df = team_players.groupby(["player_name__player_name"])[['points', 'offensive_rebs',
-                                                                                'defensive_rebs', 'total_rebounds',
-                                                                                'field_goal_made', 'field_goal_attempts','ft_attempts', 'ft_made',
-                                                                                'point_3_attempts', 'point_3_made','assists', 'blocks', 'steals',
-                                                                                'turnovers', 'personal_fouls','efficiency', 'def']].sum().reset_index()
-                    total_stats_df = total_stats_df.drop(columns=['player_name__player_name']).sum()
-                    
-                    # Sum up all FG makes and attempts across players
-                    total_stats_df['fg_percent'] = ((total_stats_df['field_goal_made'] / total_stats_df['field_goal_attempts']) * 100)
-                    total_stats_df['point_3_percent'] = ((total_stats_df['point_3_made'] / total_stats_df['point_3_attempts']) * 100)
-                    total_stats_df['ft_percent'] = ((total_stats_df['ft_made'] / total_stats_df['ft_attempts']) * 100)
-
-                    #Accumulation.sum() Opponent
-                    opp_total_stats_df = opponent_players.groupby(["player_name__player_name"])[['points', 'offensive_rebs',
-                                                                                'defensive_rebs', 'total_rebounds',
-                                                                                'field_goal_made', 'field_goal_attempts','ft_attempts', 'ft_made',
-                                                                                'point_3_attempts', 'point_3_made','assists', 'blocks', 'steals',
-                                                                                'turnovers', 'personal_fouls','efficiency', 'def']].sum().reset_index()
-                    opp_total_stats_df = opp_total_stats_df.drop(columns=['player_name__player_name']).sum()
-                    
-                    # Sum up all FG makes and attempts across players
-                    opp_total_stats_df['fg_percent'] = ((opp_total_stats_df['field_goal_made'] / opp_total_stats_df['field_goal_attempts']) * 100).round(1)
-                    opp_total_stats_df['point_3_percent'] = ((opp_total_stats_df['point_3_made'] / opp_total_stats_df['point_3_attempts']) * 100).round(1)
-                    opp_total_stats_df['ft_percent'] = ((opp_total_stats_df['ft_made'] / opp_total_stats_df['ft_attempts']) * 100).round(1)
-
-                    # Django aggregate Function
-                    home_totals = stats.aggregate(
-                        points=Sum('points'),
-                        field_goal_attempts=Sum('field_goal_attempts'),
-                        field_goal_made=Sum('field_goal_made'),
-                        point_3_attempts=Sum('point_3_attempts'),
-                        point_3_made=Sum('point_3_made'),
-                        ft_attempts=Sum('ft_attempts'),
-                        ft_made=Sum('ft_made'),
-                        offensive_rebs=Sum('offensive_rebs'),
-                        defensive_rebs=Sum('defensive_rebs'),
-                        blocks=Sum('blocks'),
-                        assists=Sum('assists'),
-                        steals=Sum('steals'),
-                        turnovers=Sum('turnovers'),
-                        personal_fouls=Sum('personal_fouls'),
-                    )
-                    home_totals['total_rebounds'] = home_totals['offensive_rebs'] + home_totals['defensive_rebs']
-                    home_totals['fg_percent'] = (home_totals['field_goal_made'] / home_totals['field_goal_attempts'] * 100) if home_totals['field_goal_attempts'] else 0
-                    home_totals['point_3_percent'] = (home_totals['point_3_made'] / home_totals['point_3_attempts'] * 100) if home_totals['point_3_attempts'] else 0
-                    home_totals['ft_percent'] = (home_totals['ft_made'] / home_totals['ft_attempts'] * 100) if home_totals['ft_attempts'] else 0
-
-                    home_totals["efficiency"] = (
-                                                    home_totals["points"]
-                                                    + home_totals["total_rebounds"]
-                                                    + home_totals["assists"]
-                                                    + home_totals["steals"]
-                                                    + home_totals["blocks"]
-                                                    - (
-                                                        (home_totals["field_goal_attempts"] - home_totals["field_goal_made"])
-                                                        + (home_totals["ft_attempts"] - home_totals["ft_made"])
-                                                        + home_totals["turnovers"]
-                                                    )
-                                                )
-                    home_totals['def'] = home_totals['steals'] * 2 + home_totals['blocks'] * 2 + home_totals['defensive_rebs'] * 0.5 
-
-                    # Convert tournament standing to DataFrame
-                    if tournament_standing.exists():
-                        standing_df = pd.DataFrame(
-                            tournament_standing.values(
-                                'competition__name', 'game_type', 'team__name', 'team__team_logo', 
-                                'opponent__name', 'opponent__logo', 'w', 'l', 'home_record', 'away_record', 
-                                'ppg', 'opp_ppg', 'strk', 'last_5'
-                            )
-                        ).sort_values('w', ascending=False).reset_index(drop=True)
-
-                        standing_df['team__name'] = standing_df['team__name'].fillna(standing_df['opponent__name'])
-                        standing_df['opponent__name'] = standing_df['opponent__name'].fillna(standing_df['team__name'])
-                        standing_df['team__team_logo'] = standing_df['team__team_logo'].fillna(standing_df['opponent__logo'])                                             
-                        standing_df['opponent__logo'] = standing_df['opponent__logo'].fillna(standing_df['team__team_logo'])
-                        standing_records = standing_df.to_dict('records')
-                    else:
-                        standing_records = []
-
-                    # Populate context dictionary
-                    context = {
-                        'game_details': game_details,
-                        'players': players,
-                        'team_players': team_players.to_dict('records'),
-                        'opponent_players': opponent_players.to_dict('records'),
-                        'competition': competition,
-                        'opponent': opponent, 
-                        'game_date': game_date,
-                        'readable_date': readable_date,
-                        'quarterly_scores': quarterly_scores,
-                        'other_games': other_games,
-                        'int_games_in_other_games': int_games_in_other_games.to_dict('records'),
-                        'standing_df': standing_df.to_dict('records'),
-                        'home_totals': home_totals,
-                        'top_points_df': top_points.to_dict('records'),
-                        'top_rebounds_df': top_rebounds.to_dict('records'),
-                        'top_assists_df': top_assists.to_dict('records'),
-                        'opp_top_points': opp_top_points.to_dict('records'),
-                        'opp_top_rebounds': opp_top_rebounds.to_dict('records'),
-                        'opp_top_assists': opp_top_assists.to_dict('records'),
-                        'overall_sum_df' : total_stats_df,
-                        'opp_total_stats_df': opp_total_stats_df,
-                        'mean_merge_df': mean_merge_df
-                    }
-
-                else:
-                    # Handle empty state gracefully by providing empty default fallback structures
-                    context = {
-                        'game_details': game_details,
-                        'players': players,
-                        'team_players': [],
-                        'opponent_players': [],
-                        'competition': competition,
-                        'opponent': opponent, 
-                        'game_date': game_date,
-                        'readable_date': readable_date,
-                        'quarterly_scores': quarterly_scores,
-                        'other_games': other_games,
-                        'int_games_in_other_games': [],
-                        'standing_df': [],
-                        'home_totals': {},
-                        'top_points_df': [],
-                        'top_rebounds_df': [],
-                        'top_adjust_df': [],
-                        'opp_top_points': [],
-                        'opp_top_rebounds': [],
-                        'opp_top_assists': [],
-                        'overall_sum_df' : {},
-                        'opp_total_stats_df': {},
-                        'mean_merge_df': pd.DataFrame()
-                    }
+                # Populate context dictionary
+                context = {
+                    'game_details': game_details,
+                    'players': players,
+                    'competition': competition,
+                    'opponent': opponent, 
+                    'game_date': game_date,
+                    'readable_date': readable_date,
+                    'quarterly_scores': quarterly_scores,
+                    'other_games': other_games,
+                    **processed_data # Unpacks all data processed by services.py
+                }
 
                 return render(request, 'game-overview.html', context)                
         
-        # Fallback if competition_slug or is_current_competition checks fail or are invalid
+        # Fallback if competition validation fails
         return render(request, 'game-overview.html', {
             'error': 'Invalid competition or game ID.'
         })

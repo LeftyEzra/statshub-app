@@ -3,6 +3,7 @@ from .models import Season, Competition, Team, TeamStaff, Opponent, Player, Game
 from .models import Venue, CompetitionSeason, CareerRecords, ContentBlock, GalleryImages, ShotCharts, TeamNews, Sponsor, CareerRecords, Awards
 from .models import Contact, NewsletterSubscriber
 from django.forms import inlineformset_factory
+from django.core.exceptions import ValidationError
 
 
 
@@ -268,11 +269,46 @@ class CareerRecordsForm(forms.ModelForm):
 
         
 # Gallery Photos
+import os
+from django import forms
+from django.core.exceptions import ValidationError
+from .models import GalleryImages
+
 class GalleryImagesForm(forms.ModelForm):
     class Meta:
         model = GalleryImages
         fields = '__all__'
-      
+
+    def _validate_image_file(self, image):
+        """Helper method to avoid repeating validation logic."""
+        if image:
+            #  File Size Check (max 2MB)
+            max_size = 2 * 1024 * 1024  
+            if image.size > max_size:
+                raise ValidationError("Image file too large. File size must not exceed 2MB.")
+
+            #  Allowed Content Types (MIME types)
+            valid_content_types = ['image/jpeg', 'image/png', 'image/webp']
+            if image.content_type not in valid_content_types:
+                raise ValidationError("Unsupported file type. Only JPEG, PNG, and WebP images are allowed.")
+
+            #  Extension safety check
+            valid_extensions = ['.jpg', '.jpeg', '.png', '.webp']
+            ext = os.path.splitext(image.name)[1].lower()
+            if ext not in valid_extensions:
+                raise ValidationError("Invalid file extension.")
+        return image
+
+    def clean_images(self):
+        images = self.cleaned_data.get('images')
+        return self._validate_image_file(images)
+
+    def clean_player_image(self):
+        player_image = self.cleaned_data.get('player_image')
+        return self._validate_image_file(player_image)
+
+
+
 # Gallery Photos
 class ShotChartForm(forms.ModelForm):
     class Meta:
