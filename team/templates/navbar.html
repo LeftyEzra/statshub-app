@@ -159,6 +159,36 @@
                       </a>
                     {% endif %}  
                   </li>
+
+
+
+                  <li class="rd-nav-item rd-navbar-submenu">
+    {% if user.is_authenticated %}
+        <a class="link link-icon link-icon-left link-classic" href="#">
+            <span class="icon fl-bigmug-line-login12"></span>
+            <span class="link-icon-text">My Account</span>
+        </a>
+        <!-- This span/class triggers the mobile dropdown accordion in RD Navbar -->
+        <span class="rd-navbar-submenu-toggle"></span>
+        
+        <ul class="rd-menu rd-navbar-dropdown">
+            <li class="rd-dropdown-item">
+                <a class="rd-dropdown-link" href="{% url 'update-user' %}">User Profile</a>
+            </li>
+            <li class="rd-dropdown-item">
+                <a class="rd-dropdown-link" href="{% url 'update-info' %}">User Info</a>
+            </li>
+            <li class="rd-dropdown-item">
+                <a class="rd-dropdown-link" href="{% url 'logout-user' %}">Logout</a>
+            </li>
+        </ul>
+    {% else %}
+        <a class="link link-icon link-icon-left link-classic" href="{% url 'login-user' %}">
+            <span class="icon fl-bigmug-line-login12"></span>
+            <span class="link-icon-text">Login</span>
+        </a>
+    {% endif %}
+</li>
                   </ul>
                 </div>
                 <div class="rd-navbar-collapse-toggle rd-navbar-fixed-element-1" data-rd-navbar-toggle=".rd-navbar-collapse">
