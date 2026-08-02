@@ -5,7 +5,22 @@
         height: auto !important;
     }
 
-/
+/* Ensure the mobile dropdown has a solid background and proper padding */
+.rd-navbar-dropdown.account-dropdown-menu {
+    background-color: #ffffff !important; /* Adjust to match your theme's dropdown background color if dark */
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15);
+    z-index: 999;
+}
+
+.rd-navbar-dropdown.account-dropdown-menu .rd-dropdown-link {
+    color: #222222 !important; /* Dark text for readability */
+    padding: 10px 20px;
+    display: block;
+}
+
+.rd-navbar-dropdown.account-dropdown-menu .rd-dropdown-link:hover {
+    background-color: #f5f5f5;
+}
 </style>
       <!-- Page Header-->
       <header class="section page-header rd-navbar-dark">
@@ -122,20 +137,16 @@
                         </article>
                       </div>
                     </li>
-             
-
-
-
-                  <li class="rd-nav-item rd-navbar-submenu">
+<li class="rd-nav-item rd-navbar-submenu">
     {% if user.is_authenticated %}
         <a class="link link-icon link-icon-left link-classic" href="#">
             <span class="icon fl-bigmug-line-login12"></span>
             <span class="link-icon-text">My Account</span>
         </a>
-        <!-- This span/class triggers the mobile dropdown accordion in RD Navbar -->
+        <!-- Using the template's native dropdown toggle structure -->
         <span class="rd-navbar-submenu-toggle"></span>
         
-        <ul class="rd-menu rd-navbar-dropdown">
+        <ul class="rd-menu rd-navbar-dropdown account-dropdown-menu">
             <li class="rd-dropdown-item">
                 <a class="rd-dropdown-link" href="{% url 'update-user' %}">User Profile</a>
             </li>
@@ -153,6 +164,12 @@
         </a>
     {% endif %}
 </li>
+                    
+             
+
+
+
+
                   </ul>
                 </div>
                 <div class="rd-navbar-collapse-toggle rd-navbar-fixed-element-1" data-rd-navbar-toggle=".rd-navbar-collapse">

@@ -606,7 +606,7 @@ class NewsletterSubscriber(models.Model):
 
 
 
-
+import urllib.parse
 class GameHighlight(models.Model):
     title = models.CharField(max_length=100, blank=True, null=True)
     slug = models.SlugField(unique=True, blank=True, null=True, help_text="Auto-generated from title if blank")
@@ -625,6 +625,17 @@ class GameHighlight(models.Model):
 
     def __str__(self):
         return self.title if self.title else f"Highlight {self.id}"
+
+    
+    def youtube_id(self):
+        url_data = urllib.parse.urlparse(self.youtube_url)
+        if url_data.hostname == 'youtu.be':
+            return url_data.path[1:]
+        elif url_data.hostname in ('www.youtube.com', 'youtube.com'):
+            query = urllib.parse.parse_qs(url_data.query)
+            return query.get('v', [None])[0]
+        return None
+    
 
     class Meta:
         verbose_name_plural = 'Game Highlights'

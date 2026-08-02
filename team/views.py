@@ -839,6 +839,8 @@ class PlayerDetailView(View):
                 other_players = Player.objects.exclude(slug=player_slug, team=team).order_by('player_name').select_related('team')
                 player_details.age = calculate_age(player_details.date_of_birth)  # Calculate the player's age
                 career_records = player_details.career_records.first()
+                # Fetch highlights tied to this player
+                highlights = player_details.player_highlights.all().order_by('-date_posted')
 
                 # Get the player's statistics
                 tournament_stats = PlayerStatLine.objects.filter(player_name=player_details).order_by('-game_schedule').select_related('player_name', 'team', 'opponent', 'game_schedule')
@@ -1085,6 +1087,7 @@ class PlayerDetailView(View):
                         'player_images': GalleryImages.objects.filter(player_pictures=player_details).select_related('player_pictures'),
                         # Player Product
                         'player_merchandise': player_merchandise_obj,
+                        'highlights': highlights,
                     }
 
                     return render(request, 'player-page.html', context)
