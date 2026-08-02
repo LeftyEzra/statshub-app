@@ -122,43 +122,7 @@
                         </article>
                       </div>
                     </li>
-                    <li>
-                      {% if user.is_authenticated %}
-                      <li class="rd-nav-item rd-navbar-submenu">
-                         <a class="link link-icon link-icon-left link-classic" href="#">
-                          <span class="icon fl-bigmug-line-login12"></span>
-                          <span class="link-icon-text">My Account</span>
-                          
-                        </a>
-                        <ul class="rd-menu rd-navbar-dropdown">
-                          <li class="rd-dropdown-item">
-                              <a class="rd-dropdown-link" href="{% url 'update-user'  %}">
-                                User Profile
-                              </a>
-                          </li>
-                          <li class="rd-dropdown-item">
-                              <a class="rd-dropdown-link" href="{% url 'update-info'  %}">
-                                User Info
-                              </a>
-                          </li>
-                          <li class="rd-dropdown-item">
-                              <a class="rd-dropdown-link" href="{% url 'logout-user'  %}">
-                                Logout
-                              </a>
-                          </li>
-
-                        </ul>
-
-                      </li>
-                    
-                    {% else %}
-                       <a class="link link-icon link-icon-left link-classic" href="{% url 'login-user'  %}">
-                        <span class="icon fl-bigmug-line-login12"></span>
-                        <span class="link-icon-text">Login</span>
-                        
-                      </a>
-                    {% endif %}  
-                  </li>
+             
 
 
 
