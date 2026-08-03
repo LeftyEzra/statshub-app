@@ -14,7 +14,7 @@ def add_to_cart(request):
         product_id = int(request.POST.get("product_id"))
         product_qty = int(request.POST.get("product_qty"))
         
-        # --- FIXED & UNCOMMENTED ---
+        # --- COLORS AND SIZES ---
         product_colors = request.POST.get("product_color", "Default")
         product_sizes = request.POST.get("product_size", "Standard")
 
@@ -30,7 +30,9 @@ def add_to_cart(request):
 
         cart_quantity = cart.__len__()
 
-        response = JsonResponse({'qty': cart_quantity})
+        response = JsonResponse({'qty': cart_quantity,
+                                 'product_name': product.name,
+                                })
         messages.success(request, ("Product Added To Cart "))
         return response
 

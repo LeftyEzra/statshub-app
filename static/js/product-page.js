@@ -48,7 +48,7 @@
                     document.getElementById("cart_header_qty").textContent = json.qty;
                 }
             }
-           alert("Success! Added " + product_qty + " x " + selectedColor + " item(s) to your cart."); 
+           alert("Success! Added " + product_qty + " x " + json.product_name + " x " + selectedColor + " item(s) to your cart."); 
         },
         error: function(xhr, errmsg, err) {
             console.error('AJAX request failed:', errmsg);
