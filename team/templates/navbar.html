@@ -80,61 +80,57 @@
                           </span>
                         </button>
                         <!-- Cart Inline-->
-                        <article class="cart-inline cart-inline-toggled" id="cart-inline">
-                          <div class="cart-inline-inner">
-                            <div class="cart-inline-header">
-                              <h5 class="cart-inline-title">In cart:<span id="cart_header_qty">{{ cart|length }}</span> products</h5>
-                              <p class="cart-inline-subtitle">total price: ₦{{totals}}</p>
-                            </div>
-                            <div class="cart-inline-main">
-                                    <!-- Product inline-->
-                                     {% if cart_products %}            
-                                      {% for product in cart_products %}
-                                    <article class="product-inline">
-                                      <div class="product-inline-aside">
-                                        <a class="product-inline-figure" href="{% url 'product-id' product.slug %}">
-                                          <img class="product-inline-image" src="{{ product.image.url }}" alt="" width="67" height="30"/>
-                                        </a>
-                                      </div>
-                                      <div class="product-inline-main">
-                                        <p class="heading-7 product-inline-title">
-                                          <a href="{% url 'product-id' product.slug %}">{{ product.name }}</a>
-                                        </p>
-                                        <ul class="product-inline-meta">
-                                        
-                                          <li>
-                                               {% if product.is_sales %}
-                                                    <del style="color: red;">₦ {{ product.price }}</del> 
-                                                    <p class="product-inline-price"> 
-                                                        $ {{ product.sales_price }}
-                                                    </p>
-                                                {% else %}
-                                                    <p class="product-inline-price"> 
-                                                        ₦ {{ product.price }}
-                                                    </p>
-                                                {% endif %}
-                                          </li>
-                                        </ul>
-                                      </div>
-                                    </article>
-                                             {% endfor %}
-                                            {% else %}
-                                            <article>Nothing in your cart..</article>
-                                            
-                                            {% endif %}  
-                              
-                            </div>
-                            <div class="cart-inline-footer">
-                              <a class="button button-md button-default-outline" href="{% url 'cart-summary'  %}">Go to Cart</a>
-                               <br> 
-                              {% if grand_totals > 0 %}
-                                 <a class="button button-md button-primary" href="{% url 'checkout' %}">Checkout</a>
-                                {% else %}
-                                 <a class="button button-md button-primary " href="{% url 'grid-shop' %}">Go to Shop</a>
-                                {% endif %}
-                            </div>
-                          </div>
-                        </article>
+                        <!-- Cart Inline-->
+<article class="cart-inline cart-inline-toggled" id="cart-inline">
+  <div class="cart-inline-inner">
+    <div class="cart-inline-header">
+      <h5 class="cart-inline-title">In cart: <span id="cart_header_qty">{{ cart|length }}</span> products</h5>
+      <p class="cart-inline-subtitle">total price: ₦<span id="cart_header_total">{{ totals }}</span></p>
+    </div>
+    
+    <div class="cart-inline-main" id="cart-inline-main-container">
+       {% if cart_products %}            
+         {% for product in cart_products %}
+         <article class="product-inline" data-product-id="{{ product.id }}">
+             <div class="product-inline-aside">
+                <a class="product-inline-figure" href="{% url 'product-id' product.slug %}">
+                  <img class="product-inline-image" src="{{ product.image.url }}" alt="" width="67" height="30"/>
+                </a>
+             </div>
+             <div class="product-inline-main">
+                <p class="heading-7 product-inline-title">
+                  <a href="{% url 'product-id' product.slug %}">{{ product.name }}</a>
+                </p>
+                <ul class="product-inline-meta">
+                  <li>
+                       {% if product.is_sales %}
+                          <del style="color: red;">₦ {{ product.price }}</del> 
+                          <p class="product-inline-price">₦ {{ product.sales_price }}</p>
+                       {% else %}
+                          <p class="product-inline-price">₦ {{ product.price }}</p>
+                       {% endif %}
+                  </li>
+                </ul>
+             </div>
+             <!-- Optional inline delete trigger if supported here -->
+         </article>
+         {% endfor %}
+       {% else %}
+         <article class="product-inline-empty"><p>Nothing in your cart..</p></article>
+       {% endif %} 
+    </div>
+
+    <div class="cart-inline-footer">
+      <a class="button button-md button-default-outline" href="{% url 'cart-summary' %}">Go to Cart</a>
+       <br> 
+      {% if cart|length > 0 %}
+         <a class="button button-md button-primary" href="{% url 'checkout' %}">Checkout</a>
+      {% else %}
+         <a class="button button-md button-primary" href="{% url 'grid-shop' %}">Go to Shop</a>
+      {% endif %}
+    </div>
+  </div>
+</article>
                       </div>
                     </li>
 <li class="rd-nav-item rd-navbar-submenu">
