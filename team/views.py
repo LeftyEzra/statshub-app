@@ -2878,7 +2878,7 @@ def delete_contact(request, pk):
 ####################################################################################
 ####################################################################################
 
-
+"""
 def NewsletterSubscriberCreate(request):
     if request.method == "POST":
         print("--- NEWSLETTER TEST: POST SUBMISSION ATTEMPT! ---")
@@ -2944,6 +2944,31 @@ def NewsletterSubscriberCreate(request):
 
     # CHANGE THIS: Render your actual page template (e.g., 'home.html' or 'index.html') 
     # instead of 'base.html' so it doesn't break your site layout on a GET request.
+    return render(request, "home.html", {"form": form})
+"""
+
+def NewsletterSubscriberCreate(request):
+    if request.method == "POST":
+        print("--- NEWSLETTER TEST: POST SUBMISSION ATTEMPT! ---")
+        print("DATA RECEIVED:", request.POST)
+        
+        form = NewsletterSubscriberForm(request.POST) 
+        
+        if form.is_valid():
+            cleaned_data = form.cleaned_data
+            whatsapp_number = cleaned_data.get('phone')  # Only WhatsApp now
+
+            form.save()
+            print(f"--- SUCCESS: Saved WhatsApp {whatsapp_number} to Database ---")
+
+            # Instead of sending email, you can just confirm subscription
+            messages.success(request, "Subscription successful! We will reach you via WhatsApp.")
+            return redirect("home")
+        else:
+            print("NEWSLETTER FORM ERRORS:", form.errors.as_data())
+    else:
+        form = NewsletterSubscriberForm()
+
     return render(request, "home.html", {"form": form})
 
 
