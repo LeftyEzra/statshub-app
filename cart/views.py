@@ -96,8 +96,8 @@ def delete_cart(request):
     cart = Cart(request)
     if request.POST.get('action') == 'post':
         product_id = request.POST.get("product_id")
-        product_color = request.POST.get("product_color", "Default")
-        product_size = request.POST.get("product_size", "Standard")
+        product_color = request.POST.get("product_color", "D")
+        product_size = request.POST.get("product_size", "STD")
 
         cart.delete(product_id=product_id, color=product_color, size=product_size)
 
@@ -107,7 +107,7 @@ def delete_cart(request):
         return JsonResponse({'qty': cart_quantity, 'product': product_id})
 
 
-        
+
 def checkout(request):
     return render(request, 'checkout.html')
 

@@ -296,7 +296,8 @@ $(document).on('click', '.btn-delete', function(e) {
                 
                 // If no more table rows remain, refresh or inject empty message dynamically
                 if ($('tbody tr').length === 0) {
-                    location.reload(); 
+                    $('tbody').html('<tr><td colspan="6" class="text-center py-5">Nothing in your cart.. Please go back to the <a href="{% url "grid-shop" %}" style="color: var(--primary); text-decoration: underline;">shopping page</a></td></tr>');
+                    $('.cart-table-footer, .cart-totals-section').hide();
                 }
             });
 
