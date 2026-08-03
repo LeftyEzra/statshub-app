@@ -76,38 +76,22 @@ def cart_summary(request):
     })
 
 
-
 # Update cart
 def update_cart(request):
-    # Initialize the cart object from cart.py using the current request session
     cart = Cart(request)
-    
-    # Check if the incoming request is an AJAX POST request with the action 'post'
     if request.POST.get('action') == 'post':
-        
-        # Capture the product ID and quantity from the AJAX data and convert them to integers
         product_id = request.POST.get('product_id')
         product_qty = int(request.POST.get('product_qty'))
 
-        # --- THE UPDATE: Grab color and size from AJAX ---
         product_colors = request.POST.get("product_color", "Default")
         product_sizes = request.POST.get("product_size", "Standard")
-        print("product color")
-        print(product_colors)
 
-        # Call the update method in the Cart class to save the new quantity to the session
         cart.update(product_id=product_id, quantity=product_qty, color=product_colors, size=product_sizes)
 
-        # Get the new total count of items in the cart to update the navbar icon
         cart_quantity = cart.__len__()
-        
-        # Return a JSON response containing the new quantity back to the JavaScript
-        response = JsonResponse({'qty': cart_quantity})
-        
-        return response
+        return JsonResponse({'qty': cart_quantity})
 
-     
-
+# Delete cart
 def delete_cart(request):
     cart = Cart(request)
     if request.POST.get('action') == 'post':
@@ -117,15 +101,13 @@ def delete_cart(request):
 
         cart.delete(product_id=product_id, color=product_color, size=product_size)
 
-        response = JsonResponse({
-            'product': product_id,
-            'qty': cart.__len__(),          # total items in cart
-            'grand_total': cart.get_total() # total price
-        })
-        messages.success(request, "Product Removed Successfully...")
-        return response
+        # Return the new total item count so navbar/dropdown updates correctly
+        cart_quantity = cart.__len__()
+        
+        return JsonResponse({'qty': cart_quantity, 'product': product_id})
 
 
+        
 def checkout(request):
     return render(request, 'checkout.html')
 

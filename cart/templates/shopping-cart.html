@@ -155,13 +155,13 @@
                         <!-- Delete -->
                         <td>
                             <div class="product-cart-delete">
-                                <button type="button"
-                                    data-index="{{ item.id }}"
-                                    data-color="{{ item.color }}"
-                                    data-size="{{ item.size }}"
-                                    class="btn-delete">
-                                    <span class="icon fl-bigmug-line-recycling10"></span>
-                                </button>
+                            <button type="button"
+                            data-index="{{ item.id }}"
+                            data-color="{{ item.color }}"
+                            data-size="{{ item.size }}"
+                            class="btn-delete">
+                        <span class="icon fl-bigmug-line-recycling10"></span>
+                    </button>
 
                             </div>
                         </td>
@@ -207,30 +207,19 @@ $(document).ready(function() {
 
     // 2. Combined Logic for Plus and Minus with AJAX Update
     $(document).on('click', '.stepper-arrow', function(e) {
-        console.log("Stepper arrow clicked!");
         e.preventDefault();
         
-        // Find the input field and the Product ID
         var parent = $(this).closest('.stepper');
         var input = parent.find('input.stepper-input');
         
-        // This strips 'qty-' from the ID to get just the number for Django
-       
-        
-        // Get current value
         var currentVal = parseInt(input.val()) || 1;
-
-        // Calculate the new quantity based on which class was clicked
         var newVal = $(this).hasClass('up') ? currentVal + 1 : (currentVal > 1 ? currentVal - 1 : 1);
-
-
-
 
         var productId = input.attr('id').replace('qty-', '');
         var productColor = input.data('color');
         var productSize = input.data('size');
 
-        // Optimistic update (instant feedback)
+        // Optimistically update input value immediately for zero-latency feel
         input.val(newVal);
 
         $.ajax({
@@ -245,25 +234,16 @@ $(document).ready(function() {
                 action: 'post'
             },
             success: function(json) {
-                input.val(newVal);
-        
-    
                 try {
                     var currentRow = input.closest('tr');
-                    // Ensure we are grabbing the data-price correctly
                     var pricePerItem = parseFloat(currentRow.find('.active-price').attr('data-price'));
                     
                     if (!isNaN(pricePerItem)) {
                         var newSubtotal = (pricePerItem * newVal).toFixed(2);
-                        
-                        // Update the row subtotal
-                        // Note: Ensure your HTML has id="subtotal-{{product.id}}"
                         $('#subtotal-' + productId).text(newSubtotal);
 
                         // --- GRAND TOTAL CALCULATOR ---
                         var grandTotal = 0;
-                        
-                        // Use the specific class you have in your HTML
                         $('.row-total').each(function() {
                             var rawText = $(this).text().replace(/[^\d.]/g, '');
                             var subValue = parseFloat(rawText);
@@ -271,38 +251,36 @@ $(document).ready(function() {
                                 grandTotal += subValue;
                             }
                         });
-                        console.log("Calculated Grand Total is: ", grandTotal); // Add this line
                         
-                        // Update the 580
                         $('#grand-total-val').text(grandTotal.toFixed(2));
                     }
                 } catch (err) {
-                    console.error("Calculation error, but buttons will still work: ", err);
+                    console.error("Calculation error: ", err);
                 }
 
-                // Update Navbar Cart Count
-                if(document.getElementById("cart_quantity_qty")) {
-                    document.getElementById("cart_quantity_qty").textContent = json.qty;
+                // 3. Update ALL Navbar Cart Counts dynamically
+                if ($("#cart_quantity").length) {
+                    $("#cart_quantity").text(json.qty);
                 }
-},
+                if ($("#cart_header_qty").length) {
+                    $("#cart_header_qty").text(json.qty);
+                }
+            },
             error: function(xhr, errmsg, err) {
-                // If this triggers, check your console (F12) to see the error
-                console.log("Error: Could not update the session. Check your URL and View.");
+                console.log("Error: Could not update session.", errmsg);
             }
         });
     });
 });
 
-
-
-
-// Delete cart
+// Delete cart item via AJAX
 $(document).on('click', '.btn-delete', function(e) {
     e.preventDefault();
-    var productId = $(this).data('index');
-    var productColor = $(this).data('color');
-    var productSize = $(this).data('size');
-    var row = $('#row-' + productId);
+
+    var button = $(this);
+    var productId = button.data('index');
+    var productColor = button.data('color');
+    var productSize = button.data('size');
 
     $.ajax({
         type: 'POST',
@@ -315,20 +293,27 @@ $(document).on('click', '.btn-delete', function(e) {
             action: 'post'
         },
         success: function(json) {
-            // Remove row from table
-            row.remove();
+            // Remove the row smoothly from the DOM without full page reload latency
+            button.closest('tr').fadeOut(300, function() { 
+                $(this).remove(); 
+                // Reload if cart is completely empty to show empty state
+                if ($('.row-total').length === 0) {
+                    location.reload();
+                }
+            });
 
-            // Update navbar cart count (use correct ID!)
-            $('#cart_header_qty').text(json.qty);
-
-            // Update grand total
-            $('#grand-total-val').text(json.grand_total);
-                },
+            // Update navbar counts instantly
+            if ($("#cart_quantity").length) {
+                $("#cart_quantity").text(json.qty);
+            }
+            if ($("#cart_header_qty").length) {
+                $("#cart_header_qty").text(json.qty);
+            }
+        },
         error: function(xhr, errmsg, err) {
-            console.error('AJAX request failed:', errmsg);
+            console.error('AJAX delete request failed:', errmsg);
         }
     });
 });
-
-</script>    
+</script>
 {% endblock %}

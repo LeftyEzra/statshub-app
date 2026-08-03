@@ -92,14 +92,15 @@ $(document).ready(function() {
 
 
 // Delete cart
-$(document).on('click', '.btn-delete', function(e) {
-    e.preventDefault();
+
+    //Check if button pressed
+  $(document).on('click', '.btn-delete', function(e) {
     console.log("Delete button clicked!");
+    e.preventDefault();
 
     var productId = $(this).data('index');
     var productColor = $(this).data('color');
     var productSize = $(this).data('size');
-    var row = $(this).closest('tr'); // grab the row containing the button
 
     $.ajax({
         type: 'POST',
@@ -112,20 +113,14 @@ $(document).on('click', '.btn-delete', function(e) {
             action: 'post'
         },
         success: function(json) {
-            // Remove the row smoothly
-            row.fadeOut(300, function() { $(this).remove(); });
-
-            // Update navbar cart count
-            $('#cart_header_qty').text(json.qty);
-
-            // Update grand total
-            $('#grand-total-val').text(json.grand_total);
+            location.reload();
         },
         error: function(xhr, errmsg, err) {
             console.error('AJAX request failed:', errmsg);
         }
     });
 });
+
 
 
 
