@@ -108,7 +108,6 @@ def update_cart(request):
 
      
 
-# Delete cart
 def delete_cart(request):
     cart = Cart(request)
     if request.POST.get('action') == 'post':
@@ -118,10 +117,13 @@ def delete_cart(request):
 
         cart.delete(product_id=product_id, color=product_color, size=product_size)
 
-        response = JsonResponse({'product': product_id})
+        response = JsonResponse({
+            'product': product_id,
+            'qty': cart.__len__(),          # total items in cart
+            'grand_total': cart.get_total() # total price
+        })
         messages.success(request, "Product Removed Successfully...")
         return response
-
 
 
 def checkout(request):

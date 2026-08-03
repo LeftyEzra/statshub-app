@@ -155,13 +155,13 @@
                         <!-- Delete -->
                         <td>
                             <div class="product-cart-delete">
-                            <button type="button"
-                            data-index="{{ item.id }}"
-                            data-color="{{ item.color }}"
-                            data-size="{{ item.size }}"
-                            class="btn-delete">
-                        <span class="icon fl-bigmug-line-recycling10"></span>
-                    </button>
+                                <button type="button"
+                                    data-index="{{ item.id }}"
+                                    data-color="{{ item.color }}"
+                                    data-size="{{ item.size }}"
+                                    class="btn-delete">
+                                    <span class="icon fl-bigmug-line-recycling10"></span>
+                                </button>
 
                             </div>
                         </td>
@@ -281,8 +281,8 @@ $(document).ready(function() {
                 }
 
                 // Update Navbar Cart Count
-                if(document.getElementById("cart_quantity")) {
-                    document.getElementById("cart_quantity").textContent = json.qty;
+                if(document.getElementById("cart_quantity_qty")) {
+                    document.getElementById("cart_quantity_qty").textContent = json.qty;
                 }
 },
             error: function(xhr, errmsg, err) {
@@ -297,15 +297,12 @@ $(document).ready(function() {
 
 
 // Delete cart
-
-    //Check if button pressed
-  $(document).on('click', '.btn-delete', function(e) {
-    console.log("Delete button clicked!");
+$(document).on('click', '.btn-delete', function(e) {
     e.preventDefault();
-
     var productId = $(this).data('index');
     var productColor = $(this).data('color');
     var productSize = $(this).data('size');
+    var row = $('#row-' + productId);
 
     $.ajax({
         type: 'POST',
@@ -318,14 +315,20 @@ $(document).ready(function() {
             action: 'post'
         },
         success: function(json) {
-            location.reload();
-        },
+            // Remove row from table
+            row.remove();
+
+            // Update navbar cart count (use correct ID!)
+            $('#cart_header_qty').text(json.qty);
+
+            // Update grand total
+            $('#grand-total-val').text(json.grand_total);
+                },
         error: function(xhr, errmsg, err) {
             console.error('AJAX request failed:', errmsg);
         }
     });
 });
-
 
 </script>    
 {% endblock %}
