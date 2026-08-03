@@ -386,10 +386,9 @@ class ContactAdmin(admin.ModelAdmin):
 # Gallery Admin
 @admin.register(NewsletterSubscriber)
 class NewsletterSubscriberAdmin(admin.ModelAdmin):
-    fields = ( 'email', 'date_subscribed', 'phone' )
-    readonly_fields = (  'date_subscribed', )
-    list_display = ( 'date_subscribed', 'email','slug',)
-    ordering = ('date_subscribed', 'email',)     
+    fields = (  'date_subscribed', 'phone' )
+    list_display = ( 'date_subscribed',)
+    ordering = ('date_subscribed',)     
 
 
 

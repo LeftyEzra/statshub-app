@@ -480,6 +480,6 @@ class NewsletterSubscriberForm(forms.ModelForm):
     class Meta:
         model = NewsletterSubscriber
 
-        fields = [ 'email', 'phone', ]
+        fields = [  'phone', ]
 
       

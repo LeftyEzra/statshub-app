@@ -585,20 +585,15 @@ class Contact(models.Model):
 # Subscriber Model
 class NewsletterSubscriber(models.Model):
     
-    email = models.EmailField(unique=True)
+    
     phone = models.CharField(max_length=15, default='08123456789')
     date_subscribed = models.DateTimeField(default=timezone.now)
-    # This must be defined for the save() method to work:
-    slug = models.SlugField(unique=True, blank=True, max_length=100) 
+    
 
-    def save(self, *args, **kwargs):
-        # This is the correct logic: uses the unique email
-        if not self.slug:
-            self.slug = slugify(self.email) 
-        super().save(*args, **kwargs)
+  
 
     def __str__(self):
-        return self.email
+        return self.phone
     
     class Meta:
         verbose_name_plural = 'Newsletter Suscriber'          
