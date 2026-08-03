@@ -58,7 +58,8 @@ def cart_summary(request):
         grand_total += subtotal
 
         cart_items.append({
-            'id': product.slug,
+            'id': product.id,  
+            'slug': product.slug,
             'name': product.name,
             'image': product.image.url,
             'price': product.price,
@@ -107,7 +108,7 @@ def delete_cart(request):
         
         return JsonResponse({
             'qty': cart_quantity, 
-            'total': cart_total_price, 
+            'grand_total': cart_total_price, 
             'product': product_id
         })
 

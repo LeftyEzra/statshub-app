@@ -273,6 +273,7 @@ $(document).ready(function() {
 
 
 // Helper function to update navbar quantity and dropdown total price
+// Helper function
 function updateNavbarCounts(qty, totalPrice) {
     if ($("#cart_quantity").length) {
         $("#cart_quantity").text(qty);
@@ -281,7 +282,7 @@ function updateNavbarCounts(qty, totalPrice) {
         $("#cart_header_qty").text(qty);
     }
     if ($("#cart_header_total").length && totalPrice !== undefined) {
-        $("#cart_header_total").text(totalPrice);
+        $("#cart_header_total").text(parseFloat(totalPrice).toFixed(2));
     }
     if (qty === 0) {
         $('#cart-inline-main-container').html('<article class="product-inline-empty"><p>Nothing in your cart..</p></article>');
@@ -315,8 +316,8 @@ $(document).on('click', '.btn-delete', function(e) {
                 $(this).remove(); 
                 
                 // Update Grand Total text field on the summary page directly from backend json.total
-                if (json.total !== undefined) {
-                    $('#grand-total-val').text(parseFloat(json.total).toFixed(2));
+                if (json.grand_total !== undefined) {
+                    $('#grand-total-val').text(parseFloat(json.grand_total).toFixed(2));
                 }
 
                 // If no more table rows remain, refresh or inject empty message dynamically
@@ -327,7 +328,7 @@ $(document).on('click', '.btn-delete', function(e) {
             });
 
             // Update Navbar Counts and Dropdown Header Total Price
-            updateNavbarCounts(json.qty, json.total);
+            updateNavbarCounts(json.qty, json.grand_total);
         },
         error: function(xhr, errmsg, err) {
             console.error('AJAX delete request failed:', errmsg);
