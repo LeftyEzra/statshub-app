@@ -104,12 +104,12 @@ $(document).ready(function() {
 
     $.ajax({
         type: 'POST',
-        url: '{% url "delete-cart-item" %}',
+        url: deleteCartUrl,
         data: {
             product_id: productId,
             product_color: productColor,
             product_size: productSize,
-            csrfmiddlewaretoken: '{{ csrf_token }}',
+            csrfmiddlewaretoken: csrfToken,
             action: 'post'
         },
         success: function(json) {
