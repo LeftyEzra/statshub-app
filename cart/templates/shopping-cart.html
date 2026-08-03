@@ -230,6 +230,9 @@ $(document).ready(function() {
         var productColor = input.data('color');
         var productSize = input.data('size');
 
+        // Optimistic update (instant feedback)
+        input.val(newVal);
+
         $.ajax({
             type: 'POST',
             url: '{% url "update-cart-item" %}',
@@ -245,42 +248,42 @@ $(document).ready(function() {
                 input.val(newVal);
         
     
-    try {
-        var currentRow = input.closest('tr');
-        // Ensure we are grabbing the data-price correctly
-        var pricePerItem = parseFloat(currentRow.find('.active-price').attr('data-price'));
-        
-        if (!isNaN(pricePerItem)) {
-            var newSubtotal = (pricePerItem * newVal).toFixed(2);
-            
-            // Update the row subtotal
-            // Note: Ensure your HTML has id="subtotal-{{product.id}}"
-            $('#subtotal-' + productId).text(newSubtotal);
+                try {
+                    var currentRow = input.closest('tr');
+                    // Ensure we are grabbing the data-price correctly
+                    var pricePerItem = parseFloat(currentRow.find('.active-price').attr('data-price'));
+                    
+                    if (!isNaN(pricePerItem)) {
+                        var newSubtotal = (pricePerItem * newVal).toFixed(2);
+                        
+                        // Update the row subtotal
+                        // Note: Ensure your HTML has id="subtotal-{{product.id}}"
+                        $('#subtotal-' + productId).text(newSubtotal);
 
-            // --- GRAND TOTAL CALCULATOR ---
-            var grandTotal = 0;
-            
-            // Use the specific class you have in your HTML
-            $('.row-total').each(function() {
-                var rawText = $(this).text().replace(/[^\d.]/g, '');
-                var subValue = parseFloat(rawText);
-                if (!isNaN(subValue)) {
-                    grandTotal += subValue;
+                        // --- GRAND TOTAL CALCULATOR ---
+                        var grandTotal = 0;
+                        
+                        // Use the specific class you have in your HTML
+                        $('.row-total').each(function() {
+                            var rawText = $(this).text().replace(/[^\d.]/g, '');
+                            var subValue = parseFloat(rawText);
+                            if (!isNaN(subValue)) {
+                                grandTotal += subValue;
+                            }
+                        });
+                        console.log("Calculated Grand Total is: ", grandTotal); // Add this line
+                        
+                        // Update the 580
+                        $('#grand-total-val').text(grandTotal.toFixed(2));
+                    }
+                } catch (err) {
+                    console.error("Calculation error, but buttons will still work: ", err);
                 }
-            });
-            console.log("Calculated Grand Total is: ", grandTotal); // Add this line
-            
-            // Update the 580
-            $('#grand-total-val').text(grandTotal.toFixed(2));
-        }
-    } catch (err) {
-        console.error("Calculation error, but buttons will still work: ", err);
-    }
 
-    // 3. Update Navbar Cart Count
-    if(document.getElementById("cart_quantity")) {
-        document.getElementById("cart_quantity").textContent = json.qty;
-    }
+                // Update Navbar Cart Count
+                if(document.getElementById("cart_quantity")) {
+                    document.getElementById("cart_quantity").textContent = json.qty;
+                }
 },
             error: function(xhr, errmsg, err) {
                 // If this triggers, check your console (F12) to see the error
