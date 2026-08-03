@@ -268,7 +268,27 @@ $(document).ready(function() {
     });
 });
 
-// Delete cart item via AJAX (Cleaned and fixed)
+
+
+
+
+// Helper function to update navbar quantity and dropdown total price
+function updateNavbarCounts(qty, totalPrice) {
+    if ($("#cart_quantity").length) {
+        $("#cart_quantity").text(qty);
+    }
+    if ($("#cart_header_qty").length) {
+        $("#cart_header_qty").text(qty);
+    }
+    if ($("#cart_header_total").length && totalPrice !== undefined) {
+        $("#cart_header_total").text(totalPrice);
+    }
+    if (qty === 0) {
+        $('#cart-inline-main-container').html('<article class="product-inline-empty"><p>Nothing in your cart..</p></article>');
+    }
+}
+
+// Delete cart item via AJAX
 $(document).on('click', '.btn-delete', function(e) {
     e.preventDefault();
 
@@ -294,33 +314,25 @@ $(document).on('click', '.btn-delete', function(e) {
             button.closest('tr').fadeOut(100, function() { 
                 $(this).remove(); 
                 
+                // Update Grand Total text field on the summary page directly from backend json.total
+                if (json.total !== undefined) {
+                    $('#grand-total-val').text(parseFloat(json.total).toFixed(2));
+                }
+
                 // If no more table rows remain, refresh or inject empty message dynamically
                 if ($('tbody tr').length === 0) {
-                    $('tbody').html('<tr><td colspan="6" class="text-center py-5">Nothing in your cart.. Please go back to the <a href="{% url "grid-shop" %}" style="color: var(--primary); text-decoration: underline;">shopping page</a></td></tr>');
-                    $('.cart-table-footer, .cart-totals-section').hide();
+                    $('tbody').html('<tr><td colspan="7" class="text-center py-5">Nothing in your cart.. Please go back to the <a href="{% url "grid-shop" %}" style="color: var(--primary); text-decoration: underline;">shopping page</a></td></tr>');
+                    $('.product-cart-footer').hide();
                 }
             });
 
-            // Update Navbar Cart Counts
-            updateNavbarCounts(json.qty);
+            // Update Navbar Counts and Dropdown Header Total Price
+            updateNavbarCounts(json.qty, json.total);
         },
         error: function(xhr, errmsg, err) {
             console.error('AJAX delete request failed:', errmsg);
         }
     });
 });
-
-// Helper function to update all possible navbar quantity containers
-function updateNavbarCounts(qty) {
-    if ($("#cart_quantity").length) {
-        $("#cart_quantity").text(qty);
-    }
-    if ($("#cart_header_qty").length) {
-        $("#cart_header_qty").text(qty);
-    }
-    if (qty === 0) {
-        $('#cart-inline-main-container').html('<article class="product-inline-empty"><p>Nothing in your cart..</p></article>');
-    }
-}
 </script>
 {% endblock %}

@@ -82,29 +82,34 @@ def update_cart(request):
     if request.POST.get('action') == 'post':
         product_id = request.POST.get('product_id')
         product_qty = int(request.POST.get('product_qty'))
-
         product_colors = request.POST.get("product_color", "Default")
         product_sizes = request.POST.get("product_size", "Standard")
 
         cart.update(product_id=product_id, quantity=product_qty, color=product_colors, size=product_sizes)
 
         cart_quantity = cart.__len__()
-        return JsonResponse({'qty': cart_quantity})
+        cart_total_price = cart.cart_total()
+        return JsonResponse({'qty': cart_quantity, 'total': cart_total_price})
 
 # Delete cart
 def delete_cart(request):
     cart = Cart(request)
     if request.POST.get('action') == 'post':
         product_id = request.POST.get("product_id")
-        product_color = request.POST.get("product_color", "D")
-        product_size = request.POST.get("product_size", "STD")
+        product_color = request.POST.get("product_color", "Default")
+        product_size = request.POST.get("product_size", "Standard")
 
         cart.delete(product_id=product_id, color=product_color, size=product_size)
 
-        # Return the new total item count so navbar/dropdown updates correctly
+        # Get updated count and total price
         cart_quantity = cart.__len__()
+        cart_total_price = cart.cart_total() # Matches your cart's total calculation method
         
-        return JsonResponse({'qty': cart_quantity, 'product': product_id})
+        return JsonResponse({
+            'qty': cart_quantity, 
+            'total': cart_total_price, 
+            'product': product_id
+        })
 
 
 

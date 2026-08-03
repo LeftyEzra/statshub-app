@@ -153,7 +153,7 @@ class Cart:
             current_user.update(old_cart=cart_convert)
 
 
-    def delete(self, product_id, color="D", size="STD"):
+    def delete(self, product_id, color="Default", size="Standard"):
         """
         Remove a product variant completely from the cart.
         """
