@@ -55,7 +55,7 @@ PRODUCT_CATEGORY = (
     ('Ball', 'Ball'),
     ('Bags & Caps', 'Bags & Caps'),
     ('Socks', 'Socks'),
-    ('Compressors', 'Compressors'),
+    ('Compressions', 'Compressions'),
     ('Footwears', 'Footwears'),
     ('Gloves', 'Gloves'),
     ('Sport Shoes', 'Sport Shoes'),
@@ -64,7 +64,7 @@ PRODUCT_CATEGORY = (
     ('Casual Shoes', 'Casual Shoes'),
     ('Watches', 'Watches'),
     ('Laptops', 'Laptops'),
-    ('P.Lang', 'Programming Languages'),
+    ('Households', 'Households'),
 
 )
 
@@ -72,9 +72,9 @@ PRODUCT_CATEGORY = (
 
 SPORT_CATEGORY = (
     ('Select Sport', 'Select Sport'),('Basketball🏀', 'Basketball🏀'),('Boxing🥊', 'Boxing🥊',),
-    ('Badmington🏸', 'Badmington🏸'),('Gym⛹', 'Gym⛹'),('Soccer⚽ ', 'Soccer⚽ '),('Football🏈⚽', 'Football🏈⚽'),
+    ('Badmington🏸', 'Badmington🏸'),('Gym⛹', 'Gym⛹'),('Soccer⚽ ', 'Soccer⚽ '),
     ('Tracks & Fields🏃', 'Tracks & Fields🏃'), ('Rugby🏉', 'Rugby🏉'),('Volleyball🏐', 'Volleyball🏐'),
-    ('Ping Pong🎾', 'Ping Pong🎾'),('Cricket', 'Cricket'),('Lawn Tennis🎾', 'Lawn Tennis🎾'),
+    ('Ping Pong🎾', 'Ping Pong🎾'),('Cricket', 'Cricket'),('Tennis🎾', 'Tennis🎾'),
 )
 
 

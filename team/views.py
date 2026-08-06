@@ -3138,6 +3138,9 @@ def delete_chart(request, slug):
 
 
 
+def axes_lockout_view(request):
+    messages.error(request, "Too many failed login attempts. Your account or IP has been temporarily locked.")
+    return redirect('home') 
 
 
 

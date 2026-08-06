@@ -1,13 +1,4 @@
-from django.shortcuts import get_object_or_404
-from rest_framework.decorators import api_view
 from django.shortcuts import render, redirect
-from rest_framework.response import Response
-from rest_framework.views import APIView
-from rest_framework import status
-from rest_framework import mixins
-
-from django.shortcuts import render
-from django.shortcuts import redirect
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
@@ -15,8 +6,6 @@ from django.http import HttpResponseRedirect
 from django.http import JsonResponse # Cart view
 from django.contrib import messages
 from django.db.models import Q
-
-
 
 from django.views.generic.edit import UpdateView, CreateView, DeleteView
 from django.views.generic import  ListView, DetailView
@@ -28,7 +17,7 @@ from django.core.paginator import Paginator
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy, reverse
 from django.views import View
-import csv
+
 
 from calendar import HTMLCalendar
 from django .utils import timezone
@@ -66,7 +55,7 @@ class SuperuserRequiredMixin:
 ###############################################################################################
 def search_product(request):
     # 's' matches  HTML <input name="s">
-    query = request.GET.get('s', '').strip()
+    query = request.GET.get('searched-product', '').strip()
 
     if not query: # if nothing is searched and the user hit the search icon
         messages.warning(request, "Please enter a search term.")
@@ -141,22 +130,22 @@ def sizeCreate(request):
 
 SPORT_CATEGORY = (
     ('Basketball🏀', 'Basketball🏀'),('Boxing🥊', 'Boxing🥊'),
-    ('Badmington🏸', 'Badmington🏸'),('Gym⛹', 'Gym⛹'),('Soccer⚽ ', 'Soccer⚽ '),('Football🏈⚽', 'Football🏈⚽'),
+    ('Badmington🏸', 'Badmington🏸'),('Gym⛹', 'Gym⛹'),('Soccer⚽ ', 'Soccer⚽'),
     ('Tracks & Fields🏃', 'Tracks & Fields🏃'), ('Rugby🏉', 'Rugby🏉'),('Volleyball🏐', 'Volleyball🏐'),
-    ('Ping Pong🎾', 'Ping Pong🎾'),('Cricket', 'Cricket'),('Lawn Tennis🎾', 'Lawn Tennis🎾'),
+    ('Ping Pong🎾', 'Ping Pong🎾'),('Cricket', 'Cricket'),('Tennis🎾', 'Tennis🎾'),
 )
-class TeamStoreView(APIView):
+class TeamStoreView(View):
     def get(self, request):
         # The base queryset
         products = Product.objects.all().order_by('name')
         product_sizes = Sizes.objects.all()
         product_colors = Colors.objects.all()
-        print("SIZES")
-        print(product_sizes)
+        #print("SIZES")
+        #print(product_sizes)
         
-        products_with_featured = Product.objects.filter(featured_player__isnull=False).order_by('name')
+        products_with_featured_players = Product.objects.filter(featured_player__isnull=False).order_by('name')
 
-        # Filtering values from the URL
+        # Filtering values from the HTML
         sport_val = request.GET.get('sports')
         category_val = request.GET.get('category')
         selected_size = request.GET.get('sizes')
@@ -165,6 +154,7 @@ class TeamStoreView(APIView):
         
 
         # FILTRING APPLICATION
+        # Filter whatever sport is selected and display all the products 
         if sport_val:
             products = products.filter(sports=sport_val)
 
@@ -192,7 +182,7 @@ class TeamStoreView(APIView):
             'gender_list': [('Unisex', 'Unisex'), ('Male', 'Male'), ('Female', 'Female')],
             
             'sport_list' : SPORT_CATEGORY,
-            'products_with_featured': products_with_featured, 
+            'products_with_featured_players': products_with_featured_players, 
             'product_sizes': product_sizes,
             'product_colors': product_colors,
         }
@@ -202,7 +192,7 @@ class TeamStoreView(APIView):
 
 
 @method_decorator(user_passes_test(is_superuser, login_url='/'), name='dispatch')
-class ProductCreateView(SuperuserRequiredMixin, APIView):
+class ProductCreateView(SuperuserRequiredMixin, View):
     def get(self, request,):
         form = ProductForm()
         return render(request, 'product-registration.html', {"form": form, })

@@ -63,7 +63,7 @@
               <div class="et-search-bar" style="max-width: 600px; width: 100%;">
                   <form id="searchForm" action="{% url 'search-product' %}" method="GET" class="et-search-form" style="display: flex; align-items: center; border: 1px solid #ddd; border-radius: 8px; overflow: hidden; background: #fff; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
                       
-                      <input type="text" id="searchInput" name="s" value="{{ searched }}" placeholder="Search products..." data-search-url="{% url 'search-product' %}" autocomplete="on"
+                      <input type="text" id="searchInput" name="searched-product" value="{{ searched }}" placeholder="Search products..." data-search-url="{% url 'search-product' %}" autocomplete="on"
                             style="height: 46px; border: none; flex-grow: 1; padding: 0 15px; outline: none; font-size: 16px;">
                       
                       <button type="submit" class="et-search-btn" 
@@ -81,7 +81,7 @@
           </div>
 
         
-          <!-- This is the block your JS is looking for -->
+          <!-- This is the block JavaScript is looking for -->
           <div class="rd-search-results" style="display: none;">
           
 
@@ -135,11 +135,12 @@
                   <a href="{% url 'grid-shop' %}?category=Footwears" class="product-filter-pill {% if request.GET.category == 'Footwears' %}active{% endif %}">Footwears</a>
                   <a href="{% url 'grid-shop' %}?category=Gloves" class="product-filter-pill {% if request.GET.category == 'Gloves' %}active{% endif %}">Gloves</a>
                   <a href="{% url 'grid-shop' %}?category=Watches" class="product-filter-pill {% if request.GET.category == 'Watches' %}active{% endif %}">Watches</a>
-                  <a href="{% url 'grid-shop' %}?category=Compressors" class="product-filter-pill {% if request.GET.category == 'Compressors' %}active{% endif %}">Compressors</a>
+                  <a href="{% url 'grid-shop' %}?category=Compressions" class="product-filter-pill {% if request.GET.category == 'Compressions' %}active{% endif %}">Compressions</a>
                   <a href="{% url 'grid-shop' %}?category=Shirts" class="product-filter-pill {% if request.GET.category == 'Shirts' %}active{% endif %}">Shirts</a>
                   <a href="{% url 'grid-shop' %}?category=Hoodies" class="product-filter-pill {% if request.GET.category == 'Hoodies' %}active{% endif %}">Hoodies</a>
                   <a href="{% url 'grid-shop' %}?category=Casual Shoes" class="product-filter-pill {% if request.GET.category == 'Casual Shoes' %}active{% endif %}">Casuals</a>
-              </div>
+                  <a href="{% url 'grid-shop' %}?category=Households" class="product-filter-pill {% if request.GET.category == 'Households' %}active{% endif %}">Home Items</a>
+                </div>
 
               <span class="filter-divider">|</span>
 
@@ -298,7 +299,7 @@
     <div class="roster-slider-wrapper" id="rosterSliderWrapper">
         <div class="roster-grid">
           
-            {% for product in products_with_featured %}
+            {% for product in products_with_featured_players %}
                 <div class="roster-item">
                     <a href="{% url 'product-id' product.slug %}" class="roster-link">
                         <div class="roster-content">
@@ -342,7 +343,7 @@
                 </div>
             {% empty %}
                 <div class="text-center py-5 w-100" style="color: #CAD2C5;">
-                    <p>No products available right now.</p>
+                    <p>No products available right now for any player.</p>
                 </div>
             {% endfor %}
             

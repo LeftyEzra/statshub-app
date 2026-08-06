@@ -28,31 +28,11 @@ CSRF_COOKIE_SECURE = True
 
 X_FRAME_OPTIONS = 'DENY'
 
-
 SECURE_HSTS_SECONDS = 31536000
 SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 SECURE_HSTS_PRELOAD = True
-
-
-SECURE_SSL_REDIRECT = True  
-
-SESSION_COOKIE_SECURE = True  
-
-SESSION_COOKIE_HTTPONLY = True  
-
-SESSION_COOKIE_SAMESITE = 'Lax'  
-
-CSRF_COOKIE_SECURE = True  
-
-X_FRAME_OPTIONS = 'DENY'  
-
-SECURE_HSTS_SECONDS = 31536000  
-
-SECURE_HSTS_INCLUDE_SUBDOMAINS = True  
-
-SECURE_HSTS_PRELOAD = True
-
-
+SECURE_SSL_REDIRECT = True
+SECURE_CONTENT_TYPE_NOSNIFF = True
 
 
 # settings.py
@@ -62,7 +42,6 @@ ALLOWED_HOSTS = [host.strip() for host in config("ALLOWED_HOSTS").split(",")]
 
 
 # Application definition
-
 INSTALLED_APPS = [
    
     'django.contrib.admin',
@@ -86,17 +65,20 @@ INSTALLED_APPS = [
     'cloudinary',
     'cloudinary_storage',
     'import_export',
+    'axes',
     
 
 ]
 
 MIDDLEWARE = [
+    
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'axes.middleware.AxesMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     
@@ -125,6 +107,20 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'TEAM_WEBSITE.wsgi.application'
 
+
+from datetime import timedelta
+from django.urls import reverse_lazy
+
+AXES_FAILURE_LIMIT = 3                      # Lock out after  failed attempts
+AXES_COOLOFF_TIME = timedelta(minutes=15)    # Lockout lasts 15 minutes
+AXES_USE_ATTEMPT_EXPIRATION = True
+AXES_LOCKOUT_PARAMETERS = ["ip_address", "username"]
+AXES_LOCKOUT_URL = reverse_lazy('axes-lockout')
+
+AUTHENTICATION_BACKENDS = [
+    'axes.backends.AxesBackend',
+    'django.contrib.auth.backends.ModelBackend',
+]
 
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
