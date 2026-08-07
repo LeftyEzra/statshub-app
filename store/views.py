@@ -219,7 +219,7 @@ def product_detail(request, slug):
     print("SIZES")
     print(product_sizes)
 
-    
+    # HEREEEEEEEEEEEEEEEEE
     if request.method == "POST":
         form = CustomerReviewForm(request.POST, request.FILES)
         if form.is_valid():

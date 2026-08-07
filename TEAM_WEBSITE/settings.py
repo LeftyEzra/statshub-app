@@ -20,18 +20,19 @@ DEBUG = config("DEBUG", cast=bool)
 
 
 
-SECURE_SSL_REDIRECT = True
-SESSION_COOKIE_SECURE = True
+# Only force SSL and HSTS if in production
+
+SESSION_COOKIE_SECURE = not DEBUG
 SESSION_COOKIE_HTTPONLY  = True
 SESSION_COOKIE_SAMESITE = 'Lax'
-CSRF_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = not DEBUG
 
 X_FRAME_OPTIONS = 'DENY'
 
-SECURE_HSTS_SECONDS = 31536000
-SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-SECURE_HSTS_PRELOAD = True
-SECURE_SSL_REDIRECT = True
+SECURE_HSTS_SECONDS = 31536000 if not DEBUG else 0
+SECURE_HSTS_INCLUDE_SUBDOMAINS = not DEBUG
+SECURE_HSTS_PRELOAD = not DEBUG
+SECURE_SSL_REDIRECT = not DEBUG
 SECURE_CONTENT_TYPE_NOSNIFF = True
 
 
@@ -242,5 +243,21 @@ BANK_DETAILS = {
 
 
 # Cloudinary Configuration
+
+
+
+
+
+
+
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
+
+sentry_sdk.init(
+    dsn= config('SENTRY_DSN'),
+    integrations=[DjangoIntegration()],
+    traces_sample_rate=0.1,  # captures performance data (set lower in production if needed)
+    send_default_pii=True,   # captures user info (like logged-in user) for debugging
+)
 
 
