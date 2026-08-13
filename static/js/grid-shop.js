@@ -32,19 +32,6 @@ function scrollRoster(wrapperId, distance) {
 
 
 
-// Advert Section Slider
-
-let currentAd = 0;
-
-function showNextAd() {
-    const slider = document.querySelector('.advert-slider');
-    const totalAds = document.querySelectorAll('.advert-item').length;
-    currentAd = (currentAd + 1) % totalAds;
-    slider.style.transform = `translateX(-${currentAd * 100}%)`;
-}
-
-// rotate every 5 seconds
-setInterval(showNextAd, 2000);
 
 
 
