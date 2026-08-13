@@ -240,9 +240,13 @@
 .product-roster-grid {
     display: grid;
     /* Forces exactly 2 items side-by-side on smaller screen sizes */
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: repeat(3, minmax(0, 1fr)); /* exactly 3 rows */
+    grid-auto-flow: column;        /* flow items into columns instead of rows */
     gap: 5px;
     padding: 5px;
+    overflow-x: auto;              /* horizontal scroll if too many columns */
+  
+    scroll-snap-type: x mandatory; /* optional: snap scrolling */
 }
 
 .product-roster-item {
