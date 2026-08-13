@@ -588,8 +588,9 @@
 .leather-nav-controls {
     display: flex;
     justify-content: flex-end; /* arrows aligned right */
-    gap: 8px;
+    gap: 10px;
     width: 100%;               /* stretch controls row full width */
+    padding-bottom: 10px;
 }
 
 
