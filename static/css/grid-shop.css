@@ -667,13 +667,16 @@
       display: grid;
       grid-template-rows: repeat(2, auto);   /* two rows */
       grid-auto-flow: column;                /* horizontal scroll per row */
-      grid-auto-columns: 80%;                /* wide cards */
+      grid-auto-columns: 75%;                /* wide cards */
       gap: 10px;
-      width: max-content;
+      width: 100%;
+      overflow-x: auto;
+      scroll-snap-type:x mandatory;
   }
 
   .leather-item {
       width: auto;
+      scroll-snap-align: start;
   }
 }
 
