@@ -23,7 +23,7 @@ urlpatterns = [
 
 
 # Configure admin titles
-admin.site.site_header = "Team Administrative Section"
-admin.site.site_title = "StatsHub"
-admin.site.index_title = "Welcome To The StatsHub Admin Area..."
+admin.site.site_header = "SSSPORTS Administrative Section"
+admin.site.site_title = "SSSPORTS"
+admin.site.index_title = "Welcome To The SSSPORTS Admin Area..."
 

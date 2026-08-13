@@ -70,7 +70,7 @@ def search_product(request):
             #Q(sizes__icontains=query) |   
             #Q(colors__icontains=query) |
             Q(brand_type__icontains=query) |
-            Q(import_category__icontain=query)|
+            Q(import_category__icontains=query)|
             Q(gender_type__icontains=query)
         ).order_by('name')
     #print(f"--- DEBUG ---")
