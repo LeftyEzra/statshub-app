@@ -282,7 +282,7 @@
     height: 280px;
     width: 100%;
     scroll-snap-align: start;
-    box-sizing: border-box;
+    
 }
 
 /* --- STAR RATING HORIZONTAL FIX --- */
@@ -328,7 +328,7 @@
 /* Image Uniformity */
 .product-roster-image {
     width: 100%;
-    height: 150px;       /* Slightly adjusted for compact 3-row layout */
+    height: 200px;       /* Slightly adjusted for compact 3-row layout */
     object-fit: cover;    
     object-position: center; 
     border-radius: 5px;
@@ -349,52 +349,42 @@
 
 .product-roster-info {
     margin-top: auto; 
-    padding: 4px 6px;          /* Minimized top/bottom padding */
+    padding: 3px;
     text-align: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-
-.product-roster-position {
-    font-size: 0.75em;
-    color: #B2BEB5; 
-    margin: 0;
-    padding: 0;
-    line-height: 1;
 }
 
 .product-roster-footer {
     margin-top: auto; 
-    padding: 4px;              /* Minimized footer padding */
+    padding: 2px;
     background: #2A3F42; 
 }
 
 .product-roster-name {
-    font-size: 13px !important; 
-    line-height: 1.1 !important; 
-    height: 26px !important;   /* Tightened height envelope */
+    font-size: 17px !important; 
+    line-height: 1.2 !important; 
+    height: 30px !important; 
     overflow: hidden; 
-    margin-bottom: 2px !important; /* Stripped out spacing between name and price */
+    margin-bottom: 5px;
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
-    color: #c8a107;
+    color: #ffc107;
 }
 
-
 @media (min-width: 768px) {
-    .product-roster-name { font-size: 1em; color: #c8a107; }
-    
+    .product-roster-name { font-size: 1.5em; color: #ffc107;}
 }
 
 @media (min-width: 1200px) {
-    .product-roster-name { font-size: 1.1em; }
+    .product-roster-name { font-size: 1.1em; color: #ffc107; }
 }
 
 .product-roster-position {
-    font-size: 0.8em;
-    color: #97ecdb; 
+    font-size: 1.5em;
+    color: #01df39; 
+    margin: 0;
+    padding: 0;
+    line-height: 1;
 }
 
 .product-btn-action-group {
@@ -913,7 +903,8 @@
 
 /**************************************************************************/
 /* Advert Section Slider */
-
+/* Container sizing */
+/* Container sizing */
 .advert-section-slider {
     width: 100%;
     background: #1d1d1d;
@@ -928,7 +919,7 @@
     align-items: center;
     justify-content: center;
     background: #1d1d1d;
-    color: #d4af37;
+    color: #f1f1f1;
     text-align: center;
     font-size: 15px;
     padding: 0;
