@@ -87,7 +87,7 @@ searchInput.addEventListener('input', function() {
         resultsContent.style.opacity = "0.9";
 
         // Construct the full fetch endpoint safely
-        fetch(baseSearchUrl + "?s=" + encodeURIComponent(query))
+        fetch(baseSearchUrl + "?searched-product=" + encodeURIComponent(query))
             .then(response => response.text())
             .then(html => {
                 const parser = new DOMParser();
