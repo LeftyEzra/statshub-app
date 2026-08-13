@@ -22,7 +22,7 @@ class ProductForm(forms.ModelForm):
     class Meta:
         model = Product
         # 🚀 CRITICAL: Use the exact model names: 'sizes' and 'colors'
-        fields = ['name', 'price', 'category', 'sports', 'sizes', 'colors', 'brand_type', 'description', 'is_sales', 'sales_price', 'pieces', 'featured_player', 'image']
+        fields = ['name', 'price', 'category', 'sports', 'sizes', 'colors', 'brand_type', 'import_category','description', 'is_sales', 'sales_price', 'pieces', 'featured_player', 'image']
         
         widgets = {
             # This converts the ugly box into an easy, clean checkbox list or multi-select grid

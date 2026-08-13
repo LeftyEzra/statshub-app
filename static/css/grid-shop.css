@@ -247,9 +247,10 @@
 
 .product-roster-grid {
     display: grid;
-    /* Forces exactly 3 items side-by-side on smaller screen sizes */
+    /* Forces exactly 2 items side-by-side on smaller screen sizes */
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 10px;
+    gap: 5px;
+    padding: 5px;
 }
 
 .product-roster-item {
@@ -279,7 +280,7 @@
 }
 
 .et-rating li span {
-  font-size: 18px;              /* Adjust size as needed */
+  font-size: 18px;              /* Adjust size  */
   color: #ffc107;               /* Classic gold/yellow color */
 }
 
@@ -289,12 +290,6 @@
    DESKTOP VIEW: Expands the container layout and displays 7 columns across
    ========================================================================== */
 /* Base Mobile View: 2 cards per row */
-.product-roster-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 15px;
-    padding: 10px;
-}
 
 /* Tablet: 3 cards per row */
 @media (min-width: 768px) {
@@ -356,7 +351,7 @@
 
 .product-roster-footer {
     margin-top: auto; /* Ensures buttons are always at the bottom */
-    padding: 10px;
+    padding: 5px;
     background: #2A3F42; /* Slightly darker to separate from the card body */
 }
 
@@ -403,7 +398,7 @@
 
 
 /**************************************************************************/
-/* Base styles: Exactly your original structure for smaller/shrunk screens */
+/* Base styles: Exactly  original structure for smaller/shrunk screens */
 .team-roster {
     max-width: 900px;
     margin: 0px auto;
@@ -427,7 +422,7 @@
 
 .roster-title {
     text-align: center;
-    font-size: 2.9em;
+    font-size: 2.2em;
     color: #CAD2C5; /* Light text color */
     margin-bottom: 20px;
 }
@@ -447,6 +442,7 @@
 .roster-slider-wrapper {
     -ms-overflow-style: none;  /* IE and Edge */
     scrollbar-width: none;  /* Firefox */
+    scroll-snap-type: x mandatory;
 }
 
 /* 2. Re-configuring the CSS Grid to feed horizontally */
@@ -454,13 +450,25 @@
     display: grid;
     grid-auto-flow: column; /* Prevents cards from dropping to lines below */
     grid-auto-columns: minmax(160px, 1fr); /* Maintains robust card structures */
-    gap: 15px;
+    gap: 10px;
     width: max-content; /* Forces grid row extension past the boundary wrapper */
 }
 
+@media (min-width: 448px) {
+    .roster-grid {
+        grid-auto-columns: 80%;
+        gap: 15px;
+    }
+
+     .roster-item {
+        width:auto;
+    }
+}
+
+
 /* 3. Freeze widths on roster items so columns never stretch or distort */
 .roster-item {
-    width: 160px; 
+    width: 180px; 
     background-color: #52796F;
     border-radius: 8px;
     overflow: hidden;
@@ -468,6 +476,7 @@
     transition: transform 0.3s, box-shadow 0.3s;
     display: flex;
     flex-direction: column;
+    scroll-snap-align: start;
 }
 
 .roster-item:hover {
@@ -524,13 +533,13 @@
 }    
 @media (min-width: 448px) {
     .roster-name {
-        font-size: 0.65em;
+        font-size: 0.6em;
         margin: 8px 0 5px;
         color: #CAD2C5; /* Light text color */
     }
 
      .roster-title {
-        font-size: 1.1em;
+        font-size: 1em;
         margin: 8px 0 5px;
         color: #CAD2C5; /* Light text color */
     }
@@ -541,7 +550,7 @@
 }
 
 .card-footer {
-    padding: 10px;
+    padding: 5px;
     background: #354F52;
 }
 

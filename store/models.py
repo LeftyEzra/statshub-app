@@ -65,7 +65,15 @@ PRODUCT_CATEGORY = (
     ('Watches', 'Watches'),
     ('Laptops', 'Laptops'),
     ('Households', 'Households'),
+    ('leather_work', 'Leather Work / Handmade Products'),
+    ('bale_material', 'Bale Materials'),
+    ('general', 'General'),
+)
 
+IMPORT_CATEGORY = (
+    ('UK Import', 'UK Import'),
+    ('US Import', 'US Import'),
+    ('China Import', 'China Import'),
 )
 
 
@@ -118,13 +126,15 @@ GENDER_CHOICES =  (
 class Product(AutoSlugModel):
     
     name = models.CharField("Name",max_length=50, unique=True)
-    price        = models.DecimalField(default=0, decimal_places=2, max_digits=7)
-    category     = models.CharField(max_length=15, choices=PRODUCT_CATEGORY, default='Select Product', blank=True,null=True)
-    sports       = models.CharField(max_length=30, choices=SPORT_CATEGORY, default='Select Sports', blank=True,null=True)
-    sizes        = models.ManyToManyField('Sizes', blank=True)
-    colors       = models.ManyToManyField('Colors', blank=True)
-    gender_type  = models.CharField(max_length=6, choices=GENDER_CHOICES, default='Unisex', blank=True,null=True )
-    brand_type   = models.CharField(max_length=7, choices=CURRENT_CONDITION, default='', blank=True,null=True )
+    price           = models.DecimalField(default=0, decimal_places=2, max_digits=7)
+    category        = models.CharField(max_length=15, choices=PRODUCT_CATEGORY, default='Select Product', blank=True,null=True)
+    sports          = models.CharField(max_length=30, choices=SPORT_CATEGORY, default='Select Sports', blank=True,null=True)
+    sizes           = models.ManyToManyField('Sizes', blank=True)
+    colors          = models.ManyToManyField('Colors', blank=True)
+    gender_type     = models.CharField(max_length=6, choices=GENDER_CHOICES, default='Unisex', blank=True,null=True )
+    brand_type      = models.CharField(max_length=7, choices=CURRENT_CONDITION, default='', blank=True,null=True )
+    import_category = models.CharField(max_length=15, choices=IMPORT_CATEGORY, default='Select Import', blank=True,null=True)
+
     description  = models.TextField(max_length=10000, default='',blank=True,null=True)
     image        = models.ImageField(upload_to='uploads/product/',blank=True,null=True)
     # Add Sales Stuff

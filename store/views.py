@@ -144,13 +144,15 @@ class TeamStoreView(View):
         #print(product_sizes)
         
         products_with_featured_players = Product.objects.filter(featured_player__isnull=False).order_by('name')
-
+        leather_works = Product.objects.filter(category='leather_work')
+        bale_materials = Product.objects.filter(category='bale_material')
         # Filtering values from the HTML
         sport_val = request.GET.get('sports')
         category_val = request.GET.get('category')
         selected_size = request.GET.get('sizes')
         selected_color = request.GET.get('colors')
         gender_val = request.GET.get('gender_type')
+        import_val = request.GET.get('import_type')
         
 
         # FILTRING APPLICATION
@@ -171,6 +173,9 @@ class TeamStoreView(View):
         if gender_val:
             products = products.filter(gender_type=gender_val)
 
+        if import_val:
+            products = products.filter(import_category=import_val)    
+
         # PAGINATE FILTERED RESULTS
         paginator = Paginator(products, 20) 
         page_number = request.GET.get('page')
@@ -185,6 +190,8 @@ class TeamStoreView(View):
             'products_with_featured_players': products_with_featured_players, 
             'product_sizes': product_sizes,
             'product_colors': product_colors,
+            'leather_works': leather_works,
+            'bale_materials': bale_materials,
         }
 
         return render(request, 'grid-shop.html', context)

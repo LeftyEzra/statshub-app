@@ -278,6 +278,9 @@
           </ul>
         </nav>
 
+
+        
+
   </div>
 </section>
 
@@ -350,6 +353,71 @@
         </div>
     </div>
 </div>
+
+
+<!-- Leather Works -->
+<div class="leather-grid">
+    {% for product in leather_works %}
+        <div class="leather-item">
+            <a href="{% url 'product-id' product.slug %}" class="leather-link">
+                <div class="product-roster-content">
+                    <!--Product Condition -->
+                    {% if product.brand_type == 'New' %}
+                        <div class="badge badge-shop" style="background-color: #28a745;">New</div>
+                    {% elif product.brand_type == 'Hot' %}
+                        <div class="badge badge-shop" style="background-color: #dc3545;">Trending</div>
+                    {% elif product.brand_type == 'Acube' %}
+                        <div class="badge badge-shop" style="background-color: #6a64f1;">Pristine</div>
+                    {% endif %}
+                    <!--Product Image -->
+                    {% if product.image %}
+                        <img class="product-roster-image" src="{{ product.image.url }}" alt="{{ product.name }}">
+                    {% else %}
+                        <img class="product-roster-image" src="" alt="{{ product.name }}">
+                    {% endif %}
+
+                    <div class="product-roster-info">
+                        <h3 class="product-roster-name">{{ product.name }}</h3>
+                        {% if product.is_sales %}
+                            <p class="product-roster-position">
+                                <span style="text-decoration: line-through; color: #999;">₦ {{ product.price }}</span> 
+                                &rarr; ₦ {{ product.sales_price }}
+                            </p>
+                        {% else %}
+                            <span class="product-roster-position">₦ {{ product.price }}</span>
+                        {% endif %}
+                    </div>
+                    
+                    <ul class="et-rating">
+                        <li><span class="material-icons-star"></span></li>
+                        <li><span class="material-icons-star"></span></li>
+                        <li><span class="material-icons-star"></span></li>
+                        <li><span class="material-icons-star"></span></li>
+                        <li><span class="material-icons-star_half"></span></li>
+                    </ul>
+                </div>
+            </a>
+            
+            {% if user.is_authenticated and user.is_superuser %}
+                <div class="product-roster-footer">
+                <div class="product-btn-action-group">
+                    <a href="{% url 'update-product' product.slug %}" class="btn btn-outline-primary btn-sm">Update</a>
+                    <a href="javascript:void(0)" class="btn btn-outline-danger btn-sm"
+                        onclick="openDeleteModal('{% url 'delete-product' product.slug %}')">
+                        Delete
+                    </a>
+                </div>
+                </div>
+            {% endif %}
+        </div>
+    {% endfor %}
+</div>
+
+
+
+
+
+
 
 
 
