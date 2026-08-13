@@ -51,7 +51,7 @@ class AutoSlugModel(models.Model):
 
 
 PRODUCT_CATEGORY = (
-    ('Select Product', 'Select Product'),
+    ('General', 'General'),
     ('Ball', 'Ball'),
     ('Bags & Caps', 'Bags & Caps'),
     ('Socks', 'Socks'),
@@ -79,7 +79,7 @@ IMPORT_CATEGORY = (
 
 
 SPORT_CATEGORY = (
-    ('Select Sport', 'Select Sport'),('Basketball🏀', 'Basketball🏀'),('Boxing🥊', 'Boxing🥊',),
+    ('General', 'General'),('Basketball🏀', 'Basketball🏀'),('Boxing🥊', 'Boxing🥊',),
     ('Badmington🏸', 'Badmington🏸'),('Gym⛹', 'Gym⛹'),('Soccer⚽ ', 'Soccer⚽ '),
     ('Tracks & Fields🏃', 'Tracks & Fields🏃'), ('Rugby🏉', 'Rugby🏉'),('Volleyball🏐', 'Volleyball🏐'),
     ('Ping Pong🎾', 'Ping Pong🎾'),('Cricket', 'Cricket'),('Tennis🎾', 'Tennis🎾'),
@@ -116,7 +116,7 @@ CURRENT_CONDITION = (
 )
 
 GENDER_CHOICES =  (
-    ('Unisex', 'Unisex'),    
+    ('General', 'General'),    
     ('Male', 'Male'),
     ('Female', 'Female'),
   
@@ -126,20 +126,20 @@ GENDER_CHOICES =  (
 class Product(AutoSlugModel):
     
     name = models.CharField("Name",max_length=50, unique=True)
-    price           = models.DecimalField(default=0, decimal_places=2, max_digits=7)
-    category        = models.CharField(max_length=15, choices=PRODUCT_CATEGORY, default='Select Product', blank=True,null=True)
-    sports          = models.CharField(max_length=30, choices=SPORT_CATEGORY, default='Select Sports', blank=True,null=True)
+    price           = models.DecimalField(default=0, decimal_places=2, max_digits=10)
+    category        = models.CharField(max_length=15, choices=PRODUCT_CATEGORY, default='General', blank=True,null=True)
+    sports          = models.CharField(max_length=30, choices=SPORT_CATEGORY, default='General', blank=True,null=True)
     sizes           = models.ManyToManyField('Sizes', blank=True)
     colors          = models.ManyToManyField('Colors', blank=True)
-    gender_type     = models.CharField(max_length=6, choices=GENDER_CHOICES, default='Unisex', blank=True,null=True )
-    brand_type      = models.CharField(max_length=7, choices=CURRENT_CONDITION, default='', blank=True,null=True )
+    gender_type     = models.CharField(max_length=10, choices=GENDER_CHOICES, default='General', blank=True,null=True )
+    brand_type      = models.CharField(max_length=10, choices=CURRENT_CONDITION, default='', blank=True,null=True )
     import_category = models.CharField(max_length=15, choices=IMPORT_CATEGORY, default='Select Import', blank=True,null=True)
 
     description  = models.TextField(max_length=10000, default='',blank=True,null=True)
     image        = models.ImageField(upload_to='uploads/product/',blank=True,null=True)
     # Add Sales Stuff
     is_sales   = models.BooleanField(default=False)
-    sales_price = models.DecimalField(default=0, decimal_places=2, max_digits=6, blank=True,null=True)
+    sales_price = models.DecimalField(default=0, decimal_places=2, max_digits=10, blank=True,null=True)
     pieces = models.PositiveIntegerField(default=1, blank=True, null=True)
     featured_player = models.ForeignKey(Player, on_delete=models.SET_NULL, null=True, blank=True, related_name='merchandise')
 
