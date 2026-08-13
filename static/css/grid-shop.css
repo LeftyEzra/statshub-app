@@ -252,7 +252,7 @@
     padding: 10px 5px;
     
     /* Enables smooth horizontal scrolling */
-    overflow-x: auto;
+    overflow: hidden;
     
     scroll-snap-type: x mandatory;
     -webkit-overflow-scrolling: touch;
