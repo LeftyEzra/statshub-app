@@ -34,30 +34,31 @@ function scrollRoster(wrapperId, distance) {
 
 
 
+document.addEventListener("DOMContentLoaded", function() {
+    const grid = document.querySelector('.product-roster-grid');
+    const dotsContainer = document.querySelector('.product-roster-dots');
 
-const grid = document.querySelector('.product-roster-grid');
-const dotsContainer = document.querySelector('.product-roster-dots');
+    if (!grid || !dotsContainer) return;
 
-// Calculate how many "columns" exist
-const totalColumns = Math.ceil(grid.children.length / 3); // 3 rows per column
+    // Calculate how many "columns" exist (3 rows per column)
+    const totalColumns = Math.ceil(grid.children.length / 3);
 
-// Create dots
-for (let i = 0; i < totalColumns; i++) {
-    const dot = document.createElement('span');
-    if (i === 0) dot.classList.add('active');
-    dotsContainer.appendChild(dot);
-}
+    // Create dots
+    for (let i = 0; i < totalColumns; i++) {
+        const dot = document.createElement('span');
+        if (i === 0) dot.classList.add('active');
+        dotsContainer.appendChild(dot);
+    }
 
-// Update active dot on scroll
-grid.addEventListener('scroll', () => {
-    const columnWidth = grid.scrollWidth / totalColumns;
-    const currentColumn = Math.round(grid.scrollLeft / columnWidth);
-    document.querySelectorAll('.product-roster-dots span').forEach((dot, index) => {
-        dot.classList.toggle('active', index === currentColumn);
+    // Update active dot on scroll
+    grid.addEventListener('scroll', () => {
+        const columnWidth = grid.scrollWidth / totalColumns;
+        const currentColumn = Math.round(grid.scrollLeft / columnWidth);
+        dotsContainer.querySelectorAll('span').forEach((dot, index) => {
+            dot.classList.toggle('active', index === currentColumn);
+        });
     });
 });
-
-
 
 
 
