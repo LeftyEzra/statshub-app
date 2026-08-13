@@ -239,10 +239,15 @@
 
 .product-roster-grid {
     display: grid;
+    grid-auto-flow: column;
     /* Forces exactly 2 items side-by-side on smaller screen sizes */
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: repeat(3, minmax(0, 1fr));
     gap: 5px;
     padding: 5px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    grid-auto-columns: calc(100% - 40px);
+    scroll-behavior: smooth;             /* smooth swipe */
 }
 
 .product-roster-item {
@@ -253,8 +258,29 @@
     transition: transform 0.3s, box-shadow 0.3s;
     display: flex;
     flex-direction: column;
+    scroll-snap-align: start;
+    width: 50%;   
 }
 
+.product-roster-dots {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+    gap: 6px;
+}
+
+.product-roster-dots span {
+    width: 8px;
+    height: 8px;
+    background: #ccc;
+    border-radius: 50%;
+    display: inline-block;
+    transition: background 0.3s;
+}
+
+.product-roster-dots span.active {
+    background: #000; /* active dot color */
+}
 
 
 /* --- STAR RATING HORIZONTAL FIX --- */

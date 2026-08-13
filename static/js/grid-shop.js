@@ -44,7 +44,7 @@ function showNextAd() {
 }
 
 // rotate every 5 seconds
-setInterval(showNextAd, 5000);
+setInterval(showNextAd, 2000);
 
 
 
