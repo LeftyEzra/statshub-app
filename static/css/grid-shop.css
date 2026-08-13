@@ -571,7 +571,7 @@
 }
 
 
-.heading-component {
+.leather-heading-component {
     display: flex;
     flex-direction: column;   /* stack children vertically */
     align-items: flex-start;  /* title aligned left */
@@ -680,6 +680,13 @@
 
 /* Mobile: two stacked rows with wide cards */
 @media (max-width: 768px) {
+  .leather-title {
+    margin-bottom: 10px;      /* spacing between title and arrows */
+    text-align: left;
+    font-size: 0.8em;
+    color: #CAD2C5;
+  }
+    
   .leather-grid {
       display: grid;
       grid-template-rows: repeat(2, auto);   /* two rows */
@@ -711,11 +718,28 @@
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
 }
 
-.bale-title {
-    text-align: center;
-    font-size: 2.2em;
-    color: #CAD2C5;
+
+
+.bale-heading-component {
+    display: flex;
+    flex-direction: column;   /* stack children vertically */
+    align-items: flex-start;  /* title aligned left */
     margin-bottom: 20px;
+}
+
+.bale-title {
+    margin-bottom: 10px;      /* spacing between title and arrows */
+    text-align: left;
+    font-size: 1.8em;
+    color: #CAD2C5;
+}
+
+.bale-nav-controls {
+    display: flex;
+    justify-content: flex-end; /* arrows aligned right */
+    gap: 10px;
+    width: 100%;               /* stretch controls row full width */
+    padding-bottom: 10px;
 }
 
 /* Slider wrapper */
@@ -804,15 +828,27 @@
 
 /* Mobile: two stacked rows of horizontal scroll */
 @media (max-width: 768px) {
+
+  .bale-title {
+    margin-bottom: 10px;      /* spacing between title and arrows */
+    text-align: left;
+    font-size: 0.8em;
+    color: #CAD2C5;
+  }  
+
   .bale-grid {
       display: grid;
-      grid-template-rows: repeat(2, auto);        /* two rows */
-      grid-auto-flow: column;                     /* still scroll horizontally */
-      grid-auto-columns: 80%;                     /* wide cards */
+      grid-template-rows: repeat(2, auto);   /* two rows */
+      grid-auto-flow: column;                /* horizontal scroll per row */
+      grid-auto-columns: 75%;                /* wide cards */
       gap: 10px;
-      width: max-content;
+      width: 100%;
+      overflow-x: auto;
+      scroll-snap-type:x mandatory;
   }
+
   .bale-item {
       width: auto;
+      scroll-snap-align: start;
   }
 }

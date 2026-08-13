@@ -31,7 +31,26 @@ function scrollRoster(distance) {
 }
 
 
+function scrollRoster(distance) {
+    const container = document.getElementById('leatherSliderWrapper');
+    if (container) {
+        container.scrollBy({
+            left: distance,
+            behavior: 'smooth'
+        });
+    }
+}
 
+
+function scrollRoster(distance) {
+    const container = document.getElementById('baleSliderWrapper');
+    if (container) {
+        container.scrollBy({
+            left: distance,
+            behavior: 'smooth'
+        });
+    }
+}
 
 
 const searchInput = document.getElementById('searchInput');
@@ -90,9 +109,6 @@ if (searchForm) {
 }
 
 
-
-
-  
     function openDeleteModal(deleteUrl) {
         // 1. Find the modal and the form inside it
         const modal = document.getElementById('deleteProductModal');
