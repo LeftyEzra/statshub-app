@@ -870,7 +870,7 @@
 
 .advert-banner {
     flex: 0 0 100%;
-    height: 120px;             /* small height, wide width */
+    height: auto;             /* small height, wide width */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -880,49 +880,54 @@
    
 }
 
+.advert-banner img {
+    width: 100%;                /* Fills the full width */
+    height: auto;               /* Automatically scales height based on the 1515x215 ratio */
+    object-fit: contain;
+    display: block;
+}
 
 /**************************************************************************/
 /* Advert Section Slider */
 
-./* Container holding the slider with hidden overflow */
+/* Container holding the slider */
 .advert-section-slider {
     width: 100%;
     overflow: hidden;
     margin: 0;
     padding: 0;
+    background: #1d1d1d;
 }
 
-/* 3 items total, so the slider width must be 300% */
+/* 3 items total, slider track is 300% wide */
 .advert-slider {
     display: flex;
     transition: transform 0.5s ease-in-out;
     width: 300%;
 }
 
-/* Each item takes up exactly 1/3 (33.333%) of the slider */
+/* Each item takes up precisely 1/3 of the slider track */
 .advert-item {
-    flex: 0 0 33.3333%;
-    height: 120px;
+    flex: 0 0 33.333333%;
+    width: 33.333333%;
+    height: 100px; /* Gives enough breathing room for the banner height */
     display: flex;
     align-items: center;
     justify-content: center;
     background: #1d1d1d;
     overflow: hidden;
     margin: 0;
-    padding: 5px;
+    padding: 0 10px;
     color: #f1f1f1;
     text-align: center;
-    font-size: 16px;
+    font-size: 15px;
     box-sizing: border-box;
 }
 
-/* Target the banner specifically to match its wide aspect ratio cleanly */
+/* Target the banner image so it fits the slide perfectly */
 .advert-item img.advert-img {
-    max-width: 100%;
-    max-height: 100%;
-    width: auto;
-    height: auto;
-    object-fit: contain;
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* Scales cleanly without cutting off sides */
     display: block;
-    margin: 0 auto;
 }
