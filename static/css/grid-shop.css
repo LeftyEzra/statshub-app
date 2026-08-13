@@ -457,7 +457,7 @@
 @media (min-width: 448px) {
     .roster-grid {
         grid-auto-columns: 80%;
-        gap: 15px;
+        gap: 8px;
     }
 
      .roster-item {
@@ -497,7 +497,7 @@
 
 .roster-content {
     text-align: center;
-    padding: 10px;
+    padding: 2px;
 }
 
 .roster-image {
