@@ -396,7 +396,7 @@
 }
 
 @media (min-width: 768px) {
-    .product-roster-name { font-size: 1.1em; color: #fff;}
+    .product-roster-name { font-size: 1.0em; color: #fff;}
 }
 
 @media (min-width: 1200px) {
@@ -404,7 +404,7 @@
 }
 
 .product-roster-position {
-    font-size: 0.8em;
+    font-size: 1em;
     color: gold; 
     margin: 0;
     padding: 0;
