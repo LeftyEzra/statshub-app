@@ -585,13 +585,13 @@
     color: #CAD2C5;
 }
 
-.leather-nav-controls {
-    display: flex;
-    justify-content: flex-end; /* arrows aligned right */
-    gap: 10px;
-    width: 100%;               /* stretch controls row full width */
-    padding-bottom: 10px;
+.leather-description {
+    margin-top: 8px;
+    font-size: 14px;
+    color: #555;          /* softer text color */
+    line-height: 1.5;
 }
+
 
 
 /* Slider wrapper */
@@ -751,10 +751,13 @@
     -ms-overflow-style: none;
     scrollbar-width: none;
     scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch; /* momentum scrolling on iOS */
 }
 .bale-slider-wrapper::-webkit-scrollbar {
     display: none;
 }
+
+
 
 /* Grid setup */
 .bale-grid {
