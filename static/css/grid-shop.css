@@ -454,7 +454,7 @@
     width: max-content; /* Forces grid row extension past the boundary wrapper */
 }
 
-@media (min-width: 448px) {
+@media (min-width: 768px) {
     .roster-grid {
         grid-auto-columns: 80%;
         gap: 8px;
