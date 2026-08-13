@@ -394,15 +394,27 @@
 
 
 <!-- Advert Placement 2-->
-<section class="advert-section-slider">
-    <div class="advert-slider">
-        <div class="advert-item">Advertise your brand here!</div>
-        <div class="advert-item">
+<!-- Bootstrap 4 Advert Carousel -->
+<div id="advertCarousel" class="carousel slide advert-section-slider" data-ride="carousel" data-interval="3000">
+    <div class="carousel-inner">
+        
+        <!-- Item 1: Text -->
+        <div class="carousel-item active advert-item">
+            <div>Advertise your brand here!</div>
+        </div>
+
+        <!-- Item 2: Wide Banner Image -->
+        <div class="carousel-item advert-item">
             <img src="{% static 'img/advertbanner.png' %}" alt="Ad Banner" class="advert-img">
         </div>
-        <div class="advert-item">Tinazze Foots – Authentic Handmade Leather</div>
+
+        <!-- Item 3: Text -->
+        <div class="carousel-item advert-item">
+            <div>Tinazze Foots – Authentic Handmade Leather</div>
+        </div>
+
     </div>
-</section>
+</div>
 
 
 <!-- BALE MATERIALS -->
