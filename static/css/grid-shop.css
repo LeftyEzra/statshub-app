@@ -250,7 +250,7 @@
     
     /* Enables smooth horizontal scrolling */
     overflow-x: auto;
-    overflow-y: hidden;
+    
     scroll-snap-type: x mandatory;
     -webkit-overflow-scrolling: touch;
 }
@@ -390,6 +390,9 @@
     font-size: 11px;
     padding: 2px 6px;
 }
+
+
+
 
 /**************************************************************************/
 /* Base styles: Exactly  original structure for smaller/shrunk screens */
@@ -892,6 +895,7 @@
 /**************************************************************************/
 /* Advert Section Slider */
 /* Container sizing */
+/* Container sizing */
 .advert-section-slider {
     width: 100%;
     background: #1d1d1d;
@@ -899,27 +903,31 @@
     overflow: hidden;
 }
 
-/* Uniform styling for each slide item */
-.advert-item {
+/* Ensure Bootstrap 4 carousel items behave correctly with flexbox */
+.carousel-item.advert-item {
     height: 100px;
-    display: flex !important;
+    display: none; /* Let Bootstrap control visibility */
     align-items: center;
     justify-content: center;
     background: #1d1d1d;
     color: #f1f1f1;
     text-align: center;
     font-size: 15px;
-    padding: 0 10px;
+    padding: 0;
     box-sizing: border-box;
 }
 
-/* Ensure the wide banner image fits neatly without distortion */
+/* Bootstrap 4 requires active/next/prev items to use flex when animating */
+.carousel-item.active,
+.carousel-item-next,
+.carousel-item-prev {
+    display: flex !important;
+}
+
+/* Force the banner image to cover the full width and height with zero white space */
 .advert-item img.advert-img {
-    max-width: 100%;
-    max-height: 100%;
-    width: auto;
-    height: auto;
-    object-fit: contain;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Fills width and height completely, cropping excess to remove gaps */
     display: block;
-    margin: 0 auto;
 }
