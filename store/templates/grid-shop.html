@@ -91,7 +91,7 @@
                 {% for product in searched_query %}
                   <li>
                     <img src="{{ product.image.url }}" alt="{{ product.name }}" class="player-photo" width="40" height="40">
-                    <a href="{% url 'product-id' product.pk %}">{{ product.name }}</a>
+                    <a href="{% url 'product-id' product.slug %}">{{ product.name }}</a>
                     ({{ product.get_category_display }})
                   </li>
                   
