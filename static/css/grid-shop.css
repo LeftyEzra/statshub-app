@@ -252,7 +252,7 @@
     padding: 10px 5px;
     
     /* Enables smooth horizontal scrolling */
-    overflow: hidden;
+    overflow-x: auto;
     
     scroll-snap-type: x mandatory;
     -webkit-overflow-scrolling: touch;
@@ -355,7 +355,7 @@
     height: 200px;       /* Slightly adjusted for compact 3-row layout */
     object-fit: cover;    
     object-position: center; 
-    border-radius: 10px;
+    border-radius: 5px;
     display: block;
 }
 
@@ -396,7 +396,7 @@
 }
 
 @media (min-width: 768px) {
-    .product-roster-name { font-size: 1.0em; color: #fff;}
+    .product-roster-name { font-size: 0.8em; color: #fff;}
 }
 
 @media (min-width: 1200px) {
@@ -404,7 +404,7 @@
 }
 
 .product-roster-position {
-    font-size: 1em;
+    font-size: 0.9em;
     color: gold; 
     margin: 0;
     padding: 0;
