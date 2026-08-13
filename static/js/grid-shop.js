@@ -19,31 +19,9 @@ function scrollStoreProducts(distance) {
 }
 
 
-
-function scrollRoster(distance) {
-    const container = document.getElementById('rosterSliderWrapper');
-    if (container) {
-        container.scrollBy({
-            left: distance,
-            behavior: 'smooth'
-        });
-    }
-}
-
-
-function scrollRoster(distance) {
-    const container = document.getElementById('leatherSliderWrapper');
-    if (container) {
-        container.scrollBy({
-            left: distance,
-            behavior: 'smooth'
-        });
-    }
-}
-
-
-function scrollRoster(distance) {
-    const container = document.getElementById('baleSliderWrapper');
+// function to accept 3 sections
+function scrollRoster(wrapperId, distance) {
+    const container = document.getElementById(wrapperId);
     if (container) {
         container.scrollBy({
             left: distance,
