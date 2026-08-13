@@ -247,6 +247,7 @@
     overflow-x: auto;
     scroll-snap-type: x mandatory;
     grid-auto-columns: calc(100% - 40px);
+    scroll-behavior: smooth;             /* smooth swipe */
 }
 
 .product-roster-item {
@@ -258,8 +259,28 @@
     display: flex;
     flex-direction: column;
     scroll-snap-align: start;
+    width: 50%;   
 }
 
+.product-roster-dots {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+    gap: 6px;
+}
+
+.product-roster-dots span {
+    width: 8px;
+    height: 8px;
+    background: #ccc;
+    border-radius: 50%;
+    display: inline-block;
+    transition: background 0.3s;
+}
+
+.product-roster-dots span.active {
+    background: #000; /* active dot color */
+}
 
 
 /* --- STAR RATING HORIZONTAL FIX --- */
