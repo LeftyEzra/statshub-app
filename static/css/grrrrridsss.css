@@ -910,8 +910,21 @@
 /**************************************************************************/
 /* Advert Section Slider */
 
+.advert-section-slider {
+    width: 100%;
+    overflow: hidden; /* Crucial: hides items sliding out of view */
+    margin: 0;
+    padding: 0;
+}
+
+.advert-slider {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+    width: 300%; /* Exactly 3 items = 300% */
+}
+
 .advert-item {
-    flex: 0 0 100%;
+    flex: 0 0 calc(100% / 3); /* Forces each item to take up exactly 1/3 of the slider width */
     height: 120px;
     display: flex;
     align-items: center;
@@ -919,23 +932,18 @@
     background: #1d1d1d;
     overflow: hidden;
     margin: 0;
-    padding: 0;
+    padding: 10px;
     color: #f1f1f1;
     text-align: center;
     font-size: 16px;
+    box-sizing: border-box;
 }
 
-.advert-item img {
-    height: 100%;   /* fit inside the advert box */
-    width: 100%;    /* scale to width */
-    object-fit:contain; /* keep proportions */
+.advert-item img.advert-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* Keeps the banner proportions clean inside the box */
     display: block;
-}
-
-.advert-slider {
-    display: flex;
-    transition: transform 0.5s ease-in-out;
-    width: 300%;               /* 3 items, adjust if more */
 }
 
 
