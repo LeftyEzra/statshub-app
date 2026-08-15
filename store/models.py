@@ -67,7 +67,7 @@ PRODUCT_CATEGORY = (
     ('Households', 'Households'),
     ('leather_work', 'Leather Work / Handmade Products'),
     ('bale_material', 'Bale Materials'),
-    ('general', 'General'),
+    ('bedsheets', 'Bedsheets'),
 )
 
 IMPORT_CATEGORY = (
