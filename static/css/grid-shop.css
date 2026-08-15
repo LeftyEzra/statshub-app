@@ -385,7 +385,7 @@
 }
 
 .product-roster-name {
-    font-size: 13px !important; 
+    font-size: 10px !important; 
     line-height: 1.2 !important; 
     height: 30px !important; 
     overflow: hidden; 
@@ -397,11 +397,11 @@
 }
 
 @media (min-width: 768px) {
-    .product-roster-name { font-size: 10px; color: #fff; white-space: normal; }
+    .product-roster-name { font-size: 8px; color: #fff; white-space: normal; }
 }
 
 @media (min-width: 1200px) {
-    .product-roster-name { font-size: 1.1em; color: #fff; }
+    .product-roster-name { font-size: 1em; color: #fff; }
 }
 
 .product-roster-position {
