@@ -36,7 +36,7 @@
       <!-- Section Breadcrumbs-->
        <section class="section parallax-container breadcrumbs-wrap" data-parallax-img="{% static 'img/breadcrumb-shop.PNG' %}">
         <div class="material-parallax parallax">
-          <img src="{% static 'img/breadcrumb-shop.PNG' %}" alt="" style="display: block; transform: translate3d(-50%, 61px, 0px);">
+          <img src="{% static 'img/breadcrumbs/breadcrumb-shop.PNG' %}" alt="" style="display: block; transform: translate3d(-50%, 61px, 0px);">
         </div>
         <div class="parallax-content breadcrumbs-custom context-dark">
           <div class="container">
@@ -56,32 +56,34 @@
           <!-- Product - single build-->
           <article class="product-single">
             <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
-            <div class="product-single-figure">
-              {% if product_images %}
-                <!-- Owl Carousel -->
-                <div class="owl-carousel" 
-                    data-items="1" 
-                    data-autoplay="true" 
-                    data-autoplay-hover-pause="true" 
-                    data-autoplay-speed="500" 
-                    data-dots="true" 
-                    data-loop="true" 
-                    data-margin="0" 
-                    data-mouse-drag="true">
-                  
-                  {% for img in product_images %}
-                    <div class="item">
-                      <img src="{{ img.images.url }}" alt="{{ img.name }}">
-                    </div>
-                  {% endfor %}
-                  
-                </div>
-              {% else %}
-                <div class="item">
-                      <img src="{{ product_details.image.url }}" alt="{{ product_details.name}}">
-                    </div>
-              {% endif %}
-            </div>
+      <div class="product-single-figure">
+      <!-- Owl Carousel -->
+      <div class="owl-carousel" 
+          data-items="1" 
+          data-autoplay="true" 
+          data-autoplay-hover-pause="true" 
+          data-autoplay-speed="300" 
+          data-dots="true" 
+          data-loop="true" 
+          data-margin="0" 
+          data-mouse-drag="true">
+        
+        <!-- 1. Always display the main product image first -->
+        {% if product_details.image %}
+          <div class="item">
+            <img src="{{ product_details.image.url }}" alt="{{ product_details.name }}">
+          </div>
+        {% endif %}
+        
+        <!-- 2. Loop through and display the additional gallery images right after -->
+        {% for img in product_images %}
+          <div class="item">
+            <img src="{{ img.images.url }}" alt="{{ product_details.name }}">
+          </div>
+        {% endfor %}
+        
+      </div>
+</div>
 
 
 
