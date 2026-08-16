@@ -138,7 +138,7 @@ def login_user(request):
 
         else:
             # Else if the password or username is incorrect, return an 'invalid login' error message.
-            messages.success(request, ("Oops! Error Logging In, Try Again... "))
+            messages.success(request, ("Error Logging In. Please check your usernameor password and try again... "))
             return redirect('login-user') # Remain in login page.
 
 
