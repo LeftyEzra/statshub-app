@@ -64,7 +64,7 @@ rlPyCairo==0.4.0
 sentry-sdk==2.66.1
 six==1.17.0
 sortedcontainers==2.4.0
-sqlparse==0.5.5
+sqlparse==0.6.0
 svglib==1.6.0
 tablib==3.10.0
 tinycss2==1.5.1
