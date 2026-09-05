@@ -179,14 +179,14 @@
                   <!-- RD Navbar Brand-->
                   <div class="rd-navbar-brand">
                     <a class="brand" href="{% url 'home' %}">
-                      <img class="brand-logo " src="{% static 'img/python.PNG' %}" alt="" width="95" height="126"/>
+                      <img class="brand-logo " src="{% static 'img/rhbbc.JPG' %}" alt="" width="95" height="126"/>
                     </a>
                   </div>
                   <!-- RD Navbar List-->
                   <ul class="rd-navbar-list">
                     <li class="rd-navbar-list-item">
                       <a class="rd-navbar-list-link" href="#">
-                        <img src="{% static 'img/partners-1-inverse-75x42.png' %}" alt="partner 1" width="75" height="42"/>
+                        <img src="{% static 'img/rsgov.JPG' %}" alt="partner 1" width="75" height="42"/>
                       </a>
                     </li>
                     <li class="rd-navbar-list-item">
@@ -420,7 +420,7 @@
                             </article>
                         </li>
    
-
+                        <!--TEAM-->
                         <li class="rd-nav-item  rd-navbar--has-dropdown rd-navbar-submenu">
                           <a class="rd-nav-link" href="#">Team</a>
                           <span class="rd-navbar-submenu-toggle" style="display: none;"></span>
@@ -455,10 +455,13 @@
                                     {% endif %} 
                                     
                                 </li>
-                                
+
+                                <li class="rd-dropdown-item">
+                                  <a class="rd-dropdown-link" href="{% url 'stats-metrics' %}">Statistical Metrics Explained</a>
+                                </li>
                             </ul>
                         </li>
-
+                        <!--SOLOSTORE-->
                         <li class="rd-nav-item rd-navbar--has-dropdown rd-navbar-submenu">
                           <a class="rd-nav-link" href="{% url 'grid-shop' %}">SOLOSTORE</a>
                           <span class="rd-navbar-submenu-toggle" style="display: none;"></span>
@@ -479,7 +482,7 @@
                                 </li>
                             </ul>
                         </li>
-
+                        <!--SERVICES-->
                         <li class="rd-nav-item rd-navbar--has-dropdown rd-navbar-submenu">
                           <a class="rd-nav-link" href="">Services</a>
                           <span class="rd-navbar-submenu-toggle" style="display: none;"></span>
@@ -499,7 +502,7 @@
 
 
                        
-
+                        <!--REGISTRATIONS-->
                         <li class="rd-nav-item rd-navbar--has-dropdown rd-navbar-submenu">
                             {% if user.is_authenticated and user.is_superuser %}
                               <a class="rd-nav-link" href="#">Registrations</a>
@@ -590,7 +593,7 @@
                     </ul>
                   <div class="rd-navbar-main-element">
                     <ul class="list-inline list-inline-sm">
-                      <li><a class="icon icon-xs icon-light fa fa-facebook" href="#"></a></li>
+                      <li><a class="icon icon-xs icon-light fa fa-facebook" href="https://www.facebook.com/share/1FR8eceErr/?mibextid=wwXIfr"></a></li>
                       <li><a class="icon icon-xs icon-light fa fa-twitter" href="#"></a></li>
                       <li><a class="icon icon-xs icon-light fa fa-google-plus" href="#"></a></li>
                       <li><a class="icon icon-xs icon-light fa fa-instagram" href="#"></a></li>

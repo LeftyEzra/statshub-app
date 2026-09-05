@@ -20,7 +20,7 @@ It contains all the default internal "magic" that allows one to run queries like
 .objects.all(), .save(), and .delete().
 
 AutoSlugModel: This is a custom class. 
-It is not built into Django. However, because its a written class AutoSlugModel(models.Model):, 
+It is not built into Django. However, because it's a written class AutoSlugModel(models.Model):, 
 It inherits 100% of Django's default database powers, 
 """
 class AutoSlugModel(models.Model):

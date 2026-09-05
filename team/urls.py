@@ -93,6 +93,7 @@ urlpatterns = [
 
     #Game Stats To Pdf url
     path('game stats/<slug:slug>', views.game_stats_pdf, name='game-stats-pdf'),
+    path('stats metrics/', views.stats_metrics, name='stats-metrics'),
 
     # Standing Url
     path('standing-create/<slug:slug>/standing/create/', StandingCreateView.as_view(), name='create-standing'), 

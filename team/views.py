@@ -2514,6 +2514,13 @@ def delete_game(request, game_slug, competition_slug):
 
 
 
+def stats_metrics(request):
+    
+    return render(request, 'stats-metrics.html', {})
+
+
+
+
 ####################################################################################
 ####################################################################################
 # Class Base View Creating Opponents
