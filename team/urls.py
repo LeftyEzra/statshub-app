@@ -57,6 +57,7 @@ urlpatterns = [
     #Players Urls
     #path('player create/',PlayerCreateView.as_view(), name='create-player'),
     path('competition/<slug:competition_slug>/team/<slug:team_slug>/player-create/', PlayerCreateView.as_view(),  name='player-create'),
+    path('competition/<slug:slug>/standings/', StandingListView.as_view(), name='view-standing'),
     path('competition/<slug:competition_slug>/<slug:player_slug>/', PlayerDetailView.as_view(), name='players-id'),
     path('player update/<slug:competition_slug>/<slug:player_slug>/', PlayerUpdateView.as_view(), name='update-player'),
     path('delete player/<slug:competition_slug>/<slug:player_slug>/', views.delete_player, name='delete-player'),
@@ -97,7 +98,7 @@ urlpatterns = [
 
     # Standing Url
     path('standing-create/<slug:slug>/standing/create/', StandingCreateView.as_view(), name='create-standing'), 
-    path('competition/<slug:slug>/standings/', StandingListView.as_view(), name='view-standing'),
+    #path('competition/<slug:slug>/standings/', StandingListView.as_view(), name='view-standing'),
     #path('update/<slug:slug>/update standing/<int:pk>', StandingUpdateView, name='update-standing'),
 
     # News

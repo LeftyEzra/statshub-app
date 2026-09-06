@@ -105,6 +105,7 @@
                               </tr>
                           </thead>
                           <tbody>
+                            {% if standing_df %}
                               {% for row in standing_df %}
                               <tr>
                                   <td class="sticky-col-1 font-weight text-center">
@@ -140,6 +141,7 @@
                                   <td>{{ row.last_5 }}</td>
                               </tr>
                               {% endfor %}
+                            {% endif %}  
                           </tbody>
                       </table>
                   </div>
