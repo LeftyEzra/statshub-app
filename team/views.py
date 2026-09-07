@@ -1664,7 +1664,7 @@ class GameScheduleView(View):
         ).select_related('team', 'opponent',)
 
         #SEt up pagination
-        paginator = Paginator(GalleryImages.objects.all().order_by('-id').select_related('team','player'), 6)
+        paginator = Paginator(GalleryImages.objects.all().order_by('-id').select_related('team','player_pictures'), 6)
         page_number = request.GET.get('page')
         images = paginator.get_page(page_number)
         ######################################################
