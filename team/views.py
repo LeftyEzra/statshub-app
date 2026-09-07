@@ -717,7 +717,7 @@ def team_roster(request, competition_slug, team_slug):
     players = team_details.players.all().select_related('team')  # Using the foreign key Team related_name 'players'
     
     # Get the player's statistics
-    staff = TeamStaff.objects.filter(team=team_details).select_related('team')
+    staff = TeamStaff.objects.filter(team=team_details).select_related('team').order_by("-full_name")
     tournament_stats = PlayerStatLine.objects.filter(player_name__in=players).select_related('player_name', 'team', 'opponent', 'game_schedule')
     print('Tournament stats')
     print(players)
