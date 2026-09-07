@@ -1649,11 +1649,11 @@ class GameScheduleView(View):
       
         # Using the 'quarterly_scores' name here!
         #games = Game.objects.filter(competition=competition).order_by('-date')
-        games = Game.objects.filter(competition=competition,team__name="Python").order_by('-date').prefetch_related('quarterly_scores')
+        games = Game.objects.filter(competition=competition,team__name="Rivers Hoopers").order_by('-date').prefetch_related('quarterly_scores')
         print("GAMES")
         print(games)
         other_competitions_games =  Game.objects.exclude(competition=competition).prefetch_related('quarterly_scores')
-        game_stats = PlayerStatLine.objects.filter(game_schedule__in=games,team__name="Python" ).select_related('player_name', 'team', 'opponent', 'game_schedule')
+        game_stats = PlayerStatLine.objects.filter(game_schedule__in=games,team__name="Rivers Hoopers" ).select_related('player_name', 'team', 'opponent', 'game_schedule')
         print("GAME STATS")
         print(game_stats)
         # Using dynamic team.name variable instead of hardcoded string
@@ -1829,9 +1829,9 @@ class GameScheduleView(View):
                 return top_player
 
 
-            best_month_points = player_of_the_month(6, 'points')
-            best_month_rebounds = player_of_the_month(6, 'total_rebounds')
-            best_month_assists = player_of_the_month(6, 'assists')
+            best_month_points = player_of_the_month(8, 'points')
+            best_month_rebounds = player_of_the_month(8, 'total_rebounds')
+            best_month_assists = player_of_the_month(8, 'assists')
 
             print("BEST POINTS MONTHs")
             print(best_month_points)
