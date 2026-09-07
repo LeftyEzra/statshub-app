@@ -1019,7 +1019,7 @@ class PlayerDetailView(View):
                                     other_players_stats.values('player_name__id', 'player_name__slug', 'player_name__jersey_number','player_name__player_name', 'player_name__jersey_number',
                                             'player_name__player_image','points', 'assists', 'player_name__position', 'team__name', 'game_schedule__game_type', 'game_schedule__team_scores',
                                             'offensive_rebs', 'defensive_rebs',))
-                    other_players_df = other_players_df[other_players_df['team__name'].isin(["Python"])].copy()                        
+                    other_players_df = other_players_df[other_players_df['team__name'].isin(["Rivers Hoopers"])].copy()                        
                     other_players_df = other_players_df[other_players_df['game_schedule__game_type'].isin(["regular"])]
                     other_players_df = other_players_df[~other_players_df['game_schedule__team_scores'].isin([0])]
                     other_players_df = other_players_df.rename(columns={'player_name__id':'player_id', })          
