@@ -5,6 +5,182 @@
 {% endblock %}
 {% block content %}
 
-Stat Metrics Explained
+<div class="container my-5">
+  <div class="row">
+    <div class="col-lg-10 mx-auto">
+
+      <!-- Header -->
+      <div class="text-center mb-5">
+        <h1 class="display-5 font-weight-bold text-dark">Basketball Stats Made Simple</h1>
+        <p class="lead text-muted">From basic statistics to advanced basketball metrics, explained with formulas and examples.</p>
+      </div>
+
+      <!-- SECTION 1: GENERAL STATISTICS -->
+      <section class="mb-5">
+        <h2 class="h3 border-bottom pb-2 mb-4 text-dark">📊 1. General Statistics Concepts</h2>
+        <p class="text-muted">Before diving into basketball, let’s understand the core statistical tools using a simple dataset.</p>
+
+        <div class="card border-info mb-4 bg-light">
+          <div class="card-body py-3">
+            <h6 class="font-weight-bold text-info mb-1">Sample Dataset</h6>
+            <p class="small text-muted mb-0">Scores: [5, 7, 8, 10, 10, 12, 15]</p>
+          </div>
+        </div>
+
+        <div class="row">
+          <!-- Mean -->
+          <div class="col-md-6 mb-4">
+            <div class="card h-100 shadow-sm border-left border-info" style="border-width:4px!important;">
+              <div class="card-body">
+                <h5 class="card-title text-info font-weight-bold">Mean (Average)</h5>
+                <p class="small">Sum ÷ Count</p>
+                <div class="bg-light p-2 rounded font-monospace small text-dark">
+                  (5+7+8+10+10+12+15) ÷ 7 = <strong>9.57</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Median -->
+          <div class="col-md-6 mb-4">
+            <div class="card h-100 shadow-sm border-left border-info" style="border-width:4px!important;">
+              <div class="card-body">
+                <h5 class="card-title text-info font-weight-bold">Median</h5>
+                <p class="small">Middle value in sorted list</p>
+                <div class="bg-light p-2 rounded font-monospace small text-dark">
+                  [5,7,8,<strong>10</strong>,10,12,15] → Median = <strong>10</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Mode -->
+          <div class="col-md-6 mb-4">
+            <div class="card h-100 shadow-sm border-left border-info" style="border-width:4px!important;">
+              <div class="card-body">
+                <h5 class="card-title text-info font-weight-bold">Mode</h5>
+                <p class="small">Most frequent value</p>
+                <div class="bg-light p-2 rounded font-monospace small text-dark">
+                  10 appears twice → <strong>Mode = 10</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Range -->
+          <div class="col-md-6 mb-4">
+            <div class="card h-100 shadow-sm border-left border-info" style="border-width:4px!important;">
+              <div class="card-body">
+                <h5 class="card-title text-info font-weight-bold">Range</h5>
+                <p class="small">Max – Min</p>
+                <div class="bg-light p-2 rounded font-monospace small text-dark">
+                  15 – 5 = <strong>10</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 2: SAMPLE GAME STATS -->
+      <section class="mb-5">
+        <h2 class="h3 border-bottom pb-2 mb-4 text-dark">🏀 2. Sample Game Stats Table</h2>
+        <p class="text-muted">This dummy dataset shows 5 players’ box score stats from a single game, including Efficiency (EFF) and Plus/Minus (+/-).</p>
+
+        <div class="table-responsive">
+          <table class="table table-striped table-bordered shadow-sm">
+            <thead class="thead-dark">
+              <tr>
+                <th>Player</th>
+                <th>PTS</th>
+                <th>REB</th>
+                <th>AST</th>
+                <th>FGA</th>
+                <th>FGM</th>
+                <th>FTA</th>
+                <th>FTM</th>
+                <th>3PA</th>
+                <th>3PM</th>
+                <th>TO</th>
+                <th>EFF</th>
+                <th>+/-</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Player A</td><td>24</td><td>8</td><td>5</td><td>18</td><td>9</td><td>6</td><td>5</td><td>5</td><td>2</td><td>3</td><td>+34</td><td>+15</td></tr>
+              <tr><td>Player B</td><td>15</td><td>10</td><td>7</td><td>12</td><td>6</td><td>4</td><td>3</td><td>3</td><td>1</td><td>2</td><td>+28</td><td>+8</td></tr>
+              <tr><td>Player C</td><td>30</td><td>6</td><td>4</td><td>20</td><td>12</td><td>8</td><td>6</td><td>7</td><td>3</td><td>4</td><td>+32</td><td>+12</td></tr>
+              <tr><td>Player D</td><td>10</td><td>12</td><td>2</td><td>8</td><td>3</td><td>2</td><td>1</td><td>2</td><td>0</td><td>1</td><td>+20</td><td>-5</td></tr>
+              <tr><td>Player E</td><td>18</td><td>9</td><td>6</td><td>15</td><td>7</td><td>5</td><td>4</td><td>4</td><td>2</td><td>2</td><td>+26</td><td>+3</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="card border-primary mt-4">
+          <div class="card-body">
+            <h5 class="card-title text-primary font-weight-bold">Example Calculation</h5>
+            <p class="small text-muted mb-2">Player A’s Efficiency (EFF) and Plus/Minus (+/-):</p>
+            <ul class="small mb-0">
+              <li><strong>EFF:</strong> (PTS + REB + AST + STL + BLK) – ((FGA – FGM) + (FTA – FTM) + TO) = (24+8+5+2+1) – (9+1+3) = 40 – 6 = <strong>+34</strong></li>
+              <li><strong>+/-:</strong> Team scored 58 points and allowed 43 while Player A was on court → <strong>+15</strong></li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 3: MULTI-GAME DATASET -->
+      <section class="mb-5">
+        <h2 class="h3 border-bottom pb-2 mb-4 text-dark">📈 3. Multi-Game Dataset (PPG, APG, RPG)</h2>
+        <p class="text-muted">Dummy stats for 5 players across 5 games. We’ll use this to calculate per-game averages.</p>
+
+        <div class="table-responsive">
+          <table class="table table-striped table-bordered shadow-sm">
+            <thead class="thead-dark">
+              <tr>
+                <th>Player</th>
+                <th>Game 1 (PTS/AST/REB)</th>
+                <th>Game 2</th>
+                <th>Game 3</th>
+                <th>Game 4</th>
+                <th>Game 5</th>
+                <th>Total</th>
+                <th>PPG</th>
+                <th>APG</th>
+                <th>RPG</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Player A</td><td>20 / 5 / 8</td><td>24 / 6 / 7</td><td>18 / 4 / 9</td><td>22 / 7 / 10</td><td>26 / 5 / 6</td><td>110 / 27 / 40</td><td>22.0</td><td>5.4</td><td>8.0</td></tr>
+              <tr><td>Player B</td><td>12 / 7 / 10</td><td>15 / 8 / 9</td><td>18 / 6 / 11</td><td>14 / 5 / 8</td><td>20 / 9 / 12</td><td>79 / 35 / 50</td><td>15.8</td><td>7.0</td><td>10.0</td></tr>
+              <tr><td>Player C</td><td>25 / 4 / 6</td><td>30 / 5 / 7</td><td>28 / 3 / 5</td><td>22 / 6 / 8</td><td>27 / 4 / 6</td><td>132 / 22 / 32</td><td>26.4</td><td>4.4</td><td>6.4</td></tr>
+              <tr><td>Player D</td><td>10 / 2 / 12</td><td>8 / 3 / 11</td><td>12 / 4 / 10</td><td>9 / 2 / 13</td><td>11 / 3 / 9</td><td>50 / 14 / 55</td><td>10.0</td><td>2.8</td><td>11.0</td></tr>
+              <tr><td>Player E</td><td>16 / 6 / 9</td><td>18 / 5 / 8</td><td>20 / 7 / 10</td><td>14 / 4 / 7</td><td>22 / 6 / 11</td><td>90 / 28 / 45</td><td>18.0</td><td>5.6</td><td>9.0</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="card border-primary mt-4">
+          <div class="card-body">
+            <h5 class="card-title text-primary font-weight-bold">Example Calculation</h5>
+            <p class="small text-muted mb-2">Player A’s averages across 5 games:</p>
+            <ul class="small mb-0">
+              <li><strong>PPG:</strong> 110 ÷ 5 = <strong>22.0</strong></li>
+              <li><strong>APG:</strong> 27 ÷ 5 = <strong>5.4</strong></li>
+              <li><strong>RPG:</strong> 40 ÷ 5 = <strong>8.0</strong></li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- Footer -->
+      <footer class="text-center mt-5 pt-4 border-top">
+        <p class="small text-muted mb-0">© 2026 sssports — Basketball insights made simple.</p>
+      </footer>     
+
+
+  </div>
+  </div>
+</div> 
 
 {% endblock %}
