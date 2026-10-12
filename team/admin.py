@@ -10,6 +10,8 @@ from .models import Competition
 from .models import CompetitionSeason
 from .models import Opponent
 from .models import TeamStaff
+from django.utils.html import format_html
+from .models import Shot  # Make sure to import your Shot model
 
 from .models import GalleryImages, ShotCharts
 from .models import TeamNews
@@ -398,3 +400,55 @@ class GameHighlightAdmin(admin.ModelAdmin):
     fields = ( 'title', 'youtube_url', 'game', 'player', 'date_posted' )
     list_display = ( 'date_posted','slug', 'youtube_url')
     ordering = ('date_posted',)  
+
+
+
+
+
+
+
+
+@admin.register(Shot)
+class ShotAdmin(admin.ModelAdmin):
+  # Columns displayed in the Django Admin table view
+  list_display = (
+      'player_name',
+      'team_name',
+      'get_shot_status',
+      'period',
+      'get_game_clock',
+      'loc_x',
+      'loc_y',
+      'world_x',
+      'world_y',
+  )
+
+  # Filters on the right sidebar for quick sorting
+  list_filter = ('team_name', 'period', 'event_type')
+
+  # Search bar for players or event types
+  search_fields = ('player_name', 'team_name', 'event_type')
+
+  # Default ordering by Quarter (period) and Player
+  ordering = ('period', 'player_name')
+
+  # Limit items per page
+  list_per_page = 25
+
+  # Custom display method: Adds a visual badge for Made vs Missed shots
+  def get_shot_status(self, obj):
+    if obj.event_type.lower() == 'made shot' or obj.event_type.lower() == 'made':
+      return format_html(
+          '<span style="color: green; font-weight: bold;">✔ Made</span>'
+      )
+    return format_html(
+        '<span style="color: red; font-weight: bold;">✘ Missed</span>'
+    )
+
+  get_shot_status.short_description = 'Result'
+
+  # Custom display method: Formats clock nicely as MM:SS (e.g. "08:45")
+  def get_game_clock(self, obj):
+    return f'{obj.minutes_remaining:02d}:{obj.seconds_remaining:02d}'
+
+  get_game_clock.short_description = 'Time Remaining'

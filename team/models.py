@@ -635,3 +635,28 @@ class GameHighlight(models.Model):
     class Meta:
         verbose_name_plural = 'Game Highlights'
 
+
+
+
+
+
+
+
+
+class Shot(models.Model):
+  game = models.ForeignKey(
+      'Game', on_delete=models.CASCADE, related_name='shots', null=True, blank=True
+  )
+  player_name = models.CharField(max_length=100)
+  team_name = models.CharField(max_length=100)
+  period = models.IntegerField()  # Quarter 1, 2, 3, 4
+  minutes_remaining = models.IntegerField()
+  seconds_remaining = models.IntegerField()
+  event_type = models.CharField(max_length=50)  # Made Shot / Missed Shot
+  loc_x = models.FloatField()
+  loc_y = models.FloatField()
+  world_x = models.FloatField()  # 3D meters for Three.js
+  world_y = models.FloatField()
+
+  def __str__(self):
+    return f'{self.player_name} - Q{self.period} ({self.event_type})'

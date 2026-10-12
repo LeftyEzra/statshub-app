@@ -1,78 +1,119 @@
-from team.models import Season, Competition, Team, TeamStaff, Game, Player, PlayerStatLine, QuarterlyScores, Opponent, CareerRecords, Standing, TeamNews, GalleryImages, Awards
-from team.models import Contact, NewsletterSubscriber, ShotCharts
-from store.models import Product
-from .forms import SeasonForm, OpponentForm, CompetitionForm, TeamForm, PlayerForm, GameForm, QuarterlyScoresForm, PlayerStatLineForm, StandingForm, TeamNewsForm
-from .forms import SponsorForm, CareerRecordsForm, AwardsForm, ContactForm, NewsletterSubscriberForm, GalleryImagesForm, ShotChartForm
-
-from datetime import datetime, timedelta # Module to represent the difference between two dates
-from django.utils.timezone import now
-from django.contrib import messages
-from django .utils import timezone
+# ==========================================
+#  Standard Library Imports
+# ==========================================
 from calendar import HTMLCalendar
-from datetime import date
-from datetime import datetime
+from datetime import date, datetime, timedelta
 import datetime as dt
-
-from django.contrib.auth.decorators import login_required, user_passes_test
-from django.views.generic.edit import UpdateView, CreateView, DeleteView
-from django.shortcuts import render, redirect, get_object_or_404
-from django.views.generic import  ListView, DetailView
-from django.core.exceptions import PermissionDenied 
-from django.utils.decorators import method_decorator
-from django.urls import reverse_lazy, reverse
-from django.views import View
-import csv
-
-
-from django.forms import modelformset_factory, inlineformset_factory
-from django.http import HttpResponseRedirect, HttpResponse, Http404
-from django.core.paginator import Paginator
-from django.http import JsonResponse
-from django.contrib import messages
-from django.db.models import Q
-
-
-from django.db.models import Sum, F, Value, IntegerField,ExpressionWrapper, FloatField
-from django.db.models.functions import Cast # Casting string to integer
-from datetime import datetime, timedelta # Module to represent the fifference between two dates
-from django.utils.timezone import now
-from django .utils import timezone
-from calendar import HTMLCalendar
-import plotly.graph_objects as go
-from operator import itemgetter
-from datetime import date
-import pandas as pd
-import plotly  # This is needed for PlotlyJSONEncoder
+import io
 import json
-
-
-# NEW IMPORTS REQUIRED FOR HTML EMAIL:
-from django.core.mail import EmailMultiAlternatives
-from django.template.loader import render_to_string
-from django.core.mail import send_mail
-from django.conf import settings
 import logging
-logger = logging.getLogger(__name__)
+from operator import itemgetter
 
-
-#To geneate pdf
-from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, Spacer
+# ==========================================
+#  Third-Party Imports (Data Science, Analytics & PDF)
+# ==========================================
+import pandas as pd
+import plotly
+import plotly.graph_objects as go
+from reportlab.lib import colors
+from reportlab.lib.pagesizes import landscape, letter
 from reportlab.lib.styles import getSampleStyleSheet
-from reportlab.lib.pagesizes import letter, landscape
-from django.http import FileResponse
 from reportlab.lib.units import inch
 from reportlab.pdfgen import canvas
-from reportlab.lib import colors
-import io
+from reportlab.platypus import (
+    Paragraph,
+    SimpleDocTemplate,
+    Spacer,
+    Table,
+    TableStyle,
+)
 
-
+# ==========================================
+#  Django Core Imports
+# ==========================================
+from django.conf import settings
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required, user_passes_test
+from django.core.exceptions import PermissionDenied
 from django.core.files.storage import default_storage
+from django.core.mail import EmailMultiAlternatives, send_mail
+from django.core.paginator import Paginator
+from django.db.models import (
+    ExpressionWrapper,
+    F,
+    FloatField,
+    IntegerField,
+    Q,
+    Sum,
+    Value,
+)
+from django.db.models.functions import Cast
+from django.forms import inlineformset_factory, modelformset_factory
+from django.http import (
+    FileResponse,
+    Http404,
+    HttpResponse,
+    HttpResponseRedirect,
+    JsonResponse,
+)
+from django.shortcuts import get_object_or_404, redirect, render
+from django.template.loader import render_to_string
+from django.urls import reverse, reverse_lazy
+from django.utils import timezone
+from django.utils.decorators import method_decorator
+from django.utils.timezone import now
+from django.views import View
+from django.views.generic import DetailView, ListView
+from django.views.generic.edit import CreateView, DeleteView, UpdateView
 
-
-
+# ==========================================
+#  Local App Imports (Models & Forms)
+# ==========================================
 from store.models import Product
+from team.models import (
+    Awards,
+    CareerRecords,
+    Competition,
+    Contact,
+    GalleryImages,
+    Game,
+    NewsletterSubscriber,
+    Opponent,
+    Player,
+    PlayerStatLine,
+    QuarterlyScores,
+    Season,
+    ShotCharts,
+    Standing,
+    Team,
+    TeamNews,
+    TeamStaff,
+)
 
+from .forms import (
+    AwardsForm,
+    CareerRecordsForm,
+    CompetitionForm,
+    ContactForm,
+    GameForm,
+    GalleryImagesForm,
+    NewsletterSubscriberForm,
+    OpponentForm,
+    PlayerForm,
+    PlayerStatLineForm,
+    QuarterlyScoresForm,
+    SeasonForm,
+    ShotChartForm,
+    SponsorForm,
+    StandingForm,
+    TeamForm,
+    TeamNewsForm,
+)
 
+# ==========================================
+#  Logger Configuration
+# ==========================================
+logger = logging.getLogger(__name__)
 
 ####################################################################################
 ####################################################################################
@@ -3151,3 +3192,24 @@ def axes_lockout_view(request):
 
 
 
+####################################################################################
+#####################################################################################
+####################################################################################
+from .models import Shot
+
+def get_filtered_shots(request):
+  player = request.GET.get('player')
+  quarter = request.GET.get('quarter')
+
+  shots = Shot.objects.all()
+
+  if player:
+    shots = shots.filter(player_name__icontains=player)
+  if quarter:
+    shots = shots.filter(period=quarter)
+
+  data = list(
+      shots.values('player_name', 'period', 'event_type', 'world_x', 'world_y')
+  )
+
+  return JsonResponse({'shots': data})
