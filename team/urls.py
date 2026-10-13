@@ -132,10 +132,8 @@ urlpatterns = [
     path('locked-out/', views.axes_lockout_view, name='axes-lockout'),
 
 
-  
-    path('api/shots/', views.get_filtered_shots, name='get_filtered_shots'),
-
-
+    path('api/game/<slug:slug>/save-shot/', views.api_save_shot, name='api_save_shot'),
+ 
 
     
 ]

@@ -88,6 +88,7 @@ from team.models import (
     Team,
     TeamNews,
     TeamStaff,
+    Shot,
 )
 
 from .forms import (
@@ -3195,21 +3196,30 @@ def axes_lockout_view(request):
 ####################################################################################
 #####################################################################################
 ####################################################################################
-from .models import Shot
 
-def get_filtered_shots(request):
-  player = request.GET.get('player')
-  quarter = request.GET.get('quarter')
+from django.views.decorators.csrf import csrf_exempt
+@csrf_exempt
+def api_save_shot(request, slug):
+  if request.method == 'POST':
+    try:
+      game = get_object_or_404(Game, slug=slug)
+      data = json.loads(request.body)
 
-  shots = Shot.objects.all()
-
-  if player:
-    shots = shots.filter(player_name__icontains=player)
-  if quarter:
-    shots = shots.filter(period=quarter)
-
-  data = list(
-      shots.values('player_name', 'period', 'event_type', 'world_x', 'world_y')
-  )
-
-  return JsonResponse({'shots': data})
+      shot = Shot.objects.create(
+          game=game,
+          player_name=data.get('player_name', 'Player'),
+          team_name=data.get('team_name', 'Team'),
+          period=int(data.get('period', 1)),
+          minutes_remaining=int(data.get('minutes_remaining', 0)),
+          seconds_remaining=int(data.get('seconds_remaining', 0)),
+          event_type=data.get('event_type', 'Made Shot'),
+          world_x=float(data.get('world_x', 0.0)),
+          world_y=float(data.get('world_y', 0.0)),
+      )
+      return JsonResponse(
+          {'status': 'success', 'id': shot.id, 'message': 'Shot saved!'},
+          status=201,
+      )
+    except Exception as e:
+      return JsonResponse({'status': 'error', 'message': str(e)}, status=400)
+  return JsonResponse({'status': 'error', 'message': 'Invalid method'}, status=405)

@@ -1,0 +1,186 @@
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Statkeeper Court - {{ game.game_title }}</title>
+    <style>
+        body { margin: 0; overflow: hidden; background: #111; font-family: sans-serif; }
+        #admin-panel {
+            position: absolute; top: 15px; right: 15px; z-index: 20;
+            background: rgba(20, 20, 20, 0.9); color: #fff; padding: 20px;
+            border-radius: 10px; width: 300px; box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        }
+        label { display: block; margin-top: 10px; font-size: 13px; color: #aaa; }
+        select, input, button { width: 100%; padding: 8px; margin-top: 5px; background: #222; color: #fff; border: 1px solid #444; border-radius: 4px; }
+        button { background: #ff4757; font-weight: bold; cursor: pointer; margin-top: 15px; border: none; }
+        button:hover { background: #ff6b81; }
+        #feedback { margin-top: 10px; font-size: 12px; color: #2ed573; text-align: center; }
+    </style>
+</head>
+<body>
+
+    <!-- Admin Statkeeper Control Panel -->
+    <div id="admin-panel">
+        <h3>Live Stat Tracker</h3>
+        <p style="font-size: 11px; color: #f1f2f6;">Game: {{ game.game_title }}</p>
+
+        <label>Quarter / Period:</label>
+        <select id="period">
+            <option value="1">Quarter 1</option>
+            <option value="2">Quarter 2</option>
+            <option value="3">Quarter 3</option>
+            <option value="4">Quarter 4</option>
+            <option value="5">Overtime</option>
+        </select>
+
+        <label>Team Name:</label>
+        <input type="text" id="teamName" value="{{ game.home_team }}" placeholder="Team Name">
+
+        <label>Player Name:</label>
+        <input type="text" id="playerName" placeholder="e.g. Stephen Curry">
+
+        <label>Shot Outcome:</label>
+        <select id="eventType">
+            <option value="Made Shot">Made Shot (Green)</option>
+            <option value="Missed Shot">Missed Shot (Red)</option>
+        </select>
+
+        <button id="undoBtn">Undo Last Shot</button>
+        <div id="feedback">Click anywhere on the 3D court to record shot.</div>
+    </div>
+
+    <!-- Three.js Library (CDN with local Django static fallback option) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- Or if serving Three.js locally from your static files:
+    <script src="{% static 'js/three.min.js' %}"></script> 
+    -->
+
+    <script>
+        const GAME_SLUG = "{{ game.slug }}";
+
+        // Scene, Camera, Renderer Setup
+        const scene = new THREE.Scene();
+        scene.background = new THREE.Color(0x1a1a1a);
+
+        const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.set(0, 22, 16);
+        camera.lookAt(0, 0, -2);
+
+        const renderer = new THREE.WebGLRenderer({ antialias: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+
+        // Lighting
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.9);
+        scene.add(ambientLight);
+        const dirLight = new THREE.DirectionalLight(0xffffff, 0.6);
+        dirLight.position.set(5, 20, 10);
+        scene.add(dirLight);
+
+        // --- BUILD REALISTIC 3D BASKETBALL HALF-COURT ---
+        const courtGroup = new THREE.Group();
+
+        // 1. Hardwood Floor Base
+        const floorGeo = new THREE.BoxGeometry(15, 0.1, 14);
+        const floorMat = new THREE.MeshStandardMaterial({ color: 0xdf8c4f, roughness: 0.4 });
+        const floor = new THREE.Mesh(floorGeo, floorMat);
+        floor.position.z = -5;
+        courtGroup.add(floor);
+
+        // 2. Court Lines & Markings
+        const keyGeo = new THREE.PlaneGeometry(4.9, 5.8);
+        const keyMat = new THREE.MeshBasicMaterial({ color: 0xc84b31, side: THREE.DoubleSide });
+        const keyArea = new THREE.Mesh(keyGeo, keyMat);
+        keyArea.rotation.x = -Math.PI / 2;
+        keyArea.position.set(0, 0.06, -2.9);
+        courtGroup.add(keyArea);
+
+        // Hoop and Backboard
+        const backboardGeo = new THREE.BoxGeometry(1.8, 1.05, 0.1);
+        const backboardMat = new THREE.MeshStandardMaterial({ color: 0xffffff, transparent: true, opacity: 0.8 });
+        const backboard = new THREE.Mesh(backboardGeo, backboardMat);
+        backboard.position.set(0, 3.0, -11.9);
+        courtGroup.add(backboard);
+
+        // Rim
+        const rimGeo = new THREE.TorusGeometry(0.45, 0.03, 16, 100);
+        const rimMat = new THREE.MeshBasicMaterial({ color: 0xff4757 });
+        const rim = new THREE.Mesh(rimGeo, rimMat);
+        rim.rotation.x = Math.PI / 2;
+        rim.position.set(0, 2.65, -11.2);
+        courtGroup.add(rim);
+
+        scene.add(courtGroup);
+
+        // --- RAYCASTING FOR INTERACTIVE CLICKS ---
+        const raycaster = new THREE.Raycaster();
+        const mouse = new THREE.Vector2();
+        const savedMarkers = [];
+
+        window.addEventListener('click', (event) => {
+            if (event.clientX > window.innerWidth - 330 && event.clientY < 400) return;
+
+            mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+            mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+            raycaster.setFromCamera(mouse, camera);
+            const intersects = raycaster.intersectObject(floor);
+
+            if (intersects.length > 0) {
+                const clickPoint = intersects[0].point;
+
+                const payload = {
+                    team_name: document.getElementById('teamName').value,
+                    player_name: document.getElementById('playerName').value || 'Unknown Player',
+                    period: parseInt(document.getElementById('period').value),
+                    event_type: document.getElementById('eventType').value,
+                    world_x: clickPoint.x,
+                    world_y: clickPoint.z
+                };
+
+                fetch(`/api/game/${GAME_SLUG}/save-shot/`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        document.getElementById('feedback').innerText = `Saved: ${payload.player_name} (${payload.event_type})`;
+                        drawMarker(clickPoint.x, clickPoint.z, payload.event_type);
+                    } else {
+                        alert('Error saving shot: ' + data.message);
+                    }
+                });
+            }
+        });
+
+        function drawMarker(x, z, type) {
+            const color = type === 'Made Shot' ? 0x2ed573 : 0xff4757;
+            const dotGeo = new THREE.SphereGeometry(0.2, 16, 16);
+            const dotMat = new THREE.MeshBasicMaterial({ color: color });
+            const dot = new THREE.Mesh(dotGeo, dotMat);
+            dot.position.set(x, 0.2, z);
+            scene.add(dot);
+            savedMarkers.push(dot);
+        }
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        function animate() {
+            requestAnimationFrame(animate);
+            renderer.render(scene, camera);
+        }
+        animate();
+    </script>
+</body>
+</html>
+
+
+{% endblock %}

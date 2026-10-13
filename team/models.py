@@ -640,7 +640,7 @@ class GameHighlight(models.Model):
 
 
 
-
+from django.db import models
 
 
 class Shot(models.Model):
@@ -648,15 +648,18 @@ class Shot(models.Model):
       'Game', on_delete=models.CASCADE, related_name='shots', null=True, blank=True
   )
   player_name = models.CharField(max_length=100)
-  team_name = models.CharField(max_length=100)
-  period = models.IntegerField()  # Quarter 1, 2, 3, 4
-  minutes_remaining = models.IntegerField()
-  seconds_remaining = models.IntegerField()
-  event_type = models.CharField(max_length=50)  # Made Shot / Missed Shot
-  loc_x = models.FloatField()
-  loc_y = models.FloatField()
+  team_name = models.CharField(max_length=100, blank=True, null=True)
+  period = models.IntegerField(default=1)  # Quarter 1, 2, 3, 4
+  minutes_remaining = models.IntegerField(default=0)
+  seconds_remaining = models.IntegerField(default=0)
+  event_type = models.CharField(
+      max_length=50, default='Made Shot'
+  )  # Made Shot / Missed Shot
+  loc_x = models.FloatField(blank=True, null=True)
+  loc_y = models.FloatField(blank=True, null=True)
   world_x = models.FloatField()  # 3D meters for Three.js
   world_y = models.FloatField()
+  created_at = models.DateTimeField(auto_now_add=True)
 
   def __str__(self):
     return f'{self.player_name} - Q{self.period} ({self.event_type})'
